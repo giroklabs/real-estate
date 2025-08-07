@@ -5,10 +5,6 @@ import json
 from datetime import datetime, timedelta
 import os
 from database.models import init_db
-from crawlers.naver_crawler import NaverCrawler
-from crawlers.daum_crawler import DaumCrawler
-from crawlers.hogang_crawler import HogangCrawler
-from crawlers.real_crawler import RealCrawler
 from crawlers.reb_api_crawler import REBAPICrawler
 
 app = Flask(__name__)

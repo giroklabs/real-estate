@@ -23,7 +23,7 @@
 - React.js
 - Chart.js (데이터 시각화)
 - Axios (API 통신)
-- Tailwind CSS (스타일링)
+- Custom CSS (스타일링)
 
 ## 설치 및 실행
 
@@ -49,7 +49,7 @@ npx create-react-app frontend
 cd frontend
 
 # 의존성 설치
-npm install axios chart.js react-chartjs-2 tailwindcss
+npm install axios chart.js react-chartjs-2
 
 # 프론트엔드 실행
 npm start
@@ -60,10 +60,8 @@ npm start
 ```
 realstate/
 ├── app.py                 # Flask 백엔드 메인
-├── crawlers/             # 크롤링 모듈들
-│   ├── naver_crawler.py
-│   ├── daum_crawler.py
-│   └── hogang_crawler.py
+├── crawlers/             # API 모듈
+│   └── reb_api_crawler.py
 ├── database/             # 데이터베이스 관련
 │   └── models.py
 ├── frontend/             # React 프론트엔드
@@ -75,4 +73,5 @@ realstate/
 
 - 부동산통계정보 Open API의 이용약관을 준수해주세요
 - API 호출 제한을 고려하여 적절한 간격을 두고 요청해주세요
+- 네트워크 연결이 필요합니다
 - 개인정보 보호를 위해 민감한 정보는 수집하지 않습니다 
