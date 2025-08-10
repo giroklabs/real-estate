@@ -1,0 +1,43 @@
+# 공공데이터포털 API 키 발급 가이드
+
+## 1. 공공데이터포털 접속
+https://www.data.go.kr
+
+## 2. 회원가입/로그인
+
+## 3. 데이터 검색
+- "국토교통부_아파트 매매 실거래가" 검색
+- 또는 직접 링크: https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057511
+
+## 4. 활용신청
+- "활용신청" 버튼 클릭
+- 개발계정 or 운영계정 선택
+- 신청 사유 작성 (예: 부동산 분석 웹사이트 개발)
+- 승인 대기 (보통 1-2일)
+
+## 5. 인증키 확인
+- 마이페이지 > 오픈API > 개발계정 > 인증키 관리
+- 인코딩 인증키와 디코딩 인증키 두 개 제공됨
+
+## 6. 키 적용 방법
+
+### 방법 A: 코드 직접 수정
+crawlers/molit_api_crawler.py 파일의 13-18번째 줄에서:
+```python
+self.service_key_encoded = "새로운_인코딩된_키"
+self.service_key_decoded = "새로운_디코딩된_키"
+```
+
+### 방법 B: 환경변수 사용 (권장)
+```python
+import os
+self.service_key = os.getenv('MOLIT_API_KEY', '기본키')
+```
+
+## 7. 테스트
+- 데이터 수집 버튼 클릭하여 "SERVICE_KEY_IS_NOT_REGISTERED_ERROR" 오류가 사라지는지 확인
+
+## 8. API 호출 제한
+- 일일 트래픽: 1,000건 (개발계정)
+- 분당 호출 제한: 확인 필요
+- 필요시 운영계정 신청하여 트래픽 증설 가능
