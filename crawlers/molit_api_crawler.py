@@ -33,7 +33,7 @@ class MolitAPICrawler:
             # 디코딩된 인증키를 직접 사용하는 방법
             # 출처: https://hyeonhahaha.tistory.com/entry/공공데이터-e약은요-연동-중-서비스-키-등록-안됨-문제-해결-과정
             
-            # 디코딩된 서비스키를 직접 파라미터로 사용 (기존 인증키)
+            # 디코딩된 서비스키를 직접 파라미터로 사용 (이전 인증키)
             SERVICE_KEY = "+6+gD3OxMqe/Y7ddcg7thoXJk/m8nYqXOw7uyZEDObEo80uaT+ZjDV7P67Syrf2b5CGaPGaELTT8OIPU5YyL0A=="
             
             # 파라미터 구성 (디코딩된 키 직접 사용)

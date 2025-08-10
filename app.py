@@ -4,7 +4,6 @@ import sqlite3
 import json
 from datetime import datetime, timedelta
 import os
-from dotenv import load_dotenv
 from database.models import init_db
 from crawlers.reb_api_crawler import REBAPICrawler
 from crawlers.public_data_crawler import PublicDataCrawler
@@ -14,9 +13,6 @@ from crawlers.asil_crawler import AsilCrawler
 from crawlers.molit_api_crawler import MolitAPICrawler
 from crawlers.molit_web_crawler import MolitWebCrawler
 from services.region_service import RegionService
-
-# 환경변수 로드
-load_dotenv()
 
 # 저장된 데이터 로드 함수
 def load_saved_busan_data():
@@ -59,22 +55,6 @@ init_db()
 
 # 지역 서비스 초기화
 region_service = RegionService()
-
-@app.route('/collected_data/<path:filename>')
-def serve_collected_data(filename):
-    """수집된 데이터 파일 제공"""
-    try:
-        data_dir = "collected_data"
-        file_path = os.path.join(data_dir, filename)
-        
-        if os.path.exists(file_path):
-            with open(file_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            return jsonify(data)
-        else:
-            return jsonify({'error': '파일을 찾을 수 없습니다.'}), 404
-    except Exception as e:
-        return jsonify({'error': f'파일 로드 오류: {str(e)}'}), 500
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
@@ -505,96 +485,6 @@ def get_statistics():
         'avg_price': stats[1],
         'total_count': stats[2],
         'price_change_30d': price_change
-    })
-
-@app.route('/api/monthly-volume', methods=['GET'])
-def get_monthly_volume():
-    """월별 거래량 데이터 조회"""
-    region = request.args.get('region', '')
-    months = int(request.args.get('months', '3'))  # 기본 3개월
-    
-    print(f"월별 거래량 API 호출: region={region}, months={months}")
-    
-    conn = sqlite3.connect('realstate.db')
-    cursor = conn.cursor()
-    
-    # 간단한 쿼리로 테스트
-    if region == '부산':
-        query = '''
-            SELECT 
-                strftime('%Y-%m', date) as month,
-                SUM(transaction_count) as total_volume,
-                COUNT(*) as transaction_count,
-                AVG(avg_price) as avg_price
-            FROM transactions
-            WHERE region_name LIKE '부산광역시%'
-            GROUP BY strftime('%Y-%m', date)
-            ORDER BY month DESC
-            LIMIT ?
-        '''
-        params = [months]
-    else:
-        query = '''
-            SELECT 
-                strftime('%Y-%m', date) as month,
-                SUM(transaction_count) as total_volume,
-                COUNT(*) as transaction_count,
-                AVG(avg_price) as avg_price
-            FROM transactions
-            WHERE region_name = ?
-            GROUP BY strftime('%Y-%m', date)
-            ORDER BY month DESC
-            LIMIT ?
-        '''
-        params = [region, months]
-    
-    print(f"실행할 쿼리: {query}")
-    print(f"파라미터: {params}")
-    
-    cursor.execute(query, params)
-    monthly_data = []
-    
-    for row in cursor.fetchall():
-        monthly_data.append({
-            'month': row[0],
-            'total_volume': row[1],
-            'transaction_count': row[2],
-            'avg_price': row[3]
-        })
-    
-    print(f"조회된 데이터: {len(monthly_data)}건")
-    
-    # 테스트용 하드코딩된 데이터
-    if region == '부산' and len(monthly_data) == 0:
-        monthly_data = [
-            {
-                'month': '2025-06',
-                'total_volume': 4306,
-                'transaction_count': 4037,
-                'avg_price': 519215008
-            },
-            {
-                'month': '2025-07',
-                'total_volume': 3769,
-                'transaction_count': 3472,
-                'avg_price': 478001377
-            },
-            {
-                'month': '2025-08',
-                'total_volume': 751,
-                'transaction_count': 433,
-                'avg_price': 454664462
-            }
-        ]
-        print("하드코딩된 테스트 데이터 사용")
-    
-    conn.close()
-    
-    return jsonify({
-        'status': 'success',
-        'data': monthly_data,
-        'region': region,
-        'months': months
     })
 
 @app.route('/api/rankings/volume', methods=['GET'])

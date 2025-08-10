@@ -1,0 +1,18 @@
+[Unit]
+Description=Auto Data Collector for Real Estate Data
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=greego
+WorkingDirectory=/Users/greego/Desktop/realstate
+Environment=PATH=/Users/greego/Desktop/realstate/venv/bin
+ExecStart=/Users/greego/Desktop/realstate/venv/bin/python /Users/greego/Desktop/realstate/auto_data_collector.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
