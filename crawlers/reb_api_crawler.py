@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 from datetime import datetime, timedelta
 import time
 import random
@@ -7,7 +8,7 @@ from database.models import save_transaction_data, save_price_change_data
 
 class REBAPICrawler:
     def __init__(self):
-        self.api_key = "e1b390d074154e338da316499695b040"
+        self.api_key = os.getenv('REB_API_KEY', "e1b390d074154e338da316499695b040")
         self.base_url = "http://openapi.reb.or.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc"
         self.session = requests.Session()
         self.session.headers.update({

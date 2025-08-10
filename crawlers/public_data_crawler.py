@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 from datetime import datetime, timedelta
 import time
 from database.models import save_transaction_data, save_price_change_data
@@ -7,7 +8,7 @@ from database.models import save_transaction_data, save_price_change_data
 class PublicDataCrawler:
     def __init__(self):
         # 공공데이터포털 API 키
-        self.api_key = "ggUugQqwpC%2FkfXHvV9vkOBaq9LCD9XbNnzs3FZq%2FwiEOTPXZpz6cQZ1%2B2r7VWtTWTnkUaJhpdvPtGaHvtzw5xw%3D%3D"
+        self.api_key = os.getenv('PUBLIC_DATA_API_KEY', "ggUugQqwpC%2FkfXHvV9vkOBaq9LCD9XbNnzs3FZq%2FwiEOTPXZpz6cQZ1%2B2r7VWtTWTnkUaJhpdvPtGaHvtzw5xw%3D%3D")
         self.base_url = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade"
         
     def get_real_estate_data(self, region_code, start_date, end_date):

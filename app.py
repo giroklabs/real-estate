@@ -4,6 +4,7 @@ import sqlite3
 import json
 from datetime import datetime, timedelta
 import os
+from dotenv import load_dotenv
 from database.models import init_db
 from crawlers.reb_api_crawler import REBAPICrawler
 from crawlers.public_data_crawler import PublicDataCrawler
@@ -13,6 +14,9 @@ from crawlers.asil_crawler import AsilCrawler
 from crawlers.molit_api_crawler import MolitAPICrawler
 from crawlers.molit_web_crawler import MolitWebCrawler
 from services.region_service import RegionService
+
+# 환경변수 로드
+load_dotenv()
 
 # 저장된 데이터 로드 함수
 def load_saved_busan_data():
@@ -55,6 +59,22 @@ init_db()
 
 # 지역 서비스 초기화
 region_service = RegionService()
+
+@app.route('/collected_data/<path:filename>')
+def serve_collected_data(filename):
+    """수집된 데이터 파일 제공"""
+    try:
+        data_dir = "collected_data"
+        file_path = os.path.join(data_dir, filename)
+        
+        if os.path.exists(file_path):
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            return jsonify(data)
+        else:
+            return jsonify({'error': '파일을 찾을 수 없습니다.'}), 404
+    except Exception as e:
+        return jsonify({'error': f'파일 로드 오류: {str(e)}'}), 500
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
