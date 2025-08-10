@@ -26,9 +26,16 @@ def init_db():
             transaction_count INTEGER DEFAULT 0,
             avg_price REAL DEFAULT 0,
             source TEXT NOT NULL,
+            latest_transaction_date TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+    
+    # 성능 향상을 위한 인덱스 추가
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_region_name ON transactions(region_name)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_date ON transactions(date)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_complex_name ON transactions(complex_name)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_avg_price ON transactions(avg_price)')
     
     # 가격변동률 테이블
     cursor.execute('''
@@ -73,43 +80,59 @@ def init_db():
     conn.commit()
     conn.close()
 
-def save_transaction_data(data_list):
+def save_transaction_data(data):
     """거래 데이터 저장"""
     conn = sqlite3.connect('realstate.db')
     cursor = conn.cursor()
     
-    for data in data_list:
+    # 단일 데이터인지 리스트인지 확인
+    if isinstance(data, list):
+        data_list = data
+    else:
+        data_list = [data]
+    
+    for item in data_list:
+        # 최근 거래일자 설정 (기본값은 현재 날짜)
+        latest_date = item.get('latest_transaction_date', item['date'])
+        
         cursor.execute('''
             INSERT INTO transactions 
-            (date, region_name, complex_name, transaction_count, avg_price, source)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (date, region_name, complex_name, transaction_count, avg_price, source, latest_transaction_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ''', (
-            data['date'],
-            data['region_name'],
-            data['complex_name'],
-            data['transaction_count'],
-            data['avg_price'],
-            data['source']
+            item['date'],
+            item['region_name'],
+            item['complex_name'],
+            item['transaction_count'],
+            item['avg_price'],
+            item['source'],
+            latest_date
         ))
     
     conn.commit()
     conn.close()
 
-def save_price_change_data(data_list):
+def save_price_change_data(data):
     """가격변동률 데이터 저장"""
     conn = sqlite3.connect('realstate.db')
     cursor = conn.cursor()
     
-    for data in data_list:
+    # 단일 데이터인지 리스트인지 확인
+    if isinstance(data, list):
+        data_list = data
+    else:
+        data_list = [data]
+    
+    for item in data_list:
         cursor.execute('''
             INSERT INTO price_changes 
             (date, region_name, avg_price, price_change_rate)
             VALUES (?, ?, ?, ?)
         ''', (
-            data['date'],
-            data['region_name'],
-            data['avg_price'],
-            data['price_change_rate']
+            item['date'],
+            item['region_name'],
+            item['avg_price'],
+            item['price_change_rate']
         ))
     
     conn.commit()
