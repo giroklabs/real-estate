@@ -1,6 +1,6 @@
 # fly.toml app configuration file generated for realstate on 2025-08-10T15:30:00Z
 #
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+# See https://fly.io/docs/reference/configuration for information about how to use this file.
 
 app = "realstate-app"
 primary_region = "nrt"
@@ -11,6 +11,7 @@ primary_region = "nrt"
   FLASK_APP = "app.py"
   FLASK_ENV = "production"
   PORT = "5001"
+  PYTHONUNBUFFERED = "1"
 
 [http_service]
   internal_port = 5001
@@ -35,3 +36,9 @@ primary_region = "nrt"
 [mounts]
   source = "realstate_data"
   destination = "/app/collected_data"
+
+# 환경 변수 설정 (secrets로 관리)
+[env]
+  DATABASE_URL = "sqlite:///realstate.db"
+  LOG_LEVEL = "INFO"
+  CORS_ORIGINS = "*"

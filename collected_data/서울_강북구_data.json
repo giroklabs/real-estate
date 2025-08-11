@@ -1,5 +1,18 @@
 [
   {
+    "date": "2025-08-06",
+    "region_name": "서울 강북구",
+    "complex_name": "삼각산아이원",
+    "transaction_count": 1,
+    "avg_price": 605000000,
+    "source": "molit_api",
+    "area": 59.758,
+    "floor": 6,
+    "latest_transaction_date": "2025-08-06",
+    "dong": "미아동",
+    "jibun": "1357"
+  },
+  {
     "date": "2025-08-08",
     "region_name": "서울 강북구",
     "complex_name": "에스케이북한산시티",

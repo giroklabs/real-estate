@@ -13,6 +13,19 @@
     "jibun": "1678"
   },
   {
+    "date": "2025-08-08",
+    "region_name": "인천 미추홀구",
+    "complex_name": "월드스테이트(201~205)",
+    "transaction_count": 1,
+    "avg_price": 580000000,
+    "source": "molit_api",
+    "area": 126.919,
+    "floor": 25,
+    "latest_transaction_date": "2025-08-08",
+    "dong": "주안동",
+    "jibun": "1614"
+  },
+  {
     "date": "2025-08-06",
     "region_name": "인천 미추홀구",
     "complex_name": "대영아파트",
@@ -232,6 +245,19 @@
     "latest_transaction_date": "2025-08-02",
     "dong": "용현동",
     "jibun": "664"
+  },
+  {
+    "date": "2025-08-02",
+    "region_name": "인천 미추홀구",
+    "complex_name": "주안역센트레빌",
+    "transaction_count": 1,
+    "avg_price": 410000000,
+    "source": "molit_api",
+    "area": 59.9813,
+    "floor": 6,
+    "latest_transaction_date": "2025-08-02",
+    "dong": "주안동",
+    "jibun": "1628"
   },
   {
     "date": "2025-08-01",
@@ -700,19 +726,6 @@
     "latest_transaction_date": "2025-07-02",
     "dong": "학익동",
     "jibun": "681-6"
-  },
-  {
-    "date": "2025-07-24",
-    "region_name": "인천 미추홀구",
-    "complex_name": "하나2차",
-    "transaction_count": 1,
-    "avg_price": 180000000,
-    "source": "molit_api",
-    "area": 59.834,
-    "floor": 3,
-    "latest_transaction_date": "2025-07-24",
-    "dong": "학익동",
-    "jibun": "682-1"
   },
   {
     "date": "2025-07-15",

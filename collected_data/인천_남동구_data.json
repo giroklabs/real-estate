@@ -7644,19 +7644,6 @@
     "jibun": "682"
   },
   {
-    "date": "2025-06-12",
-    "region_name": "인천 남동구",
-    "complex_name": "유영",
-    "transaction_count": 1,
-    "avg_price": 235000000,
-    "source": "molit_api",
-    "area": 76.5925,
-    "floor": 8,
-    "latest_transaction_date": "2025-06-12",
-    "dong": "간석동",
-    "jibun": "129-7"
-  },
-  {
     "date": "2025-06-17",
     "region_name": "인천 남동구",
     "complex_name": "세종보라",

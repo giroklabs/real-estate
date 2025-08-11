@@ -24557,19 +24557,6 @@
     "jibun": "639"
   },
   {
-    "date": "2025-03-16",
-    "region_name": "서울 성북구",
-    "complex_name": "아이파크종암동1차",
-    "transaction_count": 1,
-    "avg_price": 980000000,
-    "source": "molit_api",
-    "area": 84.98,
-    "floor": 14,
-    "latest_transaction_date": "2025-03-16",
-    "dong": "종암동",
-    "jibun": "130"
-  },
-  {
     "date": "2025-03-08",
     "region_name": "서울 성북구",
     "complex_name": "정릉우성아파트 101~105동",

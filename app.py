@@ -47,6 +47,22 @@ def load_saved_busan_incheon_seoul_data():
         print(f"데이터 로드 오류: {e}")
         return None
 
+def load_saved_busan_incheon_seoul_daegu_data():
+    """저장된 부산+인천+서울+대구 데이터 로드"""
+    try:
+        data_dir = "collected_data"
+        all_data_filename = f"{data_dir}/busan_incheon_seoul_daegu_all_data.json"
+        
+        if os.path.exists(all_data_filename):
+            with open(all_data_filename, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            print("저장된 부산+인천+서울+대구 데이터가 없습니다.")
+            return None
+    except Exception as e:
+        print(f"데이터 로드 오류: {e}")
+        return None
+
 app = Flask(__name__)
 CORS(app)
 
@@ -121,6 +137,28 @@ def get_busan_incheon_seoul_data():
             return jsonify({
                 'status': 'error',
                 'message': '저장된 부산+인천+서울 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+@app.route('/api/busan-incheon-seoul-daegu-data', methods=['GET'])
+def get_busan_incheon_seoul_daegu_data():
+    """저장된 부산+인천+서울+대구 전체 구 데이터 조회"""
+    try:
+        data = load_saved_busan_incheon_seoul_daegu_data()
+        if data:
+            return jsonify({
+                'status': 'success',
+                'data': data,
+                'message': '저장된 부산+인천+서울+대구 데이터를 성공적으로 로드했습니다.'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': '저장된 부산+인천+서울+대구 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
             }), 404
     except Exception as e:
         return jsonify({

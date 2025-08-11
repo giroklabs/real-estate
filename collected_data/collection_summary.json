@@ -1,364 +1,249 @@
 {
-  "collection_date": "2025-08-10T16:48:52.325206",
-  "total_regions": 51,
-  "total_transactions": 86301,
+  "collection_date": "2025-08-11T12:24:45.809663",
+  "total_regions": 60,
+  "total_transactions": 99973,
+  "success_count": 58,
+  "error_count": 2,
   "regions_summary": {
-    "부산 강서구": {
-      "transaction_count": 835,
-      "avg_price": 422774718,
-      "max_price": 1095000000,
-      "min_price": 51500000,
-      "data_file": "부산_강서구_data.json"
-    },
-    "부산 금정구": {
-      "transaction_count": 929,
-      "avg_price": 396677997,
-      "max_price": 1300000000,
-      "min_price": 43000000,
-      "data_file": "부산_금정구_data.json"
-    },
-    "부산 남구": {
-      "transaction_count": 1497,
-      "avg_price": 555134475,
-      "max_price": 3450000000,
-      "min_price": 54500000,
-      "data_file": "부산_남구_data.json"
-    },
-    "부산 동구": {
-      "transaction_count": 390,
-      "avg_price": 389307692,
-      "max_price": 740000000,
-      "min_price": 20000000,
-      "data_file": "부산_동구_data.json"
-    },
-    "부산 동래구": {
-      "transaction_count": 1856,
-      "avg_price": 512220431,
-      "max_price": 1780000000,
-      "min_price": 43000000,
-      "data_file": "부산_동래구_data.json"
-    },
-    "부산 부산진구": {
-      "transaction_count": 2132,
-      "avg_price": 342548302,
-      "max_price": 1300000000,
-      "min_price": 28000000,
-      "data_file": "부산_부산진구_data.json"
-    },
-    "부산 북구": {
-      "transaction_count": 1619,
-      "avg_price": 315806300,
-      "max_price": 1250000000,
-      "min_price": 58000000,
-      "data_file": "부산_북구_data.json"
-    },
-    "부산 사상구": {
-      "transaction_count": 1004,
-      "avg_price": 231491982,
-      "max_price": 675000000,
-      "min_price": 44000000,
-      "data_file": "부산_사상구_data.json"
-    },
-    "부산 사하구": {
-      "transaction_count": 1557,
-      "avg_price": 222902048,
-      "max_price": 800000000,
-      "min_price": 31000000,
-      "data_file": "부산_사하구_data.json"
-    },
-    "부산 서구": {
-      "transaction_count": 428,
-      "avg_price": 416874088,
-      "max_price": 1520000000,
-      "min_price": 40000000,
-      "data_file": "부산_서구_data.json"
-    },
-    "부산 수영구": {
-      "transaction_count": 1063,
-      "avg_price": 700024045,
-      "max_price": 2350000000,
-      "min_price": 49000000,
-      "data_file": "부산_수영구_data.json"
-    },
-    "부산 연제구": {
-      "transaction_count": 1362,
-      "avg_price": 488893781,
-      "max_price": 1455000000,
-      "min_price": 37000000,
-      "data_file": "부산_연제구_data.json"
-    },
-    "부산 영도구": {
-      "transaction_count": 472,
-      "avg_price": 225079216,
-      "max_price": 700000000,
-      "min_price": 10000000,
-      "data_file": "부산_영도구_data.json"
-    },
-    "부산 중구": {
-      "transaction_count": 72,
-      "avg_price": 175299583,
-      "max_price": 370000000,
-      "min_price": 17000000,
-      "data_file": "부산_중구_data.json"
-    },
-    "부산 해운대구": {
-      "transaction_count": 2248,
-      "avg_price": 599063091,
-      "max_price": 4980000000,
-      "min_price": 50000000,
-      "data_file": "부산_해운대구_data.json"
-    },
-    "부산 기장군": {
-      "transaction_count": 951,
-      "avg_price": 304875920,
-      "max_price": 850000000,
-      "min_price": 43000000,
-      "data_file": "부산_기장군_data.json"
-    },
-    "인천 강화군": {
-      "transaction_count": 106,
-      "avg_price": 216087547,
-      "max_price": 378200000,
-      "min_price": 65000000,
-      "data_file": "인천_강화군_data.json"
-    },
-    "인천 계양구": {
-      "transaction_count": 1738,
-      "avg_price": 275715535,
-      "max_price": 825000000,
-      "min_price": 60000000,
-      "data_file": "인천_계양구_data.json"
-    },
-    "인천 남동구": {
-      "transaction_count": 2762,
-      "avg_price": 350124551,
-      "max_price": 1150000000,
-      "min_price": 40000000,
-      "data_file": "인천_남동구_data.json"
-    },
-    "인천 동구": {
-      "transaction_count": 406,
-      "avg_price": 233188546,
-      "max_price": 610000000,
-      "min_price": 70000000,
-      "data_file": "인천_동구_data.json"
-    },
-    "인천 미추홀구": {
-      "transaction_count": 1953,
-      "avg_price": 322505207,
-      "max_price": 1200000000,
-      "min_price": 35910000,
-      "data_file": "인천_미추홀구_data.json"
-    },
-    "인천 부평구": {
-      "transaction_count": 2746,
-      "avg_price": 370892072,
-      "max_price": 1420000000,
-      "min_price": 38000000,
-      "data_file": "인천_부평구_data.json"
-    },
-    "인천 서구": {
-      "transaction_count": 3680,
-      "avg_price": 431906494,
-      "max_price": 1725000000,
-      "min_price": 61000000,
-      "data_file": "인천_서구_data.json"
-    },
-    "인천 연수구": {
-      "transaction_count": 3141,
-      "avg_price": 591547554,
-      "max_price": 2600000000,
-      "min_price": 95000000,
-      "data_file": "인천_연수구_data.json"
-    },
-    "인천 옹진군": {
-      "transaction_count": 0,
-      "avg_price": 0,
-      "max_price": 0,
-      "min_price": 0,
-      "data_file": "인천_옹진군_data.json"
-    },
-    "인천 중구": {
-      "transaction_count": 955,
-      "avg_price": 338970481,
-      "max_price": 1200000000,
-      "min_price": 37000000,
-      "data_file": "인천_중구_data.json"
-    },
     "서울 강남구": {
       "transaction_count": 2920,
-      "avg_price": 2895042773,
-      "max_price": 19000000000,
-      "min_price": 160000000,
-      "data_file": "서울_강남구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809692"
     },
     "서울 강동구": {
       "transaction_count": 3286,
-      "avg_price": 1227896640,
-      "max_price": 2700000000,
-      "min_price": 84000000,
-      "data_file": "서울_강동구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809694"
     },
     "서울 강북구": {
-      "transaction_count": 735,
-      "avg_price": 624762176,
-      "max_price": 1125000000,
-      "min_price": 75000000,
-      "data_file": "서울_강북구_data.json"
+      "transaction_count": 736,
+      "last_updated": "2025-08-11T12:24:45.809695"
     },
     "서울 강서구": {
       "transaction_count": 2562,
-      "avg_price": 824064871,
-      "max_price": 2050000000,
-      "min_price": 72500000,
-      "data_file": "서울_강서구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809697"
     },
     "서울 관악구": {
       "transaction_count": 1324,
-      "avg_price": 786913897,
-      "max_price": 1500000000,
-      "min_price": 90000000,
-      "data_file": "서울_관악구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809698"
     },
     "서울 광진구": {
       "transaction_count": 1308,
-      "avg_price": 1416087698,
-      "max_price": 3650000000,
-      "min_price": 135000000,
-      "data_file": "서울_광진구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809699"
     },
     "서울 구로구": {
       "transaction_count": 2327,
-      "avg_price": 636716759,
-      "max_price": 1890000000,
-      "min_price": 69500000,
-      "data_file": "서울_구로구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809700"
     },
     "서울 금천구": {
       "transaction_count": 532,
-      "avg_price": 621564849,
-      "max_price": 1405000000,
-      "min_price": 89000000,
-      "data_file": "서울_금천구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809701"
     },
     "서울 노원구": {
-      "transaction_count": 3331,
-      "avg_price": 616539225,
-      "max_price": 1600000000,
-      "min_price": 82000000,
-      "data_file": "서울_노원구_data.json"
+      "transaction_count": 3332,
+      "last_updated": "2025-08-11T12:24:45.809702"
     },
     "서울 도봉구": {
       "transaction_count": 1123,
-      "avg_price": 540628851,
-      "max_price": 1415000000,
-      "min_price": 70000000,
-      "data_file": "서울_도봉구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809703"
     },
     "서울 동대문구": {
-      "transaction_count": 2247,
-      "avg_price": 870780952,
-      "max_price": 2190000000,
-      "min_price": 84000000,
-      "data_file": "서울_동대문구_data.json"
+      "transaction_count": 2252,
+      "last_updated": "2025-08-11T12:24:45.809704"
     },
     "서울 동작구": {
       "transaction_count": 2636,
-      "avg_price": 1289059476,
-      "max_price": 3600000000,
-      "min_price": 115000000,
-      "data_file": "서울_동작구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809706"
     },
     "서울 마포구": {
       "transaction_count": 2730,
-      "avg_price": 1464013846,
-      "max_price": 3325000000,
-      "min_price": 135000000,
-      "data_file": "서울_마포구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809707"
     },
     "서울 서대문구": {
-      "transaction_count": 1912,
-      "avg_price": 1017842557,
-      "max_price": 2185000000,
-      "min_price": 128000000,
-      "data_file": "서울_서대문구_data.json"
+      "transaction_count": 1913,
+      "last_updated": "2025-08-11T12:24:45.809709"
     },
     "서울 서초구": {
-      "transaction_count": 2144,
-      "avg_price": 2844071595,
-      "max_price": 16500000000,
-      "min_price": 205000000,
-      "data_file": "서울_서초구_data.json"
+      "transaction_count": 2145,
+      "last_updated": "2025-08-11T12:24:45.809710"
     },
     "서울 성동구": {
       "transaction_count": 3109,
-      "avg_price": 1579041550,
-      "max_price": 18700000000,
-      "min_price": 130000000,
-      "data_file": "서울_성동구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809711"
     },
     "서울 성북구": {
-      "transaction_count": 2569,
-      "avg_price": 823031490,
-      "max_price": 1900000000,
-      "min_price": 102000000,
-      "data_file": "서울_성북구_data.json"
+      "transaction_count": 2568,
+      "last_updated": "2025-08-11T12:24:45.809712"
     },
     "서울 송파구": {
       "transaction_count": 3512,
-      "avg_price": 1879116896,
-      "max_price": 5700000000,
-      "min_price": 160000000,
-      "data_file": "서울_송파구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809713"
     },
     "서울 양천구": {
-      "transaction_count": 2300,
-      "avg_price": 1367557913,
-      "max_price": 7250000000,
-      "min_price": 127000000,
-      "data_file": "서울_양천구_data.json"
+      "transaction_count": 2299,
+      "last_updated": "2025-08-11T12:24:45.809714"
     },
     "서울 영등포구": {
       "transaction_count": 2918,
-      "avg_price": 1314486014,
-      "max_price": 6720000000,
-      "min_price": 84500000,
-      "data_file": "서울_영등포구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809715"
     },
     "서울 용산구": {
       "transaction_count": 971,
-      "avg_price": 2131873007,
-      "max_price": 25000000000,
-      "min_price": 180000000,
-      "data_file": "서울_용산구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809716"
     },
     "서울 은평구": {
       "transaction_count": 1593,
-      "avg_price": 797729441,
-      "max_price": 1630000000,
-      "min_price": 93000000,
-      "data_file": "서울_은평구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809717"
     },
     "서울 종로구": {
       "transaction_count": 377,
-      "avg_price": 1343628647,
-      "max_price": 3300000000,
-      "min_price": 86000000,
-      "data_file": "서울_종로구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809718"
     },
     "서울 중구": {
       "transaction_count": 765,
-      "avg_price": 1124465359,
-      "max_price": 3800000000,
-      "min_price": 131000000,
-      "data_file": "서울_중구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809719"
     },
     "서울 중랑구": {
       "transaction_count": 1168,
-      "avg_price": 639873458,
-      "max_price": 1850000000,
-      "min_price": 87000000,
-      "data_file": "서울_중랑구_data.json"
+      "last_updated": "2025-08-11T12:24:45.809720"
+    },
+    "부산 강서구": {
+      "transaction_count": 835,
+      "last_updated": "2025-08-11T12:24:45.809721"
+    },
+    "부산 금정구": {
+      "transaction_count": 929,
+      "last_updated": "2025-08-11T12:24:45.809722"
+    },
+    "부산 기장군": {
+      "transaction_count": 951,
+      "last_updated": "2025-08-11T12:24:45.809723"
+    },
+    "부산 남구": {
+      "transaction_count": 1497,
+      "last_updated": "2025-08-11T12:24:45.809725"
+    },
+    "부산 동구": {
+      "transaction_count": 390,
+      "last_updated": "2025-08-11T12:24:45.809726"
+    },
+    "부산 동래구": {
+      "transaction_count": 1858,
+      "last_updated": "2025-08-11T12:24:45.809727"
+    },
+    "부산 부산진구": {
+      "transaction_count": 2132,
+      "last_updated": "2025-08-11T12:24:45.809727"
+    },
+    "부산 북구": {
+      "transaction_count": 1620,
+      "last_updated": "2025-08-11T12:24:45.809729"
+    },
+    "부산 사상구": {
+      "transaction_count": 1004,
+      "last_updated": "2025-08-11T12:24:45.809730"
+    },
+    "부산 사하구": {
+      "transaction_count": 1557,
+      "last_updated": "2025-08-11T12:24:45.809731"
+    },
+    "부산 서구": {
+      "transaction_count": 428,
+      "last_updated": "2025-08-11T12:24:45.809732"
+    },
+    "부산 수영구": {
+      "transaction_count": 1063,
+      "last_updated": "2025-08-11T12:24:45.809733"
+    },
+    "부산 연제구": {
+      "transaction_count": 1362,
+      "last_updated": "2025-08-11T12:24:45.809734"
+    },
+    "부산 영도구": {
+      "transaction_count": 474,
+      "last_updated": "2025-08-11T12:24:45.809736"
+    },
+    "부산 중구": {
+      "transaction_count": 72,
+      "last_updated": "2025-08-11T12:24:45.809737"
+    },
+    "부산 해운대구": {
+      "transaction_count": 2248,
+      "last_updated": "2025-08-11T12:24:45.809738"
+    },
+    "인천 강화군": {
+      "transaction_count": 106,
+      "last_updated": "2025-08-11T12:24:45.809739"
+    },
+    "인천 계양구": {
+      "transaction_count": 1738,
+      "last_updated": "2025-08-11T12:24:45.809739"
+    },
+    "인천 남동구": {
+      "transaction_count": 2761,
+      "last_updated": "2025-08-11T12:24:45.809741"
+    },
+    "인천 동구": {
+      "transaction_count": 406,
+      "last_updated": "2025-08-11T12:24:45.809742"
+    },
+    "인천 미추홀구": {
+      "transaction_count": 1954,
+      "last_updated": "2025-08-11T12:24:45.809743"
+    },
+    "인천 부평구": {
+      "transaction_count": 2746,
+      "last_updated": "2025-08-11T12:24:45.809744"
+    },
+    "인천 서구": {
+      "transaction_count": 3681,
+      "last_updated": "2025-08-11T12:24:45.809745"
+    },
+    "인천 연수구": {
+      "transaction_count": 3141,
+      "last_updated": "2025-08-11T12:24:45.809746"
+    },
+    "인천 옹진군": {
+      "transaction_count": 0,
+      "last_updated": "2025-08-11T12:24:45.809747"
+    },
+    "인천 중구": {
+      "transaction_count": 894,
+      "last_updated": "2025-08-11T12:24:45.809748"
+    },
+    "대구 남구": {
+      "transaction_count": 404,
+      "last_updated": "2025-08-11T12:24:45.809749"
+    },
+    "대구 달서구": {
+      "transaction_count": 3525,
+      "last_updated": "2025-08-11T12:24:45.809751"
+    },
+    "대구 달성군": {
+      "transaction_count": 1836,
+      "last_updated": "2025-08-11T12:24:45.809752"
+    },
+    "대구 동구": {
+      "transaction_count": 1944,
+      "last_updated": "2025-08-11T12:24:45.809754"
+    },
+    "대구 북구": {
+      "transaction_count": 2643,
+      "last_updated": "2025-08-11T12:24:45.809755"
+    },
+    "대구 서구": {
+      "transaction_count": 2406,
+      "last_updated": "2025-08-11T12:24:45.809756"
+    },
+    "대구 수성구": {
+      "transaction_count": 0,
+      "last_updated": "2025-08-11T12:24:45.809757"
+    },
+    "대구 중구": {
+      "transaction_count": 960,
+      "last_updated": "2025-08-11T12:24:45.809758"
+    },
+    "대구 군위군": {
+      "transaction_count": 2,
+      "last_updated": "2025-08-11T12:24:45.809759"
     }
   }
 }

@@ -21309,19 +21309,6 @@
   {
     "date": "2025-03-24",
     "region_name": "서울 양천구",
-    "complex_name": "트라팰리스웨스턴에비뉴",
-    "transaction_count": 1,
-    "avg_price": 2750000000,
-    "source": "molit_api",
-    "area": 112.33,
-    "floor": 24,
-    "latest_transaction_date": "2025-03-24",
-    "dong": "목동",
-    "jibun": "962"
-  },
-  {
-    "date": "2025-03-24",
-    "region_name": "서울 양천구",
     "complex_name": "목동청구한신아파트",
     "transaction_count": 1,
     "avg_price": 1610000000,

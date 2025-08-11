@@ -975,6 +975,19 @@
     "jibun": "210-16"
   },
   {
+    "date": "2025-07-27",
+    "region_name": "부산 동래구",
+    "complex_name": "명륜동힐스테이트",
+    "transaction_count": 1,
+    "avg_price": 670000000,
+    "source": "molit_api",
+    "area": 84.9773,
+    "floor": 5,
+    "latest_transaction_date": "2025-07-27",
+    "dong": "명륜동",
+    "jibun": "795"
+  },
+  {
     "date": "2025-07-26",
     "region_name": "부산 동래구",
     "complex_name": "동래동일스위트",
@@ -1311,6 +1324,19 @@
     "latest_transaction_date": "2025-07-24",
     "dong": "온천동",
     "jibun": "1853"
+  },
+  {
+    "date": "2025-07-24",
+    "region_name": "부산 동래구",
+    "complex_name": "명륜아이파크1단지",
+    "transaction_count": 1,
+    "avg_price": 710000000,
+    "source": "molit_api",
+    "area": 84.9194,
+    "floor": 4,
+    "latest_transaction_date": "2025-07-24",
+    "dong": "명륜동",
+    "jibun": "757"
   },
   {
     "date": "2025-07-24",

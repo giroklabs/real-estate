@@ -76,6 +76,10 @@ def collect_daily_data():
             'incheon': [
                 '인천 강화군', '인천 계양구', '인천 남동구', '인천 동구', '인천 미추홀구',
                 '인천 부평구', '인천 서구', '인천 연수구', '인천 옹진군', '인천 중구'
+            ],
+            'daegu': [
+                '대구 남구', '대구 달서구', '대구 달성군', '대구 동구', '대구 북구',
+                '대구 서구', '대구 수성구', '대구 중구', '대구 군위군'
             ]
         }
         
@@ -124,7 +128,7 @@ def collect_daily_data():
                 time.sleep(1)
         
         # 전체 데이터를 하나의 파일로 저장
-        all_data_filepath = os.path.join(data_dir, 'busan_incheon_seoul_all_data.json')
+        all_data_filepath = os.path.join(data_dir, 'busan_incheon_seoul_daegu_all_data.json')
         with open(all_data_filepath, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, ensure_ascii=False, indent=2)
         

@@ -1,5 +1,18 @@
 [
   {
+    "date": "2025-08-06",
+    "region_name": "부산 북구",
+    "complex_name": "구포현대",
+    "transaction_count": 1,
+    "avg_price": 250000000,
+    "source": "molit_api",
+    "area": 84.91,
+    "floor": 7,
+    "latest_transaction_date": "2025-08-06",
+    "dong": "구포동",
+    "jibun": "1103-2"
+  },
+  {
     "date": "2025-08-07",
     "region_name": "부산 북구",
     "complex_name": "금곡화목타운",

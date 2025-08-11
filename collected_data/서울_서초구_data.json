@@ -130,6 +130,19 @@
     "jibun": "1445-4"
   },
   {
+    "date": "2025-07-13",
+    "region_name": "서울 서초구",
+    "complex_name": "아크로리버파크",
+    "transaction_count": 1,
+    "avg_price": 9500000000,
+    "source": "molit_api",
+    "area": 168.96,
+    "floor": 28,
+    "latest_transaction_date": "2025-07-13",
+    "dong": "반포동",
+    "jibun": "2-12"
+  },
+  {
     "date": "2025-07-25",
     "region_name": "서울 서초구",
     "complex_name": "금호베스트빌",
@@ -2364,6 +2377,19 @@
     "latest_transaction_date": "2025-06-27",
     "dong": "잠원동",
     "jibun": "163"
+  },
+  {
+    "date": "2025-06-20",
+    "region_name": "서울 서초구",
+    "complex_name": "반포래미안아이파크",
+    "transaction_count": 1,
+    "avg_price": 4850000000,
+    "source": "molit_api",
+    "area": 99.92,
+    "floor": 2,
+    "latest_transaction_date": "2025-06-20",
+    "dong": "반포동",
+    "jibun": "1341"
   },
   {
     "date": "2025-06-27",
@@ -8097,19 +8123,6 @@
     "latest_transaction_date": "2025-05-01",
     "dong": "서초동",
     "jibun": "1332-13"
-  },
-  {
-    "date": "2025-05-20",
-    "region_name": "서울 서초구",
-    "complex_name": "서초트라팰리스",
-    "transaction_count": 1,
-    "avg_price": 2400000000,
-    "source": "molit_api",
-    "area": 116.3,
-    "floor": 7,
-    "latest_transaction_date": "2025-05-20",
-    "dong": "서초동",
-    "jibun": "1344-13"
   },
   {
     "date": "2025-05-20",

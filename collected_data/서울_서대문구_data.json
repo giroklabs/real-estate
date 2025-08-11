@@ -13,6 +13,19 @@
     "jibun": "746"
   },
   {
+    "date": "2025-08-06",
+    "region_name": "서울 서대문구",
+    "complex_name": "홍은동벽산",
+    "transaction_count": 1,
+    "avg_price": 726000000,
+    "source": "molit_api",
+    "area": 84.78,
+    "floor": 3,
+    "latest_transaction_date": "2025-08-06",
+    "dong": "홍은동",
+    "jibun": "455"
+  },
+  {
     "date": "2025-08-04",
     "region_name": "서울 서대문구",
     "complex_name": "홍제원그린뷰아파트",
