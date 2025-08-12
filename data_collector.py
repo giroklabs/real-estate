@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-부산 전체 구 부동산 데이터 수집 및 저장 스크립트
+부산, 인천, 서울, 부천시 전체 구 부동산 데이터 수집 및 저장 스크립트
 """
 
 import json
@@ -10,8 +10,8 @@ import os
 from datetime import datetime, timedelta
 from crawlers.molit_api_crawler import MolitAPICrawler
 
-def collect_and_save_busan_data():
-    """부산 전체 구 데이터 수집 및 저장"""
+def collect_and_save_all_data():
+    """부산, 인천, 서울, 부천시 전체 구 데이터 수집 및 저장"""
     
     # 데이터 저장 디렉토리 생성
     data_dir = "collected_data"
@@ -19,7 +19,7 @@ def collect_and_save_busan_data():
         os.makedirs(data_dir)
     
     crawler = MolitAPICrawler()
-    print('부산 전체 구 데이터 수집 시작...')
+    print('전체 지역 데이터 수집 시작...')
     
     # 부산 전체 구 목록
     busan_regions = [
@@ -34,6 +34,20 @@ def collect_and_save_busan_data():
         '인천 부평구', '인천 서구', '인천 연수구', '인천 옹진군', '인천 중구'
     ]
     
+    # 서울시 전체 구 목록
+    seoul_regions = [
+        '서울 강남구', '서울 강동구', '서울 강북구', '서울 강서구', '서울 관악구',
+        '서울 광진구', '서울 구로구', '서울 금천구', '서울 노원구', '서울 도봉구',
+        '서울 동대문구', '서울 동작구', '서울 마포구', '서울 서대문구', '서울 서초구',
+        '서울 성동구', '서울 성북구', '서울 송파구', '서울 양천구', '서울 영등포구',
+        '서울 용산구', '서울 은평구', '서울 종로구', '서울 중구', '서울 중랑구'
+    ]
+    
+    # 부천시 전체 구 목록
+    bucheon_regions = [
+        '경기 부천시'
+    ]
+    
     all_data = {}
     total_data = 0
     
@@ -42,7 +56,7 @@ def collect_and_save_busan_data():
     for region in busan_regions:
         print(f'\n=== {region} 데이터 수집 중... ===')
         try:
-            # 2개월 데이터 수집
+            # 8개월 데이터 수집
             data = crawler.crawl_region_data(region, months=8)
             if data:
                 all_data[region] = data
@@ -70,7 +84,7 @@ def collect_and_save_busan_data():
     for region in incheon_regions:
         print(f'\n=== {region} 데이터 수집 중... ===')
         try:
-            # 2개월 데이터 수집
+            # 8개월 데이터 수집
             data = crawler.crawl_region_data(region, months=8)
             if data:
                 all_data[region] = data
@@ -94,19 +108,39 @@ def collect_and_save_busan_data():
         time.sleep(1)
     
     # 서울시 데이터 수집
-    seoul_regions = [
-        '서울 강남구', '서울 강동구', '서울 강북구', '서울 강서구', '서울 관악구',
-        '서울 광진구', '서울 구로구', '서울 금천구', '서울 노원구', '서울 도봉구',
-        '서울 동대문구', '서울 동작구', '서울 마포구', '서울 서대문구', '서울 서초구',
-        '서울 성동구', '서울 성북구', '서울 송파구', '서울 양천구', '서울 영등포구',
-        '서울 용산구', '서울 은평구', '서울 종로구', '서울 중구', '서울 중랑구'
-    ]
-    
     print('\n=== 서울시 데이터 수집 시작 ===')
     for region in seoul_regions:
         print(f'\n=== {region} 데이터 수집 중... ===')
         try:
-            # 2개월 데이터 수집
+            # 8개월 데이터 수집
+            data = crawler.crawl_region_data(region, months=8)
+            if data:
+                all_data[region] = data
+                total_data += len(data)
+                print(f'{region} 데이터 수집 완료: {len(data)}건')
+                
+                # 개별 지역 데이터 파일로 저장
+                filename = f"{region.replace(' ', '_')}_data.json"
+                filepath = os.path.join(data_dir, filename)
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+                print(f'{region} 데이터 파일 저장 완료: {filepath}')
+            else:
+                print(f'{region} 데이터 수집 실패')
+                all_data[region] = []
+        except Exception as e:
+            print(f'{region} 데이터 수집 중 오류 발생: {e}')
+            all_data[region] = []
+        
+        # API 호출 간격 조절
+        time.sleep(1)
+    
+    # 부천시 데이터 수집
+    print('\n=== 부천시 데이터 수집 시작 ===')
+    for region in bucheon_regions:
+        print(f'\n=== {region} 데이터 수집 중... ===')
+        try:
+            # 8개월 데이터 수집
             data = crawler.crawl_region_data(region, months=8)
             if data:
                 all_data[region] = data
@@ -130,7 +164,7 @@ def collect_and_save_busan_data():
         time.sleep(1)
     
     # 전체 데이터를 하나의 파일로 저장
-    all_data_filepath = os.path.join(data_dir, 'busan_incheon_seoul_all_data.json')
+    all_data_filepath = os.path.join(data_dir, 'busan_incheon_seoul_bucheon_all_data.json')
     with open(all_data_filepath, 'w', encoding='utf-8') as f:
         json.dump(all_data, f, ensure_ascii=False, indent=2)
     print(f'\n전체 데이터 파일 저장 완료: {all_data_filepath}')
@@ -138,7 +172,7 @@ def collect_and_save_busan_data():
     # 수집 요약 정보 저장 (가격 통계 포함)
     summary = {
         'collection_date': datetime.now().isoformat(),
-        'total_regions': len(busan_regions) + len(incheon_regions) + len(seoul_regions),
+        'total_regions': len(busan_regions) + len(incheon_regions) + len(seoul_regions) + len(bucheon_regions),
         'total_transactions': total_data,
         'regions_summary': {}
     }
@@ -186,8 +220,8 @@ def collect_and_save_busan_data():
         json.dump(summary, f, ensure_ascii=False, indent=2)
     print(f'요약 정보 파일 저장 완료: {summary_filepath}')
     
-    print(f'\n=== 부산 및 인천 전체 구 데이터 수집 완료 ===')
-    print(f'총 지역 수: {len(busan_regions) + len(incheon_regions) + len(seoul_regions)}')
+    print(f'\n=== 전체 지역 데이터 수집 완료 ===')
+    print(f'총 지역 수: {len(busan_regions) + len(incheon_regions) + len(seoul_regions) + len(bucheon_regions)}')
     print(f'총 거래 건수: {total_data:,}건')
     
     # 지역별 요약 정보 출력
@@ -197,4 +231,4 @@ def collect_and_save_busan_data():
             print(f'{region}: {info["transaction_count"]}건, 평균가: {info["avg_price"]:,}원, 최고가: {info["max_price"]:,}원, 최저가: {info["min_price"]:,}원')
 
 if __name__ == '__main__':
-    collect_and_save_busan_data()
+    collect_and_save_all_data()

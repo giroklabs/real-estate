@@ -223,6 +223,46 @@ class MolitAPICrawler:
                 date_list.append(f"{year}{month:02d}")
         return date_list
     
+    def crawl_region_data_with_code(self, region_code, months=24):
+        """지역 코드로 직접 데이터 수집 (다중 페이지 처리) - 최근 N개월 데이터 수집"""
+        if not region_code:
+            print(f"지역 코드가 제공되지 않았습니다")
+            return []
+        
+        all_transactions = []
+        
+        # 최근 N개월 데이터 수집
+        current_date = datetime.now()
+        for i in range(months):
+            target_date = current_date - timedelta(days=30*i)
+            deal_date = target_date.strftime('%Y%m')  # YYYYMM 형식으로 변경
+            
+            # 첫 번째 페이지 호출로 전체 데이터 수 확인
+            first_page_data = self.get_apartment_data(region_code, deal_date, page_no=1, num_of_rows=100)
+            if isinstance(first_page_data, list):
+                all_transactions.extend(first_page_data)
+            
+            # 첫 페이지에서 100건이 나왔다면 추가 페이지가 있을 수 있음
+            if isinstance(first_page_data, list) and len(first_page_data) == 100:
+                page_no = 2
+                while True:
+                    page_data = self.get_apartment_data(region_code, deal_date, page_no=page_no, num_of_rows=100)
+                    if not page_data or not isinstance(page_data, list):
+                        break
+                    all_transactions.extend(page_data)
+                    
+                    # 100건 미만이면 마지막 페이지
+                    if len(page_data) < 100:
+                        break
+                    
+                    page_no += 1
+                    time.sleep(0.2)  # 페이지 간 간격 (속도 향상)
+            
+            # 월별 간격 조절 (속도 향상)
+            time.sleep(0.5)
+        
+        return all_transactions
+
     def crawl_region_data(self, region_name, months=24):
         """특정 지역의 데이터 수집 (다중 페이지 처리) - 최근 2년 데이터 수집"""
         region_code = self.get_region_code(region_name)

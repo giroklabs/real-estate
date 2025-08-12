@@ -106,6 +106,9 @@ class RegionService:
                     '남양주시': '41360',
                     '동두천시': '41250',
                     '부천시': '41190',
+                    '부천시 원미구': '41191',
+                    '부천시 소사구': '41192',
+                    '부천시 오정구': '41193',
                     '성남시': '41135',
                     '수원시': '41110',
                     '시흥시': '41390',
@@ -149,18 +152,23 @@ class RegionService:
     
     def get_region_code(self, region_name):
         """지역명으로 지역코드 찾기"""
+        # 정확한 매칭을 위한 정규화
+        normalized_region = region_name.strip()
+        
         # 먼저 정확한 매칭 시도
         for province_name, province_data in self.supported_regions.items():
             for district_name, code in province_data['districts'].items():
-                # "부산 강서구" -> "부산광역시" + "강서구" 매칭
-                if (province_name.replace('특별시', '').replace('광역시', '').replace('도', '') in region_name and 
-                    district_name in region_name):
-                    return code
+                # "경기 부천시 소사구" -> "경기도" + "부천시 소사구" 매칭
+                if district_name in normalized_region:
+                    # 광역시/도 확인
+                    province_short = province_name.replace('특별시', '').replace('광역시', '').replace('도', '')
+                    if province_short in normalized_region:
+                        return code
         
         # 부분 매칭 시도 (기존 로직)
         for province_data in self.supported_regions.values():
             for district_name, code in province_data['districts'].items():
-                if district_name in region_name or region_name in district_name:
+                if district_name in normalized_region or normalized_region in district_name:
                     return code
         return None
     

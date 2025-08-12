@@ -1,0 +1,19 @@
+{
+  "collection_date": "2025-08-11T17:37:39.369093",
+  "total_regions": 3,
+  "total_data_count": 13275,
+  "regions": {
+    "경기 성남시 수정구": {
+      "data_count": 4425,
+      "collection_status": "success"
+    },
+    "경기 성남시 중원구": {
+      "data_count": 4425,
+      "collection_status": "success"
+    },
+    "경기 성남시 분당구": {
+      "data_count": 4425,
+      "collection_status": "success"
+    }
+  }
+}

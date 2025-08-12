@@ -1,0 +1,28 @@
+{
+  "collection_date": "2025-08-11T17:03:20.637987",
+  "total_regions": 3,
+  "total_transactions": 3375,
+  "regions_summary": {
+    "경기 부천시 소사구": {
+      "transaction_count": 1929,
+      "avg_price": 529184209,
+      "max_price": 1600000000,
+      "min_price": 45000000,
+      "data_file": "경기_부천시_소사구_data.json"
+    },
+    "경기 부천시 중구": {
+      "transaction_count": 1080,
+      "avg_price": 489381166,
+      "max_price": 930000000,
+      "min_price": 70000000,
+      "data_file": "경기_부천시_중구_data.json"
+    },
+    "경기 부천시 북구": {
+      "transaction_count": 366,
+      "avg_price": 323564562,
+      "max_price": 1200000000,
+      "min_price": 61500000,
+      "data_file": "경기_부천시_북구_data.json"
+    }
+  }
+}

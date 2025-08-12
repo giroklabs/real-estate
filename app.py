@@ -63,6 +63,54 @@ def load_saved_busan_incheon_seoul_daegu_data():
         print(f"데이터 로드 오류: {e}")
         return None
 
+def load_saved_busan_incheon_seoul_daegu_bucheon_data():
+    """저장된 부산+인천+서울+대구+부천 데이터 로드"""
+    try:
+        data_dir = "collected_data"
+        all_data_filename = f"{data_dir}/busan_incheon_seoul_daegu_bucheon_all_data.json"
+        
+        if os.path.exists(all_data_filename):
+            with open(all_data_filename, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            print("저장된 부산+인천+서울+대구+부천 데이터가 없습니다.")
+            return None
+    except Exception as e:
+        print(f"데이터 로드 오류: {e}")
+        return None
+
+def load_saved_seongnam_data():
+    """저장된 성남시 데이터 로드"""
+    try:
+        data_dir = "collected_data"
+        all_data_filename = f"{data_dir}/seongnam_all_data.json"
+        
+        if os.path.exists(all_data_filename):
+            with open(all_data_filename, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            print("저장된 성남시 데이터가 없습니다.")
+            return None
+    except Exception as e:
+        print(f"데이터 로드 오류: {e}")
+        return None
+
+def load_saved_guri_data():
+    """저장된 구리시 데이터 로드"""
+    try:
+        data_dir = "collected_data"
+        all_data_filename = f"{data_dir}/guri_all_data.json"
+        
+        if os.path.exists(all_data_filename):
+            with open(all_data_filename, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            print("저장된 구리시 데이터가 없습니다.")
+            return None
+    except Exception as e:
+        print(f"데이터 로드 오류: {e}")
+        return None
+
 app = Flask(__name__)
 CORS(app)
 
@@ -159,6 +207,149 @@ def get_busan_incheon_seoul_daegu_data():
             return jsonify({
                 'status': 'error',
                 'message': '저장된 부산+인천+서울+대구 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+@app.route('/api/busan-incheon-seoul-daegu-bucheon-data', methods=['GET'])
+def get_busan_incheon_seoul_daegu_bucheon_data():
+    """저장된 부산+인천+서울+대구+부천 전체 구 데이터 조회"""
+    try:
+        data = load_saved_busan_incheon_seoul_daegu_bucheon_data()
+        if data:
+            return jsonify({
+                'status': 'success',
+                'data': data,
+                'message': '저장된 부산+인천+서울+대구+부천 데이터를 성공적으로 로드했습니다.'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': '저장된 부산+인천+서울+대구+부천 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+@app.route('/api/seongnam-data', methods=['GET'])
+def get_seongnam_data():
+    """저장된 성남시 전체 구 데이터 조회"""
+    try:
+        data = load_saved_seongnam_data()
+        if data:
+            return jsonify({
+                'status': 'success',
+                'data': data,
+                'message': '저장된 성남시 데이터를 성공적으로 로드했습니다.'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': '저장된 성남시 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+@app.route('/api/guri-data', methods=['GET'])
+def get_guri_data():
+    """저장된 구리시 데이터 조회"""
+    try:
+        data = load_saved_guri_data()
+        if data:
+            return jsonify({
+                'status': 'success',
+                'data': data,
+                'message': '저장된 구리시 데이터를 성공적으로 로드했습니다.'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': '저장된 구리시 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+@app.route('/api/all-cities-data', methods=['GET'])
+def get_all_cities_data():
+    """저장된 모든 도시 데이터 조회 (부산+인천+서울+대구+부천+성남+구리)"""
+    try:
+        # 기존 통합 데이터 로드
+        base_data = load_saved_busan_incheon_seoul_daegu_bucheon_data()
+        
+        # 성남시 데이터 추가
+        seongnam_data = load_saved_seongnam_data()
+        if seongnam_data:
+            if base_data is None:
+                base_data = {}
+            base_data.update(seongnam_data)
+        
+        # 구리시 데이터 추가
+        guri_data = load_saved_guri_data()
+        if guri_data:
+            if base_data is None:
+                base_data = {}
+            base_data.update(guri_data)
+        
+        if base_data:
+            return jsonify({
+                'status': 'success',
+                'data': base_data,
+                'message': '저장된 모든 도시 데이터를 성공적으로 로드했습니다.'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': '저장된 도시 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+def load_saved_integrated_data():
+    """저장된 통합 데이터 로드"""
+    try:
+        data_dir = "collected_data"
+        all_data_filename = f"{data_dir}/all_cities_integrated_data.json"
+        
+        if os.path.exists(all_data_filename):
+            with open(all_data_filename, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            print("저장된 통합 데이터가 없습니다.")
+            return None
+    except Exception as e:
+        print(f"통합 데이터 로드 오류: {e}")
+        return None
+
+@app.route('/api/integrated-data', methods=['GET'])
+def get_integrated_data():
+    """저장된 통합 데이터 조회 (메타데이터 포함)"""
+    try:
+        data = load_saved_integrated_data()
+        if data:
+            return jsonify({
+                'status': 'success',
+                'data': data['data'],
+                'metadata': data['metadata'],
+                'message': '저장된 통합 데이터를 성공적으로 로드했습니다.'
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': '저장된 통합 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
             }), 404
     except Exception as e:
         return jsonify({

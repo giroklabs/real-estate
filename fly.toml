@@ -12,6 +12,9 @@ primary_region = "nrt"
   FLASK_ENV = "production"
   PORT = "5001"
   PYTHONUNBUFFERED = "1"
+  DATABASE_URL = "sqlite:///realstate.db"
+  LOG_LEVEL = "INFO"
+  CORS_ORIGINS = "*"
 
 [http_service]
   internal_port = 5001
@@ -36,9 +39,3 @@ primary_region = "nrt"
 [mounts]
   source = "realstate_data"
   destination = "/app/collected_data"
-
-# 환경 변수 설정 (secrets로 관리)
-[env]
-  DATABASE_URL = "sqlite:///realstate.db"
-  LOG_LEVEL = "INFO"
-  CORS_ORIGINS = "*"
