@@ -42,7 +42,6 @@ jobs:
       run: mkdir -p collected_data logs
       
     - name: Collect real estate data
-      env: {}
       run: |
         echo "=== 데이터 수집 시작 ==="
         echo "시작 시간: $(date)"
