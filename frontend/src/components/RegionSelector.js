@@ -26,7 +26,7 @@ const RegionSelector = ({ onRegionChange, selectedRegions = [] }) => {
 
     const fetchProvinces = async () => {
         try {
-            const response = await axios.get('http://localhost:5001/api/provinces');
+            const response = await axios.get('/api/provinces');
             setProvinces(response.data);
         } catch (error) {
             console.error('광역시/도 목록 조회 실패:', error);
@@ -36,7 +36,7 @@ const RegionSelector = ({ onRegionChange, selectedRegions = [] }) => {
     const fetchDistricts = async (provinceName) => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:5001/api/provinces/${encodeURIComponent(provinceName)}/districts`);
+            const response = await axios.get(`/api/provinces/${encodeURIComponent(provinceName)}/districts`);
             setDistricts(response.data);
         } catch (error) {
             console.error('구/군 목록 조회 실패:', error);
@@ -49,7 +49,7 @@ const RegionSelector = ({ onRegionChange, selectedRegions = [] }) => {
     const fetchDistrictsForGyeonggi = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:5001/api/provinces/${encodeURIComponent('경기도')}/districts`);
+            const response = await axios.get(`/api/provinces/${encodeURIComponent('경기도')}/districts`);
             // 성남시 구별 데이터는 제외하고, 성남시 전체만 표시
             const filteredDistricts = response.data.filter(district => 
                 district.district !== '성남시 분당구' && 

@@ -395,7 +395,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
             
             // currentCityData가 없으면 백엔드 API 호출
-            let url = 'http://localhost:5001/api/apartments/rankings?';
+            let url = '/api/apartments/rankings?';
             const params = [];
             
             if (selectedRegion) {
