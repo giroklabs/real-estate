@@ -13,7 +13,10 @@ try:
     from crawlers.asil_crawler import AsilCrawler  # requires selenium
 except Exception:
     AsilCrawler = None
-from crawlers.molit_api_crawler import MolitAPICrawler
+try:
+    from crawlers.molit_api_crawler import MolitAPICrawler  # may require pandas/numpy
+except Exception:
+    MolitAPICrawler = None
 from crawlers.molit_web_crawler import MolitWebCrawler
 try:
     from crawlers.web_scraper import WebScraper  # optional dependency (selenium)
@@ -666,10 +669,16 @@ def start_crawling():
                         asil_crawler.close()
                     
             elif source == 'molit_api':
-                # 국토교통부 API 사용
-                molit_crawler = MolitAPICrawler()
-                results = molit_crawler.crawl_all_regions(regions)
-                all_results['molit_api'] = results
+                # 국토교통부 API 사용 (선택적, CI 환경에서는 pandas 미설치 가능)
+                if MolitAPICrawler is None:
+                    all_results['molit_api'] = {
+                        'status': 'disabled',
+                        'reason': 'pandas/numpy not installed in this environment'
+                    }
+                else:
+                    molit_crawler = MolitAPICrawler()
+                    results = molit_crawler.crawl_all_regions(regions)
+                    all_results['molit_api'] = results
                 
             elif source == 'molit_web':
                 # 국토교통부 웹사이트 크롤링 사용
