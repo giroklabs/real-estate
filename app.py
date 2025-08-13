@@ -8,7 +8,11 @@ from database.models import init_db
 from crawlers.reb_api_crawler import REBAPICrawler
 from crawlers.public_data_crawler import PublicDataCrawler
 
-from crawlers.asil_crawler import AsilCrawler
+# 선택적 의존성(셀레니움 등)에 의존하는 크롤러는 지연/옵션 임포트로 처리
+try:
+    from crawlers.asil_crawler import AsilCrawler  # requires selenium
+except Exception:
+    AsilCrawler = None
 from crawlers.molit_api_crawler import MolitAPICrawler
 from crawlers.molit_web_crawler import MolitWebCrawler
 try:
@@ -647,13 +651,19 @@ def start_crawling():
 
                 
             elif source == 'asil':
-                # 아실 크롤링 사용
-                asil_crawler = AsilCrawler()
-                try:
-                    results = asil_crawler.crawl_all_regions(regions)
-                    all_results['asil'] = results
-                finally:
-                    asil_crawler.close()
+                # 아실 크롤링 사용 (선택적, CI/배포 환경에서는 selenium 미설치 가능)
+                if AsilCrawler is None:
+                    all_results['asil'] = {
+                        'status': 'disabled',
+                        'reason': 'selenium not installed in this environment'
+                    }
+                else:
+                    asil_crawler = AsilCrawler()
+                    try:
+                        results = asil_crawler.crawl_all_regions(regions)
+                        all_results['asil'] = results
+                    finally:
+                        asil_crawler.close()
                     
             elif source == 'molit_api':
                 # 국토교통부 API 사용
