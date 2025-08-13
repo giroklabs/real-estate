@@ -7,11 +7,14 @@ import os
 from database.models import init_db
 from crawlers.reb_api_crawler import REBAPICrawler
 from crawlers.public_data_crawler import PublicDataCrawler
-from crawlers.web_scraper import WebScraper
 
 from crawlers.asil_crawler import AsilCrawler
 from crawlers.molit_api_crawler import MolitAPICrawler
 from crawlers.molit_web_crawler import MolitWebCrawler
+try:
+    from crawlers.web_scraper import WebScraper  # optional dependency (selenium)
+except Exception:
+    WebScraper = None
 from services.region_service import RegionService
 
 # 저장된 데이터 로드 함수
@@ -627,13 +630,19 @@ def start_crawling():
                 all_results['public_data'] = results
                 
             elif source == 'web_scraping':
-                # 웹 스크래핑 사용
-                web_scraper = WebScraper()
-                try:
-                    results = web_scraper.crawl_all_regions(regions)
-                    all_results['web_scraping'] = results
-                finally:
-                    web_scraper.close()
+                # 웹 스크래핑 사용 (선택적, CI/배포 환경에서는 selenium 미설치 가능)
+                if WebScraper is None:
+                    all_results['web_scraping'] = {
+                        'status': 'disabled',
+                        'reason': 'selenium not installed in this environment'
+                    }
+                else:
+                    web_scraper = WebScraper()
+                    try:
+                        results = web_scraper.crawl_all_regions(regions)
+                        all_results['web_scraping'] = results
+                    finally:
+                        web_scraper.close()
                     
 
                 
@@ -1090,5 +1099,5 @@ def get_apartment_rankings():
         return jsonify([])
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5001))
+    port = int(os.environ.get('PORT', 5002))
     app.run(debug=False, host='0.0.0.0', port=port) 
