@@ -2,9 +2,9 @@ name: Daily Real Estate Data Collection
 
 on:
   schedule:
-    # 매일 새벽 1시 (UTC 기준, 한국 시간 새벽 10시)
+    # 매월 1일 새벽 1시 (UTC). 한국시간 기준 오전 10시.
     # cron 형식: 분 시 일 월 요일
-    - cron: '0 1 * * *'
+    - cron: '0 1 1 * *'
   
   # 수동 실행을 위한 워크플로우 디스패치
   workflow_dispatch:

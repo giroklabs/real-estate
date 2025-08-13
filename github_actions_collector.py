@@ -54,7 +54,7 @@ def collect_data():
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
         
-        # 수집할 지역들 정의
+        # 수집할 지역들 정의 (서울, 부산, 인천, 대구, 대전, 광주, 울산, 경기도 주요 도시)
         regions_to_collect = {
             'seoul': [
                 '서울 강남구', '서울 강동구', '서울 강북구', '서울 강서구', '서울 관악구',
@@ -72,6 +72,22 @@ def collect_data():
             'incheon': [
                 '인천 강화군', '인천 계양구', '인천 남동구', '인천 동구', '인천 미추홀구',
                 '인천 부평구', '인천 서구', '인천 연수구', '인천 옹진군', '인천 중구'
+            ],
+            'daegu': [
+                '대구 남구', '대구 달서구', '대구 달성군', '대구 동구', '대구 북구',
+                '대구 서구', '대구 수성구', '대구 중구', '대구 군위군'
+            ],
+            'daejeon': [
+                '대전 대덕구', '대전 동구', '대전 서구', '대전 유성구', '대전 중구'
+            ],
+            'gwangju': [
+                '광주 광산구', '광주 남구', '광주 동구', '광주 서구', '광주 북구'
+            ],
+            'ulsan': [
+                '울산 남구', '울산 동구', '울산 북구', '울산 울주군', '울산 중구'
+            ],
+            'gyeonggi': [
+                '경기 부천시', '경기 성남시', '경기 구리시'
             ]
         }
         
@@ -119,8 +135,8 @@ def collect_data():
                 # API 호출 간격 조절 (1초)
                 time.sleep(1)
         
-        # 전체 데이터를 하나의 파일로 저장
-        all_data_filepath = os.path.join(data_dir, 'busan_incheon_seoul_all_data.json')
+        # 전체 데이터를 하나의 파일로 저장 (모든 도시 통합)
+        all_data_filepath = os.path.join(data_dir, 'all_cities_integrated_data.json')
         with open(all_data_filepath, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, ensure_ascii=False, indent=2)
         
