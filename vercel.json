@@ -11,12 +11,7 @@
         "services/**",
         "collected_data/all_cities_integrated_data.json"
       ],
-      "excludeFiles": [
-        "crawlers/**",
-        "venv/**",
-        "logs/**",
-        "node_modules/**"
-      ]
+      "excludeFiles": "crawlers/**"
     }
   },
   "routes": [
