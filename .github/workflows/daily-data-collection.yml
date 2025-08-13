@@ -42,9 +42,7 @@ jobs:
       run: mkdir -p collected_data logs
       
     - name: Collect real estate data
-      env:
-        # GitHub Secrets에서 API 키를 가져옴 (필요시)
-        # MOLIT_API_KEY: ${{ secrets.MOLIT_API_KEY }}
+      env: {}
       run: |
         echo "=== 데이터 수집 시작 ==="
         echo "시작 시간: $(date)"
