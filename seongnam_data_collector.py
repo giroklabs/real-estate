@@ -22,11 +22,11 @@ def collect_seongnam_data():
     crawler = MolitAPICrawler()
     print('성남시 데이터 수집 시작...')
     
-    # 성남시 구 목록
+    # 성남시 구 목록 (region_service 형식에 맞춤)
     seongnam_regions = [
-        '경기 성남시 수정구',
-        '경기 성남시 중원구', 
-        '경기 성남시 분당구'
+        '성남시 수정구',
+        '성남시 중원구', 
+        '성남시 분당구'
     ]
     
     all_data = {}

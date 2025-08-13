@@ -16,9 +16,7 @@ def analyze_bucheon_regions():
     
     # 부천시 데이터 파일들
     bucheon_files = [
-        "경기_부천시_소사구_data.json",
-        "경기_부천시_중구_data.json", 
-        "경기_부천시_북구_data.json"
+        "경기_부천시_소사구_data.json"
     ]
     
     print("=== 부천시 지역구분 분석 ===")
