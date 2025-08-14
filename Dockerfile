@@ -26,17 +26,17 @@ RUN mkdir -p collected_data logs
 RUN chmod +x app.py
 
 # Expose default port
-EXPOSE 5001
+EXPOSE 5002
 
 # Set environment variables
 ENV FLASK_APP=app.py \
     FLASK_ENV=production \
-    PORT=5001 \
+    PORT=5002 \
     PYTHONUNBUFFERED=1
 
 # Health check (respect platform PORT if provided)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD sh -c 'curl -f http://localhost:${PORT:-5001}/api/health || exit 1'
+    CMD sh -c 'curl -f http://localhost:${PORT:-5002}/api/health || exit 1'
 
 # Run the application with gunicorn for production (bind to platform PORT if set)
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-5001} --workers 2 --timeout 120 app:app"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-5002} --workers 2 --timeout 120 app:app"]

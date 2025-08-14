@@ -21,7 +21,8 @@ RUN npm run build
 FROM node:20-alpine
 WORKDIR /app
 
-# Use 'serve' to host the build output
+# Install npm explicitly and then serve
+RUN apk add --no-cache npm
 RUN npm i -g serve
 
 # Copy build output from the previous stage
