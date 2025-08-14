@@ -1,9 +1,12 @@
 import sqlite3
+import os
 from datetime import datetime
+
+DB_PATH = os.environ.get('DATABASE_PATH', '/tmp/realstate.db')
 
 def init_db():
     """데이터베이스 초기화 및 테이블 생성"""
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     # 지역 테이블
@@ -82,7 +85,7 @@ def init_db():
 
 def save_transaction_data(data):
     """거래 데이터 저장"""
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     # 단일 데이터인지 리스트인지 확인
@@ -114,7 +117,7 @@ def save_transaction_data(data):
 
 def save_price_change_data(data):
     """가격변동률 데이터 저장"""
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     # 단일 데이터인지 리스트인지 확인
@@ -140,7 +143,7 @@ def save_price_change_data(data):
 
 def get_latest_price_data(region_name, days=30):
     """최근 가격 데이터 조회"""
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     query = '''
@@ -159,7 +162,7 @@ def get_latest_price_data(region_name, days=30):
 
 def calculate_price_change_rate(region_name):
     """가격변동률 계산"""
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     # 최근 30일과 이전 30일 평균 가격 비교

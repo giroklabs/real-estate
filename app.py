@@ -435,7 +435,7 @@ def get_regions():
     """사용 가능한 시군구 목록 (지역 서비스 기반)"""
     try:
         # 먼저 DB에서 실제 데이터가 있는 지역들을 조회
-        conn = sqlite3.connect('realstate.db')
+        conn = sqlite3.connect(os.environ.get('DATABASE_PATH', '/tmp/realstate.db'))
         cursor = conn.cursor()
         
         cursor.execute('SELECT DISTINCT region_name FROM transactions ORDER BY region_name')
@@ -515,7 +515,7 @@ def get_transactions():
     start_date = request.args.get('start_date', '')
     end_date = request.args.get('end_date', '')
     
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(os.environ.get('DATABASE_PATH', '/tmp/realstate.db'))
     cursor = conn.cursor()
     
     query = '''
@@ -567,7 +567,7 @@ def get_price_changes():
     region = request.args.get('region', '')
     period = request.args.get('period', '30')  # 기본 30일
     
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(os.environ.get('DATABASE_PATH', '/tmp/realstate.db'))
     cursor = conn.cursor()
     
     query = '''
