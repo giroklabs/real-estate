@@ -17,7 +17,10 @@ try:
     from crawlers.molit_api_crawler import MolitAPICrawler  # may require pandas/numpy
 except Exception:
     MolitAPICrawler = None
-from crawlers.molit_web_crawler import MolitWebCrawler
+try:
+    from crawlers.molit_web_crawler import MolitWebCrawler
+except Exception:
+    MolitWebCrawler = None
 try:
     from crawlers.web_scraper import WebScraper  # optional dependency (selenium)
 except Exception:
@@ -681,13 +684,19 @@ def start_crawling():
                     all_results['molit_api'] = results
                 
             elif source == 'molit_web':
-                # 국토교통부 웹사이트 크롤링 사용
-                molit_web_crawler = MolitWebCrawler()
-                results = {}
-                for region in regions:
-                    region_results = molit_web_crawler.crawl_region_data(region, months=24)
-                    results[region] = region_results
-                all_results['molit_web'] = results
+                # 국토교통부 웹사이트 크롤링 사용 (배포 환경에서는 기본 비활성화)
+                if MolitWebCrawler is None:
+                    all_results['molit_web'] = {
+                        'status': 'disabled',
+                        'reason': 'molit web crawler dependencies are not available in this environment'
+                    }
+                else:
+                    molit_web_crawler = MolitWebCrawler()
+                    results = {}
+                    for region in regions:
+                        region_results = molit_web_crawler.crawl_region_data(region, months=24)
+                        results[region] = region_results
+                    all_results['molit_web'] = results
         
         return jsonify({
             'status': 'success',
