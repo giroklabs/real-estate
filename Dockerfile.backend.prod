@@ -29,6 +29,10 @@ COPY collected_data/ ./collected_data/
 # Set proper permissions
 RUN chmod +x app.py
 
+# Create empty database file
+RUN touch /app/data/realstate.db
+RUN chmod 666 /app/data/realstate.db
+
 # Expose default port
 EXPOSE 5002
 
