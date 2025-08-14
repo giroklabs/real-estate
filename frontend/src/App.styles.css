@@ -204,6 +204,26 @@
   font-size: 0.9rem;
 }
 
+/* 즐겨찾기 플레이스홀더 */
+.placeholder-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: #a0a0a0;
+  gap: 0.5rem;
+}
+
+.placeholder-emoji {
+  font-size: 2rem;
+}
+
+.placeholder-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .stats-region-list {
   display: flex;
   flex-wrap: wrap;

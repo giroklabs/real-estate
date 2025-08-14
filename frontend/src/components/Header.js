@@ -21,6 +21,12 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
           >
             거래량통계
           </span>
+          <span 
+            className={`header-tab ${activeTab === 'favorites' ? 'active' : ''}`}
+            onClick={() => onTabChange('favorites')}
+          >
+            즐겨찾기
+          </span>
         </div>
         <div className="developer-info">
           <span className="developer-name">GIROK Labs.</span>

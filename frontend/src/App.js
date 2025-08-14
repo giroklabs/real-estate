@@ -246,6 +246,12 @@ function App() {
               <MonthlyVolumeChart currentCityData={getStatsFilteredData()} />
             </div>
           )}
+          {activeTab === 'favorites' && (
+            <div className="placeholder-center">
+              <div className="placeholder-emoji">🚧</div>
+              <div className="placeholder-text">준비중...</div>
+            </div>
+          )}
         </div>
       </main>
       
