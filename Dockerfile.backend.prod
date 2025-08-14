@@ -19,8 +19,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p collected_data logs
+# Create necessary directories with proper permissions
+RUN mkdir -p collected_data logs /app/data
+RUN chmod 755 /app/data
 
 # Copy collected data files
 COPY collected_data/ ./collected_data/
@@ -35,7 +36,8 @@ EXPOSE 5002
 ENV FLASK_APP=app.py \
     FLASK_ENV=production \
     PORT=5002 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    DATABASE_PATH=/app/data/realstate.db
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
