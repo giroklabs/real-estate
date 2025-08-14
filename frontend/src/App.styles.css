@@ -21,12 +21,40 @@
 .header-content {
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   z-index: 999999;
+}
+
+.header-tabs {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.header-tab {
+  color: #e5e7eb;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  border: 1px solid rgba(229, 231, 235, 0.4);
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.header-tab:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.header-tab.active {
+  color: #ffffff;
+  border-color: rgba(59, 130, 246, 0.8);
 }
 
 .logo h1 {
@@ -110,7 +138,7 @@
   padding: 0 2rem;
   display: grid;
   grid-template-columns: 200px 1fr;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 /* 사이드바 - 블랙톤 다크 테마 */
@@ -140,6 +168,68 @@
   /* border: 1px solid rgba(255, 255, 255, 0.08); */
   /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); */
   /* backdrop-filter: blur(10px); */
+}
+
+/* 통계 탭 컨트롤 */
+.stats-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.stats-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.stats-button {
+  padding: 0.4rem 0.8rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stats-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #3b82f6;
+}
+
+.stats-selected-count {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+}
+
+.stats-region-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.region-chip {
+  padding: 0.35rem 0.6rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.region-chip:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #3b82f6;
+}
+
+.region-chip.selected {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.8);
 }
 
 /* 아파트 랭킹 */
@@ -349,6 +439,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   letter-spacing: 0.02em;
+  font-size: 0.9rem !important;
 }
 
 .rankings-table th:hover {
@@ -367,11 +458,11 @@
 
 /* 테이블 헤더 너비 설정 - 거래일자 칼럼 확장 */
 .rankings-table th:nth-child(1) { width: 8%; }   /* 순위 */
-.rankings-table th:nth-child(2) { width: 15%; }  /* 지역 */
-.rankings-table th:nth-child(3) { width: 30%; }  /* 아파트명 */
-.rankings-table th:nth-child(4) { width: 18%; }  /* 평균 가격 */
-.rankings-table th:nth-child(5) { width: 12%; }  /* 거래 건수 */
-.rankings-table th:nth-child(6) { width: 17%; }  /* 최근 거래일 - 확장 */
+.rankings-table th:nth-child(2) { width: 12%; }  /* 지역 (축소) */
+.rankings-table th:nth-child(3) { width: 45%; }  /* 아파트명 (확장) */
+.rankings-table th:nth-child(4) { width: 16%; }  /* 평균 가격 (축소) */
+.rankings-table th:nth-child(5) { width: 9%; }   /* 거래 건수 (축소) */
+.rankings-table th:nth-child(6) { width: 10%; }  /* 최근 거래일 (축소) */
 
 .sort-icon {
   margin-left: 0.5rem;
@@ -387,7 +478,7 @@
 }
 
 .rankings-table td {
-  padding: 1rem 0.75rem;
+  padding: 4px 6px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   color: #e0e0e0;
   vertical-align: middle;
@@ -395,18 +486,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.9rem !important;
   font-weight: 500;
   transition: all 0.2s ease;
+  line-height: 1.2 !important;
 }
 
 /* 테이블 셀 너비 설정 - 거래일자 칼럼 확장 */
 .rankings-table td:nth-child(1) { width: 8%; }   /* 순위 */
-.rankings-table td:nth-child(2) { width: 15%; }  /* 지역 */
-.rankings-table td:nth-child(3) { width: 30%; }  /* 아파트명 */
-.rankings-table td:nth-child(4) { width: 18%; }  /* 평균 가격 */
-.rankings-table td:nth-child(5) { width: 12%; }  /* 거래 건수 */
-.rankings-table td:nth-child(6) { width: 17%; }  /* 최근 거래일 - 확장 */
+.rankings-table td:nth-child(2) { width: 12%; }  /* 지역 (축소) */
+.rankings-table td:nth-child(3) { width: 45%; }  /* 아파트명 (확장) */
+.rankings-table td:nth-child(4) { width: 16%; }  /* 평균 가격 (축소) */
+.rankings-table td:nth-child(5) { width: 9%; }   /* 거래 건수 (축소) */
+.rankings-table td:nth-child(6) { width: 10%; }  /* 최근 거래일 (축소) */
 
 /* 아파트명 셀은 상세정보를 포함하므로 줄바꿈 허용 */
 .rankings-table td:nth-child(3) {
@@ -478,6 +570,7 @@
 .rank-cell {
   width: 8%;
   text-align: center;
+  font-size: 10px !important;
 }
 
 .apartment-name-cell {
@@ -640,7 +733,7 @@
 
 .city-button {
   position: relative;
-  padding: 0.625rem 0.5rem !important;
+  padding: 1rem 0.75rem !important;
   background: rgba(0, 0, 0, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
@@ -689,7 +782,7 @@
 }
 
 .city-name {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.025em;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -774,7 +867,7 @@
   }
   
   .logo h1 {
-    font-size: 1.3rem;
+  font-size: 1rem !important;
   }
   
   .logo p {

@@ -72,11 +72,19 @@ const TransactionDetailsModal = ({ region, onClose }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    if (isNaN(date.getTime())) return dateString || '-';
+    const y = String(date.getFullYear()).padStart(4, '0');
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}.${m}.${d}.`;
+  };
+
+  const formatArea = (area) => {
+    if (!area) return '-';
+    const value = Number(area);
+    if (!isFinite(value) || value <= 0) return '-';
+    const pyeong = value / 3.305785;
+    return `${value.toFixed(1)}㎡ (${pyeong.toFixed(1)}평)`;
   };
 
   if (loading) {
@@ -145,7 +153,7 @@ const TransactionDetailsModal = ({ region, onClose }) => {
                       <td className="apartment-cell">{transaction.apartment_name}</td>
                       <td className="date-cell">{formatDate(transaction.transaction_date)}</td>
                       <td className="price-cell">{formatPrice(transaction.price)}</td>
-                      <td className="area-cell">{transaction.area}㎡</td>
+                      <td className="area-cell">{formatArea(transaction.area)}</td>
                       <td className="floor-cell">{transaction.floor}층</td>
                     </tr>
                   ))}

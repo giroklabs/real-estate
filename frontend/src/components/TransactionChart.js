@@ -41,12 +41,21 @@ const TransactionChart = ({ transactions }) => {
     item.avgPrice = item.count > 0 ? item.totalPrice / item.count : 0;
   });
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString || '-';
+    const y = String(date.getFullYear()).padStart(4, '0');
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}.${m}.${d}.`;
+  };
+
   // 최근 10일 데이터만 사용
   const sortedDates = Object.keys(groupedData).sort().slice(-10);
   const chartData = sortedDates.map(date => groupedData[date]);
 
   const data = {
-    labels: chartData.map(item => item.date),
+    labels: chartData.map(item => formatDate(item.date)),
     datasets: [
       {
         label: '거래량',

@@ -7,10 +7,7 @@
   "functions": {
     "api/**/*.py": {
       "runtime": "python3.11",
-      "includeFiles": [
-        "services/**",
-        "collected_data/all_cities_integrated_data.json"
-      ],
+      "includeFiles": "{services/**,collected_data/all_cities_integrated_data.json}",
       "excludeFiles": "crawlers/**"
     }
   },

@@ -36,10 +36,22 @@ const DetailedTransactions = ({ regionName }) => {
         return `${price.toLocaleString()}원`;
     };
 
-    const formatDate = (dateStr) => {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('ko-KR');
-    };
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr || '-';
+    const y = String(date.getFullYear()).padStart(4, '0');
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}.${m}.${d}.`;
+  };
+
+  const formatArea = (area) => {
+    if (area && area > 0) {
+      const pyeong = Number(area) / 3.305785;
+      return `${Number(area).toFixed(1)}㎡ (${pyeong.toFixed(1)}평)`;
+    }
+    return '-';
+  };
 
     // 페이지네이션
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -86,9 +98,9 @@ const DetailedTransactions = ({ regionName }) => {
                                 <td className="complex-name">{transaction.complex_name}</td>
                                 <td>{transaction.dong || '-'}</td>
                                 <td>{transaction.jibun || '-'}</td>
-                                <td className="area">
-                                    {transaction.area > 0 ? `${transaction.area}㎡` : '-'}
-                                </td>
+                <td className="area">
+                    {formatArea(transaction.area)}
+                </td>
                                 <td className="floor">
                                     {transaction.floor > 0 ? `${transaction.floor}층` : '-'}
                                 </td>

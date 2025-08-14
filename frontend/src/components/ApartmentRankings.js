@@ -481,8 +481,8 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
     const formatArea = (area) => {
         if (!area) return '-';
-        // 이미 제곱미터 단위로 저장되어 있음
-        return `${area.toFixed(1)}㎡`;
+        const pyeong = Number(area) / 3.305785;
+        return `${Number(area).toFixed(1)}㎡ (${pyeong.toFixed(1)}평)`;
     };
 
     const formatDate = (dateString) => {
@@ -490,7 +490,10 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         try {
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return dateString;
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            const y = String(date.getFullYear()).padStart(4, '0');
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}.${m}.${d}.`;
         } catch (e) {
             return dateString;
         }
@@ -680,64 +683,27 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 <div className="loading">데이터를 불러오는 중...</div>
             ) : (
                 <div className="rankings-table">
-                    <table style={{ 
-                        fontSize: '15px',
-                        tableLayout: 'fixed',
-                        width: '100%'
-                    }}>
+                    <table>
                         <thead>
                             <tr>
-                                <th style={{ 
-                                    fontSize: '14px', 
-                                    padding: '10px 4px', 
-                                    textAlign: 'center',
-                                    width: '6%'
-                                }}>순위</th>
-                                <th style={{ 
-                                    fontSize: '14px', 
-                                    padding: '10px 6px', 
-                                    textAlign: 'center',
-                                    width: '15%'
-                                }}>지역</th>
-                                <th style={{ 
-                                    fontSize: '14px', 
-                                    padding: '10px 8px', 
-                                    textAlign: 'left',
-                                    width: '40%'
-                                }}>아파트명</th>
+                                <th>순위</th>
+                                <th>지역</th>
+                                <th style={{ textAlign: 'left' }}>아파트명</th>
                                 <th 
                                     onClick={() => handleSortChange('avg_price')}
                                     className={`sortable ${sortBy === 'avg_price' ? 'active' : ''}`}
-                                    style={{ 
-                                        fontSize: '14px', 
-                                        padding: '10px 6px', 
-                                        textAlign: 'center',
-                                        width: '20%'
-                                    }}
                                 >
                                     평균 가격 {sortBy === 'avg_price' && (sortOrder === 'desc' ? '↓' : '↑')}
                                 </th>
                                 <th 
                                     onClick={() => handleSortChange('transaction_count')}
                                     className={`sortable ${sortBy === 'transaction_count' ? 'active' : ''}`}
-                                    style={{ 
-                                        fontSize: '14px', 
-                                        padding: '10px 6px', 
-                                        textAlign: 'center',
-                                        width: '12%'
-                                    }}
                                 >
                                     거래 건수 {sortBy === 'transaction_count' && (sortOrder === 'desc' ? '↓' : '↑')}
                                 </th>
                                 <th 
                                     onClick={() => handleSortChange('latest_transaction_date')}
                                     className={`sortable ${sortBy === 'latest_transaction_date' ? 'active' : ''}`}
-                                    style={{ 
-                                        fontSize: '14px', 
-                                        padding: '10px 6px', 
-                                        textAlign: 'center',
-                                        width: '10%'
-                                    }}
                                 >
                                     최근 거래일 {sortBy === 'latest_transaction_date' && (sortOrder === 'desc' ? '↓' : '↑')}
                                 </th>
@@ -745,27 +711,12 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                         </thead>
                         <tbody>
                             {getFilteredRankings().map((item, index) => (
-                                <tr key={index} className={index < 3 ? 'top-rank' : ''} style={{ fontSize: '12px' }}>
-                                    <td className="rank-cell" style={{ 
-                                        fontSize: '12px', 
-                                        padding: '6px 2px',
-                                        width: '6%',
-                                        textAlign: 'center'
-                                    }}>
+                                <tr key={index} className={index < 3 ? 'top-rank' : ''}>
+                                    <td className="rank-cell">
                                         <span className="rank-badge">{getRankBadge(item.rank)}</span>
                                     </td>
-                                    <td className="region-cell" style={{ 
-                                        fontSize: '12px', 
-                                        padding: '6px 4px',
-                                        width: '15%',
-                                        textAlign: 'center'
-                                    }}>{item.region_name}</td>
-                                    <td className="complex-cell" style={{ 
-                                        fontSize: '12px', 
-                                        padding: '6px 8px',
-                                        width: '40%',
-                                        textAlign: 'left'
-                                    }}>
+                                    <td className="region-cell">{item.region_name}</td>
+                                    <td className="complex-cell" style={{ textAlign: 'left' }}>
                                                                                  <div className="complex-header" style={{
                                              display: 'flex',
                                              alignItems: 'center',
@@ -777,18 +728,17 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                                  className="toggle-details-btn"
                                                  onClick={() => toggleDetails(item.complex_name)}
                                                  aria-expanded={isExpanded(item.complex_name)}
-                                                 style={{
-                                                     background: isExpanded(item.complex_name) ? '#007bff' : '#ffffff',
-                                                     border: '1px solid #007bff',
-                                                     fontSize: '11px',
-                                                     color: isExpanded(item.complex_name) ? '#ffffff' : '#007bff',
-                                                     cursor: 'pointer',
-                                                     padding: '4px 8px',
-                                                     borderRadius: '4px',
-                                                     transition: 'all 0.2s ease',
-                                                     fontWeight: '500',
-                                                     minWidth: '40px'
-                                                 }}
+                                                  style={{
+                                                      background: isExpanded(item.complex_name) ? '#007bff' : '#ffffff',
+                                                      border: '1px solid #007bff',
+                                                      color: isExpanded(item.complex_name) ? '#ffffff' : '#007bff',
+                                                      cursor: 'pointer',
+                                                      padding: '4px 8px',
+                                                      borderRadius: '4px',
+                                                      transition: 'all 0.2s ease',
+                                                      fontWeight: '500',
+                                                      minWidth: '40px'
+                                                  }}
                                                  onMouseEnter={(e) => {
                                                      if (!isExpanded(item.complex_name)) {
                                                          e.target.style.backgroundColor = '#f0f8ff';
@@ -937,24 +887,9 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                              </div>
                                          )}
                                     </td>
-                                    <td className="price-cell" style={{ 
-                                        fontSize: '12px', 
-                                        padding: '6px 4px', 
-                                        textAlign: 'center',
-                                        width: '20%'
-                                    }}>{formatPrice(item.avg_price)}</td>
-                                    <td className="count-cell" style={{ 
-                                        fontSize: '12px', 
-                                        padding: '6px 4px',
-                                        textAlign: 'center',
-                                        width: '12%'
-                                    }}>{item.transaction_count}건</td>
-                                    <td className="date-cell" style={{ 
-                                        fontSize: '12px', 
-                                        padding: '6px 4px',
-                                        textAlign: 'center',
-                                        width: '10%'
-                                    }}>{formatDate(item.latest_transaction_date)}</td>
+                                    <td className="price-cell">{formatPrice(item.avg_price)}</td>
+                                    <td className="count-cell">{item.transaction_count}건</td>
+                                    <td className="date-cell">{formatDate(item.latest_transaction_date)}</td>
                                 </tr>
                             ))}
                         </tbody>

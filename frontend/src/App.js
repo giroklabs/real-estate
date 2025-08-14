@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
+import MonthlyVolumeChart from './components/MonthlyVolumeChart';
 import ApartmentRankings from './components/ApartmentRankings';
 import LoadingSpinner from './components/LoadingSpinner';
 import CitySelector from './components/CitySelector';
@@ -15,6 +16,8 @@ function App() {
   const [allData, setAllData] = useState(null);
   const [selectedCity, setSelectedCity] = useState('busan');
   const [dataTimestamp, setDataTimestamp] = useState(null);
+  const [activeTab, setActiveTab] = useState('rankings');
+  const [statsSelectedRegions, setStatsSelectedRegions] = useState([]);
 
   const fetchAllData = useCallback(async () => {
     try {
@@ -70,6 +73,13 @@ function App() {
   useEffect(() => {
     fetchAllData();
   }, [fetchAllData]);
+
+  // 통계 탭용: 현재 도시 데이터 변경 시 기본으로 모든 지역 선택
+  useEffect(() => {
+    const data = getCurrentCityData();
+    const regions = Object.keys(data || {});
+    setStatsSelectedRegions(regions);
+  }, [selectedCity, allData]);
 
   const handleCityChange = async (cityId) => {
     setSelectedCity(cityId);
@@ -150,9 +160,30 @@ function App() {
     return allData;
   };
 
+  const getStatsFilteredData = () => {
+    const data = getCurrentCityData();
+    if (!data) return {};
+    if (!statsSelectedRegions || statsSelectedRegions.length === 0) return {};
+    const selectedSet = new Set(statsSelectedRegions);
+    const filtered = {};
+    Object.keys(data).forEach((k) => {
+      if (selectedSet.has(k)) filtered[k] = data[k];
+    });
+    return filtered;
+  };
+
+  const toggleStatsRegion = (regionName) => {
+    setStatsSelectedRegions((prev) => {
+      if (prev.includes(regionName)) {
+        return prev.filter((r) => r !== regionName);
+      }
+      return [...prev, regionName];
+    });
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header activeTab={activeTab} onTabChange={setActiveTab} />
       
       {error && (
         <div className="error-message">
@@ -172,12 +203,49 @@ function App() {
         </div>
         
         <div className="main-panel">
-          <ApartmentRankings 
-            allData={allData}
-            currentCityData={getCurrentCityData()}
-            selectedCity={selectedCity}
-            dataTimestamp={dataTimestamp}
-          />
+          {activeTab === 'rankings' && (
+            <ApartmentRankings 
+              allData={allData}
+              currentCityData={getCurrentCityData()}
+              selectedCity={selectedCity}
+              dataTimestamp={dataTimestamp}
+            />
+          )}
+          {activeTab === 'stats' && (
+            <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 12, padding: '1rem', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <h2 style={{ textAlign: 'center', margin: '0 0 12px 0' }}>거래량 통계</h2>
+              <div className="stats-controls">
+                <div className="stats-buttons">
+                  <button
+                    className="stats-button"
+                    onClick={() => setStatsSelectedRegions(Object.keys(getCurrentCityData() || {}))}
+                  >
+                    전체선택
+                  </button>
+                  <button
+                    className="stats-button"
+                    onClick={() => setStatsSelectedRegions([])}
+                  >
+                    전체해제
+                  </button>
+                </div>
+                <div className="stats-selected-count">선택 지역: {statsSelectedRegions.length}개</div>
+              </div>
+              <div className="stats-region-list">
+                {Object.keys(getCurrentCityData() || {}).map((region) => (
+                  <button
+                    key={region}
+                    className={`region-chip ${statsSelectedRegions.includes(region) ? 'selected' : ''}`}
+                    onClick={() => toggleStatsRegion(region)}
+                    type="button"
+                  >
+                    {region}
+                  </button>
+                ))}
+              </div>
+              <MonthlyVolumeChart currentCityData={getStatsFilteredData()} />
+            </div>
+          )}
         </div>
       </main>
       

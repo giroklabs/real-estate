@@ -270,14 +270,6 @@
     "경기 성남시 중원구": {
       "transaction_count": 4425,
       "data_file": "경기_성남시_중원구_data.json"
-    },
-    "경기 부천시 중구": {
-      "transaction_count": 1080,
-      "data_file": "경기_부천시_중구_data.json"
-    },
-    "경기 부천시 북구": {
-      "transaction_count": 366,
-      "data_file": "경기_부천시_북구_data.json"
     }
   }
 }

@@ -1,0 +1,42 @@
+{
+  "collection_date": "2025-08-12T19:32:38.590383",
+  "total_regions": 5,
+  "total_transactions": 9949,
+  "regions_summary": {
+    "광주 중구": {
+      "transaction_count": 776,
+      "avg_price": 361930090,
+      "max_price": 970000000,
+      "min_price": 42000000,
+      "data_file": "광주_중구_data.json"
+    },
+    "광주 동구": {
+      "transaction_count": 1868,
+      "avg_price": 314425776,
+      "max_price": 1330000000,
+      "min_price": 45000000,
+      "data_file": "광주_동구_data.json"
+    },
+    "광주 남구": {
+      "transaction_count": 1328,
+      "avg_price": 377269600,
+      "max_price": 1850000000,
+      "min_price": 45000000,
+      "data_file": "광주_남구_data.json"
+    },
+    "광주 서구": {
+      "transaction_count": 3225,
+      "avg_price": 255685488,
+      "max_price": 935000000,
+      "min_price": 30000000,
+      "data_file": "광주_서구_data.json"
+    },
+    "광주 광산구": {
+      "transaction_count": 2752,
+      "avg_price": 299729385,
+      "max_price": 1850000000,
+      "min_price": 36600000,
+      "data_file": "광주_광산구_data.json"
+    }
+  }
+}
