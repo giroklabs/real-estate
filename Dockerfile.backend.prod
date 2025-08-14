@@ -21,7 +21,7 @@ COPY . .
 
 # Create necessary directories with proper permissions
 RUN mkdir -p collected_data logs /app/data
-RUN chmod 755 /app/data
+RUN chmod 777 /app/data
 
 # Copy collected data files
 COPY collected_data/ ./collected_data/
@@ -29,9 +29,10 @@ COPY collected_data/ ./collected_data/
 # Set proper permissions
 RUN chmod +x app.py
 
-# Create empty database file
+# Create empty database file with proper permissions
 RUN touch /app/data/realstate.db
 RUN chmod 666 /app/data/realstate.db
+RUN chown -R nobody:nogroup /app/data
 
 # Expose default port
 EXPOSE 5002
