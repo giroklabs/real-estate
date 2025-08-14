@@ -2,14 +2,14 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copy frontend package files
-COPY frontend/package*.json ./
+# Copy package files
+COPY package*.json ./
 
 # Install deps
 RUN npm ci
 
-# Copy frontend source
-COPY frontend/ ./
+# Copy source
+COPY . ./
 
 # Inject build-time API URL (set via Cloudtype Build ARG)
 ARG REACT_APP_API_URL
