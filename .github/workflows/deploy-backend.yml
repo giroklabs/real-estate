@@ -41,8 +41,7 @@ jobs:
                 value: /app/data/realstate.db
             healthz: /api/health
             commands: ""
-            context:
-              git:
-                url: https://github.com/giroklabs/real-estate.git
-                ref: ${{ github.ref }}
-                preset: dockerfile
+            git:
+              url: https://github.com/giroklabs/real-estate.git
+              ref: ${{ github.ref }}
+              preset: dockerfile

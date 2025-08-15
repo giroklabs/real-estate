@@ -31,9 +31,8 @@ jobs:
                 value: https://port-0-real-estate-mebaszjsa0bc4665.sel5.cloudtype.app/api
             healthz: /favicon.ico
             commands: ""
-            context:
-              git:
-                url: https://github.com/giroklabs/real-estate.git
-                ref: ${{ github.ref }}
-                preset: dockerfile
-                sub_path: frontend
+            git:
+              url: https://github.com/giroklabs/real-estate.git
+              ref: ${{ github.ref }}
+              preset: dockerfile
+              sub_path: frontend
