@@ -23,9 +23,6 @@ COPY . .
 RUN mkdir -p collected_data logs /app/data
 RUN chmod 777 /app/data
 
-# Copy collected data files
-COPY collected_data/ ./collected_data/
-
 # Set proper permissions
 RUN chmod +x app.py
 
