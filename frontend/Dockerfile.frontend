@@ -35,3 +35,4 @@ EXPOSE 3000
 CMD ["sh", "-c", "serve -s build -l ${PORT:-3000}"]
 
 
+# Force rebuild trigger
