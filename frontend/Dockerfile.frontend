@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY package*.json ./
 
-# Install deps with npm
-RUN npm ci --only=production
+# Install deps with npm (use install instead of ci for better compatibility)
+RUN npm install --omit=dev
 
 # Copy source code
 COPY . .
