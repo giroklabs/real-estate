@@ -3,12 +3,11 @@ FROM node:16-alpine AS build
 
 WORKDIR /app
 
-# Install deps with yarn (yarn is already included in node:16-alpine)
-COPY package*.json ./
-RUN yarn install --frozen-lockfile
-
-# Copy source
+# Copy all files first
 COPY . ./
+
+# Install deps with yarn (yarn is already included in node:16-alpine)
+RUN yarn install --frozen-lockfile
 
 # Inject build-time API URL (set via Cloudtype Build ARG)
 ARG REACT_APP_API_URL
