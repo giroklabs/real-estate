@@ -1,10 +1,17 @@
 import React from 'react';
 
 const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
+  const handleLogoClick = () => {
+    // 순위보기 탭으로 변경
+    onTabChange('rankings');
+    // 첫화면으로 스크롤
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header className="header">
       <div className="header-content">
-        <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer' }}>
+        <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
           <h1>🏠 APT RANKING</h1>
           <p>아파트 거래량 랭킹</p>
         </div>

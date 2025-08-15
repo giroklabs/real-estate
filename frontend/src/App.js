@@ -15,7 +15,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [allData, setAllData] = useState(null);
-  const [selectedCity, setSelectedCity] = useState('busan');
+  const [selectedCity, setSelectedCity] = useState('seoul');
   const [dataTimestamp, setDataTimestamp] = useState(null);
   const [activeTab, setActiveTab] = useState('rankings');
 
@@ -356,13 +356,15 @@ function App() {
 
       <main className="main-content">
         <div className="sidebar">
-          <CitySelector 
-            onCityChange={handleCityChange}
-            selectedCity={selectedCity}
-            loading={loading}
-          />
+          <div className="city-selector-wrapper">
+            <CitySelector 
+              onCityChange={handleCityChange}
+              selectedCity={selectedCity}
+              loading={loading}
+            />
+          </div>
           
-          {/* 카카오 애드핏 광고 영역 - 도시 선택 하단 */}
+          {/* 카카오 애드핏 광고 영역 - 별도 레이어 */}
           <div className="ad-section sidebar-ad">
             <ins 
               className="kakao_ad_area" 
