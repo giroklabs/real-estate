@@ -3,7 +3,10 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy all files first
+# Copy package files first for better caching
+COPY package*.json ./
+
+# Copy source code
 COPY . ./
 
 # Install deps with yarn (yarn is already included in node:16-alpine)
