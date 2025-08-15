@@ -1,0 +1,42 @@
+{
+  "collection_date": "2025-08-12T19:33:56.058245",
+  "total_regions": 5,
+  "total_transactions": 9734,
+  "regions_summary": {
+    "울산 중구": {
+      "transaction_count": 1523,
+      "avg_price": 353213558,
+      "max_price": 1180000000,
+      "min_price": 38000000,
+      "data_file": "울산_중구_data.json"
+    },
+    "울산 남구": {
+      "transaction_count": 3113,
+      "avg_price": 433787664,
+      "max_price": 1800000000,
+      "min_price": 42000000,
+      "data_file": "울산_남구_data.json"
+    },
+    "울산 동구": {
+      "transaction_count": 1128,
+      "avg_price": 244053014,
+      "max_price": 615000000,
+      "min_price": 40000000,
+      "data_file": "울산_동구_data.json"
+    },
+    "울산 북구": {
+      "transaction_count": 2254,
+      "avg_price": 289013975,
+      "max_price": 840000000,
+      "min_price": 40000000,
+      "data_file": "울산_북구_data.json"
+    },
+    "울산 울주군": {
+      "transaction_count": 1716,
+      "avg_price": 245424015,
+      "max_price": 750000000,
+      "min_price": 28000000,
+      "data_file": "울산_울주군_data.json"
+    }
+  }
+}

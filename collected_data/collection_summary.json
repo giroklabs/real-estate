@@ -1,0 +1,249 @@
+{
+  "collection_date": "2025-08-11T12:24:45.809663",
+  "total_regions": 60,
+  "total_transactions": 99973,
+  "success_count": 58,
+  "error_count": 2,
+  "regions_summary": {
+    "서울 강남구": {
+      "transaction_count": 2920,
+      "last_updated": "2025-08-11T12:24:45.809692"
+    },
+    "서울 강동구": {
+      "transaction_count": 3286,
+      "last_updated": "2025-08-11T12:24:45.809694"
+    },
+    "서울 강북구": {
+      "transaction_count": 736,
+      "last_updated": "2025-08-11T12:24:45.809695"
+    },
+    "서울 강서구": {
+      "transaction_count": 2562,
+      "last_updated": "2025-08-11T12:24:45.809697"
+    },
+    "서울 관악구": {
+      "transaction_count": 1324,
+      "last_updated": "2025-08-11T12:24:45.809698"
+    },
+    "서울 광진구": {
+      "transaction_count": 1308,
+      "last_updated": "2025-08-11T12:24:45.809699"
+    },
+    "서울 구로구": {
+      "transaction_count": 2327,
+      "last_updated": "2025-08-11T12:24:45.809700"
+    },
+    "서울 금천구": {
+      "transaction_count": 532,
+      "last_updated": "2025-08-11T12:24:45.809701"
+    },
+    "서울 노원구": {
+      "transaction_count": 3332,
+      "last_updated": "2025-08-11T12:24:45.809702"
+    },
+    "서울 도봉구": {
+      "transaction_count": 1123,
+      "last_updated": "2025-08-11T12:24:45.809703"
+    },
+    "서울 동대문구": {
+      "transaction_count": 2252,
+      "last_updated": "2025-08-11T12:24:45.809704"
+    },
+    "서울 동작구": {
+      "transaction_count": 2636,
+      "last_updated": "2025-08-11T12:24:45.809706"
+    },
+    "서울 마포구": {
+      "transaction_count": 2730,
+      "last_updated": "2025-08-11T12:24:45.809707"
+    },
+    "서울 서대문구": {
+      "transaction_count": 1913,
+      "last_updated": "2025-08-11T12:24:45.809709"
+    },
+    "서울 서초구": {
+      "transaction_count": 2145,
+      "last_updated": "2025-08-11T12:24:45.809710"
+    },
+    "서울 성동구": {
+      "transaction_count": 3109,
+      "last_updated": "2025-08-11T12:24:45.809711"
+    },
+    "서울 성북구": {
+      "transaction_count": 2568,
+      "last_updated": "2025-08-11T12:24:45.809712"
+    },
+    "서울 송파구": {
+      "transaction_count": 3512,
+      "last_updated": "2025-08-11T12:24:45.809713"
+    },
+    "서울 양천구": {
+      "transaction_count": 2299,
+      "last_updated": "2025-08-11T12:24:45.809714"
+    },
+    "서울 영등포구": {
+      "transaction_count": 2918,
+      "last_updated": "2025-08-11T12:24:45.809715"
+    },
+    "서울 용산구": {
+      "transaction_count": 971,
+      "last_updated": "2025-08-11T12:24:45.809716"
+    },
+    "서울 은평구": {
+      "transaction_count": 1593,
+      "last_updated": "2025-08-11T12:24:45.809717"
+    },
+    "서울 종로구": {
+      "transaction_count": 377,
+      "last_updated": "2025-08-11T12:24:45.809718"
+    },
+    "서울 중구": {
+      "transaction_count": 765,
+      "last_updated": "2025-08-11T12:24:45.809719"
+    },
+    "서울 중랑구": {
+      "transaction_count": 1168,
+      "last_updated": "2025-08-11T12:24:45.809720"
+    },
+    "부산 강서구": {
+      "transaction_count": 835,
+      "last_updated": "2025-08-11T12:24:45.809721"
+    },
+    "부산 금정구": {
+      "transaction_count": 929,
+      "last_updated": "2025-08-11T12:24:45.809722"
+    },
+    "부산 기장군": {
+      "transaction_count": 951,
+      "last_updated": "2025-08-11T12:24:45.809723"
+    },
+    "부산 남구": {
+      "transaction_count": 1497,
+      "last_updated": "2025-08-11T12:24:45.809725"
+    },
+    "부산 동구": {
+      "transaction_count": 390,
+      "last_updated": "2025-08-11T12:24:45.809726"
+    },
+    "부산 동래구": {
+      "transaction_count": 1858,
+      "last_updated": "2025-08-11T12:24:45.809727"
+    },
+    "부산 부산진구": {
+      "transaction_count": 2132,
+      "last_updated": "2025-08-11T12:24:45.809727"
+    },
+    "부산 북구": {
+      "transaction_count": 1620,
+      "last_updated": "2025-08-11T12:24:45.809729"
+    },
+    "부산 사상구": {
+      "transaction_count": 1004,
+      "last_updated": "2025-08-11T12:24:45.809730"
+    },
+    "부산 사하구": {
+      "transaction_count": 1557,
+      "last_updated": "2025-08-11T12:24:45.809731"
+    },
+    "부산 서구": {
+      "transaction_count": 428,
+      "last_updated": "2025-08-11T12:24:45.809732"
+    },
+    "부산 수영구": {
+      "transaction_count": 1063,
+      "last_updated": "2025-08-11T12:24:45.809733"
+    },
+    "부산 연제구": {
+      "transaction_count": 1362,
+      "last_updated": "2025-08-11T12:24:45.809734"
+    },
+    "부산 영도구": {
+      "transaction_count": 474,
+      "last_updated": "2025-08-11T12:24:45.809736"
+    },
+    "부산 중구": {
+      "transaction_count": 72,
+      "last_updated": "2025-08-11T12:24:45.809737"
+    },
+    "부산 해운대구": {
+      "transaction_count": 2248,
+      "last_updated": "2025-08-11T12:24:45.809738"
+    },
+    "인천 강화군": {
+      "transaction_count": 106,
+      "last_updated": "2025-08-11T12:24:45.809739"
+    },
+    "인천 계양구": {
+      "transaction_count": 1738,
+      "last_updated": "2025-08-11T12:24:45.809739"
+    },
+    "인천 남동구": {
+      "transaction_count": 2761,
+      "last_updated": "2025-08-11T12:24:45.809741"
+    },
+    "인천 동구": {
+      "transaction_count": 406,
+      "last_updated": "2025-08-11T12:24:45.809742"
+    },
+    "인천 미추홀구": {
+      "transaction_count": 1954,
+      "last_updated": "2025-08-11T12:24:45.809743"
+    },
+    "인천 부평구": {
+      "transaction_count": 2746,
+      "last_updated": "2025-08-11T12:24:45.809744"
+    },
+    "인천 서구": {
+      "transaction_count": 3681,
+      "last_updated": "2025-08-11T12:24:45.809745"
+    },
+    "인천 연수구": {
+      "transaction_count": 3141,
+      "last_updated": "2025-08-11T12:24:45.809746"
+    },
+    "인천 옹진군": {
+      "transaction_count": 0,
+      "last_updated": "2025-08-11T12:24:45.809747"
+    },
+    "인천 중구": {
+      "transaction_count": 894,
+      "last_updated": "2025-08-11T12:24:45.809748"
+    },
+    "대구 남구": {
+      "transaction_count": 404,
+      "last_updated": "2025-08-11T12:24:45.809749"
+    },
+    "대구 달서구": {
+      "transaction_count": 3525,
+      "last_updated": "2025-08-11T12:24:45.809751"
+    },
+    "대구 달성군": {
+      "transaction_count": 1836,
+      "last_updated": "2025-08-11T12:24:45.809752"
+    },
+    "대구 동구": {
+      "transaction_count": 1944,
+      "last_updated": "2025-08-11T12:24:45.809754"
+    },
+    "대구 북구": {
+      "transaction_count": 2643,
+      "last_updated": "2025-08-11T12:24:45.809755"
+    },
+    "대구 서구": {
+      "transaction_count": 2406,
+      "last_updated": "2025-08-11T12:24:45.809756"
+    },
+    "대구 수성구": {
+      "transaction_count": 0,
+      "last_updated": "2025-08-11T12:24:45.809757"
+    },
+    "대구 중구": {
+      "transaction_count": 960,
+      "last_updated": "2025-08-11T12:24:45.809758"
+    },
+    "대구 군위군": {
+      "transaction_count": 2,
+      "last_updated": "2025-08-11T12:24:45.809759"
+    }
+  }
+}
