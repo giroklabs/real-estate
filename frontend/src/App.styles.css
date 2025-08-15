@@ -837,6 +837,33 @@
   animation: spin 1s linear infinite;
 }
 
+/* 카카오 애드핏 광고 컨테이너 */
+.ad-container {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+}
+
+.ad-container .kakao_ad_area {
+  display: block !important;
+  margin: 0 auto;
+}
+
+/* 광고 로딩 중 표시 */
+.ad-container:empty::before {
+  content: "광고 로딩 중...";
+  color: #888;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
 /* 반응형 디자인 비활성화 - 레이아웃 고정 */
 /*
 @media (max-width: 1024px) {
