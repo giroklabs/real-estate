@@ -741,7 +741,7 @@
 
 /* 도시 선택기 - 블랙톤 다크 테마 */
 .city-selector-container {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   text-align: left;
   /* 레이어 스타일 추가 - 지역선택과 동일 */
   background: rgba(0, 0, 0, 0.95);
@@ -839,33 +839,22 @@
   animation: spin 1s linear infinite;
 }
 
-/* 카카오 애드핏 광고 레이어 */
-.ad-layer {
-  margin-top: 0.5rem;
+/* 카카오 애드핏 광고 섹션 */
+.ad-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 250px;
-  width: 250px;
-  max-width: 250px;
+  min-height: 90px;
 }
 
-.ad-layer .kakao_ad_area {
+.ad-section .kakao_ad_area {
   display: block !important;
   margin: 0 auto;
-}
-
-/* 광고 로딩 중 표시 */
-.ad-layer:empty::before {
-  content: "광고 로딩 중...";
-  color: #888;
-  font-size: 0.9rem;
-  font-style: italic;
 }
 
 .ad-container .kakao_ad_area {
