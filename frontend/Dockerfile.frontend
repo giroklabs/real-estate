@@ -3,9 +3,9 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Install deps
+# Install deps with fallback
 COPY package*.json ./
-RUN npm ci --silent
+RUN npm ci --silent || (npm cache clean --force && npm install --silent)
 
 # Copy source
 COPY . ./
