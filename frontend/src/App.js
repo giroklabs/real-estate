@@ -366,6 +366,7 @@ function App() {
           
           {/* 카카오 애드핏 광고 영역 - 별도 레이어 */}
           <div className="ad-section sidebar-ad">
+            <div className="ad-label">광고</div>
             <ins 
               className="kakao_ad_area" 
               style={{display: 'none'}}

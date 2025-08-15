@@ -198,7 +198,7 @@
   padding: 0 2rem;
   display: grid;
   grid-template-columns: 250px 1fr;
-  gap: 0.5rem;
+  gap: 2rem;
 }
 
 /* 사이드바 - 블랙톤 다크 테마 */
@@ -509,12 +509,12 @@
 }
 
 /* 테이블 헤더 너비 설정 - 거래일자 칼럼 확장 */
-.rankings-table th:nth-child(1) { width: 8%; }   /* 순위 */
-.rankings-table th:nth-child(2) { width: 12%; }  /* 지역 (축소) */
-.rankings-table th:nth-child(3) { width: 45%; }  /* 아파트명 (확장) */
-.rankings-table th:nth-child(4) { width: 16%; }  /* 평균 가격 (축소) */
-.rankings-table th:nth-child(5) { width: 9%; }   /* 거래 건수 (축소) */
-.rankings-table th:nth-child(6) { width: 10%; }  /* 최근 거래일 (축소) */
+.rankings-table th:nth-child(1) { width: 6%; }   /* 순위 (축소) */
+.rankings-table th:nth-child(2) { width: 10%; }  /* 지역 (축소) */
+.rankings-table th:nth-child(3) { width: 44%; }  /* 아파트명 (축소) */
+.rankings-table th:nth-child(4) { width: 16%; }  /* 평균 가격 (유지) */
+.rankings-table th:nth-child(5) { width: 12%; }  /* 거래 건수 (유지) */
+.rankings-table th:nth-child(6) { width: 12%; }  /* 최근 거래일 (확장) */
 
 .sort-icon {
   margin-left: 0.5rem;
@@ -545,12 +545,12 @@
 }
 
 /* 테이블 셀 너비 설정 - 거래일자 칼럼 확장 */
-.rankings-table td:nth-child(1) { width: 8%; }   /* 순위 */
-.rankings-table td:nth-child(2) { width: 12%; }  /* 지역 (축소) */
-.rankings-table td:nth-child(3) { width: 45%; }  /* 아파트명 (확장) */
+.rankings-table td:nth-child(1) { width: 6%; }   /* 순위 */
+.rankings-table td:nth-child(2) { width: 10%; }  /* 지역 (축소) */
+.rankings-table td:nth-child(3) { width: 44%; }  /* 아파트명 (축소) */
 .rankings-table td:nth-child(4) { width: 16%; }  /* 평균 가격 (축소) */
-.rankings-table td:nth-child(5) { width: 9%; }   /* 거래 건수 (축소) */
-.rankings-table td:nth-child(6) { width: 10%; }  /* 최근 거래일 (축소) */
+.rankings-table td:nth-child(5) { width: 12%; }  /* 거래 건수 (축소) */
+.rankings-table td:nth-child(6) { width: 12%; }  /* 최근 거래일 (축소) */
 
 /* 아파트명 셀은 상세정보를 포함하므로 줄바꿈 허용 */
 .rankings-table td:nth-child(3) {
@@ -772,26 +772,36 @@
   letter-spacing: 0.02em;
 }
 
-/* 도시 선택기 - 블랙톤 다크 테마 */
+/* 도시 선택기 - 통합 관리 */
 .city-selector-wrapper {
   margin-bottom: 1.5rem;
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 16px;
+  border: 2px solid rgba(120, 119, 198, 0.3);
+  backdrop-filter: blur(25px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(120, 119, 198, 0.1);
+  position: relative;
+  z-index: 99999;
+  isolation: isolate;
+  padding: 2.25rem 1.5rem;
+  width: 250px;
+  max-width: 250px;
 }
 
-.sidebar .city-selector-container,
 .city-selector-container {
-  margin-bottom: 0 !important;
-  text-align: left !important;
-  background: rgba(0, 0, 0, 0.95) !important;
-  border-radius: 16px !important;
-  border: 2px solid rgba(120, 119, 198, 0.3) !important;
-  backdrop-filter: blur(25px) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(120, 119, 198, 0.1) !important;
-  position: relative !important;
-  z-index: 99999 !important;
-  isolation: isolate !important;
-  padding: 2.25rem 1.5rem !important;
-  width: 250px !important;
-  max-width: 250px !important;
+  margin-bottom: 0;
+  text-align: left;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  position: relative;
+  z-index: 1;
+  isolation: auto;
+  padding: 0;
+  width: 100%;
+  max-width: none;
 }
 
 .city-selector-title {
@@ -800,36 +810,45 @@
   margin-bottom: 1.5rem;
   color: #ffffff;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.sidebar .city-buttons,
+.loading-indicator {
+  color: #3b82f6;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 .city-buttons {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: 0.5rem !important;
-  justify-content: center !important;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  justify-content: center;
 }
 
-.sidebar .city-button,
 .city-button {
-  position: relative !important;
-  padding: 0.6rem 0.75rem !important;
-  background: rgba(0, 0, 0, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 10px !important;
-  color: #ffffff !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  font-weight: 500 !important;
-  width: 100% !important;
-  min-width: auto !important;
-  max-width: none !important;
-  overflow: hidden !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  gap: 0.25rem !important;
-  font-family: inherit !important;
+  position: relative;
+  padding: 0.6rem 0.75rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  width: 100%;
+  min-width: auto;
+  max-width: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: inherit;
 }
 
 .city-button:hover {
@@ -840,11 +859,11 @@
 }
 
 .city-button.active {
-  background: rgba(59, 130, 246, 0.2) !important;
-  border-color: #3b82f6 !important;
-  color: #60a5fa !important;
-  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.4) !important;
-  transform: translateY(-2px) !important;
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #60a5fa;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
 }
 
 .city-button.active::before {
@@ -907,14 +926,23 @@
   margin: 0;
   padding: 0.5rem;
   min-height: 250px;
-  background: rgba(0, 0, 0, 0.95);
-  border: 2px solid rgba(120, 119, 198, 0.3);
-  border-radius: 16px;
-  backdrop-filter: blur(25px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(120, 119, 198, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  border: none;
+  border-radius: 8px;
   position: relative;
-  z-index: 99998;
-  isolation: isolate;
+}
+
+.ad-label {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: rgba(120, 119, 198, 0.8);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  z-index: 1;
 }
 
 .sidebar-ad .kakao_ad_area {
@@ -953,11 +981,6 @@
   .main-panel {
     order: 2;
     padding: 1.5rem;
-  }
-  
-  .city-buttons {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
   }
 }
 */
@@ -1017,19 +1040,6 @@
   
   .main-panel {
     padding: 1rem;
-  }
-  
-  .city-button {
-    padding: 0.5rem 0.25rem;
-    font-size: 0.8rem;
-  }
-  
-  .city-emoji {
-    font-size: 1rem;
-  }
-  
-  .city-name {
-    font-size: 0.7rem;
   }
 }
 */
@@ -1103,7 +1113,7 @@
   border-radius: 8px;
   color: #60a5fa;
   font-size: 0.875rem;
-  min-width: 220px;
+  min-width: 147px;
   transition: all 0.2s ease;
   font-family: inherit;
 }
@@ -1141,7 +1151,7 @@
   background: rgba(59, 130, 246, 0.1);
   color: #60a5fa;
   font-size: 0.9rem;
-  min-width: 300px;
+  min-width: 200px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
@@ -1176,7 +1186,7 @@
   background: rgba(59, 130, 246, 0.1);
   color: #60a5fa;
   font-size: 0.9rem;
-  min-width: 300px;
+  min-width: 200px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;

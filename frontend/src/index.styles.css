@@ -206,24 +206,24 @@ body::before {
 .sidebar {
   width: 200px;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 20px;
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
   padding: 1rem;
-  border: 1px solid rgba(120, 119, 198, 0.2);
+  border: none;
   height: fit-content;
   position: sticky;
   top: 120px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(120, 119, 198, 0.1);
+  box-shadow: none;
   transition: all 0.3s ease;
 }
 
 .sidebar:hover {
-  border-color: rgba(120, 119, 198, 0.4);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(120, 119, 198, 0.2);
-  transform: translateY(-2px);
+  border-color: transparent;
+  box-shadow: none;
+  transform: none;
 }
 
 /*
@@ -269,47 +269,7 @@ body::before {
   margin-bottom: 1rem;
 }
 
-/* 도시 선택기 */
-.city-selector {
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.city-selector-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.loading-indicator {
-  color: #3b82f6;
-  font-size: 0.875rem;
-  font-weight: 500;
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* 도시 버튼 스타일은 App.styles.css에서 관리 */
-
-/* 도시 버튼 스타일은 App.styles.css에서 관리 */
-
-.city-name {
-  display: block;
-}
-
-.city-loading {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 0.75rem;
-  animation: spin 1s linear infinite;
-}
+/* 도시 선택기 스타일은 App.styles.css에서 통합 관리 */
 
 /* 테이블 스타일 */
 .table-container {
