@@ -137,6 +137,34 @@ GitHub Actions를 통해 자동 배포가 설정되어 있습니다:
 - 테스트 및 빌드 검증
 - Fly.io 자동 배포
 
+## 자동화 및 스케줄링
+
+### 자동 데이터 수집
+- **스케줄**: 매월 1일 새벽 1시 자동 실행
+- **범위**: 서울시, 부산시, 인천시, 대구시, 대전시, 광주시, 울산시, 경기도 주요 도시
+- **데이터**: 최근 8개월 아파트 실거래가 데이터
+- **압축**: Gzip 자동 압축으로 전송 속도 최적화
+
+### 설정 방법
+```bash
+# cron 작업 설정 (로컬/서버)
+./setup_cron.sh
+
+# systemd 서비스 설정 (Linux 서버)
+sudo cp auto-data-collector.service /etc/systemd/system/
+sudo systemctl enable auto-data-collector
+sudo systemctl start auto-data-collector
+```
+
+### 로그 확인
+```bash
+# cron 로그
+tail -f logs/cron.log
+
+# systemd 서비스 로그
+sudo journalctl -u auto-data-collector -f
+```
+
 ## 모니터링
 
 ```bash

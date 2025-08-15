@@ -1,5 +1,5 @@
 [Unit]
-Description=Auto Data Collector for Real Estate Data
+Description=Auto Data Collector for Real Estate Data (Monthly)
 After=network.target
 Wants=network.target
 
