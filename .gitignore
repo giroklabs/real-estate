@@ -30,6 +30,10 @@ ENV/
 *.db
 *.sqlite3
 
+# Data files (large JSON files)
+collected_data/
+logs/
+
 # IDE
 .vscode/
 .idea/

@@ -52,23 +52,6 @@ jobs:
         echo "=== 데이터 수집 완료 ==="
         echo "완료 시간: $(date)"
         
-    - name: Commit and push data
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        
-        # 데이터 파일들 추가
-        git add collected_data/
-        git add logs/
-        
-        # 변경사항이 있으면 커밋
-        if git diff --staged --quiet; then
-          echo "새로운 데이터가 없습니다."
-        else
-          git commit -m "feat: 자동 데이터 수집 - $(date '+%Y-%m-%d %H:%M:%S')"
-          git push
-        fi
-        
     - name: Upload data as artifacts
       uses: actions/upload-artifact@v3
       with:
