@@ -24,6 +24,33 @@ function App() {
     try {
       setLoading(true);
       
+      // 먼저 캐시 확인 (빠른 응답)
+      const cachedResult = await realEstateDB.loadDataCompressed();
+      if (cachedResult) {
+        setAllData(cachedResult.data);
+        setDataTimestamp(cachedResult.timestamp);
+        setLoading(false);
+        
+        // 백그라운드에서 최신 데이터 확인
+        setTimeout(async () => {
+          try {
+            const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+            if (integratedResponse.data.status === 'success') {
+              const data = integratedResponse.data.data;
+              const timestamp = integratedResponse.data.metadata.collection_date;
+              
+              setAllData(data);
+              setDataTimestamp(timestamp);
+              await realEstateDB.saveDataCompressed(data, timestamp);
+            }
+          } catch (error) {
+            console.log('백그라운드 데이터 업데이트 실패');
+          }
+        }, 100);
+        
+        return;
+      }
+      
       // 먼저 통합 데이터를 시도
       try {
         const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
@@ -35,7 +62,7 @@ function App() {
           setDataTimestamp(timestamp);
           
           // IndexedDB에 데이터 캐시
-          await realEstateDB.saveData(data, timestamp);
+          await realEstateDB.saveDataCompressed(data, timestamp);
           console.log('통합 데이터 로드 및 캐시 완료');
           return;
         }
@@ -54,7 +81,7 @@ function App() {
         setDataTimestamp(timestamp);
         
         // IndexedDB에 데이터 캐시
-        await realEstateDB.saveData(data, timestamp);
+        await realEstateDB.saveDataCompressed(data, timestamp);
         console.log('부산+인천+서울+대구+부천 데이터 로드 및 캐시 완료');
       } else {
         // 부천 데이터가 없으면 기존 데이터로 폴백
@@ -67,7 +94,7 @@ function App() {
           setDataTimestamp(timestamp);
           
           // IndexedDB에 데이터 캐시
-          await realEstateDB.saveData(data, timestamp);
+          await realEstateDB.saveDataCompressed(data, timestamp);
           console.log('부산+인천+서울+대구 데이터 로드 및 캐시 완료 (부천 데이터 없음)');
         } else {
           // 대구 데이터도 없으면 기존 데이터로 폴백
@@ -80,7 +107,7 @@ function App() {
             setDataTimestamp(timestamp);
             
             // IndexedDB에 데이터 캐시
-            await realEstateDB.saveData(data, timestamp);
+            await realEstateDB.saveDataCompressed(data, timestamp);
             console.log('부산+인천+서울 데이터 로드 및 캐시 완료 (대구, 부천 데이터 없음)');
           } else {
             setError('데이터를 불러오는데 실패했습니다.');
@@ -99,7 +126,7 @@ function App() {
     // 먼저 캐시된 데이터 확인 (비동기)
     const checkCache = async () => {
       try {
-        const cachedResult = await realEstateDB.loadData();
+        const cachedResult = await realEstateDB.loadDataCompressed();
         if (cachedResult) {
           setAllData(cachedResult.data);
           setDataTimestamp(cachedResult.timestamp);

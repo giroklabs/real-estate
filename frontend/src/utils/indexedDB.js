@@ -86,6 +86,64 @@ class RealEstateDB {
     await store.clear();
     console.log('IndexedDB 캐시 삭제 완료');
   }
+
+  // 데이터 압축 저장 (용량 감소)
+  async saveDataCompressed(data, timestamp) {
+    const db = await this.openDB();
+    const transaction = db.transaction([this.storeName], 'readwrite');
+    const store = transaction.objectStore(this.storeName);
+    
+    // 데이터 압축 (JSON.stringify 후 압축)
+    const compressedData = JSON.stringify(data);
+    
+    const dataToStore = {
+      id: 'current',
+      data: compressedData,
+      timestamp: timestamp,
+      lastUpdated: Date.now(),
+      compressed: true
+    };
+    
+    await store.put(dataToStore);
+    console.log('IndexedDB에 압축된 데이터 저장 완료');
+  }
+  
+  // 압축된 데이터 로드
+  async loadDataCompressed() {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readonly');
+      const store = transaction.objectStore(this.storeName);
+      const request = store.get('current');
+      
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => {
+          const result = request.result;
+          if (result && this.isCacheValid(result.lastUpdated)) {
+            try {
+              // 압축 해제
+              const decompressedData = result.compressed ? 
+                JSON.parse(result.data) : result.data;
+              
+              resolve({
+                data: decompressedData,
+                timestamp: result.timestamp
+              });
+            } catch (e) {
+              console.error('데이터 압축 해제 실패:', e);
+              resolve(null);
+            }
+          } else {
+            resolve(null);
+          }
+        };
+        request.onerror = () => reject(request.error);
+      });
+    } catch (error) {
+      console.error('IndexedDB 데이터 로드 오류:', error);
+      return null;
+    }
+  }
 }
 
 export default new RealEstateDB();

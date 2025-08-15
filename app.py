@@ -370,6 +370,40 @@ def get_integrated_data():
             'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
         }), 500
 
+@app.route('/api/integrated-data-chunked', methods=['GET'])
+def get_integrated_data_chunked():
+    """청크 단위로 통합 데이터 제공 (성능 향상)"""
+    try:
+        chunk_size = request.args.get('chunk_size', 1000, type=int)
+        page = request.args.get('page', 0, type=int)
+        
+        data = load_saved_integrated_data()
+        if not data:
+            return jsonify({'status': 'error', 'message': '데이터 없음'}), 404
+        
+        # 데이터를 청크로 분할
+        all_items = []
+        for region_data in data['data'].values():
+            if isinstance(region_data, list):
+                all_items.extend(region_data)
+        
+        start_idx = page * chunk_size
+        end_idx = start_idx + chunk_size
+        chunk_data = all_items[start_idx:end_idx]
+        
+        return jsonify({
+            'status': 'success',
+            'data': chunk_data,
+            'pagination': {
+                'page': page,
+                'chunk_size': chunk_size,
+                'total_items': len(all_items),
+                'has_more': end_idx < len(all_items)
+            }
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 @app.route('/api/busan-summary', methods=['GET'])
 def get_busan_summary():
     """부산 전체 구 데이터 요약 정보"""
