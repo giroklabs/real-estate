@@ -16,11 +16,11 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy collected data files first (to avoid cache invalidation)
+COPY collected_data ./collected_data/
+
 # Copy application code
 COPY . .
-
-# Copy collected data files
-COPY collected_data/ ./collected_data/
 
 # Create necessary directories with proper permissions
 RUN mkdir -p collected_data logs /app/data
