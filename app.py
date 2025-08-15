@@ -1,9 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response, stream_template
 from flask_cors import CORS
+from flask_compress import Compress
 import sqlite3
 import json
 from datetime import datetime, timedelta
 import os
+import gzip
 from database.models import init_db
 from crawlers.reb_api_crawler import REBAPICrawler
 from crawlers.public_data_crawler import PublicDataCrawler
@@ -124,7 +126,9 @@ def load_saved_guri_data():
         print(f"데이터 로드 오류: {e}")
         return None
 
+# Flask 앱 생성 및 압축 설정
 app = Flask(__name__)
+Compress(app)  # gzip 압축 활성화
 CORS(app)
 
 # 데이터베이스 초기화
@@ -349,25 +353,150 @@ def load_saved_integrated_data():
 
 @app.route('/api/integrated-data', methods=['GET'])
 def get_integrated_data():
-    """저장된 통합 데이터 조회 (메타데이터 포함)"""
+    """저장된 통합 데이터 조회 (메타데이터 포함) - 최적화된 버전"""
     try:
+        # Accept-Encoding 헤더 확인
+        accept_encoding = request.headers.get('Accept-Encoding', '')
+        use_gzip = 'gzip' in accept_encoding
+        
         data = load_saved_integrated_data()
-        if data:
-            return jsonify({
-                'status': 'success',
-                'data': data['data'],
-                'metadata': data['metadata'],
-                'message': '저장된 통합 데이터를 성공적으로 로드했습니다.'
-            })
-        else:
+        if not data:
             return jsonify({
                 'status': 'error',
                 'message': '저장된 통합 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
             }), 404
+        
+        # 청크 단위로 데이터 전송 (메모리 효율성)
+        def generate_chunks():
+            # 메타데이터 먼저 전송
+            metadata_chunk = {
+                'status': 'success',
+                'metadata': data['metadata'],
+                'message': '저장된 통합 데이터를 성공적으로 로드했습니다.'
+            }
+            yield json.dumps(metadata_chunk, ensure_ascii=False) + '\n'
+            
+            # 데이터를 청크 단위로 전송
+            chunk_size = 1000  # 한 번에 1000개 항목씩
+            all_keys = list(data['data'].keys())
+            
+            for i in range(0, len(all_keys), chunk_size):
+                chunk_keys = all_keys[i:i + chunk_size]
+                chunk_data = {key: data['data'][key] for key in chunk_keys}
+                
+                chunk_response = {
+                    'chunk_index': i // chunk_size + 1,
+                    'total_chunks': (len(all_keys) + chunk_size - 1) // chunk_size,
+                    'data': chunk_data
+                }
+                
+                yield json.dumps(chunk_response, ensure_ascii=False) + '\n'
+        
+        if use_gzip:
+            # gzip 압축 응답
+            response = Response(generate_chunks(), mimetype='application/json')
+            response.headers['Content-Encoding'] = 'gzip'
+            response.headers['Transfer-Encoding'] = 'chunked'
+            return response
+        else:
+            # 일반 응답 (압축 없음)
+            return Response(generate_chunks(), mimetype='application/json')
+            
     except Exception as e:
         return jsonify({
             'status': 'error',
             'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+@app.route('/api/city-data/<city>', methods=['GET'])
+def get_city_data(city):
+    """특정 도시의 데이터만 조회 (지연 로딩용)"""
+    try:
+        # 도시별 데이터 필터링 매핑
+        city_filters = {
+            'busan': '부산',
+            'incheon': '인천', 
+            'seoul': '서울',
+            'daegu': '대구',
+            'daejeon': '대전',
+            'gwangju': '광주',
+            'ulsan': '울산',
+            'bucheon': '경기 부천시',
+            'seongnam': '경기 성남시',
+            'guri': '경기 구리시'
+        }
+        
+        if city not in city_filters:
+            return jsonify({
+                'status': 'error',
+                'message': f'지원하지 않는 도시입니다: {city}'
+            }), 400
+        
+        filter_prefix = city_filters[city]
+        
+        # 통합 데이터에서 해당 도시 데이터만 추출
+        integrated_data = load_saved_integrated_data()
+        if not integrated_data:
+            return jsonify({
+                'status': 'error',
+                'message': '통합 데이터가 없습니다.'
+            }), 404
+        
+        # 도시별 데이터 필터링
+        city_data = {}
+        for key, value in integrated_data['data'].items():
+            if key.startswith(filter_prefix):
+                city_data[key] = value
+        
+        if not city_data:
+            return jsonify({
+                'status': 'error',
+                'message': f'{city} 도시의 데이터가 없습니다.'
+            }), 404
+        
+        # 압축 및 청크 전송
+        accept_encoding = request.headers.get('Accept-Encoding', '')
+        use_gzip = 'gzip' in accept_encoding
+        
+        def generate_city_chunks():
+            # 메타데이터
+            metadata_chunk = {
+                'status': 'success',
+                'city': city,
+                'total_regions': len(city_data),
+                'total_transactions': sum(len(region_data) for region_data in city_data.values()),
+                'message': f'{city} 도시 데이터를 성공적으로 로드했습니다.'
+            }
+            yield json.dumps(metadata_chunk, ensure_ascii=False) + '\n'
+            
+            # 데이터를 청크 단위로 전송
+            chunk_size = 500  # 도시별로는 더 작은 청크
+            all_keys = list(city_data.keys())
+            
+            for i in range(0, len(all_keys), chunk_size):
+                chunk_keys = all_keys[i:i + chunk_size]
+                chunk_data = {key: city_data[key] for key in chunk_keys}
+                
+                chunk_response = {
+                    'chunk_index': i // chunk_size + 1,
+                    'total_chunks': (len(all_keys) + chunk_size - 1) // chunk_size,
+                    'data': chunk_data
+                }
+                
+                yield json.dumps(chunk_response, ensure_ascii=False) + '\n'
+        
+        if use_gzip:
+            response = Response(generate_city_chunks(), mimetype='application/json')
+            response.headers['Content-Encoding'] = 'gzip'
+            response.headers['Transfer-Encoding'] = 'chunked'
+            return response
+        else:
+            return Response(generate_city_chunks(), mimetype='application/json')
+            
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'도시 데이터 로드 중 오류가 발생했습니다: {str(e)}'
         }), 500
 
 @app.route('/api/busan-summary', methods=['GET'])

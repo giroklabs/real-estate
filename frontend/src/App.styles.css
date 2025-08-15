@@ -1765,3 +1765,136 @@
 .month-select-option.multiple:hover {
   background: rgba(16, 185, 129, 0.25);
 }
+
+/* 도시 선택기 스타일 */
+.city-selector {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.city-selector-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.city-selector-subtitle {
+  font-size: 0.875rem;
+  color: #a0a0a0;
+  font-weight: 400;
+}
+
+.city-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.city-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.city-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.city-button.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: #60a5fa;
+}
+
+.city-button.loaded {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.city-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.city-loading {
+  animation: spin 1s linear infinite;
+  font-size: 0.875rem;
+}
+
+.city-loaded {
+  color: #22c55e;
+  font-size: 0.875rem;
+}
+
+.city-not-loaded {
+  color: #f59e0b;
+  font-size: 0.875rem;
+}
+
+/* 통계 컨테이너 스타일 */
+.stats-container {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stats-container h2 {
+  margin: 0 0 1rem 0;
+  color: #ffffff;
+  text-align: center;
+}
+
+.stats-container p {
+  margin: 0.5rem 0;
+  color: #d1d5db;
+  font-size: 0.875rem;
+}
+
+/* 메인 컨텐츠 스타일 */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* 로딩 스피너 애니메이션 */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .city-buttons {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .city-button {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+}

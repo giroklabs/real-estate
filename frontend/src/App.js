@@ -19,7 +19,72 @@ function App() {
   const [dataTimestamp, setDataTimestamp] = useState(null);
   const [activeTab, setActiveTab] = useState('rankings');
   const [statsSelectedRegions, setStatsSelectedRegions] = useState([]);
+  const [loadedCities, setLoadedCities] = useState(new Set(['busan'])); // 로드된 도시들 추적
+  const [cityDataCache, setCityDataCache] = useState({}); // 도시별 데이터 캐시
+  const [cityLoadingStates, setCityLoadingStates] = useState({}); // 도시별 로딩 상태
 
+  // 선택된 도시의 데이터만 로드 (지연 로딩)
+  const fetchCityData = useCallback(async (cityId) => {
+    if (cityDataCache[cityId]) {
+      console.log(`${cityId} 도시 데이터는 이미 캐시되어 있습니다.`);
+      return cityDataCache[cityId];
+    }
+
+    try {
+      console.log(`${cityId} 도시 데이터 로드 시작...`);
+      setCityLoadingStates(prev => ({ ...prev, [cityId]: true }));
+      
+      const response = await axios.get(`${API_BASE_URL}/city-data/${cityId}`);
+      
+      if (response.data && response.data.status === 'success') {
+        // 청크 데이터를 하나로 합치기
+        let cityData = {};
+        let metadata = null;
+        
+        // 응답이 청크 형태인지 확인
+        if (response.data.chunk_index) {
+          // 단일 청크 응답
+          cityData = response.data.data;
+          metadata = {
+            city: cityId,
+            total_regions: response.data.total_regions,
+            total_transactions: response.data.total_transactions
+          };
+        } else {
+          // 스트림 응답 처리
+          const lines = response.data.split('\n').filter(line => line.trim());
+          for (const line of lines) {
+            try {
+              const chunk = JSON.parse(line);
+              if (chunk.metadata) {
+                metadata = chunk.metadata;
+              } else if (chunk.data) {
+                cityData = { ...cityData, ...chunk.data };
+              }
+            } catch (e) {
+              console.warn('청크 파싱 실패:', e);
+            }
+          }
+        }
+        
+        // 도시별 캐시에 저장
+        setCityDataCache(prev => ({
+          ...prev,
+          [cityId]: cityData
+        }));
+        
+        console.log(`${cityId} 도시 데이터 로드 완료: ${Object.keys(cityData).length}개 지역`);
+        return cityData;
+      }
+    } catch (error) {
+      console.error(`${cityId} 도시 데이터 로드 오류:`, error);
+      return null;
+    } finally {
+      setCityLoadingStates(prev => ({ ...prev, [cityId]: false }));
+    }
+  }, [cityDataCache]);
+
+  // 전체 데이터 로드 (기존 방식 - 폴백용)
   const fetchAllData = useCallback(async () => {
     try {
       setLoading(true);
@@ -68,7 +133,7 @@ function App() {
           
           // IndexedDB에 데이터 캐시
           await realEstateDB.saveData(data, timestamp);
-          console.log('부산+인천+서울+대구 데이터 로드 및 캐시 완료 (부천 데이터 없음)');
+          console.log('부산+인천+서울+대구 데이터 로드 완료 (부천 데이터 없음)');
         } else {
           // 대구 데이터도 없으면 기존 데이터로 폴백
           dataResponse = await axios.get(`${API_BASE_URL}/busan-incheon-seoul-data`);
@@ -81,7 +146,7 @@ function App() {
             
             // IndexedDB에 데이터 캐시
             await realEstateDB.saveData(data, timestamp);
-            console.log('부산+인천+서울 데이터 로드 및 캐시 완료 (대구, 부천 데이터 없음)');
+            console.log('부산+인천+서울 데이터 로드 완료 (대구, 부천 데이터 없음)');
           } else {
             setError('데이터를 불러오는데 실패했습니다.');
           }
@@ -104,21 +169,60 @@ function App() {
           setAllData(cachedResult.data);
           setDataTimestamp(cachedResult.timestamp);
           console.log('IndexedDB에서 캐시된 데이터 로드 완료');
+          
+          // 기본 도시(부산) 데이터를 캐시에 추가
+          const busanData = getCityDataFromAllData(cachedResult.data, 'busan');
+          if (busanData) {
+            setCityDataCache(prev => ({
+              ...prev,
+              'busan': busanData
+            }));
+          }
           return;
         }
         
-        // 캐시된 데이터가 없으면 API에서 새로 로드
-        console.log('캐시된 데이터 없음, API에서 새로 로드');
-        fetchAllData();
+        // 캐시된 데이터가 없으면 기본 도시만 먼저 로드
+        console.log('캐시된 데이터 없음, 기본 도시(부산) 데이터만 먼저 로드');
+        await fetchCityData('busan');
       } catch (error) {
         console.error('캐시 확인 오류:', error);
-        // 오류 발생 시 API에서 새로 로드
-        fetchAllData();
+        // 오류 발생 시 기본 도시만 먼저 로드
+        await fetchCityData('busan');
       }
     };
     
     checkCache();
-  }, [fetchAllData]);
+  }, [fetchCityData]);
+
+  // 전체 데이터에서 특정 도시 데이터 추출하는 헬퍼 함수
+  const getCityDataFromAllData = (allData, cityId) => {
+    if (!allData) return null;
+    
+    const cityFilters = {
+      'busan': '부산',
+      'incheon': '인천', 
+      'seoul': '서울',
+      'daegu': '대구',
+      'daejeon': '대전',
+      'gwangju': '광주',
+      'ulsan': '울산',
+      'bucheon': '경기 부천시',
+      'seongnam': '경기 성남시',
+      'guri': '경기 구리시'
+    };
+    
+    const filterPrefix = cityFilters[cityId];
+    if (!filterPrefix) return null;
+    
+    const cityData = {};
+    Object.keys(allData).forEach(key => {
+      if (key.startsWith(filterPrefix)) {
+        cityData[key] = allData[key];
+      }
+    });
+    
+    return cityData;
+  };
 
   // 통계 탭용: 현재 도시 데이터 변경 시 기본으로 모든 지역 선택
   useEffect(() => {
@@ -147,6 +251,28 @@ function App() {
         'guri': '구리시'
       };
       console.log(`${cityNames[cityId]} 데이터 사용`);
+      
+      // 도시 데이터가 이미 캐시되어 있는지 확인
+      if (!cityDataCache[cityId]) {
+        console.log(`${cityId} 도시 데이터 로드 시작...`);
+        setLoading(true);
+        
+        try {
+          const cityData = await fetchCityData(cityId);
+          if (cityData) {
+            setLoadedCities(prev => new Set([...prev, cityId]));
+            console.log(`${cityId} 도시 데이터 로드 완료`);
+          } else {
+            console.error(`${cityId} 도시 데이터 로드 실패`);
+          }
+        } catch (error) {
+          console.error(`${cityId} 도시 데이터 로드 오류:`, error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        console.log(`${cityId} 도시 데이터는 이미 캐시되어 있습니다.`);
+      }
     } else {
       setLoading(true);
       setError(null);
@@ -173,6 +299,12 @@ function App() {
   };
 
   const getCurrentCityData = () => {
+    // 먼저 도시별 캐시에서 데이터 확인
+    if (cityDataCache[selectedCity]) {
+      return cityDataCache[selectedCity];
+    }
+    
+    // 캐시에 없으면 전체 데이터에서 추출
     if (!allData) return {};
     
     // 도시별 데이터 필터링 매핑
@@ -198,12 +330,19 @@ function App() {
           filteredData[key] = allData[key];
         }
       });
-      console.log(`${selectedCity} 데이터 (${filterPrefix}):`, Object.keys(filteredData));
+      
+      // 추출된 데이터를 캐시에 저장
+      if (Object.keys(filteredData).length > 0) {
+        setCityDataCache(prev => ({
+          ...prev,
+          [selectedCity]: filteredData
+        }));
+      }
+      
       return filteredData;
     }
     
-    console.log('모든 데이터 반환');
-    return allData;
+    return {};
   };
 
   const getStatsFilteredData = () => {
@@ -227,79 +366,54 @@ function App() {
     });
   };
 
+  // 현재 도시가 로딩 중인지 확인
+  const isCurrentCityLoading = cityLoadingStates[selectedCity] || false;
+  
+  // 전체 로딩 상태 또는 현재 도시 로딩 상태
+  const showLoading = loading || isCurrentCityLoading;
+
   return (
     <div className="App">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
       
-      {error && (
-        <div className="error-message">
-          <p>⚠️ {error}</p>
-        </div>
-      )}
-
-      {loading && <LoadingSpinner />}
-
-      <main className="main-content">
-        <div className="sidebar">
-          <CitySelector 
-            onCityChange={handleCityChange}
-            selectedCity={selectedCity}
-            loading={loading}
-          />
-        </div>
+      <div className="main-content">
+        <CitySelector 
+          selectedCity={selectedCity} 
+          onCityChange={handleCityChange}
+          loadedCities={loadedCities}
+          cityLoadingStates={cityLoadingStates}
+        />
         
-        <div className="main-panel">
-          {activeTab === 'rankings' && (
-            <ApartmentRankings 
-              allData={allData}
-              currentCityData={getCurrentCityData()}
-              selectedCity={selectedCity}
-              dataTimestamp={dataTimestamp}
-            />
-          )}
-          {activeTab === 'stats' && (
-            <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 12, padding: '1rem', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <h2 style={{ textAlign: 'center', margin: '0 0 12px 0' }}>거래량 통계</h2>
-              <div className="stats-controls">
-                <div className="stats-buttons">
-                  <button
-                    className="stats-button"
-                    onClick={() => setStatsSelectedRegions(Object.keys(getCurrentCityData() || {}))}
-                  >
-                    전체선택
-                  </button>
-                  <button
-                    className="stats-button"
-                    onClick={() => setStatsSelectedRegions([])}
-                  >
-                    전체해제
-                  </button>
-                </div>
-                <div className="stats-selected-count">선택 지역: {statsSelectedRegions.length}개</div>
+        {showLoading && <LoadingSpinner />}
+        
+        {error && (
+          <div className="error-message">
+            <p>{error}</p>
+          </div>
+        )}
+        
+        {!showLoading && allData && (
+          <>
+            {activeTab === 'rankings' && (
+              <ApartmentRankings 
+                allData={allData}
+                currentCityData={getCurrentCityData()}
+                selectedCity={selectedCity}
+                dataTimestamp={dataTimestamp}
+              />
+            )}
+            
+            {activeTab === 'stats' && (
+              <div className="stats-container">
+                <h2>거래량 통계</h2>
+                <p>선택된 도시: {selectedCity}</p>
+                <p>로드된 도시: {Array.from(loadedCities).join(', ')}</p>
+                <p>캐시된 도시: {Object.keys(cityDataCache).join(', ')}</p>
               </div>
-              <div className="stats-region-list">
-                {Object.keys(getCurrentCityData() || {}).map((region) => (
-                  <button
-                    key={region}
-                    className={`region-chip ${statsSelectedRegions.includes(region) ? 'selected' : ''}`}
-                    onClick={() => toggleStatsRegion(region)}
-                    type="button"
-                  >
-                    {region}
-                  </button>
-                ))}
-              </div>
-              <MonthlyVolumeChart currentCityData={getStatsFilteredData()} />
-            </div>
-          )}
-          {activeTab === 'favorites' && (
-            <div className="placeholder-center">
-              <div className="placeholder-emoji">🚧</div>
-              <div className="placeholder-text">준비중...</div>
-            </div>
-          )}
-        </div>
-      </main>
+            )}
+          </>
+        )}
+      </div>
       
       {/* 푸터 */}
       <footer className="footer">
