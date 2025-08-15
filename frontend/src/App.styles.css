@@ -1,4 +1,51 @@
 /* App 컴포넌트 스타일 - 블랙톤 다크 테마 */
+
+/* 모바일 반응형 완전 비활성화 - 데스크탑 레이아웃 유지 */
+@media (max-width: 768px) {
+  body {
+    min-width: 1200px !important;
+    overflow-x: auto !important;
+  }
+  
+  #root {
+    min-width: 1200px !important;
+  }
+  
+  .App {
+    min-width: 1200px !important;
+  }
+  
+  /* 모든 컨테이너가 최소 너비 유지 */
+  .container, .dashboard-container, .rankings-container, .main-content {
+    min-width: 1200px !important;
+  }
+  
+  /* 테이블과 차트가 모바일에서도 데스크탑 크기 유지 */
+  table, .chart-container, .rankings-table {
+    min-width: 100% !important;
+  }
+  
+  /* 헤더와 컨트롤이 모바일에서도 데스크탑 레이아웃 유지 */
+  .header-content, .rankings-controls, .filters-container {
+    min-width: 1200px !important;
+    flex-direction: row !important;
+    gap: 1rem !important;
+  }
+  
+  /* 드롭다운이 모바일에서도 데스크탑 위치 유지 */
+  .month-select-dropdown,
+  .region-select-dropdown,
+  .period-select-dropdown {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+}
+
 .App {
   min-height: 100vh;
   width: 100vw;
