@@ -19,10 +19,6 @@ RUN yarn build
 # 2) Runtime stage: serve static files
 FROM nginx:alpine
 
-# Create nginx user and set up permissions
-RUN addgroup -g 1001 -S nginx && \
-    adduser -S -D -H -u 1001 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx
-
 # Create necessary nginx directories with proper permissions
 RUN mkdir -p /var/cache/nginx /var/run /var/log/nginx && \
     chown -R nginx:nginx /var/cache/nginx /var/run /var/log/nginx && \
@@ -40,10 +36,7 @@ RUN chown -R nginx:nginx /usr/share/nginx/html /etc/nginx/nginx.conf
 # Expose default port
 EXPOSE 3000
 
-# Switch to nginx user
-USER nginx
-
-# Start nginx
+# Start nginx (nginx user is already set in nginx:alpine image)
 CMD ["nginx", "-g", "daemon off;"]
 
 
