@@ -11,6 +11,10 @@ import './App.styles.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5002/api';
 
+// axios 기본 설정 - Gzip 압축 요청
+axios.defaults.headers.common['Accept-Encoding'] = 'gzip, deflate, br';
+axios.defaults.headers.common['Accept'] = 'application/json, text/plain, */*';
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -47,16 +51,24 @@ function App() {
   const loadDataProgressively = async () => {
     try {
       // 1단계: 요약 데이터 먼저 로드 (빠름)
+      const startTime = performance.now();
       const summaryResponse = await axios.get(`${API_BASE_URL}/integrated-data?type=summary`);
+      const summaryLoadTime = performance.now() - startTime;
+      
       if (summaryResponse.data.status === 'success') {
         const summaryData = summaryResponse.data.data;
         setAllData(summaryData); // 기본 정보 표시
         setLoading(false);
         
+        console.log(`✅ 요약 데이터 로드 완료: ${summaryLoadTime.toFixed(2)}ms`);
+        
         // 2단계: 백그라운드에서 전체 데이터 로드
         setTimeout(async () => {
           try {
+            const fullStartTime = performance.now();
             const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+            const fullLoadTime = performance.now() - fullStartTime;
+            
             if (fullDataResponse.data.status === 'success') {
               const fullData = fullDataResponse.data.data;
               const timestamp = fullDataResponse.data.metadata.collection_date;
@@ -64,6 +76,9 @@ function App() {
               setAllData(fullData);
               setDataTimestamp(timestamp);
               await realEstateDB.saveDataCompressed(fullData, timestamp);
+              
+              console.log(`🚀 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms`);
+              console.log(`📊 데이터 크기: ${JSON.stringify(fullDataResponse.data.metadata)}`);
             }
           } catch (error) {
             console.log('전체 데이터 로드 실패, 요약 데이터로 계속');

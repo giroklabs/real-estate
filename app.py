@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import json
+import gzip
 from datetime import datetime, timedelta
 import os
 from database.models import init_db
@@ -26,6 +27,24 @@ try:
 except Exception:
     WebScraper = None
 from services.region_service import RegionService
+
+# Gzip 압축 헬퍼 함수
+def create_gzipped_response(data, status_code=200):
+    """Gzip 압축된 JSON 응답 생성"""
+    json_data = json.dumps(data, ensure_ascii=False)
+    gzip_data = gzip.compress(json_data.encode('utf-8'))
+    
+    response = jsonify(data)
+    response.headers['Content-Encoding'] = 'gzip'
+    response.headers['Content-Length'] = len(gzip_data)
+    response.headers['Vary'] = 'Accept-Encoding'
+    response.status_code = status_code
+    
+    # Flask의 jsonify와 gzip을 함께 사용하기 위한 처리
+    response.data = gzip_data
+    response.mimetype = 'application/json'
+    
+    return response
 
 # 저장된 데이터 로드 함수
 def load_saved_busan_data():
@@ -233,21 +252,24 @@ def get_busan_incheon_seoul_daegu_bucheon_data():
     try:
         data = load_saved_busan_incheon_seoul_daegu_bucheon_data()
         if data:
-            return jsonify({
+            response_data = {
                 'status': 'success',
                 'data': data,
                 'message': '저장된 부산+인천+서울+대구+부천 데이터를 성공적으로 로드했습니다.'
-            })
+            }
+            return create_gzipped_response(response_data)
         else:
-            return jsonify({
+            error_data = {
                 'status': 'error',
                 'message': '저장된 부산+인천+서울+대구+부천 데이터가 없습니다. 먼저 데이터를 수집해주세요.'
-            }), 404
+            }
+            return create_gzipped_response(error_data, 404)
     except Exception as e:
-        return jsonify({
+        error_data = {
             'status': 'error',
             'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
-        }), 500
+        }
+        return create_gzipped_response(error_data, 500)
 
 @app.route('/api/seongnam-data', methods=['GET'])
 def get_seongnam_data():

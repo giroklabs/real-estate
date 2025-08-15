@@ -1,6 +1,7 @@
 from flask import Response, request
 import json
 import os
+import gzip
 from datetime import datetime
 
 def handler(request):
@@ -43,6 +44,20 @@ def handler(request):
             }
         }
     
-    return Response(json.dumps(response_data, ensure_ascii=False), mimetype='application/json')
+    # Gzip 압축 응답 (데이터 크기 대폭 감소)
+    json_data = json.dumps(response_data, ensure_ascii=False)
+    original_size = len(json_data.encode('utf-8'))
+    gzip_data = gzip.compress(json_data.encode('utf-8'))
+    compressed_size = len(gzip_data)
+    compression_ratio = (1 - compressed_size / original_size) * 100
+    
+    print(f"📊 Gzip 압축 효과: {original_size / 1024 / 1024:.2f}MB → {compressed_size / 1024 / 1024:.2f}MB ({compression_ratio:.1f}% 압축)")
+    
+    response = Response(gzip_data, mimetype='application/json')
+    response.headers['Content-Encoding'] = 'gzip'
+    response.headers['Content-Length'] = len(gzip_data)
+    response.headers['Vary'] = 'Accept-Encoding'
+    
+    return response
 
 
