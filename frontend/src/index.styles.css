@@ -274,7 +274,6 @@ body::before {
   width: 100%;
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
 }
 
 .city-selector-title {
@@ -296,47 +295,9 @@ body::before {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.city-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  justify-content: center;
-}
+/* 도시 버튼 스타일은 App.styles.css에서 관리 */
 
-.city-button {
-  width: 100%;
-  min-width: auto;
-  max-width: none;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(120, 119, 198, 0.2);
-  border-radius: 12px;
-  padding: 0.75rem 0.5rem;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.city-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(120, 119, 198, 0.4);
-  transform: translateY(-2px);
-}
-
-.city-button.active {
-  background: linear-gradient(135deg, #7877c6 0%, #ff77c6 100%);
-  border-color: rgba(120, 119, 198, 0.6);
-  box-shadow: 0 8px 32px rgba(120, 119, 198, 0.4);
-}
-
-.city-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+/* 도시 버튼 스타일은 App.styles.css에서 관리 */
 
 .city-name {
   display: block;

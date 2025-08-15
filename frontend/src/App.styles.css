@@ -753,21 +753,22 @@
 }
 
 /* 도시 선택기 - 블랙톤 다크 테마 */
+.sidebar .city-selector-container,
 .city-selector-container {
-  margin-bottom: 0;
-  text-align: left;
+  margin-bottom: 0 !important;
+  text-align: left !important;
   /* 레이어 스타일 추가 - 지역선택과 동일 */
-  background: rgba(0, 0, 0, 0.95);
-  border-radius: 16px;
-  border: 2px solid rgba(120, 119, 198, 0.3);
-  backdrop-filter: blur(25px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(120, 119, 198, 0.1);
-  position: relative;
-  z-index: 99999;
-  isolation: isolate;
-  padding: 1.25rem 1.5rem;
-  width: 250px;
-  max-width: 250px;
+  background: rgba(0, 0, 0, 0.95) !important;
+  border-radius: 16px !important;
+  border: 2px solid rgba(120, 119, 198, 0.3) !important;
+  backdrop-filter: blur(25px) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(120, 119, 198, 0.1) !important;
+  position: relative !important;
+  z-index: 99999 !important;
+  isolation: isolate !important;
+  padding: 2.25rem 1.5rem !important;
+  width: 250px !important;
+  max-width: 250px !important;
 }
 
 .city-selector-title {
@@ -778,32 +779,34 @@
   text-align: center;
 }
 
+.sidebar .city-buttons,
 .city-buttons {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
-  gap: 0.75rem !important;
+  gap: 0.5rem !important;
   justify-content: center !important;
 }
 
+.sidebar .city-button,
 .city-button {
-  position: relative;
-  padding: 1rem 0.75rem !important;
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  color: #ffffff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  position: relative !important;
+  padding: 0.6rem 0.75rem !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 10px !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
   width: 100% !important;
   min-width: auto !important;
   max-width: none !important;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  font-family: inherit;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  font-family: inherit !important;
 }
 
 .city-button:hover {
