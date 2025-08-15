@@ -5,6 +5,7 @@ import MonthlyVolumeChart from './components/MonthlyVolumeChart';
 import ApartmentRankings from './components/ApartmentRankings';
 import LoadingSpinner from './components/LoadingSpinner';
 import CitySelector from './components/CitySelector';
+import realEstateDB from './utils/indexedDB';
 import './index.styles.css';
 import './App.styles.css';
 
@@ -27,9 +28,15 @@ function App() {
       try {
         const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
         if (integratedResponse.data.status === 'success') {
-          setAllData(integratedResponse.data.data);
-          setDataTimestamp(integratedResponse.data.metadata.collection_date);
-          console.log('통합 데이터 로드 완료');
+          const data = integratedResponse.data.data;
+          const timestamp = integratedResponse.data.metadata.collection_date;
+          
+          setAllData(data);
+          setDataTimestamp(timestamp);
+          
+          // IndexedDB에 데이터 캐시
+          await realEstateDB.saveData(data, timestamp);
+          console.log('통합 데이터 로드 및 캐시 완료');
           return;
         }
       } catch (error) {
@@ -40,23 +47,41 @@ function App() {
       let dataResponse = await axios.get(`${API_BASE_URL}/busan-incheon-seoul-daegu-bucheon-data`);
       
       if (dataResponse.data.status === 'success') {
-        setAllData(dataResponse.data.data);
-        setDataTimestamp('2025-08-11 17:20:31'); // 부천 데이터 수집 일시
-        console.log('부산+인천+서울+대구+부천 데이터 로드 완료');
+        const data = dataResponse.data.data;
+        const timestamp = '2025-08-11 17:20:31'; // 부천 데이터 수집 일시
+        
+        setAllData(data);
+        setDataTimestamp(timestamp);
+        
+        // IndexedDB에 데이터 캐시
+        await realEstateDB.saveData(data, timestamp);
+        console.log('부산+인천+서울+대구+부천 데이터 로드 및 캐시 완료');
       } else {
         // 부천 데이터가 없으면 기존 데이터로 폴백
         dataResponse = await axios.get(`${API_BASE_URL}/busan-incheon-seoul-daegu-data`);
         if (dataResponse.data.status === 'success') {
-          setAllData(dataResponse.data.data);
-          setDataTimestamp('2025-08-11 12:24:45'); // 대구 데이터 수집 일시
-          console.log('부산+인천+서울+대구 데이터 로드 완료 (부천 데이터 없음)');
+          const data = dataResponse.data.data;
+          const timestamp = '2025-08-11 12:24:45'; // 대구 데이터 수집 일시
+          
+          setAllData(data);
+          setDataTimestamp(timestamp);
+          
+          // IndexedDB에 데이터 캐시
+          await realEstateDB.saveData(data, timestamp);
+          console.log('부산+인천+서울+대구 데이터 로드 및 캐시 완료 (부천 데이터 없음)');
         } else {
           // 대구 데이터도 없으면 기존 데이터로 폴백
           dataResponse = await axios.get(`${API_BASE_URL}/busan-incheon-seoul-data`);
           if (dataResponse.data.status === 'success') {
-            setAllData(dataResponse.data.data);
-            setDataTimestamp('2025-08-10 16:48:52'); // 서울 데이터 수집 일시
-            console.log('부산+인천+서울 데이터 로드 완료 (대구, 부천 데이터 없음)');
+            const data = dataResponse.data.data;
+            const timestamp = '2025-08-10 16:48:52'; // 서울 데이터 수집 일시
+            
+            setAllData(data);
+            setDataTimestamp(timestamp);
+            
+            // IndexedDB에 데이터 캐시
+            await realEstateDB.saveData(data, timestamp);
+            console.log('부산+인천+서울 데이터 로드 및 캐시 완료 (대구, 부천 데이터 없음)');
           } else {
             setError('데이터를 불러오는데 실패했습니다.');
           }
@@ -71,7 +96,28 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetchAllData();
+    // 먼저 캐시된 데이터 확인 (비동기)
+    const checkCache = async () => {
+      try {
+        const cachedResult = await realEstateDB.loadData();
+        if (cachedResult) {
+          setAllData(cachedResult.data);
+          setDataTimestamp(cachedResult.timestamp);
+          console.log('IndexedDB에서 캐시된 데이터 로드 완료');
+          return;
+        }
+        
+        // 캐시된 데이터가 없으면 API에서 새로 로드
+        console.log('캐시된 데이터 없음, API에서 새로 로드');
+        fetchAllData();
+      } catch (error) {
+        console.error('캐시 확인 오류:', error);
+        // 오류 발생 시 API에서 새로 로드
+        fetchAllData();
+      }
+    };
+    
+    checkCache();
   }, [fetchAllData]);
 
   // 통계 탭용: 현재 도시 데이터 변경 시 기본으로 모든 지역 선택
