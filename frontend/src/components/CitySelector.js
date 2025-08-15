@@ -86,8 +86,8 @@ const CitySelector = ({ onCityChange, selectedCity, loading = false }) => {
           className="kakao_ad_area" 
           style={{display: 'none'}}
           data-ad-unit="DAN-QA2FBESkKFffQ6n6"
-          data-ad-width="250"
-          data-ad-height="250"
+          data-ad-width="728"
+          data-ad-height="90"
         />
       </div>
     </div>
