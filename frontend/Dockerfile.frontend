@@ -1,12 +1,11 @@
 # 1) Build stage: build React app
 FROM node:20-alpine AS build
+
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
 # Install deps
-RUN npm ci
+COPY package*.json ./
+RUN npm ci --only=production --silent
 
 # Copy source
 COPY . ./
@@ -18,9 +17,9 @@ ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 # Build
 RUN npm run build
 
-
 # 2) Runtime stage: serve static files
 FROM node:20-alpine
+
 WORKDIR /app
 
 # Install npm explicitly and then serve
