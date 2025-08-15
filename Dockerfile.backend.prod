@@ -16,9 +16,6 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy collected data files first (to avoid cache invalidation)
-COPY collected_data/ ./collected_data/
-
 # Copy application code
 COPY . .
 
@@ -33,9 +30,6 @@ RUN chmod +x app.py
 RUN touch /app/data/realstate.db
 RUN chmod 666 /app/data/realstate.db
 RUN chown -R nobody:nogroup /app/data
-
-# Verify data files are copied
-RUN ls -la collected_data/ && echo "Data files copied successfully"
 
 # Expose default port
 EXPOSE 5002
