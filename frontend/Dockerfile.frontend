@@ -3,23 +3,23 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package files first for better caching
-COPY package*.json ./
+# Copy package files first
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm ci
 
 # Copy source code
-COPY . ./
-
-# Install deps with yarn (yarn is already included in node:16-alpine)
-RUN yarn install --frozen-lockfile
+COPY . .
 
 # Inject build-time API URL (set via Cloudtype Build ARG)
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
-# Build
-RUN yarn build
+# Build React app
+RUN npm run build
 
-# 2) Runtime stage: serve static files with serve
+# 2) Runtime stage: serve static files
 FROM node:18-alpine
 
 # Install serve globally
