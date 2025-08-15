@@ -144,11 +144,8 @@ const MonthlyVolumeChart = ({ currentCityData }) => {
       const allLabels = datasets.map(dataset => dataset.label);
       setVisibleDatasets(new Set(allLabels));
     } else {
-      // 전체해제 시 지역전체를 제외한 나머지 지역만 선택
-      const individualLabels = datasets
-        .filter(dataset => dataset.label !== '지역전체')
-        .map(dataset => dataset.label);
-      setVisibleDatasets(new Set(individualLabels));
+      // 전체해제 시 모든 데이터셋을 해제
+      setVisibleDatasets(new Set());
     }
   }, [datasets]);
 
