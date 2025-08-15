@@ -361,6 +361,17 @@ function App() {
             selectedCity={selectedCity}
             loading={loading}
           />
+          
+          {/* 카카오 애드핏 광고 영역 - 도시 선택 하단 */}
+          <div className="ad-section sidebar-ad">
+            <ins 
+              className="kakao_ad_area" 
+              style={{display: 'none'}}
+              data-ad-unit="DAN-QA2FBESkKFffQ6n6"
+              data-ad-width="250"
+              data-ad-height="250"
+            />
+          </div>
         </div>
         
         <div className="main-panel">
@@ -385,17 +396,6 @@ function App() {
           )}
         </div>
       </main>
-      
-      {/* 카카오 애드핏 광고 영역 */}
-      <div className="ad-section">
-        <ins 
-          className="kakao_ad_area" 
-          style={{display: 'none'}}
-          data-ad-unit="DAN-QA2FBESkKFffQ6n6"
-          data-ad-width="250"
-          data-ad-height="250"
-        />
-      </div>
       
       {/* 푸터 */}
       <footer className="footer">
