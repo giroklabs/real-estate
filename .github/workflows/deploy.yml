@@ -1,0 +1,38 @@
+name: Deploy to Cloudtype
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Deploy to Cloudtype
+      uses: cloudtype-github-actions/deploy@v1
+      with:
+        token: ${{ secrets.CLOUDTYPE_TOKEN }}
+        project: greego86/real-estate
+        stage: main
+        yaml: |
+          name: aptranking
+          app: dockerfile
+          options:
+            ports: "3000"
+            dockerfile: frontend/Dockerfile.frontend
+            env: []
+            args:
+              - name: REACT_APP_API_URL
+                value: https://port-0-real-estate-mebaszjsa0bc4665.sel5.cloudtype.app/api
+            healthz: /favicon.ico
+            commands: ""
+            context:
+              git:
+                url: https://github.com/giroklabs/real-estate.git
+                ref: ${{ github.ref }}
+                preset: dockerfile
