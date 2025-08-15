@@ -4,7 +4,7 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="logo">
+        <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer' }}>
           <h1>🏠 APT RANKING</h1>
           <p>아파트 거래량 랭킹</p>
         </div>

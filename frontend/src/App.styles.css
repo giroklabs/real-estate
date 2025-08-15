@@ -224,34 +224,6 @@
   font-weight: 600;
 }
 
-.stats-region-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.region-chip {
-  padding: 0.35rem 0.6rem;
-  background: rgba(0, 0, 0, 0.6);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.85rem;
-}
-
-.region-chip:hover {
-  background: rgba(0, 0, 0, 0.8);
-  border-color: #3b82f6;
-}
-
-.region-chip.selected {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.8);
-}
-
 /* 아파트 랭킹 */
 .apartment-rankings {
   width: 100%;
