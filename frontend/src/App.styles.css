@@ -88,20 +88,24 @@
   font-size: 0.95rem;
   cursor: pointer;
   transition: color 0.2s ease;
-  border: 1px solid rgba(229, 231, 235, 0.4);
   padding: 0.3rem 0.6rem;
-  border-radius: 8px;
   background: transparent;
 }
 
 .header-tab:hover {
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.8);
 }
 
 .header-tab.active {
   color: #ffffff;
-  border-color: rgba(59, 130, 246, 0.8);
+}
+
+/* 탭 구분선 */
+.tab-separator {
+  color: #666;
+  font-weight: 300;
+  margin: 0 0.5rem;
+  user-select: none;
 }
 
 .logo-image {

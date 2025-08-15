@@ -15,12 +15,14 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
           >
             순위보기
           </span>
+          <span className="tab-separator">|</span>
           <span 
             className={`header-tab ${activeTab === 'stats' ? 'active' : ''}`}
             onClick={() => onTabChange('stats')}
           >
             거래량통계
           </span>
+          <span className="tab-separator">|</span>
           <span 
             className={`header-tab ${activeTab === 'favorites' ? 'active' : ''}`}
             onClick={() => onTabChange('favorites')}
