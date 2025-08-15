@@ -24,7 +24,7 @@ jobs:
           app: dockerfile
           options:
             ports: "3000"
-            dockerfile: frontend/Dockerfile.frontend
+            dockerfile: Dockerfile.frontend
             env: []
             args:
               - name: REACT_APP_API_URL
@@ -36,3 +36,4 @@ jobs:
                 url: https://github.com/giroklabs/real-estate.git
                 ref: ${{ github.ref }}
                 preset: dockerfile
+                sub_path: frontend
