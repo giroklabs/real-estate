@@ -19,7 +19,6 @@ const CitySelector = ({ onCityChange, selectedCity, loading = false }) => {
     <div className="city-selector">
       <h3 className="city-selector-title">
         📌 도시 선택
-        {loading && <span className="loading-indicator"> 🔄 데이터 수집 중...</span>}
       </h3>
       <div className="city-buttons">
         {cities.map((city) => (
