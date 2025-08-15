@@ -31,55 +31,62 @@ function App() {
         setLoading(false);
         
         // 백그라운드에서 최신 데이터 확인
-        setTimeout(async () => {
-          try {
-            const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-            if (integratedResponse.data.status === 'success') {
-              const data = integratedResponse.data.data;
-              const timestamp = integratedResponse.data.metadata.collection_date;
-              
-              setAllData(data);
-              setDataTimestamp(timestamp);
-              await realEstateDB.saveDataCompressed(data, timestamp);
-            }
-          } catch (error) {
-            console.log('백그라운드 데이터 업데이트 실패');
-          }
-        }, 100);
-        
+        setTimeout(() => checkForUpdates(), 100);
         return;
       }
       
-      // 먼저 통합 데이터를 시도
-      try {
-        const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-        if (integratedResponse.data.status === 'success') {
-          const data = integratedResponse.data.data;
-          const timestamp = integratedResponse.data.metadata.collection_date;
-          
-          setAllData(data);
-          setDataTimestamp(timestamp);
-          
-          // IndexedDB에 데이터 캐시
-          await realEstateDB.saveDataCompressed(data, timestamp);
-          console.log('통합 데이터 로드 및 캐시 완료');
-          return;
-        }
-      } catch (error) {
-        console.log('통합 데이터 로드 실패, 기존 API로 폴백');
-      }
+      // 캐시가 없으면 점진적 로딩 시작
+      await loadDataProgressively();
       
-      // 통합 데이터가 없으면 기존 API로 폴백
+    } catch (error) {
+      setError('데이터 로딩 실패');
+      setLoading(false);
+    }
+  }, []);
+
+  const loadDataProgressively = async () => {
+    try {
+      // 1단계: 요약 데이터 먼저 로드 (빠름)
+      const summaryResponse = await axios.get(`${API_BASE_URL}/integrated-data?type=summary`);
+      if (summaryResponse.data.status === 'success') {
+        const summaryData = summaryResponse.data.data;
+        setAllData(summaryData); // 기본 정보 표시
+        setLoading(false);
+        
+        // 2단계: 백그라운드에서 전체 데이터 로드
+        setTimeout(async () => {
+          try {
+            const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+            if (fullDataResponse.data.status === 'success') {
+              const fullData = fullDataResponse.data.data;
+              const timestamp = fullDataResponse.data.metadata.collection_date;
+              
+              setAllData(fullData);
+              setDataTimestamp(timestamp);
+              await realEstateDB.saveDataCompressed(fullData, timestamp);
+            }
+          } catch (error) {
+            console.log('전체 데이터 로드 실패, 요약 데이터로 계속');
+          }
+        }, 500);
+      }
+    } catch (error) {
+      // 폴백: 기존 방식
+      await loadFallbackData();
+    }
+  };
+
+  const loadFallbackData = async () => {
+    // 기존 폴백 로직 유지
+    try {
       let dataResponse = await axios.get(`${API_BASE_URL}/busan-incheon-seoul-daegu-bucheon-data`);
       
       if (dataResponse.data.status === 'success') {
         const data = dataResponse.data.data;
-        const timestamp = '2025-08-11 17:20:31'; // 부천 데이터 수집 일시
+        const timestamp = '2025-08-11 17:20:31';
         
         setAllData(data);
         setDataTimestamp(timestamp);
-        
-        // IndexedDB에 데이터 캐시
         await realEstateDB.saveDataCompressed(data, timestamp);
         console.log('부산+인천+서울+대구+부천 데이터 로드 및 캐시 완료');
       } else {
@@ -100,7 +107,7 @@ function App() {
           dataResponse = await axios.get(`${API_BASE_URL}/busan-incheon-seoul-data`);
           if (dataResponse.data.status === 'success') {
             const data = dataResponse.data.data;
-            const timestamp = '2025-08-10 16:48:52'; // 서울 데이터 수집 일시
+            const timestamp = '2025-08-11 12:24:45'; // 서울 데이터 수집 일시
             
             setAllData(data);
             setDataTimestamp(timestamp);
@@ -109,17 +116,61 @@ function App() {
             await realEstateDB.saveDataCompressed(data, timestamp);
             console.log('부산+인천+서울 데이터 로드 및 캐시 완료 (대구, 부천 데이터 없음)');
           } else {
-            setError('데이터를 불러오는데 실패했습니다.');
+            // 서울 데이터도 없으면 기존 데이터로 폴백
+            dataResponse = await axios.get(`${API_BASE_URL}/busan-incheon-data`);
+            if (dataResponse.data.status === 'success') {
+              const data = dataResponse.data.data;
+              const timestamp = '2025-08-11 12:24:45'; // 인천 데이터 수집 일시
+              
+              setAllData(data);
+              setDataTimestamp(timestamp);
+              
+              // IndexedDB에 데이터 캐시
+              await realEstateDB.saveDataCompressed(data, timestamp);
+              console.log('부산+인천 데이터 로드 및 캐시 완료 (서울, 대구, 부천 데이터 없음)');
+            } else {
+              // 인천 데이터도 없으면 기존 데이터로 폴백
+              dataResponse = await axios.get(`${API_BASE_URL}/busan-data`);
+              if (dataResponse.data.status === 'success') {
+                const data = dataResponse.data.data;
+                const timestamp = '2025-08-11 12:24:45'; // 부산 데이터 수집 일시
+                
+                setAllData(data);
+                setDataTimestamp(timestamp);
+                
+                // IndexedDB에 데이터 캐시
+                await realEstateDB.saveDataCompressed(data, timestamp);
+                console.log('부산 데이터 로드 및 캐시 완료 (인천, 서울, 대구, 부천 데이터 없음)');
+              } else {
+                throw new Error('사용 가능한 데이터가 없습니다');
+              }
+            }
           }
         }
       }
     } catch (error) {
-      console.error('데이터 로드 오류:', error);
-      setError('데이터를 불러오는데 실패했습니다.');
+      setError('데이터 로딩 실패');
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
+
+  const checkForUpdates = async () => {
+    try {
+      const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+      if (integratedResponse.data.status === 'success') {
+        const data = integratedResponse.data.data;
+        const timestamp = integratedResponse.data.metadata.collection_date;
+        
+        setAllData(data);
+        setDataTimestamp(timestamp);
+        await realEstateDB.saveDataCompressed(data, timestamp);
+        console.log('백그라운드에서 최신 데이터 업데이트 완료');
+      }
+    } catch (error) {
+      console.log('백그라운드 데이터 업데이트 실패');
+    }
+  };
 
   // 카카오 애드핏 스크립트 로드
   useEffect(() => {
