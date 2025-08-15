@@ -3,9 +3,9 @@ FROM node:16-alpine AS build
 
 WORKDIR /app
 
-# Install deps with yarn (more reliable than npm)
+# Install deps with yarn (yarn is already included in node:16-alpine)
 COPY package*.json ./
-RUN npm install -g yarn && yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile
 
 # Copy source
 COPY . ./
