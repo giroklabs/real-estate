@@ -1,12 +1,7 @@
-name: Daily Real Estate Data Collection
+name: Data Collection Test (Optional)
 
 on:
-  schedule:
-    # 매월 1일 새벽 1시 (UTC). 한국시간 기준 오전 10시.
-    # cron 형식: 분 시 일 월 요일
-    - cron: '0 1 1 * *'
-  
-  # 수동 실행을 위한 워크플로우 디스패치
+  # 수동 실행만 허용 (자동 실행은 클라우드타입 Cron 사용)
   workflow_dispatch:
     inputs:
       city:
@@ -21,7 +16,7 @@ on:
           - incheon
 
 jobs:
-  collect-data:
+  test-data-collection:
     runs-on: ubuntu-latest
     
     steps:
@@ -38,25 +33,37 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Create data directory
-      run: mkdir -p collected_data logs
-      
-    - name: Collect real estate data
+    - name: Test data collection
       run: |
-        echo "=== 데이터 수집 시작 ==="
+        echo "=== 데이터 수집 테스트 시작 ==="
         echo "시작 시간: $(date)"
         
-        # 간단한 테스트 데이터 생성
-        python -c "import json; import os; from datetime import datetime; test_data = {'timestamp': datetime.now().isoformat(), 'status': 'test_collection', 'message': 'GitHub Actions 테스트 실행'}; os.makedirs('collected_data', exist_ok=True); open('collected_data/test_collection.json', 'w', encoding='utf-8').write(json.dumps(test_data, ensure_ascii=False, indent=2)); print('테스트 데이터 수집 완료')"
+        # 실제 데이터 수집은 클라우드타입에서 실행
+        # 여기서는 테스트만 수행
+        python -c "
+import json
+import os
+from datetime import datetime
+
+test_data = {
+    'timestamp': datetime.now().isoformat(),
+    'status': 'test_collection',
+    'message': 'GitHub Actions 테스트 실행 (실제 수집은 클라우드타입 Cron)',
+    'note': '이 테스트는 수동으로만 실행됩니다. 자동 실행은 클라우드타입에서 담당합니다.'
+}
+
+os.makedirs('collected_data', test_data, f, ensure_ascii=False, indent=2)
+
+print('✅ 테스트 데이터 수집 완료')
+print('�� 실제 데이터 수집은 클라우드타입 Cron에서 매월 1일 새벽 1시에 실행됩니다')
+        "
         
-        echo "=== 데이터 수집 완료 ==="
+        echo "=== 테스트 완료 ==="
         echo "완료 시간: $(date)"
         
-    - name: Upload data as artifacts
-      uses: actions/upload-artifact@v3
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
       with:
-        name: real-estate-data-$(date +%Y%m%d)
-        path: |
-          collected_data/
-          logs/
-        retention-days: 30
+        name: test-results-$(date +%Y%m%d)
+        path: collected_data/test_collection.json
+        retention-days: 7

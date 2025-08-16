@@ -1,0 +1,209 @@
+name: Cloudtype Auto Deploy
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'app.py'
+      - 'requirements.txt'
+      - 'crawlers/**'
+      - 'services/**'
+      - 'database/**'
+      - 'auto_data_collector.py'
+      - 'cloudtype.toml'
+      - 'Dockerfile.cloudtype'
+  
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'app.py'
+      - 'requirements.txt'
+      - 'crawlers/**'
+      - 'services/**'
+      - 'database/**'
+      - 'auto_data_collector.py'
+      - 'cloudtype.toml'
+      - 'Dockerfile.cloudtype'
+  
+  # 수동 실행을 위한 워크플로우 디스패치
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: '강제 배포 (모든 파일 변경사항 무시)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  deploy-to-cloudtype:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Validate configuration files
+      run: |
+        echo "=== 설정 파일 검증 시작 ==="
+        
+        # cloudtype.toml 파일 존재 확인
+        if [ ! -f "cloudtype.toml" ]; then
+          echo "❌ cloudtype.toml 파일이 없습니다!"
+          exit 1
+        fi
+        
+        # Dockerfile.cloudtype 파일 존재 확인
+        if [ ! -f "Dockerfile.cloudtype" ]; then
+          echo "❌ Dockerfile.cloudtype 파일이 없습니다!"
+          exit 1
+        fi
+        
+        # app.py 파일 존재 확인
+        if [ ! -f "app.py" ]; then
+          echo "❌ app.py 파일이 없습니다!"
+          exit 1
+        fi
+        
+        # requirements.txt 파일 존재 확인
+        if [ ! -f "requirements.txt" ]; then
+          echo "❌ requirements.txt 파일이 없습니다!"
+          exit 1
+        fi
+        
+        echo "✅ 모든 필수 파일이 존재합니다"
+        
+        # cloudtype.toml 내용 검증
+        echo "=== cloudtype.toml 내용 확인 ==="
+        cat cloudtype.toml
+        
+        echo "=== Dockerfile.cloudtype 내용 확인 ==="
+        cat Dockerfile.cloudtype
+        
+    - name: Test application startup
+      run: |
+        echo "=== 애플리케이션 시작 테스트 ==="
+        
+        # 환경 변수 설정
+        export FLASK_APP=app.py
+        export FLASK_ENV=production
+        export PORT=5002
+        
+        # 간단한 시작 테스트 (실제 서버 시작은 하지 않음)
+        python -c "
+import app
+print('✅ Flask 애플리케이션 임포트 성공')
+print(f'✅ 앱 이름: {app.__name__}')
+print('✅ 애플리케이션 시작 테스트 완료')
+        "
+        
+    - name: Check for breaking changes
+      run: |
+        echo "=== 호환성 검사 시작 ==="
+        
+        # Python 문법 검사
+        python -m py_compile app.py
+        python -m py_compile auto_data_collector.py
+        
+        # 주요 모듈 임포트 테스트
+        python -c "
+try:
+    from crawlers.molit_api_crawler import MolitAPICrawler
+    from crawlers.reb_api_crawler import REBAPICrawler
+    from services.region_service import RegionService
+    print('✅ 모든 주요 모듈 임포트 성공')
+except ImportError as e:
+    print(f'❌ 모듈 임포트 실패: {e}')
+    exit(1)
+        "
+        
+        echo "✅ 호환성 검사 완료"
+        
+    - name: Deploy to Cloudtype
+      run: |
+        echo "=== 클라우드타입 배포 시작 ==="
+        echo "배포 시간: $(date)"
+        echo "커밋 해시: ${{ github.sha }}"
+        echo "브랜치: ${{ github.ref_name }}"
+        
+        # 클라우드타입 CLI가 있다면 여기서 배포 명령 실행
+        # 현재는 수동 배포를 위한 준비 단계
+        
+        echo "✅ 배포 준비 완료"
+        echo "📝 클라우드타입 대시보드에서 수동으로 Deploy 버튼을 클릭하세요"
+        echo "🔗 https://cloudtype.io/projects/[프로젝트ID]"
+        
+    - name: Create deployment summary
+      run: |
+        echo "=== 배포 요약 생성 ==="
+        
+        # 변경된 파일 목록
+        echo "📁 변경된 파일:"
+        git diff --name-only HEAD~1 || echo "첫 번째 커밋이므로 변경사항 없음"
+        
+        # 배포 요약 파일 생성
+        cat > deployment_summary.md << 'SUMMARY_EOF'
+# 🚀 클라우드타입 배포 요약
+
+## 📅 배포 시간
+$(date)
+
+## 🔗 커밋 정보
+- **커밋 해시**: ${{ github.sha }}
+- **브랜치**: ${{ github.ref_name }}
+- **작성자**: ${{ github.actor }}
+
+## 📁 주요 변경사항
+$(git diff --name-only HEAD~1 2>/dev/null || echo "첫 번째 커밋")
+
+## ✅ 검증 결과
+- 설정 파일 검증: ✅ 완료
+- 애플리케이션 시작 테스트: ✅ 완료
+- 호환성 검사: ✅ 완료
+- 배포 준비: ✅ 완료
+
+## 🎯 다음 단계
+클라우드타입 대시보드에서 **Deploy** 버튼을 클릭하여 실제 배포를 진행하세요.
+
+## 📊 자동화 정보
+- **Cron 작업**: 매월 1일 새벽 1시 자동 데이터 수집
+- **자동 배포**: GitHub push 시 자동 검증 및 배포 준비
+- **환경**: Python 3.11, Flask, SQLite
+
+---
+*이 요약은 GitHub Actions에서 자동으로 생성되었습니다.*
+SUMMARY_EOF
+        
+        echo "📄 배포 요약 파일 생성 완료: deployment_summary.md"
+        
+    - name: Upload deployment summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: deployment-summary-$(date +%Y%m%d-%H%M%S)
+        path: deployment_summary.md
+        retention-days: 30
+        
+    - name: Notify deployment ready
+      run: |
+        echo "🎉 클라우드타입 배포 준비 완료!"
+        echo ""
+        echo "📋 다음 단계:"
+        echo "1. 클라우드타입 대시보드 접속"
+        echo "2. real-estate 프로젝트 선택"
+        echo "3. Deploy 버튼 클릭"
+        echo "4. 배포 완료 대기"
+        echo ""
+        echo "🔗 클라우드타입: https://cloudtype.io"
+        echo "📊 프로젝트: real-estate"
+        
+        # GitHub Actions에서 보기 좋게 출력
+        echo "::notice::🚀 클라우드타입 배포 준비 완료! 대시보드에서 Deploy 버튼을 클릭하세요."
