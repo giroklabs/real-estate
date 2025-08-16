@@ -187,25 +187,8 @@ function App() {
     }
   };
 
-  // 카카오 애드핏 스크립트 로드
+  // 카카오 애드핏 Web 배너 SDK 로드
   useEffect(() => {
-    const initAd = () => {
-      if (window.kakaoAdfit) {
-        try {
-          window.kakaoAdfit();
-          console.log('카카오 애드핏 초기화 완료');
-        } catch (error) {
-          console.log('카카오 애드핏 초기화 실패:', error);
-        }
-      }
-    };
-
-    // 이미 로드된 경우 즉시 초기화
-    if (window.kakaoAdfit) {
-      initAd();
-      return;
-    }
-
     // 광고 스크립트 동적 로드
     const script = document.createElement('script');
     script.type = 'text/javascript';
@@ -213,12 +196,11 @@ function App() {
     script.async = true;
     
     script.onload = () => {
-      // 스크립트 로드 완료 후 광고 초기화
-      setTimeout(initAd, 100); // 약간의 지연 후 초기화
+      console.log('카카오 애드핏 Web 배너 SDK 로드 완료');
     };
     
     script.onerror = () => {
-      console.log('카카오 애드핏 스크립트 로드 실패');
+      console.log('카카오 애드핏 Web 배너 SDK 로드 실패');
     };
     
     document.head.appendChild(script);
@@ -379,13 +361,13 @@ function App() {
             />
           </div>
           
-          {/* 카카오 애드핏 광고 영역 - 별도 레이어 */}
+          {/* 카카오 애드핏 Web 배너 광고 영역 */}
           <div className="ad-section sidebar-ad">
             <div className="ad-label">광고</div>
             <ins 
               className="kakao_ad_area" 
               style={{display: 'none'}}
-              data-ad-unit="DAN-QA2FBESkKFffQ6n6"
+              data-ad-unit="DAN-LTtp6pEFWcOf7Ma5"
               data-ad-width="250"
               data-ad-height="250"
             />

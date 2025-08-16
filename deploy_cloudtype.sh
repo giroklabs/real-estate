@@ -102,3 +102,4 @@ echo "   - PC를 끄고 있어도 자동 실행"
 echo -e "\n${BLUE}배포 중 문제가 발생하면 Cloudtype 로그를 확인하세요.${NC}"
 echo -e "${BLUE}한국어 지원팀이 도움을 드릴 수 있습니다.${NC}"
 
+
