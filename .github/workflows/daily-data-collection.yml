@@ -52,10 +52,12 @@ test_data = {
     'note': '이 테스트는 수동으로만 실행됩니다. 자동 실행은 클라우드타입에서 담당합니다.'
 }
 
-os.makedirs('collected_data', test_data, f, ensure_ascii=False, indent=2)
+os.makedirs('collected_data', exist_ok=True)
+with open('collected_data/test_collection.json', 'w', encoding='utf-8') as f:
+    json.dump(test_data, f, ensure_ascii=False, indent=2)
 
 print('✅ 테스트 데이터 수집 완료')
-print('�� 실제 데이터 수집은 클라우드타입 Cron에서 매월 1일 새벽 1시에 실행됩니다')
+print('📝 실제 데이터 수집은 클라우드타입 Cron에서 매월 1일 새벽 1시에 실행됩니다')
         "
         
         echo "=== 테스트 완료 ==="
