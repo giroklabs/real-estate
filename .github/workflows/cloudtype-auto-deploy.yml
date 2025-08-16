@@ -25,7 +25,6 @@ on:
       - 'cloudtype.toml'
       - 'Dockerfile.cloudtype'
   
-  # 수동 실행을 위한 워크플로우 디스패치
   workflow_dispatch:
     inputs:
       force_deploy:
@@ -56,25 +55,21 @@ jobs:
       run: |
         echo "=== 설정 파일 검증 시작 ==="
         
-        # cloudtype.toml 파일 존재 확인
         if [ ! -f "cloudtype.toml" ]; then
           echo "❌ cloudtype.toml 파일이 없습니다!"
           exit 1
         fi
         
-        # Dockerfile.cloudtype 파일 존재 확인
         if [ ! -f "Dockerfile.cloudtype" ]; then
           echo "❌ Dockerfile.cloudtype 파일이 없습니다!"
           exit 1
         fi
         
-        # app.py 파일 존재 확인
         if [ ! -f "app.py" ]; then
           echo "❌ app.py 파일이 없습니다!"
           exit 1
         fi
         
-        # requirements.txt 파일 존재 확인
         if [ ! -f "requirements.txt" ]; then
           echo "❌ requirements.txt 파일이 없습니다!"
           exit 1
@@ -82,7 +77,6 @@ jobs:
         
         echo "✅ 모든 필수 파일이 존재합니다"
         
-        # cloudtype.toml 내용 검증
         echo "=== cloudtype.toml 내용 확인 ==="
         cat cloudtype.toml
         
@@ -93,28 +87,22 @@ jobs:
       run: |
         echo "=== 애플리케이션 시작 테스트 ==="
         
-        # 환경 변수 설정
         export FLASK_APP=app.py
         export FLASK_ENV=production
         export PORT=5002
         
-        # 간단한 시작 테스트 (실제 서버 시작은 하지 않음)
-        python -c "
-import app
-print('✅ Flask 애플리케이션 임포트 성공')
-print(f'✅ 앱 이름: {app.__name__}')
-print('✅ 애플리케이션 시작 테스트 완료')
-        "
+        echo "Flask 애플리케이션 테스트 시작..."
+        python -c "import app; print('✅ Flask 애플리케이션 임포트 성공')"
         
     - name: Check for breaking changes
       run: |
         echo "=== 호환성 검사 시작 ==="
         
-        # Python 문법 검사
         python -m py_compile app.py
         python -m py_compile auto_data_collector.py
         
-        # 주요 모듈 임포트 테스트
+        echo "✅ Python 문법 검사 완료"
+        
         python -c "
 try:
     from crawlers.molit_api_crawler import MolitAPICrawler
@@ -135,9 +123,6 @@ except ImportError as e:
         echo "커밋 해시: ${{ github.sha }}"
         echo "브랜치: ${{ github.ref_name }}"
         
-        # 클라우드타입 CLI가 있다면 여기서 배포 명령 실행
-        # 현재는 수동 배포를 위한 준비 단계
-        
         echo "✅ 배포 준비 완료"
         echo "📝 클라우드타입 대시보드에서 수동으로 Deploy 버튼을 클릭하세요"
         echo "🔗 https://cloudtype.io/projects/[프로젝트ID]"
@@ -146,11 +131,9 @@ except ImportError as e:
       run: |
         echo "=== 배포 요약 생성 ==="
         
-        # 변경된 파일 목록
         echo "📁 변경된 파일:"
         git diff --name-only HEAD~1 || echo "첫 번째 커밋이므로 변경사항 없음"
         
-        # 배포 요약 파일 생성
         cat > deployment_summary.md << 'SUMMARY_EOF'
 # 🚀 클라우드타입 배포 요약
 
@@ -205,5 +188,4 @@ SUMMARY_EOF
         echo "🔗 클라우드타입: https://cloudtype.io"
         echo "📊 프로젝트: real-estate"
         
-        # GitHub Actions에서 보기 좋게 출력
         echo "::notice::🚀 클라우드타입 배포 준비 완료! 대시보드에서 Deploy 버튼을 클릭하세요."
