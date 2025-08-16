@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-자동 데이터 수집 스케줄러
-매월 1일 새벽 1시에 서울시, 인천시, 부산시의 부동산 거래 데이터를 자동으로 수집
+자동 데이터 수집 스크립트
+매월 1일 새벽 1시에 서울시, 인천시, 부산시, 대구시의 부동산 거래 데이터를 자동으로 수집
+Cloudtype cron 작업용
 """
 
-import schedule
-import time
 import logging
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
 import json
 from pathlib import Path
 
@@ -41,22 +40,24 @@ def setup_logging():
     
     return logging.getLogger(__name__)
 
-def collect_daily_data():
-    """매일 실행되는 데이터 수집 함수"""
+def collect_monthly_data():
+    """매월 1일 실행되는 데이터 수집 함수"""
     logger = logging.getLogger(__name__)
     
     try:
-        logger.info("=== 자동 데이터 수집 시작 ===")
+        logger.info("=== 월간 자동 데이터 수집 시작 ===")
         start_time = datetime.now()
         
         # Molit API 크롤러 초기화
         crawler = MolitAPICrawler()
         region_service = RegionService()
         
-        # 데이터 저장 디렉토리
-        data_dir = "collected_data"
+        # 데이터 저장 디렉토리 (Cloudtype 볼륨 사용)
+        data_dir = "/app/collected_data"
         if not os.path.exists(data_dir):
-            os.makedirs(data_dir)
+            data_dir = "collected_data"  # 로컬 환경용 fallback
+            if not os.path.exists(data_dir):
+                os.makedirs(data_dir)
         
         # 수집할 지역들 정의
         regions_to_collect = {
@@ -75,7 +76,7 @@ def collect_daily_data():
             ],
             'incheon': [
                 '인천 강화군', '인천 계양구', '인천 남동구', '인천 동구', '인천 미추홀구',
-                '인천 부평구', '인천 서구', '인천 연수구', '인천 옹진군', '인천 중구'
+                '인천 부평구', '인천 서구', '인천 연수구', '인천 중구'
             ],
             'daegu': [
                 '대구 남구', '대구 달서구', '대구 달성군', '대구 동구', '대구 북구',
@@ -104,7 +105,7 @@ def collect_daily_data():
                         total_data += len(data)
                         success_count += 1
                         
-                        # 개별 지역 데이터 파일로 저장
+                        # 개별 지역 데이터 파일 저장
                         filename = f"{region.replace(' ', '_')}_data.json"
                         filepath = os.path.join(data_dir, filename)
                         
@@ -125,16 +126,19 @@ def collect_daily_data():
                     error_count += 1
                 
                 # API 호출 간격 조절 (1초)
+                import time
                 time.sleep(1)
         
         # 전체 데이터를 하나의 파일로 저장
-        all_data_filepath = os.path.join(data_dir, 'busan_incheon_seoul_daegu_all_data.json')
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        all_data_filepath = os.path.join(data_dir, f'integrated_all_data_{timestamp}.json')
         with open(all_data_filepath, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, ensure_ascii=False, indent=2)
         
         # 수집 요약 정보 저장
         summary = {
             'collection_date': datetime.now().isoformat(),
+            'collection_type': 'monthly_automated',
             'total_regions': len([r for regions in regions_to_collect.values() for r in regions]),
             'total_transactions': total_data,
             'success_count': success_count,
@@ -149,14 +153,15 @@ def collect_daily_data():
                 'last_updated': datetime.now().isoformat()
             }
         
-        summary_filepath = os.path.join(data_dir, 'collection_summary.json')
+        summary_filepath = os.path.join(data_dir, f'integrated_summary_{timestamp}.json')
         with open(summary_filepath, 'w', encoding='utf-8') as f:
             json.dump(summary, f, ensure_ascii=False, indent=2)
         
         end_time = datetime.now()
         duration = end_time - start_time
         
-        logger.info(f"\n=== 자동 데이터 수집 완료 ===")
+        logger.info(f"\n=== 월간 자동 데이터 수집 완료 ===")
+        logger.info(f"수집 일시: {datetime.now().strftime('%Y년 %m월 %d일 %H시 %M분')}")
         logger.info(f"총 지역 수: {summary['total_regions']}")
         logger.info(f"총 거래 건수: {total_data:,}건")
         logger.info(f"성공: {success_count}개 지역")
@@ -168,41 +173,27 @@ def collect_daily_data():
         return True
         
     except Exception as e:
-        logger.error(f"자동 데이터 수집 중 치명적 오류 발생: {e}")
+        logger.error(f"월간 자동 데이터 수집 중 치명적 오류 발생: {e}")
         return False
-
-def run_scheduler():
-    """스케줄러 실행"""
-    logger = logging.getLogger(__name__)
-    
-    logger.info("자동 데이터 수집 스케줄러 시작")
-    logger.info("매일 새벽 1시에 데이터 수집이 실행됩니다.")
-    
-    # 매일 새벽 1시에 실행
-    schedule.every().day.at("01:00").do(collect_daily_data)
-    
-    # 즉시 한 번 실행 (테스트용)
-    logger.info("테스트를 위해 즉시 한 번 실행합니다...")
-    collect_daily_data()
-    
-    # 스케줄러 루프
-    while True:
-        try:
-            schedule.run_pending()
-            time.sleep(60)  # 1분마다 체크
-        except KeyboardInterrupt:
-            logger.info("스케줄러가 중단되었습니다.")
-            break
-        except Exception as e:
-            logger.error(f"스케줄러 실행 중 오류 발생: {e}")
-            time.sleep(300)  # 오류 발생 시 5분 대기
 
 if __name__ == "__main__":
     # 로깅 설정
     logger = setup_logging()
     
     try:
-        run_scheduler()
+        logger.info("=== Cloudtype 월간 자동 데이터 수집 시작 ===")
+        logger.info(f"실행 시간: {datetime.now()}")
+        
+        # 월간 데이터 수집 실행
+        success = collect_monthly_data()
+        
+        if success:
+            logger.info("월간 자동 데이터 수집이 성공적으로 완료되었습니다.")
+            sys.exit(0)
+        else:
+            logger.error("월간 자동 데이터 수집이 실패했습니다.")
+            sys.exit(1)
+            
     except Exception as e:
         logger.error(f"프로그램 실행 중 오류 발생: {e}")
         sys.exit(1)

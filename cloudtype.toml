@@ -1,0 +1,30 @@
+[build]
+builder = "python"
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+startCommand = "python app.py"
+port = 5002
+
+[env]
+FLASK_APP = "app.py"
+FLASK_ENV = "production"
+PORT = "5002"
+REB_API_KEY = "e1b390d074154e338da316499695b040"
+MOLIT_API_KEY = "+6+gD3OxMqe/Y7ddcg7thoXJk/m8nYqXOw7uyZEDObEo80uaT+ZjDV7P67Syrf2b5CGaPGaELTT8OIPU5YyL0A=="
+DATA_COLLECTION_ENABLED = "true"
+LOG_LEVEL = "INFO"
+DATABASE_URL = "sqlite:///realstate.db"
+LOG_DIR = "/app/logs"
+DATA_DIR = "/app/collected_data"
+
+[cron]
+# 매월 1일 새벽 1시 자동 데이터 수집
+schedule = "0 1 1 * *"
+command = "python auto_data_collector.py"
+description = "Monthly Real Estate Data Collection"
+
+[volumes]
+# 데이터 저장용 볼륨
+data = "/app/collected_data"
+logs = "/app/logs"
