@@ -32,32 +32,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Test data collection
+    - name: Create test data
       run: |
-        echo "=== 데이터 수집 테스트 시작 ==="
+        echo "=== 테스트 데이터 생성 시작 ==="
         echo "시작 시간: $(date)"
         
-        python -c "
-import json
-import os
-from datetime import datetime
-
-test_data = {
-    'timestamp': datetime.now().isoformat(),
-    'status': 'test_collection',
-    'message': 'GitHub Actions 테스트 실행',
-    'note': '실제 수집은 클라우드타입 Cron에서 실행'
-}
-
-os.makedirs('collected_data', exist_ok=True)
-with open('collected_data/test_collection.json', 'w', encoding='utf-8') as f:
-    json.dump(test_data, f, ensure_ascii=False, indent=2)
-
-print('테스트 데이터 수집 완료')
-        "
+        mkdir -p collected_data
         
-        echo "=== 테스트 완료 ==="
+        echo '{"timestamp": "'$(date -Iseconds)'", "status": "test_collection", "message": "GitHub Actions 테스트 실행", "note": "실제 수집은 클라우드타입 Cron에서 실행"}' > collected_data/test_collection.json
+        
+        echo "=== 테스트 데이터 생성 완료 ==="
         echo "완료 시간: $(date)"
+        
+    - name: Display test results
+      run: |
+        echo "생성된 테스트 데이터:"
+        cat collected_data/test_collection.json
         
     - name: Upload test results
       uses: actions/upload-artifact@v4
