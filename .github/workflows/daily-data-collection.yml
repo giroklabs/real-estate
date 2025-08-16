@@ -1,7 +1,6 @@
 name: Data Collection Test (Optional)
 
 on:
-  # 수동 실행만 허용 (자동 실행은 클라우드타입 Cron 사용)
   workflow_dispatch:
     inputs:
       city:
@@ -38,8 +37,6 @@ jobs:
         echo "=== 데이터 수집 테스트 시작 ==="
         echo "시작 시간: $(date)"
         
-        # 실제 데이터 수집은 클라우드타입에서 실행
-        # 여기서는 테스트만 수행
         python -c "
 import json
 import os
@@ -48,16 +45,15 @@ from datetime import datetime
 test_data = {
     'timestamp': datetime.now().isoformat(),
     'status': 'test_collection',
-    'message': 'GitHub Actions 테스트 실행 (실제 수집은 클라우드타입 Cron)',
-    'note': '이 테스트는 수동으로만 실행됩니다. 자동 실행은 클라우드타입에서 담당합니다.'
+    'message': 'GitHub Actions 테스트 실행',
+    'note': '실제 수집은 클라우드타입 Cron에서 실행'
 }
 
 os.makedirs('collected_data', exist_ok=True)
 with open('collected_data/test_collection.json', 'w', encoding='utf-8') as f:
     json.dump(test_data, f, ensure_ascii=False, indent=2)
 
-print('✅ 테스트 데이터 수집 완료')
-print('📝 실제 데이터 수집은 클라우드타입 Cron에서 매월 1일 새벽 1시에 실행됩니다')
+print('테스트 데이터 수집 완료')
         "
         
         echo "=== 테스트 완료 ==="
