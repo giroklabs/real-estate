@@ -13,7 +13,7 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
       <div className="header-content">
         <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
           <h1>🏠 APT RANKING</h1>
-          <p>아파트 거래량 랭킹 - 아파트는 입지와 거래량이 전부다</p>
+          <p>아파트 거래량 랭킹 - 거래량이 많은 곳이 곧 핫한 곳</p>
         </div>
         <div className="header-tabs">
           <span 
