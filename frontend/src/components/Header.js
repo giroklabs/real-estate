@@ -11,9 +11,16 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-          <h1>🏠 APT RANKING</h1>
-          <p>아파트 거래량 랭킹 - 거래량이 많은 곳이 곧 핫한 곳</p>
+        <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img
+            src="/logo2.png"
+            alt="APT RANKING"
+            className="logo-image"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/logo.svg';
+            }}
+          />
         </div>
         <div className="header-tabs">
           <span 
