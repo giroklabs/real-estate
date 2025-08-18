@@ -2,7 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
 import MonthlyVolumeChart from './components/MonthlyVolumeChart';
-import PriceChangeChart from './components/PriceChangeChart';
+// import PriceChangeChart from './components/PriceChangeChart';
+import MarketCharts from './components/MarketCharts';
+import TrendingInsights from './components/TrendingInsights';
+import TrendingDashboard from './components/TrendingDashboard';
+import TrendingByRegion from './components/TrendingByRegion';
 import ApartmentRankings from './components/ApartmentRankings';
 import LoadingSpinner from './components/LoadingSpinner';
 import CitySelector from './components/CitySelector';
@@ -426,20 +430,15 @@ function App() {
           )}
           {activeTab === 'stats' && (
             <div style={{ padding: '1rem' }}>
-              <MonthlyVolumeChart currentCityData={getCurrentCityData()} />
+              <MarketCharts currentCityData={getCurrentCityData()} />
             </div>
           )}
-          {activeTab === 'price-change' && (
+          {activeTab === 'trending' && (
             <div style={{ padding: '1rem' }}>
-              <PriceChangeChart currentCityData={getCurrentCityData()} />
+              <TrendingByRegion allData={allData} />
             </div>
           )}
-          {activeTab === 'favorites' && (
-            <div className="placeholder-center">
-              <div className="placeholder-emoji">🚧</div>
-              <div className="placeholder-text">준비중...</div>
-            </div>
-          )}
+          
         </div>
       </main>
       

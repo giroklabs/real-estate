@@ -5,8 +5,8 @@ import json
 import gzip
 from datetime import datetime, timedelta
 import os
+import urllib.parse
 from database.models import init_db
-from crawlers.reb_api_crawler import REBAPICrawler
 from crawlers.public_data_crawler import PublicDataCrawler
 
 # 선택적 의존성(셀레니움 등)에 의존하는 크롤러는 지연/옵션 임포트로 처리
@@ -408,6 +408,8 @@ def get_seoul_district_data():
             'message': f'서울 {district} 데이터 로드 중 오류가 발생했습니다: {str(e)}'
         }), 500
 
+ 
+
 @app.route('/api/seoul-priority-data', methods=['GET'])
 def get_seoul_priority_data():
     """서울시 우선 데이터 조회 (빠른 로딩용)"""
@@ -792,10 +794,10 @@ def start_crawling():
         
         for source in sources:
             if source == 'reb_api':
-                # REB API 크롤러 사용
-                reb_crawler = REBAPICrawler()
-                results = reb_crawler.crawl_all_regions(regions)
-                all_results['reb_api'] = results
+                all_results['reb_api'] = {
+                    'status': 'disabled',
+                    'reason': 'reb api removed'
+                }
                 
             elif source == 'public_data':
                 # 공공데이터포털 API 사용

@@ -42,18 +42,34 @@ const PriceChangeChart = ({ currentCityData }) => {
     // 월별 평균 가격을 위해 region -> month(yyyy-mm) -> avgPrice
     const regionMonthMap = {};
 
-    Object.entries(currentCityData || {}).forEach(([regionName, rows]) => {
+    // 지역 키 정규화: "서울 강남구 2024.json" -> "서울 강남구"
+    const normalizeRegionKey = (name) => {
+      if (!name || typeof name !== 'string') return name;
+      let n = name.trim();
+      n = n.replace(/\s+\d{4}\.json$/i, '');
+      n = n.replace(/\.json$/i, '');
+      n = n.replace(/\s+/g, ' ').trim();
+      return n;
+    };
+
+    // 정규화된 데이터로 병합
+    const mergedData = {};
+    Object.entries(currentCityData || {}).forEach(([key, rows]) => {
+      const nk = normalizeRegionKey(key);
+      if (!mergedData[nk]) mergedData[nk] = [];
+      if (Array.isArray(rows)) mergedData[nk] = mergedData[nk].concat(rows);
+    });
+
+    Object.entries(mergedData || {}).forEach(([regionName, rows]) => {
       if (!Array.isArray(rows)) return;
       rows.forEach((row) => {
         const d = new Date(row.latest_transaction_date || row.date);
         if (isNaN(d.getTime())) return;
         const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
         if (!regionMonthMap[regionName]) regionMonthMap[regionName] = [];
-        regionMonthMap[regionName].push({
-          month: key,
-          price: row.avg_price || row.average_price || row.price || 0,
-          count: row.transaction_count || 0
-        });
+        const price = row.avg_price || row.average_price || row.price || 0;
+        // 트랜잭션 수가 없는 데이터가 많아 0으로 떨어지는 문제 → 가격 존재 시 카운트를 1로 처리
+        regionMonthMap[regionName].push({ month: key, price });
       });
     });
 
@@ -91,12 +107,14 @@ const PriceChangeChart = ({ currentCityData }) => {
     const regionMonthPrices = {};
     Object.entries(regionMonthMap).forEach(([regionName, monthData]) => {
       regionMonthPrices[regionName] = {};
-      monthData.forEach(({ month, price, count }) => {
+      monthData.forEach(({ month, price }) => {
         if (!regionMonthPrices[regionName][month]) {
           regionMonthPrices[regionName][month] = { totalPrice: 0, totalCount: 0 };
         }
-        regionMonthPrices[regionName][month].totalPrice += price * count;
-        regionMonthPrices[regionName][month].totalCount += count;
+        if (price && Number(price) > 0) {
+          regionMonthPrices[regionName][month].totalPrice += Number(price);
+          regionMonthPrices[regionName][month].totalCount += 1;
+        }
       });
     });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
 const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimestamp }) => {
@@ -28,28 +28,59 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     // 펼쳐진 상세정보 상태 관리
     const [expandedItems, setExpandedItems] = useState(new Set());
 
-    // 사용 가능한 월 목록 생성 (2025년부터 최근까지, 2023-2024년 제외)
+    // 사용 가능한 월 목록 생성: 현재 도시 데이터에 실제 존재하는 월만 노출 (없으면 기존 로직)
     const generateAvailableMonths = () => {
-        const months = [];
-        const now = new Date();
-        
-        for (let i = 0; i < 24; i++) {
-            const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            
-            // 2023년과 2024년은 제외
-            if (year === 2023 || year === 2024) {
-                continue;
-            }
-            
-            const monthStr = month < 10 ? `0${month}` : month;
-            const value = `${year}-${monthStr}`;
-            const label = `${year}년 ${month}월`;
-            months.push({ value, label });
+        const monthSet = new Set();
+        // normalizedCityData의 모든 거래에서 YYYY-MM 추출
+        if (normalizedCityData && Object.keys(normalizedCityData).length > 0) {
+            Object.values(normalizedCityData).forEach(rows => {
+                if (Array.isArray(rows)) {
+                    rows.forEach(r => {
+                        const ds = (r.latest_transaction_date || r.date || '').toString();
+                        if (ds && ds.length >= 7) {
+                            const ym = `${ds.slice(0,4)}-${ds.slice(5,7)}`;
+                            // 2023 제외, 그 외는 포함
+                            if (!ym.startsWith('2023-')) monthSet.add(ym);
+                        }
+                    });
+                }
+            });
         }
-        
+
+        let months = [];
+        if (monthSet.size > 0) {
+            // 존재하는 월만 정렬(최신 우선)
+            months = Array.from(monthSet)
+                .sort((a,b) => (a < b ? 1 : a > b ? -1 : 0))
+                .map(ym => {
+                    const [y, m] = ym.split('-');
+                    return { value: ym, label: `${y}년 ${parseInt(m,10)}월` };
+                });
+        } else {
+            // 폴백: 최근 24개월(2023 제외)
+            const now = new Date();
+            for (let i = 0; i < 24; i++) {
+                const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                if (year === 2023) continue;
+                const monthStr = month < 10 ? `0${month}` : month;
+                const value = `${year}-${monthStr}`;
+                const label = `${year}년 ${month}월`;
+                months.push({ value, label });
+            }
+        }
         return months;
+    };
+
+    // 특정 연도 전체 선택 (예: 2024년)
+    const selectYear = (year) => {
+        const monthsOfYear = generateAvailableMonths()
+            .filter(m => m.value.startsWith(`${year}-`))
+            .map(m => m.value);
+        setSelectedMonths(monthsOfYear);
+        setLoading(true);
+        setIsMonthDropdownOpen(false);
     };
 
     // 월 선택 토글 (중복 선택 허용)
@@ -157,13 +188,38 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
 
 
+    // 지역 키 정규화: '서울 강남구 2024.json' -> '서울 강남구'
+    const normalizeRegionKey = useCallback((name) => {
+        if (!name || typeof name !== 'string') return name;
+        let n = name.trim();
+        // 공백 + 연도 + .json 제거
+        n = n.replace(/\s+\d{4}\.json$/i, '');
+        // 남아있는 .json 제거
+        n = n.replace(/\.json$/i, '');
+        // 중복 공백 정리
+        n = n.replace(/\s+/g, ' ').trim();
+        return n;
+    }, []);
+
+    // 정규화된 도시 데이터로 병합 (동일 지역명으로 합치기)
+    const normalizedCityData = useMemo(() => {
+        const output = {};
+        const entries = Object.entries(currentCityData || {});
+        for (const [key, rows] of entries) {
+            const nk = normalizeRegionKey(key);
+            if (!output[nk]) output[nk] = [];
+            if (Array.isArray(rows)) output[nk] = output[nk].concat(rows);
+        }
+        return output;
+    }, [currentCityData, normalizeRegionKey]);
+
     // 아파트별 상세 거래 내역 생성 함수 (실제 데이터 사용)
     const generateSampleTransactionDetails = (item) => {
         const transactions = [];
         
-        // currentCityData에서 해당 아파트의 실제 거래 데이터 찾기
-        if (currentCityData && selectedRegion) {
-            const regionData = currentCityData[selectedRegion];
+        // 정규화된 데이터에서 해당 아파트의 실제 거래 데이터 찾기
+        if (normalizedCityData && selectedRegion) {
+            const regionData = normalizedCityData[selectedRegion];
             if (regionData && Array.isArray(regionData)) {
                 // 해당 아파트명과 일치하는 거래 데이터 필터링
                 const apartmentTransactions = regionData.filter(transaction => 
@@ -280,10 +336,10 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         
         setLoading(true);
         try {
-            // currentCityData가 있으면 프론트엔드에서 데이터 처리
-            if (currentCityData && Object.keys(currentCityData).length > 0) {
+            // 정규화된 데이터가 있으면 프론트엔드에서 데이터 처리
+            if (normalizedCityData && Object.keys(normalizedCityData).length > 0) {
                 console.log('프론트엔드에서 도시 데이터 처리 시작');
-                console.log('전체 currentCityData:', currentCityData);
+                console.log('정규화된 도시 데이터:', normalizedCityData);
                 console.log('현재 선택된 지역:', selectedRegion);
                 
                 // currentCityData에서 아파트별 통계 계산
@@ -308,7 +364,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                     console.log(`전체 기간 필터링: 날짜 제한 없음`);
                 }
                 
-                Object.keys(currentCityData).forEach(region => {
+                Object.keys(normalizedCityData).forEach(region => {
                     totalRegions++;
                     console.log(`지역 ${region} 처리 중...`);
                     
@@ -318,7 +374,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                         return;
                     }
                     
-                    const regionData = currentCityData[region];
+                    const regionData = normalizedCityData[region];
                     console.log(`지역 ${region} 데이터:`, {
                         type: typeof regionData,
                         isArray: Array.isArray(regionData),
@@ -429,7 +485,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         } finally {
             setLoading(false);
         }
-    }, [selectedRegion, selectedCity, selectedMonths, currentCityData, sortRankings]);
+    }, [selectedRegion, selectedCity, selectedMonths, normalizedCityData, sortRankings]);
 
     useEffect(() => {
         fetchRankings();
@@ -507,7 +563,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     };
 
     // 부산 지역 목록 생성
-    const cityRegions = currentCityData ? Object.keys(currentCityData) : [];
+    const cityRegions = useMemo(() => Object.keys(normalizedCityData || {}), [normalizedCityData]);
 
     return (
         <div className="apartment-rankings">
@@ -614,6 +670,14 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                         style={{ fontWeight: '600', color: '#ef4444' }}
                                     >
                                         전체 해제
+                                    </button>
+                                    {/* 빠른 선택: 2024년 전체 */}
+                                    <button 
+                                        onClick={() => selectYear(2024)} 
+                                        className="month-select-option"
+                                        style={{ fontWeight: '600', color: '#0ea5e9' }}
+                                    >
+                                        2024년 전체
                                     </button>
                                     {generateAvailableMonths().map(month => {
                                         const isSelected = selectedMonths.includes(month.value);

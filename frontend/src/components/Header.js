@@ -30,22 +30,16 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
             className={`header-tab ${activeTab === 'stats' ? 'active' : ''}`}
             onClick={() => onTabChange('stats')}
           >
-            거래량 그래프
+            거래량과 가격 통계
           </span>
           <span className="tab-separator">|</span>
           <span 
-            className={`header-tab ${activeTab === 'price-change' ? 'active' : ''}`}
-            onClick={() => onTabChange('price-change')}
+            className={`header-tab ${activeTab === 'trending' ? 'active' : ''}`}
+            onClick={() => onTabChange('trending')}
           >
-            가격변동 그래프
+            HOT한 아파트
           </span>
-          <span className="tab-separator">|</span>
-          <span 
-            className={`header-tab ${activeTab === 'favorites' ? 'active' : ''}`}
-            onClick={() => onTabChange('favorites')}
-          >
-            즐겨찾기
-          </span>
+          
         </div>
         <div className="developer-info">
           <span className="developer-name">GIROK Labs.</span>

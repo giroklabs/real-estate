@@ -2,7 +2,7 @@
 class RealEstateDB {
   constructor() {
     this.dbName = 'RealEstateDB';
-    this.version = 1;
+    this.version = 3; // 캐시 스키마 버전 증가 및 업그레이드 시 스토어 재생성으로 초기화
     this.storeName = 'realEstateData';
   }
 
@@ -16,10 +16,15 @@ class RealEstateDB {
       
       request.onupgradeneeded = (event) => {
         const db = event.target.result;
-        if (!db.objectStoreNames.contains(this.storeName)) {
-          const store = db.createObjectStore(this.storeName, { keyPath: 'id' });
-          store.createIndex('timestamp', 'timestamp', { unique: false });
+        try {
+          if (db.objectStoreNames.contains(this.storeName)) {
+            db.deleteObjectStore(this.storeName);
+          }
+        } catch (e) {
+          // ignore
         }
+        const store = db.createObjectStore(this.storeName, { keyPath: 'id' });
+        store.createIndex('timestamp', 'timestamp', { unique: false });
       };
     });
   }
