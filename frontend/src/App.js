@@ -12,6 +12,7 @@ import './index.styles.css';
 import './App.styles.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5002/api';
+const IS_LOCAL = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
 // axios 기본 설정 - Gzip 압축 요청
 axios.defaults.headers.common['Accept-Encoding'] = 'gzip, deflate, br';
@@ -52,7 +53,41 @@ function App() {
 
   const loadDataProgressively = async () => {
     try {
-      // 1단계: 요약 데이터 먼저 로드 (빠름)
+      // 로컬 환경에서는 서울시 1개월 우선 데이터를 먼저 제공
+      if (IS_LOCAL) {
+        try {
+          const priorityResp = await axios.get(`${API_BASE_URL}/seoul-priority-data`);
+          if (priorityResp.data && priorityResp.data.status === 'success') {
+            const seoulPriority = priorityResp.data.data;
+            setAllData(seoulPriority); // 우선 데이터 즉시 반영
+            setLoading(false);
+
+            // 전체 통합 데이터는 백그라운드에서 로드 후 캐시에 저장
+            setTimeout(async () => {
+              try {
+                const fullStartTime = performance.now();
+                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+                const fullLoadTime = performance.now() - fullStartTime;
+                if (fullDataResponse.data.status === 'success') {
+                  const fullData = fullDataResponse.data.data;
+                  const timestamp = fullDataResponse.data.metadata?.collection_date;
+                  setAllData(fullData);
+                  setDataTimestamp(timestamp || null);
+                  await realEstateDB.saveDataCompressed(fullData, timestamp || new Date().toISOString());
+                  console.log(`🚀 (LOCAL) 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms`);
+                }
+              } catch (e) {
+                console.log('(LOCAL) 전체 데이터 로드 실패, 우선 데이터로 계속 진행');
+              }
+            }, 300);
+            return; // 로컬 우선 로딩 경로 종료
+          }
+        } catch (e) {
+          console.log('서울시 우선 데이터 로드 실패, 기본 경로로 진행');
+        }
+      }
+
+      // 기본 경로: 요약 데이터 → 전체 데이터 (기존 로직 유지)
       const startTime = performance.now();
       const summaryResponse = await axios.get(`${API_BASE_URL}/integrated-data?type=summary`);
       const summaryLoadTime = performance.now() - startTime;
@@ -61,7 +96,6 @@ function App() {
         const summaryData = summaryResponse.data.data;
         setAllData(summaryData); // 기본 정보 표시
         setLoading(false);
-        
         console.log(`✅ 요약 데이터 로드 완료: ${summaryLoadTime.toFixed(2)}ms`);
         
         // 2단계: 백그라운드에서 전체 데이터 로드
