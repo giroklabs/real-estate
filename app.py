@@ -369,6 +369,114 @@ def load_saved_integrated_data():
         print(f"통합 데이터 로드 오류: {e}")
         return None
 
+@app.route('/api/seoul-district-data', methods=['GET'])
+def get_seoul_district_data():
+    """서울시 특정 구 데이터 조회"""
+    try:
+        district = request.args.get('district', '')
+        if not district:
+            return jsonify({
+                'status': 'error',
+                'message': '구 이름을 지정해주세요'
+            }), 400
+        
+        # 서울시 구 데이터 파일 경로
+        file_path = os.path.join('collected_data', f'서울_{district}_data.json')
+        
+        if not os.path.exists(file_path):
+            return jsonify({
+                'status': 'error',
+                'message': f'서울 {district} 데이터가 없습니다 (경로: {file_path})'
+            }), 404
+        
+        # 데이터 로드
+        with open(file_path, 'r', encoding='utf-8') as f:
+            district_data = json.load(f)
+        
+        response_data = {
+            'status': 'success',
+            'data': district_data,
+            'district': district,
+            'transaction_count': len(district_data) if isinstance(district_data, list) else 0
+        }
+        
+        return jsonify(response_data)
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'서울 {district} 데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+@app.route('/api/seoul-priority-data', methods=['GET'])
+def get_seoul_priority_data():
+    """서울시 우선 데이터 조회 (빠른 로딩용)"""
+    try:
+        # 서울시 우선 데이터 생성
+        seoul_priority_data = create_seoul_priority_data()
+        
+        response_data = {
+            'status': 'success',
+            'data': seoul_priority_data,
+            'type': 'seoul_priority',
+            'metadata': {
+                'collection_date': datetime.now().isoformat(),
+                'total_regions': len(seoul_priority_data),
+                'data_size_mb': round(len(json.dumps(seoul_priority_data, ensure_ascii=False).encode('utf-8')) / (1024 * 1024), 2),
+                'description': '서울시 1개월 우선 데이터 (빠른 로딩용)'
+            }
+        }
+        
+        return jsonify(response_data)
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'서울시 우선 데이터 로드 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+
+
+def create_seoul_priority_data():
+    """서울시 우선 데이터 생성 - 서울시 25개 구 데이터만 포함"""
+    
+    seoul_priority_data = {}
+    
+    # 서울시 구 목록
+    seoul_districts = [
+        '강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구',
+        '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구',
+        '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'
+    ]
+    
+    # 각 서울시 구의 데이터 파일에서 데이터 로드
+    for district in seoul_districts:
+        file_path = os.path.join('collected_data', f'서울_{district}_data.json')
+        
+        if os.path.exists(file_path):
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    district_data = json.load(f)
+                
+                # 서울시 우선 데이터에 추가
+                seoul_priority_data[f'서울 {district}'] = district_data
+                print(f"✅ 서울 {district} 데이터 로드 완료")
+                
+            except Exception as e:
+                print(f"❌ 서울 {district} 데이터 로드 실패: {e}")
+                continue
+    
+    # 우선 데이터 파일로 저장 (다음번 요청 시 빠른 로딩)
+    try:
+        priority_path = os.path.join('collected_data', 'seoul_priority_data.json')
+        with open(priority_path, 'w', encoding='utf-8') as f:
+            json.dump(seoul_priority_data, f, ensure_ascii=False, indent=2)
+        print(f"💾 서울시 우선 데이터 파일 저장 완료: {priority_path}")
+    except Exception as e:
+        print(f"❌ 서울시 우선 데이터 파일 저장 실패: {e}")
+    
+    return seoul_priority_data
+
 @app.route('/api/integrated-data', methods=['GET'])
 def get_integrated_data():
     """저장된 통합 데이터 조회 (메타데이터 포함)"""
