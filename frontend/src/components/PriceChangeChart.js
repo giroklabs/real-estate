@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import './PriceChangeChart.css';
 
 ChartJS.register(
   CategoryScale,
@@ -21,116 +22,301 @@ ChartJS.register(
   Legend
 );
 
-const PriceChangeChart = ({ priceChanges }) => {
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString || '-';
-    const y = String(date.getFullYear()).padStart(4, '0');
-    const m = String(date.getMonth() + 1).padStart(2, '0');
-    const d = String(date.getDate()).padStart(2, '0');
-    return `${y}.${m}.${d}.`;
-  };
-  // 최근 30일 데이터만 사용
-  const recentData = priceChanges.slice(0, 30).reverse();
+const formatMonth = (dateString) => {
+  const d = new Date(dateString);
+  if (isNaN(d.getTime())) return dateString || '-';
+  const y = String(d.getFullYear()).padStart(4, '0');
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  return `${y}.${m}.`;
+};
 
-  const data = {
-    labels: recentData.map(item => formatDate(item.date)),
-    datasets: [
+// 가격을 억원 단위로 변환하는 함수
+const formatPrice = (price) => {
+  return Math.round(price / 100000000 * 100) / 100; // 억원 단위로 변환
+};
+
+const PriceChangeChart = ({ currentCityData }) => {
+  const [visibleDatasets, setVisibleDatasets] = useState(new Set());
+
+  const { labels, datasets } = useMemo(() => {
+    // 월별 평균 가격을 위해 region -> month(yyyy-mm) -> avgPrice
+    const regionMonthMap = {};
+
+    Object.entries(currentCityData || {}).forEach(([regionName, rows]) => {
+      if (!Array.isArray(rows)) return;
+      rows.forEach((row) => {
+        const d = new Date(row.latest_transaction_date || row.date);
+        if (isNaN(d.getTime())) return;
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        if (!regionMonthMap[regionName]) regionMonthMap[regionName] = [];
+        regionMonthMap[regionName].push({
+          month: key,
+          price: row.avg_price || row.average_price || row.price || 0,
+          count: row.transaction_count || 0
+        });
+      });
+    });
+
+    // 디버깅: 데이터 확인
+    console.log('PriceChangeChart - currentCityData keys:', Object.keys(currentCityData || {}));
+    console.log('PriceChangeChart - regionMonthMap:', regionMonthMap);
+
+    // 공통 월 라벨 집합 구성 (최근 12개월)
+    const allMonthsSet = new Set();
+    Object.values(regionMonthMap).forEach((monthData) => {
+      monthData.forEach(({ month }) => allMonthsSet.add(month));
+    });
+    const allMonths = Array.from(allMonthsSet)
+      .sort()
+      .slice(-12);
+
+    console.log('PriceChangeChart - allMonths:', allMonths);
+
+    const labels = allMonths.map((m) => formatMonth(`${m}-01`));
+
+    const palette = [
+      'rgb(59, 130, 246)',   // 파란색
+      'rgb(16, 185, 129)',   // 녹색
+      'rgb(239, 68, 68)',    // 빨간색
+      'rgb(234, 179, 8)',    // 노란색
+      'rgb(168, 85, 247)',   // 보라색
+      'rgb(99, 102, 241)',   // 인디고
+      'rgb(236, 72, 153)',   // 핑크
+      'rgb(245, 101, 101)',  // 로즈
+      'rgb(34, 197, 94)',    // 에메랄드
+      'rgb(251, 146, 60)',   // 오렌지
+    ];
+
+    // 지역별 월별 평균 가격 계산
+    const regionMonthPrices = {};
+    Object.entries(regionMonthMap).forEach(([regionName, monthData]) => {
+      regionMonthPrices[regionName] = {};
+      monthData.forEach(({ month, price, count }) => {
+        if (!regionMonthPrices[regionName][month]) {
+          regionMonthPrices[regionName][month] = { totalPrice: 0, totalCount: 0 };
+        }
+        regionMonthPrices[regionName][month].totalPrice += price * count;
+        regionMonthPrices[regionName][month].totalCount += count;
+      });
+    });
+
+    // 디버깅: 가격 데이터 확인
+    console.log('PriceChangeChart - regionMonthPrices:', regionMonthPrices);
+
+    // 지역별 월별 평균 가격 계산
+    Object.entries(regionMonthPrices).forEach(([regionName, monthPrices]) => {
+      Object.keys(monthPrices).forEach((month) => {
+        const { totalPrice, totalCount } = monthPrices[month];
+        monthPrices[month] = totalCount > 0 ? totalPrice / totalCount : 0;
+      });
+    });
+
+    // 지역전체 평균 가격 계산
+    const totalData = {};
+    allMonths.forEach(month => {
+      let totalPrice = 0;
+      let totalCount = 0;
+      Object.values(regionMonthPrices).forEach(monthPrices => {
+        if (monthPrices[month]) {
+          totalPrice += monthPrices[month];
+          totalCount += 1;
+        }
+      });
+      totalData[month] = totalCount > 0 ? totalPrice / totalCount : 0;
+    });
+
+    console.log('PriceChangeChart - totalData:', totalData);
+    console.log('PriceChangeChart - formatted totalData:', allMonths.map((m) => formatPrice(totalData[m] || 0)));
+
+    const datasets = [
+      // 지역전체 데이터셋을 첫 번째로 추가
       {
-        label: '가격변동률 (%)',
-        data: recentData.map(item => item.price_change_rate),
-        borderColor: 'rgb(239, 68, 68)',
-        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-        borderWidth: 2,
-        fill: true,
-        tension: 0.4,
+        label: '지역전체',
+        data: allMonths.map((m) => formatPrice(totalData[m] || 0)),
+        borderColor: palette[0],
+        backgroundColor: palette[0].replace('rgb', 'rgba').replace(')', ', 0.3)'),
+        tension: 0.3,
+        borderWidth: 3,
+        pointRadius: 4,
+        hidden: false,
       },
-      {
-        label: '평균 가격 (억원)',
-        data: recentData.map(item => Math.round(item.avg_price / 100000000 * 100) / 100),
-        borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        borderWidth: 2,
-        fill: false,
-        yAxisID: 'y1',
-      },
-    ],
-  };
+      // 개별 지역 데이터셋들
+      ...Object.entries(regionMonthPrices).map(([regionName, monthPrices], idx) => {
+        const data = allMonths.map((m) => formatPrice(monthPrices[m] || 0));
+        const color = palette[(idx + 1) % palette.length] || palette[0];
+        return {
+          label: regionName,
+          data,
+          borderColor: color,
+          backgroundColor: color.replace('rgb', 'rgba').replace(')', ', 0.2)'),
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 2,
+          hidden: false,
+        };
+      })
+    ];
+
+    return { labels, datasets };
+  }, [currentCityData]);
+
+  // 초기 로드 시 지역전체를 제외한 나머지 지역만 보이도록 설정
+  useEffect(() => {
+    if (datasets && datasets.length > 0) {
+      const individualLabels = datasets
+        .filter(dataset => dataset.label !== '지역전체')
+        .map(dataset => dataset.label);
+      setVisibleDatasets(new Set(individualLabels));
+    }
+  }, [datasets]);
+
+  const toggleDataset = useCallback((regionName) => {
+    setVisibleDatasets(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(regionName)) {
+        newSet.delete(regionName);
+      } else {
+        newSet.add(regionName);
+      }
+      return newSet;
+    });
+  }, []);
+
+  const toggleAllDatasets = useCallback((show) => {
+    if (show) {
+      const allLabels = datasets.map(dataset => dataset.label);
+      setVisibleDatasets(new Set(allLabels));
+    } else {
+      setVisibleDatasets(new Set());
+    }
+  }, [datasets]);
+
+  const filteredDatasets = useMemo(() => {
+    return datasets.filter(dataset => visibleDatasets.has(dataset.label));
+  }, [datasets, visibleDatasets]);
+
+  if (!datasets || datasets.length === 0) {
+    return <div className="price-change-chart-no-data">표시할 데이터가 없습니다.</div>;
+  }
 
   const options = {
     responsive: true,
-    interaction: {
-      mode: 'index',
-      intersect: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      title: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: 'rgba(59, 130, 246, 0.5)',
+        borderWidth: 1,
+        callbacks: {
+          title: (items) => items?.[0]?.label || '',
+          label: (ctx) => `${ctx.dataset?.label}: ${ctx.parsed.y}억원`,
+        },
+      },
     },
     scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: '날짜',
-        },
-      },
-      y: {
-        type: 'linear',
-        display: true,
-        position: 'left',
-        title: {
-          display: true,
-          text: '가격변동률 (%)',
+      x: { 
+        title: { 
+          display: true, 
+          text: '월',
+          color: '#ffffff'
         },
         grid: {
-          color: 'rgba(239, 68, 68, 0.1)',
+          color: 'rgba(255, 255, 255, 0.1)'
         },
+        ticks: {
+          color: '#ffffff'
+        }
       },
-      y1: {
-        type: 'linear',
-        display: true,
-        position: 'right',
-        title: {
-          display: true,
-          text: '평균 가격 (억원)',
-        },
+      y: { 
+        title: { 
+          display: true, 
+          text: '평균가격(억원)', 
+          color: '#ffffff'
+        }, 
+        beginAtZero: true,
         grid: {
-          drawOnChartArea: false,
-          color: 'rgba(59, 130, 246, 0.1)',
+          color: 'rgba(255, 255, 255, 0.1)'
         },
-      },
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: '가격변동률 및 평균 가격 추이',
-      },
-      legend: {
-        display: true,
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            const label = context.dataset.label || '';
-            const value = context.parsed.y;
-            if (label.includes('가격변동률')) {
-              return `${label}: ${value.toFixed(2)}%`;
-            } else if (label.includes('평균 가격')) {
-              return `${label}: ${value}억원`;
-            }
-            return `${label}: ${value}`;
+        ticks: {
+          color: '#ffffff',
+          callback: function(value) {
+            return value + '억';
           }
         }
+      },
+    },
+    backgroundColor: 'transparent',
+    maintainAspectRatio: false,
+    elements: {
+      point: {
+        backgroundColor: 'transparent'
       }
     },
+    layout: {
+      padding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      }
+    }
   };
 
-  if (recentData.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-64 text-gray-500">
-        가격변동 데이터가 없습니다.
-      </div>
-    );
-  }
+  const data = { labels, datasets: filteredDatasets };
 
-  return <Line data={data} options={options} />;
+  return (
+    <div className="price-change-chart">
+      {/* 사용자 정의 범례 */}
+      <div className="custom-legend">
+        <div className="legend-header">
+          <div className="legend-controls">
+            <button 
+              className="legend-btn legend-btn-all"
+              onClick={() => toggleAllDatasets(true)}
+              title="모든 지역 표시"
+            >
+              전체표시
+            </button>
+            <button 
+              className="legend-btn legend-btn-none"
+              onClick={() => toggleAllDatasets(false)}
+              title="최소 1개 지역 유지"
+            >
+              전체해제
+            </button>
+          </div>
+        </div>
+        <div className="legend-items">
+          {datasets.map((dataset, index) => {
+            const isVisible = visibleDatasets.has(dataset.label);
+            const color = dataset.borderColor;
+            return (
+              <div 
+                key={dataset.label}
+                className={`legend-item ${isVisible ? 'active' : 'inactive'}`}
+                onClick={() => toggleDataset(dataset.label)}
+              >
+                <div className="legend-color" style={{ backgroundColor: color }}></div>
+                <span className="legend-label">{dataset.label}</span>
+                <div className="legend-toggle">
+                  {isVisible ? '●' : '○'}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      
+      {/* 차트 */}
+      <div className="chart-container">
+        <Line data={data} options={options} />
+      </div>
+    </div>
+  );
 };
 
 export default PriceChangeChart; 

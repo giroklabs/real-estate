@@ -1,0 +1,224 @@
+.price-change-chart {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.price-change-chart h4 {
+  margin: 0 0 3px 0;
+  font-size: 10px;
+  color: #333;
+  text-align: center;
+}
+
+/* 사용자 정의 범례 스타일 */
+.custom-legend {
+  margin-bottom: 2rem;
+  padding: 0.25rem;
+  margin-top: 0 !important;
+}
+
+.legend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.legend-header h4 {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: left;
+}
+
+.legend-controls {
+  display: flex;
+  gap: 0.125rem;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 강제 여백 제거 */
+.custom-legend > *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.legend-header > *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.legend-btn {
+  padding: 0.25rem 0.5rem;
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.legend-btn:hover {
+  background: rgba(59, 130, 246, 0.3);
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+.legend-btn-all {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.legend-btn-all:hover {
+  background: rgba(16, 185, 129, 0.3);
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+.legend-btn-none {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.legend-btn-none:hover {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.25rem;
+  overflow: visible;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.legend-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.legend-item.active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.legend-item.inactive {
+  opacity: 0.6;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.legend-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.legend-label {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legend-toggle {
+  font-size: 1rem;
+  color: #3b82f6;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.legend-item.inactive .legend-toggle {
+  color: #6b7280;
+}
+
+/* 스크롤바 숨김 */
+.legend-items::-webkit-scrollbar {
+  display: none;
+}
+
+.legend-items {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  padding: 0.25rem;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.price-change-chart-loading,
+.price-change-chart-error,
+.price-change-chart-no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #ffffff;
+  font-size: 0.75rem;
+  text-align: center;
+  border-radius: 6px;
+  background: transparent !important;
+}
+
+.price-change-chart-error {
+  color: #ef4444;
+}
+
+.price-change-chart-no-data {
+  color: #9ca3af;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .price-change-chart {
+    padding: 0.25rem;
+  }
+  
+  .legend-header {
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: stretch;
+  }
+  
+  .legend-controls {
+    justify-content: center;
+  }
+  
+  .legend-items {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    height: 300px;
+  }
+}

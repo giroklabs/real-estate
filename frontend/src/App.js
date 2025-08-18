@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
 import MonthlyVolumeChart from './components/MonthlyVolumeChart';
+import PriceChangeChart from './components/PriceChangeChart';
 import ApartmentRankings from './components/ApartmentRankings';
 import LoadingSpinner from './components/LoadingSpinner';
 import CitySelector from './components/CitySelector';
+import MobileMessage from './components/MobileMessage';
 import realEstateDB from './utils/indexedDB';
 import './index.styles.css';
 import './App.styles.css';
@@ -341,7 +343,11 @@ function App() {
 
   return (
     <div className="App">
-      <Header activeTab={activeTab} onTabChange={setActiveTab} />
+      {/* 데스크톱 전용 헤더 */}
+      <Header activeTab={activeTab} onTabChange={setActiveTab} className="desktop-only" />
+      
+      {/* 모바일 전용 메시지 */}
+      <MobileMessage />
       
       {error && (
         <div className="error-message">
@@ -351,7 +357,8 @@ function App() {
 
       {loading && <LoadingSpinner />}
 
-      <main className="main-content">
+      {/* 데스크톱 전용 메인 콘텐츠 */}
+      <main className="main-content desktop-only">
         <div className="sidebar">
           <div className="city-selector-wrapper">
             <CitySelector 
@@ -388,6 +395,11 @@ function App() {
               <MonthlyVolumeChart currentCityData={getCurrentCityData()} />
             </div>
           )}
+          {activeTab === 'price-change' && (
+            <div style={{ padding: '1rem' }}>
+              <PriceChangeChart currentCityData={getCurrentCityData()} />
+            </div>
+          )}
           {activeTab === 'favorites' && (
             <div className="placeholder-center">
               <div className="placeholder-emoji">🚧</div>
@@ -398,7 +410,7 @@ function App() {
       </main>
       
       {/* 푸터 */}
-      <footer className="footer">
+      <footer className="footer desktop-only">
         <hr className="footer-divider" />
         <div className="footer-content">
           <div className="footer-info">

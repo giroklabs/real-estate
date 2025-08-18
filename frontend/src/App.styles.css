@@ -44,6 +44,11 @@
     max-width: none !important;
     max-height: none !important;
   }
+  
+  /* 모바일에서는 데스크톱 전용 콘텐츠 숨김 */
+  .desktop-only {
+    display: none !important;
+  }
 }
 
 .App {
@@ -119,6 +124,45 @@
   position: relative;
   z-index: 999999;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* 텍스트 로고 스타일 */
+.logo-text {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.logo-emoji {
+  font-size: 1.25rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+  color: #ffffff; /* 화이트 톤 */
+}
+
+.logo-mark {
+  height: 24px;
+  width: 24px;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+}
+
+.logo-text-en {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Noto Sans KR', sans-serif;
+  font-weight: 800;
+  font-size: 2rem; /* 약 32px */
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #f0f2ff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.logo-text-ko {
+  font-family: 'Noto Sans KR', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1rem; /* 영문 대비 1/2 */
+  line-height: 1;
+  color: #adb2c7;
 }
 
 .logo h1 {
@@ -200,7 +244,7 @@
 /* 메인 콘텐츠 - 블랙톤 레이아웃 */
 .main-content {
   max-width: 100%;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
   padding: 0 2rem;
   display: grid;
   grid-template-columns: 250px 1fr;
@@ -218,7 +262,7 @@
   /* border: 1px solid rgba(255, 255, 255, 0.08); */
   height: fit-content;
   position: sticky;
-  top: 120px;
+  top: 80px;
   display: flex;
   flex-direction: column;
   /* backdrop-filter: blur(10px); */
@@ -783,6 +827,7 @@
 /* 도시 선택기 - 통합 관리 */
 .city-selector-wrapper {
   margin-bottom: 1.5rem;
+  margin-top: 0;
   background: rgba(0, 0, 0, 0.95);
   border-radius: 16px;
   border: 2px solid rgba(120, 119, 198, 0.3);
@@ -926,6 +971,7 @@
   justify-content: center;
   align-items: center;
   min-height: 250px;
+  margin-left: 8px; /* 광고 영역 살짝 오른쪽 이동 */
 }
 
 /* 사이드바 광고 스타일 */
@@ -938,6 +984,7 @@
   border: none;
   border-radius: 8px;
   position: relative;
+  margin-left: 8px; /* 사이드바 광고 살짝 오른쪽 이동 */
 }
 
 .ad-label {
