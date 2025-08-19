@@ -1795,6 +1795,7 @@
 .month-select-container,
 .region-select-container,
 .period-select-container {
+  position: relative;
   overflow: visible;
   text-align: center;
   margin: 0;
@@ -1807,7 +1808,7 @@
   animation: dropdownFadeIn 0.2s ease-out;
   transform-origin: top center;
   text-align: center;
-  margin-top: 0.25rem;
+  margin-top: 0;
 }
 
 /* 드롭다운 토글 버튼 강제 가운데 정렬 */
@@ -1857,7 +1858,7 @@
   background: #000000;
   border: 3px solid #3b82f6;
   border-radius: 12px;
-  margin-top: 0.5rem;
+  margin-top: 0;
   z-index: 9999;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(59, 130, 246, 0.3);
   max-height: 600px;
