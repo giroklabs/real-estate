@@ -57,6 +57,51 @@ function App() {
 
   const loadDataProgressively = async () => {
     try {
+      // 새로운 최적화된 로딩 전략 시도
+      try {
+        const metadataStartTime = performance.now();
+        const metadataResponse = await axios.get(`${API_BASE_URL}/metadata`);
+        const metadataLoadTime = performance.now() - metadataStartTime;
+        
+        if (metadataResponse.data.status === 'success') {
+          console.log(`✅ 메타데이터 로드 완료: ${metadataLoadTime.toFixed(2)}ms`);
+          
+          // 선택된 도시 데이터만 먼저 로드
+          const cityStartTime = performance.now();
+          const cityResponse = await axios.get(`${API_BASE_URL}/cities/${selectedCity}`);
+          const cityLoadTime = performance.now() - cityStartTime;
+          
+          if (cityResponse.data.status === 'success') {
+            const cityData = cityResponse.data.data;
+            setAllData(cityData);
+            setLoading(false);
+            console.log(`🚀 ${selectedCity} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
+            
+            // 백그라운드에서 전체 데이터 로드
+            setTimeout(async () => {
+              try {
+                const fullStartTime = performance.now();
+                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+                const fullLoadTime = performance.now() - fullStartTime;
+                if (fullDataResponse.data.status === 'success') {
+                  const fullData = fullDataResponse.data.data;
+                  const timestamp = fullDataResponse.data.metadata?.collection_date;
+                  setAllData(fullData);
+                  setDataTimestamp(timestamp || null);
+                  await realEstateDB.saveDataCompressed(fullData, timestamp || new Date().toISOString());
+                  console.log(`🚀 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms`);
+                }
+              } catch (e) {
+                console.log('전체 데이터 로드 실패, 도시 데이터로 계속 진행');
+              }
+            }, 500);
+            return; // 새로운 최적화된 로딩 경로 종료
+          }
+        }
+      } catch (e) {
+        console.log('새로운 최적화된 로딩 실패, 기존 경로로 진행');
+      }
+
       // 로컬 환경에서는 서울시 1개월 우선 데이터를 먼저 제공
       if (IS_LOCAL) {
         try {

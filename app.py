@@ -1292,6 +1292,153 @@ def get_apartment_rankings():
         print(f"Error in get_apartment_rankings: {str(e)}")
         return jsonify([])
 
+# 새로운 최적화된 API 엔드포인트들 추가
+@app.route('/api/metadata', methods=['GET'])
+def get_metadata():
+    """지역 목록과 메타데이터 조회 - 새로운 최적화된 API"""
+    try:
+        metadata = {
+            'cities': [
+                {'code': 'seoul', 'name': '서울시', 'districts': 25, 'file': 'seoul_priority_data.json'},
+                {'code': 'busan', 'name': '부산시', 'districts': 16, 'file': 'busan_all_data.json'},
+                {'code': 'incheon', 'name': '인천시', 'districts': 10, 'file': 'incheon_all_data.json'},
+                {'code': 'daegu', 'name': '대구시', 'districts': 8, 'file': 'daegu_all_data.json'},
+                {'code': 'daejeon', 'name': '대전시', 'districts': 5, 'file': 'daejeon_all_data.json'},
+                {'code': 'gwangju', 'name': '광주시', 'districts': 5, 'file': 'gwangju_all_data.json'},
+                {'code': 'ulsan', 'name': '울산시', 'districts': 5, 'file': 'ulsan_all_data.json'}
+            ],
+            'last_updated': datetime.now().isoformat(),
+            'total_regions': 74,
+            'data_size': 'optimized',
+            'version': '2.0'
+        }
+        return jsonify({
+            'status': 'success',
+            'data': metadata,
+            'message': '메타데이터를 성공적으로 조회했습니다.'
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'메타데이터 조회 실패: {str(e)}'
+        }), 500
+
+@app.route('/api/cities/<city_code>', methods=['GET'])
+def get_city_data(city_code):
+    """특정 도시의 전체 데이터 조회 - 새로운 최적화된 API"""
+    try:
+        # 기존 파일 구조 활용 (새로운 파일 생성 없음)
+        city_file_map = {
+            'seoul': 'seoul_priority_data.json',
+            'busan': 'busan_all_data.json',
+            'incheon': 'incheon_all_data.json',
+            'daegu': 'daegu_all_data.json',
+            'daejeon': 'daejeon_all_data.json',
+            'gwangju': 'gwangju_all_data.json',
+            'ulsan': 'ulsan_all_data.json'
+        }
+        
+        filename = city_file_map.get(city_code)
+        if not filename:
+            return jsonify({
+                'status': 'error',
+                'message': f'지원하지 않는 도시 코드: {city_code}'
+            }), 404
+            
+        filepath = os.path.join('collected_data', filename)
+        if not os.path.exists(filepath):
+            return jsonify({
+                'status': 'error',
+                'message': f'{city_code} 데이터 파일이 없습니다.'
+            }), 404
+            
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            
+        return create_gzipped_response({
+            'status': 'success',
+            'data': data,
+            'city': city_code,
+            'message': f'{city_code} 데이터를 성공적으로 로드했습니다.'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'도시 데이터 로드 실패: {str(e)}'
+        }), 500
+
+@app.route('/api/districts/<city_code>/<district_name>', methods=['GET'])
+def get_district_data(city_code, district_name):
+    """특정 구/군의 상세 데이터 조회 - 새로운 최적화된 API"""
+    try:
+        # URL 디코딩
+        district_name = urllib.parse.unquote(district_name)
+        
+        # 파일명 생성 (기존 파일 구조 활용)
+        filename = f"{city_code}_{district_name}_data.json"
+        filepath = os.path.join('collected_data', filename)
+        
+        if not os.path.exists(filepath):
+            return jsonify({
+                'status': 'error',
+                'message': f'{district_name} 데이터 파일이 없습니다.'
+            }), 404
+            
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            
+        return create_gzipped_response({
+            'status': 'success',
+            'data': data,
+            'city': city_code,
+            'district': district_name,
+            'message': f'{district_name} 데이터를 성공적으로 로드했습니다.'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'구/군 데이터 로드 실패: {str(e)}'
+        }), 500
+
+@app.route('/api/regions/summary', methods=['GET'])
+def get_regions_summary():
+    """지역별 요약 정보 조회 - 빠른 로딩용"""
+    try:
+        summary = {
+            'seoul': {
+                'name': '서울시',
+                'districts': ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'],
+                'total_transactions': 0,
+                'avg_price': 0
+            },
+            'busan': {
+                'name': '부산시',
+                'districts': ['강서구', '금정구', '기장군', '남구', '동구', '동래구', '부산진구', '북구', '사상구', '사하구', '서구', '수영구', '연제구', '영도구', '중구', '해운대구'],
+                'total_transactions': 0,
+                'avg_price': 0
+            },
+            'incheon': {
+                'name': '인천시',
+                'districts': ['강화군', '계양구', '남동구', '동구', '미추홀구', '부평구', '서구', '연수구', '옹진군', '중구'],
+                'total_transactions': 0,
+                'avg_price': 0
+            }
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': summary,
+            'message': '지역 요약 정보를 성공적으로 조회했습니다.'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'지역 요약 조회 실패: {str(e)}'
+        }), 500
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))
     app.run(debug=False, host='0.0.0.0', port=port) 
