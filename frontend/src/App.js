@@ -34,19 +34,7 @@ function App() {
     try {
       setLoading(true);
       
-      // 먼저 캐시 확인 (빠른 응답)
-      const cachedResult = await realEstateDB.loadDataCompressed();
-      if (cachedResult) {
-        setAllData(cachedResult.data);
-        setDataTimestamp(cachedResult.timestamp);
-        setLoading(false);
-        
-        // 백그라운드에서 최신 데이터 확인
-        setTimeout(() => checkForUpdates(), 100);
-        return;
-      }
-      
-      // 캐시가 없으면 점진적 로딩 시작
+      // 강제로 최적화된 로딩만 사용 (캐시 무시)
       await loadDataProgressively();
       
     } catch (error) {
@@ -77,24 +65,8 @@ function App() {
             setLoading(false);
             console.log(`🚀 ${selectedCity} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
             
-            // 백그라운드에서 전체 데이터 로드
-            setTimeout(async () => {
-              try {
-                const fullStartTime = performance.now();
-                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-                const fullLoadTime = performance.now() - fullStartTime;
-                if (fullDataResponse.data.status === 'success') {
-                  const fullData = fullDataResponse.data.data;
-                  const timestamp = fullDataResponse.data.metadata?.collection_date;
-                  setAllData(fullData);
-                  setDataTimestamp(timestamp || null);
-                  await realEstateDB.saveDataCompressed(fullData, timestamp || new Date().toISOString());
-                  console.log(`🚀 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms`);
-                }
-              } catch (e) {
-                console.log('전체 데이터 로드 실패, 도시 데이터로 계속 진행');
-              }
-            }, 500);
+            // 백그라운드 로딩 비활성화 (성능 최적화)
+            console.log('✅ 최적화된 로딩 완료 - 백그라운드 로딩 비활성화');
             return; // 새로운 최적화된 로딩 경로 종료
           }
         }
@@ -111,24 +83,8 @@ function App() {
             setAllData(seoulPriority); // 우선 데이터 즉시 반영
             setLoading(false);
 
-            // 전체 통합 데이터는 백그라운드에서 로드 후 캐시에 저장
-            setTimeout(async () => {
-              try {
-                const fullStartTime = performance.now();
-                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-                const fullLoadTime = performance.now() - fullStartTime;
-                if (fullDataResponse.data.status === 'success') {
-                  const fullData = fullDataResponse.data.data;
-                  const timestamp = fullDataResponse.data.metadata?.collection_date;
-                  setAllData(fullData);
-                  setDataTimestamp(timestamp || null);
-                  await realEstateDB.saveDataCompressed(fullData, timestamp || new Date().toISOString());
-                  console.log(`🚀 (LOCAL) 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms`);
-                }
-              } catch (e) {
-                console.log('(LOCAL) 전체 데이터 로드 실패, 우선 데이터로 계속 진행');
-              }
-            }, 300);
+            // 백그라운드 로딩 비활성화 (성능 최적화)
+            console.log('✅ (LOCAL) 최적화된 로딩 완료 - 백그라운드 로딩 비활성화');
             return; // 로컬 우선 로딩 경로 종료
           }
         } catch (e) {
