@@ -287,6 +287,31 @@ function App() {
           setAllData(cachedResult.data);
           setDataTimestamp(cachedResult.timestamp);
           console.log('IndexedDB에서 캐시된 데이터 로드 완료');
+          
+          // 캐시된 데이터가 있어도 백그라운드에서 최신 데이터 확인
+          setTimeout(async () => {
+            console.log('🔄 백그라운드에서 최신 데이터 확인 중...');
+            try {
+              const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+              if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+                const fullData = fullDataResponse.data.data;
+                const timestamp = fullDataResponse.data.metadata.collection_date;
+                
+                // 캐시된 데이터와 다르면 업데이트
+                if (JSON.stringify(cachedResult.data) !== JSON.stringify(fullData)) {
+                  setAllData(fullData);
+                  setDataTimestamp(timestamp);
+                  await realEstateDB.saveDataCompressed(fullData, timestamp);
+                  console.log('✅ 백그라운드에서 최신 데이터로 업데이트 완료');
+                } else {
+                  console.log('✅ 캐시된 데이터가 최신 상태입니다');
+                }
+              }
+            } catch (error) {
+              console.log('백그라운드 데이터 확인 실패:', error);
+            }
+          }, 3000); // 3초 후 백그라운드 확인
+          
           return;
         }
         
@@ -343,6 +368,26 @@ function App() {
           setAllData(cityData);
           setLoading(false);
           console.log(`🚀 ${cityNames[cityId]} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
+          
+          // 백그라운드에서 다른 지역 데이터 점진적 로딩
+          setTimeout(async () => {
+            console.log(`🔄 ${cityNames[cityId]} 백그라운드에서 다른 지역 데이터 로딩 시작...`);
+            try {
+              const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+              if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+                const fullData = fullDataResponse.data.data;
+                const timestamp = fullDataResponse.data.metadata.collection_date;
+                
+                setAllData(fullData);
+                setDataTimestamp(timestamp);
+                await realEstateDB.saveDataCompressed(fullData, timestamp);
+                console.log(`✅ ${cityNames[cityId]} 백그라운드 전체 데이터 로딩 완료`);
+              }
+            } catch (error) {
+              console.log(`${cityNames[cityId]} 백그라운드 데이터 로딩 실패:`, error);
+            }
+          }, 2000); // 2초 후 백그라운드 로딩 시작
+          
         } else {
           console.log(`${cityNames[cityId]} 데이터 로드 실패`);
           setLoading(false);
