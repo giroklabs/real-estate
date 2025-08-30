@@ -30,9 +30,10 @@ from services.region_service import RegionService
 
 # Gzip 압축 헬퍼 함수
 def create_gzipped_response(data, status_code=200):
-    """Gzip 압축된 JSON 응답 생성"""
-    json_data = json.dumps(data, ensure_ascii=False)
-    gzip_data = gzip.compress(json_data.encode('utf-8'))
+    """Gzip 압축된 JSON 응답 생성 (최적화된 압축률 및 JSON 형식)"""
+    # JSON 최적화: separators로 공백 제거, 최대 압축률 적용
+    json_data = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
+    gzip_data = gzip.compress(json_data.encode('utf-8'), compresslevel=9)
     
     response = jsonify(data)
     response.headers['Content-Encoding'] = 'gzip'
@@ -49,10 +50,15 @@ def create_gzipped_response(data, status_code=200):
 def extract_city_from_integrated_data(city_code):
     """통합 데이터 파일에서 특정 도시 데이터 추출"""
     try:
-        # 도시 코드를 한글명으로 매핑
+        # 도시 코드를 한글명으로 매핑 (확장 가능)
         city_mapping = {
             'daegu': '대구',
-            'incheon': '인천'
+            'incheon': '인천',
+            'anyang': '안양',
+            'suwon': '수원',
+            'yongin': '용인',
+            'goyang': '고양',
+            'sejong': '세종'
         }
         
         city_name = city_mapping.get(city_code)
@@ -1363,36 +1369,59 @@ def get_metadata():
             'message': f'메타데이터 조회 실패: {str(e)}'
         }), 500
 
-@app.route('/api/cities/<city_code>', methods=['GET'])
+def find_city_data_file(city_code):
+    """도시 코드에 해당하는 데이터 파일을 동적으로 찾기"""
+    import glob
+    
+    # 도시 코드를 한글명으로 매핑 (확장 가능)
+    city_mapping = {
+        'seoul': '서울',
+        'busan': '부산',
+        'incheon': '인천',
+        'daegu': '대구',
+        'daejeon': '대전',
+        'gwangju': '광주',
+        'ulsan': '울산',
+        'bucheon': '부천',
+        'seongnam': '성남',
+        'guri': '구리',
+        'anyang': '안양',
+        'suwon': '수원',
+        'yongin': '용인',
+        'goyang': '고양',
+        'sejong': '세종'
+    }
+    
+    city_name = city_mapping.get(city_code)
+    if not city_name:
+        return None
+    
+    # 패턴으로 파일 검색 (우선순위 순)
+    patterns = [
+        f"{city_code}_priority_data.json",
+        f"{city_code}_all_data.json",
+        f"{city_code}_all_data_*.json",
+        f"{city_name}_all_data.json",
+        f"{city_name}_all_data_*.json"
+    ]
+    
+    for pattern in patterns:
+        files = glob.glob(os.path.join('collected_data', pattern))
+        if files:
+            # 가장 최신 파일 선택
+            latest_file = max(files, key=os.path.getmtime)
+            return latest_file
+    
+    return None
+
 def get_city_data(city_code):
-    """특정 도시의 전체 데이터 조회 - 새로운 최적화된 API"""
+    """특정 도시의 전체 데이터 조회 - 동적 파일 검색 방식"""
     print(f"🚀 get_city_data 호출됨: {city_code}")
     try:
-        # 기존 파일 구조 활용 (새로운 파일 생성 없음)
-        city_file_map = {
-            'seoul': 'seoul_priority_data.json',
-            'busan': 'busan_all_data.json',
-            'incheon': 'incheon_all_data.json',
-            'daegu': 'daegu_all_data.json',
-            'daejeon': 'daejeon_all_data.json',
-            'gwangju': 'gwangju_all_data.json',
-            'ulsan': 'ulsan_all_data.json',
-            'bucheon': 'bucheon_all_data.json',
-            'seongnam': 'seongnam_all_data_20250812_205417.json',
-            'guri': 'guri_all_data_20250811_173911.json'
-        }
+        # 동적으로 파일 찾기
+        filepath = find_city_data_file(city_code)
         
-        filename = city_file_map.get(city_code)
-        if not filename:
-            return jsonify({
-                'status': 'error',
-                'message': f'지원하지 않는 도시 코드: {city_code}'
-            }), 404
-            
-        filepath = os.path.join('collected_data', filename)
-        
-        # 개별 파일이 있는 경우
-        if os.path.exists(filepath):
+        if filepath and os.path.exists(filepath):
             print(f"개별 파일 로드: {filepath}")
             with open(filepath, 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -1404,7 +1433,7 @@ def get_city_data(city_code):
                 print(f"통합 파일에서도 {city_code} 데이터를 찾을 수 없음")
                 return jsonify({
                     'status': 'error',
-                    'message': f'{city_code} 데이터를 찾을 수 없습니다.'
+                    'message': f'{city_code} 데이터를 찾을 수 없습니다. 데이터 파일이 존재하지 않거나 도시 코드가 지원되지 않습니다.'
                 }), 404
             
         return create_gzipped_response({
@@ -1415,10 +1444,16 @@ def get_city_data(city_code):
         })
         
     except Exception as e:
+        print(f"get_city_data 오류: {e}")
         return jsonify({
             'status': 'error',
-            'message': f'도시 데이터 로드 실패: {str(e)}'
+            'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
         }), 500
+
+@app.route('/api/cities/<city_code>', methods=['GET'])
+def get_city_data_endpoint(city_code):
+    """도시 데이터 조회 API 엔드포인트"""
+    return get_city_data(city_code)
 
 @app.route('/api/districts/<city_code>/<district_name>', methods=['GET'])
 def get_district_data(city_code, district_name):
