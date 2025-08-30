@@ -22,6 +22,10 @@ const IS_LOCAL = typeof window !== 'undefined' && (window.location.hostname === 
 axios.defaults.headers.common['Accept-Encoding'] = 'gzip, deflate, br';
 axios.defaults.headers.common['Accept'] = 'application/json, text/plain, */*';
 
+// 메모리 캐시 - 도시별 데이터 저장
+const cityDataCache = new Map();
+const fullDataCache = new Map();
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -54,33 +58,51 @@ function App() {
         if (metadataResponse.data.status === 'success') {
           console.log(`✅ 메타데이터 로드 완료: ${metadataLoadTime.toFixed(2)}ms`);
           
-          // 선택된 도시 데이터만 먼저 로드
-          const cityStartTime = performance.now();
-          const cityResponse = await axios.get(`${API_BASE_URL}/cities/${selectedCity}`);
-          const cityLoadTime = performance.now() - cityStartTime;
-          
-          if (cityResponse.data.status === 'success') {
-            const cityData = cityResponse.data.data;
-            setAllData(cityData);
+          // 선택된 도시 데이터만 먼저 로드 (메모리 캐시 확인)
+          if (cityDataCache.has(selectedCity)) {
+            console.log(`⚡ ${selectedCity} 데이터가 메모리 캐시에 있음 - 즉시 로드`);
+            const cachedCityData = cityDataCache.get(selectedCity);
+            setAllData(cachedCityData);
             setLoading(false);
-            console.log(`🚀 ${selectedCity} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
+          } else {
+            const cityStartTime = performance.now();
+            const cityResponse = await axios.get(`${API_BASE_URL}/cities/${selectedCity}`);
+            const cityLoadTime = performance.now() - cityStartTime;
             
-            // 백그라운드에서 다른 지역 데이터 점진적 로딩
-            setTimeout(async () => {
-              console.log('🔄 백그라운드에서 다른 지역 데이터 로딩 시작...');
-              try {
-                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-                if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
-                  setAllData(fullDataResponse.data.data);
-                  console.log('✅ 백그라운드 전체 데이터 로딩 완료');
-                }
-              } catch (error) {
-                console.log('백그라운드 데이터 로딩 실패:', error);
-              }
-            }, 2000); // 2초 후 백그라운드 로딩 시작
-            
-            return; // 새로운 최적화된 로딩 경로 종료
+            if (cityResponse.data.status === 'success') {
+              const cityData = cityResponse.data.data;
+              cityDataCache.set(selectedCity, cityData); // 메모리 캐시에 저장
+              setAllData(cityData);
+              setLoading(false);
+              console.log(`🚀 ${selectedCity} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms (캐시에 저장됨)`);
+            }
           }
+          
+          // 백그라운드에서 다른 지역 데이터 점진적 로딩
+          setTimeout(async () => {
+            console.log('🔄 백그라운드에서 다른 지역 데이터 로딩 시작...');
+            try {
+              // 전체 데이터 캐시 확인
+              if (fullDataCache.has('integrated')) {
+                console.log('⚡ 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
+                const cachedFullData = fullDataCache.get('integrated');
+                setAllData(cachedFullData);
+                return;
+              }
+              
+              const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+              if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+                const fullData = fullDataResponse.data.data;
+                fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
+                setAllData(fullData);
+                console.log('✅ 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)');
+              }
+            } catch (error) {
+              console.log('백그라운드 데이터 로딩 실패:', error);
+            }
+          }, 2000); // 2초 후 백그라운드 로딩 시작
+          
+          return; // 새로운 최적화된 로딩 경로 종료
         }
       } catch (e) {
         console.log('새로운 최적화된 로딩 실패, 기존 경로로 진행');
@@ -99,10 +121,20 @@ function App() {
             setTimeout(async () => {
               console.log('🔄 (LOCAL) 백그라운드에서 다른 지역 데이터 로딩 시작...');
               try {
+                // 전체 데이터 캐시 확인
+                if (fullDataCache.has('integrated')) {
+                  console.log('⚡ (LOCAL) 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
+                  const cachedFullData = fullDataCache.get('integrated');
+                  setAllData(cachedFullData);
+                  return;
+                }
+                
                 const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
                 if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
-                  setAllData(fullDataResponse.data.data);
-                  console.log('✅ (LOCAL) 백그라운드 전체 데이터 로딩 완료');
+                  const fullData = fullDataResponse.data.data;
+                  fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
+                  setAllData(fullData);
+                  console.log('✅ (LOCAL) 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)');
                 }
               } catch (error) {
                 console.log('(LOCAL) 백그라운드 데이터 로딩 실패:', error);
@@ -130,6 +162,14 @@ function App() {
         // 2단계: 백그라운드에서 전체 데이터 로드
         setTimeout(async () => {
           try {
+            // 전체 데이터 캐시 확인
+            if (fullDataCache.has('integrated')) {
+              console.log('⚡ 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
+              const cachedFullData = fullDataCache.get('integrated');
+              setAllData(cachedFullData);
+              return;
+            }
+            
             const fullStartTime = performance.now();
             const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
             const fullLoadTime = performance.now() - fullStartTime;
@@ -138,11 +178,12 @@ function App() {
               const fullData = fullDataResponse.data.data;
               const timestamp = fullDataResponse.data.metadata.collection_date;
               
+              fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
               setAllData(fullData);
               setDataTimestamp(timestamp);
               await realEstateDB.saveDataCompressed(fullData, timestamp);
               
-              console.log(`🚀 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms`);
+              console.log(`🚀 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms (캐시에 저장됨)`);
               console.log(`📊 데이터 크기: ${JSON.stringify(fullDataResponse.data.metadata)}`);
             }
           } catch (error) {
@@ -356,42 +397,61 @@ function App() {
       };
       console.log(`${cityNames[cityId]} 데이터 사용`);
       
-      // 선택된 도시 데이터 즉시 로드
+      // 선택된 도시 데이터 즉시 로드 (메모리 캐시 확인)
       try {
         setLoading(true);
-        const cityStartTime = performance.now();
-        const cityResponse = await axios.get(`${API_BASE_URL}/cities/${cityId}`);
-        const cityLoadTime = performance.now() - cityStartTime;
         
-        if (cityResponse.data.status === 'success') {
-          const cityData = cityResponse.data.data;
-          setAllData(cityData);
+        // 메모리 캐시에서 먼저 확인
+        if (cityDataCache.has(cityId)) {
+          console.log(`⚡ ${cityNames[cityId]} 데이터가 메모리 캐시에 있음 - 즉시 로드`);
+          const cachedCityData = cityDataCache.get(cityId);
+          setAllData(cachedCityData);
           setLoading(false);
-          console.log(`🚀 ${cityNames[cityId]} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
-          
-          // 백그라운드에서 다른 지역 데이터 점진적 로딩
-          setTimeout(async () => {
-            console.log(`🔄 ${cityNames[cityId]} 백그라운드에서 다른 지역 데이터 로딩 시작...`);
-            try {
-              const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-              if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
-                const fullData = fullDataResponse.data.data;
-                const timestamp = fullDataResponse.data.metadata.collection_date;
-                
-                setAllData(fullData);
-                setDataTimestamp(timestamp);
-                await realEstateDB.saveDataCompressed(fullData, timestamp);
-                console.log(`✅ ${cityNames[cityId]} 백그라운드 전체 데이터 로딩 완료`);
-              }
-            } catch (error) {
-              console.log(`${cityNames[cityId]} 백그라운드 데이터 로딩 실패:`, error);
-            }
-          }, 2000); // 2초 후 백그라운드 로딩 시작
-          
         } else {
-          console.log(`${cityNames[cityId]} 데이터 로드 실패`);
-          setLoading(false);
+          const cityStartTime = performance.now();
+          const cityResponse = await axios.get(`${API_BASE_URL}/cities/${cityId}`);
+          const cityLoadTime = performance.now() - cityStartTime;
+          
+          if (cityResponse.data.status === 'success') {
+            const cityData = cityResponse.data.data;
+            cityDataCache.set(cityId, cityData); // 메모리 캐시에 저장
+            setAllData(cityData);
+            setLoading(false);
+            console.log(`🚀 ${cityNames[cityId]} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms (캐시에 저장됨)`);
+          } else {
+            console.log(`${cityNames[cityId]} 데이터 로드 실패`);
+            setLoading(false);
+          }
         }
+        
+        // 백그라운드에서 다른 지역 데이터 점진적 로딩
+        setTimeout(async () => {
+          console.log(`🔄 ${cityNames[cityId]} 백그라운드에서 다른 지역 데이터 로딩 시작...`);
+          try {
+            // 전체 데이터 캐시 확인
+            if (fullDataCache.has('integrated')) {
+              console.log(`⚡ ${cityNames[cityId]} 전체 데이터가 메모리 캐시에 있음 - 즉시 로드`);
+              const cachedFullData = fullDataCache.get('integrated');
+              setAllData(cachedFullData);
+              return;
+            }
+            
+            const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+            if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+              const fullData = fullDataResponse.data.data;
+              const timestamp = fullDataResponse.data.metadata.collection_date;
+              
+              fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
+              setAllData(fullData);
+              setDataTimestamp(timestamp);
+              await realEstateDB.saveDataCompressed(fullData, timestamp);
+              console.log(`✅ ${cityNames[cityId]} 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)`);
+            }
+          } catch (error) {
+            console.log(`${cityNames[cityId]} 백그라운드 데이터 로딩 실패:`, error);
+          }
+        }, 2000); // 2초 후 백그라운드 로딩 시작
+        
       } catch (error) {
         console.log(`${cityNames[cityId]} 데이터 로드 오류:`, error);
         setLoading(false);
