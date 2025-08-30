@@ -65,8 +65,20 @@ function App() {
             setLoading(false);
             console.log(`🚀 ${selectedCity} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
             
-            // 백그라운드 로딩 비활성화 (성능 최적화)
-            console.log('✅ 최적화된 로딩 완료 - 백그라운드 로딩 비활성화');
+            // 백그라운드에서 다른 지역 데이터 점진적 로딩
+            setTimeout(async () => {
+              console.log('🔄 백그라운드에서 다른 지역 데이터 로딩 시작...');
+              try {
+                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+                if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+                  setAllData(fullDataResponse.data.data);
+                  console.log('✅ 백그라운드 전체 데이터 로딩 완료');
+                }
+              } catch (error) {
+                console.log('백그라운드 데이터 로딩 실패:', error);
+              }
+            }, 2000); // 2초 후 백그라운드 로딩 시작
+            
             return; // 새로운 최적화된 로딩 경로 종료
           }
         }
@@ -83,8 +95,20 @@ function App() {
             setAllData(seoulPriority); // 우선 데이터 즉시 반영
             setLoading(false);
 
-            // 백그라운드 로딩 비활성화 (성능 최적화)
-            console.log('✅ (LOCAL) 최적화된 로딩 완료 - 백그라운드 로딩 비활성화');
+            // 백그라운드에서 다른 지역 데이터 점진적 로딩
+            setTimeout(async () => {
+              console.log('🔄 (LOCAL) 백그라운드에서 다른 지역 데이터 로딩 시작...');
+              try {
+                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+                if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+                  setAllData(fullDataResponse.data.data);
+                  console.log('✅ (LOCAL) 백그라운드 전체 데이터 로딩 완료');
+                }
+              } catch (error) {
+                console.log('(LOCAL) 백그라운드 데이터 로딩 실패:', error);
+              }
+            }, 2000); // 2초 후 백그라운드 로딩 시작
+            
             return; // 로컬 우선 로딩 경로 종료
           }
         } catch (e) {
@@ -306,6 +330,27 @@ function App() {
         'guri': '구리시'
       };
       console.log(`${cityNames[cityId]} 데이터 사용`);
+      
+      // 선택된 도시 데이터 즉시 로드
+      try {
+        setLoading(true);
+        const cityStartTime = performance.now();
+        const cityResponse = await axios.get(`${API_BASE_URL}/cities/${cityId}`);
+        const cityLoadTime = performance.now() - cityStartTime;
+        
+        if (cityResponse.data.status === 'success') {
+          const cityData = cityResponse.data.data;
+          setAllData(cityData);
+          setLoading(false);
+          console.log(`🚀 ${cityNames[cityId]} 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
+        } else {
+          console.log(`${cityNames[cityId]} 데이터 로드 실패`);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log(`${cityNames[cityId]} 데이터 로드 오류:`, error);
+        setLoading(false);
+      }
     } else {
       setLoading(true);
       setError(null);

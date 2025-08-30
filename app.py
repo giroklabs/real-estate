@@ -1335,7 +1335,10 @@ def get_city_data(city_code):
             'daegu': 'daegu_all_data.json',
             'daejeon': 'daejeon_all_data.json',
             'gwangju': 'gwangju_all_data.json',
-            'ulsan': 'ulsan_all_data.json'
+            'ulsan': 'ulsan_all_data.json',
+            'bucheon': 'bucheon_all_data.json',
+            'seongnam': 'seongnam_all_data_20250812_205417.json',
+            'guri': 'guri_all_data_20250811_173911.json'
         }
         
         filename = city_file_map.get(city_code)
