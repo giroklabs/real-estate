@@ -46,6 +46,46 @@ def create_gzipped_response(data, status_code=200):
     
     return response
 
+def extract_city_from_integrated_data(city_code):
+    """통합 데이터 파일에서 특정 도시 데이터 추출"""
+    try:
+        # 도시 코드를 한글명으로 매핑
+        city_mapping = {
+            'daegu': '대구',
+            'incheon': '인천'
+        }
+        
+        city_name = city_mapping.get(city_code)
+        if not city_name:
+            return None
+            
+        # 통합 파일에서 해당 도시 데이터 찾기
+        integrated_files = [
+            'busan_incheon_seoul_daegu_all_data.json',
+            'busan_incheon_seoul_daegu_bucheon_all_data.json'
+        ]
+        
+        for filename in integrated_files:
+            filepath = os.path.join('collected_data', filename)
+            if os.path.exists(filepath):
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    
+                # 해당 도시로 시작하는 모든 지역 데이터 추출
+                city_data = {}
+                for region_key, region_data in data.items():
+                    if region_key.startswith(city_name):
+                        city_data[region_key] = region_data
+                        
+                if city_data:
+                    return city_data
+                    
+        return None
+        
+    except Exception as e:
+        print(f"통합 데이터에서 {city_code} 추출 실패: {e}")
+        return None
+
 # 저장된 데이터 로드 함수
 def load_saved_busan_data():
     """저장된 부산 데이터 로드"""
@@ -1326,6 +1366,7 @@ def get_metadata():
 @app.route('/api/cities/<city_code>', methods=['GET'])
 def get_city_data(city_code):
     """특정 도시의 전체 데이터 조회 - 새로운 최적화된 API"""
+    print(f"🚀 get_city_data 호출됨: {city_code}")
     try:
         # 기존 파일 구조 활용 (새로운 파일 생성 없음)
         city_file_map = {
@@ -1349,14 +1390,22 @@ def get_city_data(city_code):
             }), 404
             
         filepath = os.path.join('collected_data', filename)
-        if not os.path.exists(filepath):
-            return jsonify({
-                'status': 'error',
-                'message': f'{city_code} 데이터 파일이 없습니다.'
-            }), 404
-            
-        with open(filepath, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        
+        # 개별 파일이 있는 경우
+        if os.path.exists(filepath):
+            print(f"개별 파일 로드: {filepath}")
+            with open(filepath, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        else:
+            # 개별 파일이 없는 경우 통합 파일에서 추출
+            print(f"개별 파일 없음, 통합 파일에서 추출: {city_code}")
+            data = extract_city_from_integrated_data(city_code)
+            if not data:
+                print(f"통합 파일에서도 {city_code} 데이터를 찾을 수 없음")
+                return jsonify({
+                    'status': 'error',
+                    'message': f'{city_code} 데이터를 찾을 수 없습니다.'
+                }), 404
             
         return create_gzipped_response({
             'status': 'success',
