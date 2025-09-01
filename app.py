@@ -773,6 +773,91 @@ def get_transactions():
     conn.close()
     return jsonify(transactions)
 
+@app.route('/api/transactions/<region_name>', methods=['GET'])
+def get_transaction_details(region_name):
+    """지역별 상세 거래내역 조회"""
+    try:
+        # 도시별 데이터 파일에서 해당 지역의 거래내역 조회
+        city_data = get_city_data_for_region(region_name)
+        
+        if not city_data:
+            return jsonify([])
+        
+        transactions = []
+        seen_transactions = set()  # 중복 방지를 위한 Set
+        
+        for transaction in city_data:
+            # 중복 체크를 위한 고유 키 생성 (날짜 + 아파트명 + 가격 + 면적 + 층수)
+            unique_key = f"{transaction.get('date', '')}_{transaction.get('complex_name', '')}_{transaction.get('avg_price', 0)}_{transaction.get('area', 0)}_{transaction.get('floor', 0)}"
+            
+            if unique_key not in seen_transactions:
+                seen_transactions.add(unique_key)
+                transactions.append({
+                    'id': unique_key,
+                    'apartment_name': transaction.get('complex_name', ''),
+                    'transaction_date': transaction.get('date', ''),
+                    'price': transaction.get('avg_price', 0),
+                    'area': transaction.get('area', 0),
+                    'floor': transaction.get('floor', 0),
+                    'region_name': transaction.get('region_name', region_name),
+                    'transaction_count': transaction.get('transaction_count', 1),
+                    'source': transaction.get('source', 'molit_api'),
+                    'latest_transaction_date': transaction.get('latest_transaction_date', transaction.get('date', ''))
+                })
+        
+        # 최신순으로 정렬하고 최대 50건만 반환
+        transactions.sort(key=lambda x: x['transaction_date'], reverse=True)
+        return jsonify(transactions[:50])
+        
+    except Exception as e:
+        print(f"거래상세내역 조회 오류: {e}")
+        return jsonify({'error': str(e)}), 500
+
+def get_city_data_for_region(region_name):
+    """지역명으로 도시 데이터에서 해당 지역의 거래내역 조회"""
+    try:
+        # 지역명에서 도시 추출 (예: "서울 강남구" -> "seoul")
+        city_mapping = {
+            '서울': 'seoul',
+            '부산': 'busan', 
+            '인천': 'incheon',
+            '대구': 'daegu',
+            '광주': 'gwangju',
+            '대전': 'daejeon',
+            '울산': 'ulsan',
+            '경기': 'gyeonggi'
+        }
+        
+        city = None
+        for key, value in city_mapping.items():
+            if region_name.startswith(key):
+                city = value
+                break
+        
+        if not city:
+            return []
+        
+        # 도시 데이터 파일 로드
+        data_file = f'collected_data/{city}_all_data.json'
+        
+        if not os.path.exists(data_file):
+            return []
+        
+        with open(data_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # 해당 지역의 데이터 찾기
+        if 'data' in data and region_name in data['data']:
+            return data['data'][region_name]
+        elif region_name in data:
+            return data[region_name]
+        
+        return []
+        
+    except Exception as e:
+        print(f"지역 데이터 조회 오류: {e}")
+        return []
+
 @app.route('/api/price-changes', methods=['GET'])
 def get_price_changes():
     """가격변동률 데이터 조회"""

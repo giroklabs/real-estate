@@ -15,7 +15,9 @@ const TransactionDetailsModal = ({ region, onClose }) => {
   const fetchTransactionDetails = async () => {
     try {
       setLoading(true);
-      // 실제 API 호출을 위한 URL 구성
+      setError(null);
+      
+      // 새로운 API 엔드포인트 사용
       const regionName = encodeURIComponent(region.region_name);
       const response = await fetch(`/api/transactions/${regionName}`);
       
@@ -24,42 +26,17 @@ const TransactionDetailsModal = ({ region, onClose }) => {
       }
       
       const data = await response.json();
-      setTransactions(data.transactions || []);
+      setTransactions(data || []);
     } catch (err) {
       console.error('거래 데이터 조회 오류:', err);
       setError(err.message);
-      // 개발 환경에서는 샘플 데이터 사용
-      setTransactions(generateSampleData());
+      setTransactions([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // 개발 환경용 샘플 데이터 생성
-  const generateSampleData = () => {
-    const sampleTransactions = [];
-    const apartmentNames = [
-      '푸르지오', '래미안', '자이', 'e편한세상', '롯데캐슬', 
-      '힐스테이트', '더샵', '아이파크', '래미안', '푸르지오'
-    ];
-    
-    for (let i = 0; i < 15; i++) {
-      const randomDate = new Date();
-      randomDate.setDate(randomDate.getDate() - Math.floor(Math.random() * 365));
-      
-      sampleTransactions.push({
-        id: i + 1,
-        apartment_name: apartmentNames[Math.floor(Math.random() * apartmentNames.length)],
-        transaction_date: randomDate.toISOString().split('T')[0],
-        price: Math.floor(Math.random() * 500000000) + 200000000, // 2억~7억
-                        area: Math.floor(Math.random() * 30) + 60, // 60~90㎡
-        floor: Math.floor(Math.random() * 20) + 1, // 1~20층
-        region_name: region.region_name
-      });
-    }
-    
-    return sampleTransactions.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
-  };
+
 
   const formatPrice = (price) => {
     if (price >= 100000000) {
@@ -80,7 +57,7 @@ const TransactionDetailsModal = ({ region, onClose }) => {
   };
 
   const formatArea = (area) => {
-    if (!area) return '-';
+    if (!area || area === 0) return '-';
     const value = Number(area);
     if (!isFinite(value) || value <= 0) return '-';
     const pyeong = value / 3.305785;
@@ -154,7 +131,7 @@ const TransactionDetailsModal = ({ region, onClose }) => {
                       <td className="date-cell">{formatDate(transaction.transaction_date)}</td>
                       <td className="price-cell">{formatPrice(transaction.price)}</td>
                       <td className="area-cell">{formatArea(transaction.area)}</td>
-                      <td className="floor-cell">{transaction.floor}층</td>
+                      <td className="floor-cell">{transaction.floor > 0 ? `${transaction.floor}층` : '-'}</td>
                     </tr>
                   ))}
                 </tbody>

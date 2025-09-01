@@ -10,12 +10,13 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedMonths, setSelectedMonths] = useState(() => {
-        // 초기값을 최근 1개월로 설정
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth(); // 0부터 시작하므로 이전 달
-        const monthStr = (month + 1) < 10 ? `0${month + 1}` : `${month + 1}`;
-        return [`${year}-${monthStr}`];
+        // 초기값을 2025년 전체로 설정
+        const months2025 = [];
+        for (let month = 1; month <= 12; month++) {
+            const monthStr = month < 10 ? `0${month}` : `${month}`;
+            months2025.push(`2025-${monthStr}`);
+        }
+        return months2025;
     });
     const [sortBy, setSortBy] = useState('transaction_count'); // 정렬 기준
     const [sortOrder, setSortOrder] = useState('desc'); // 정렬 순서
@@ -128,6 +129,21 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         };
     }, [isMonthDropdownOpen, isRegionDropdownOpen]);
 
+    // 도시 변경 시 2025년 전체 데이터 자동 선택
+    useEffect(() => {
+        if (selectedCity) {
+            // 2025년 전체 월을 자동으로 선택
+            const months2025 = generateAvailableMonths()
+                .filter(m => m.value.startsWith('2025-'))
+                .map(m => m.value);
+            
+            if (months2025.length > 0) {
+                setSelectedMonths(months2025);
+                setLoading(true);
+            }
+        }
+    }, [selectedCity]);
+
     // 월 선택 변경 시 데이터 새로고침
     useEffect(() => {
         if (loading) {
@@ -216,58 +232,51 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     // 아파트별 상세 거래 내역 생성 함수 (실제 데이터 사용)
     const generateSampleTransactionDetails = (item) => {
         const transactions = [];
+        const seenTransactions = new Set(); // 중복 방지를 위한 Set
         
         // 정규화된 데이터에서 해당 아파트의 실제 거래 데이터 찾기
-        if (normalizedCityData && selectedRegion) {
-            const regionData = normalizedCityData[selectedRegion];
-            if (regionData && Array.isArray(regionData)) {
-                // 해당 아파트명과 일치하는 거래 데이터 필터링
-                const apartmentTransactions = regionData.filter(transaction => 
-                    transaction.complex_name === item.complex_name
-                );
-                
-                // 최대 10건까지만 표시
-                const displayTransactions = apartmentTransactions.slice(0, 10);
-                
-                displayTransactions.forEach((transaction, index) => {
-                    transactions.push({
-                        id: index + 1,
-                        transaction_date: transaction.date || transaction.latest_transaction_date,
-                        price: transaction.avg_price || transaction.price,
-                        area: transaction.area,
-                        floor: transaction.floor,
-                        region_name: transaction.region_name || item.region_name
-                    });
-                });
-            }
-        }
-        
-        // 실제 데이터가 없거나 부족한 경우 샘플 데이터로 보완
-        if (transactions.length === 0) {
-            const sampleTransactions = [];
-            const transactionCount = Math.min(item.transaction_count, 10);
+        if (normalizedCityData) {
+            // selectedRegion이 있으면 해당 지역에서만 검색, 없으면 전체 도시에서 검색
+            const searchRegions = selectedRegion ? [selectedRegion] : Object.keys(normalizedCityData);
             
-            for (let i = 0; i < transactionCount; i++) {
-                const randomDate = new Date();
-                randomDate.setDate(randomDate.getDate() - Math.floor(Math.random() * 365));
-                
-                const basePrice = item.avg_price || 300000000;
-                const priceVariation = (Math.random() - 0.5) * 0.4;
-                const price = Math.floor(basePrice * (1 + priceVariation));
-                
-                sampleTransactions.push({
-                    id: i + 1,
-                    transaction_date: randomDate.toISOString().split('T')[0],
-                    price: price,
-                    area: item.area || Math.floor(Math.random() * 85) + 15, // 실제 면적이 있으면 사용, 없으면 샘플
-                    floor: Math.floor(Math.random() * 20) + 1,
-                    region_name: item.region_name
-                });
+            for (const region of searchRegions) {
+                const regionData = normalizedCityData[region];
+                if (regionData && Array.isArray(regionData)) {
+                    // 해당 아파트명과 일치하는 거래 데이터 필터링
+                    const apartmentTransactions = regionData.filter(transaction => 
+                        transaction.complex_name === item.complex_name
+                    );
+                    
+                    // 찾은 거래 데이터를 transactions 배열에 추가 (중복 제거)
+                    apartmentTransactions.forEach((transaction, index) => {
+                        // 중복 체크를 위한 고유 키 생성 (날짜 + 가격 + 면적 + 층수)
+                        const uniqueKey = `${transaction.date || transaction.latest_transaction_date}_${transaction.avg_price || transaction.price}_${transaction.area}_${transaction.floor}`;
+                        
+                        if (!seenTransactions.has(uniqueKey)) {
+                            seenTransactions.add(uniqueKey);
+                            transactions.push({
+                                id: transactions.length + 1,
+                                transaction_date: transaction.date || transaction.latest_transaction_date,
+                                price: transaction.avg_price || transaction.price,
+                                area: transaction.area,
+                                floor: transaction.floor,
+                                region_name: transaction.region_name || item.region_name
+                            });
+                        }
+                    });
+                }
             }
-            return sampleTransactions.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
         }
         
-        return transactions.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
+        // 실제 데이터가 없는 경우 빈 배열 반환 (가상 데이터 생성 제거)
+        if (transactions.length === 0) {
+            return [];
+        }
+        
+        // 최대 10건까지만 표시하고 최신순으로 정렬
+        return transactions
+            .sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date))
+            .slice(0, 10);
     };
 
     // 검색어에 따른 필터링된 순위 데이터 생성
@@ -670,6 +679,14 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                         style={{ fontWeight: '600', color: '#ef4444' }}
                                     >
                                         전체 해제
+                                    </button>
+                                    {/* 빠른 선택: 2025년 전체 */}
+                                    <button 
+                                        onClick={() => selectYear(2025)} 
+                                        className="month-select-option"
+                                        style={{ fontWeight: '600', color: '#10b981' }}
+                                    >
+                                        2025년 전체
                                     </button>
                                     {/* 빠른 선택: 2024년 전체 */}
                                     <button 

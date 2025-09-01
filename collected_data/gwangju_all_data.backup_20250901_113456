@@ -1061,6 +1061,32 @@
       "avg_price": 88910000,
       "source": "molit_api",
       "area": 21.3622,
+      "floor": 7,
+      "latest_transaction_date": "2025-04-03",
+      "dong": "대인동",
+      "jibun": "148-1"
+    },
+    {
+      "date": "2025-04-03",
+      "region_name": "광주 동구",
+      "complex_name": "영무파라드주상복합",
+      "transaction_count": 1,
+      "avg_price": 88910000,
+      "source": "molit_api",
+      "area": 21.3622,
+      "floor": 10,
+      "latest_transaction_date": "2025-04-03",
+      "dong": "대인동",
+      "jibun": "148-1"
+    },
+    {
+      "date": "2025-04-03",
+      "region_name": "광주 동구",
+      "complex_name": "영무파라드주상복합",
+      "transaction_count": 1,
+      "avg_price": 88910000,
+      "source": "molit_api",
+      "area": 21.3622,
       "floor": 10,
       "latest_transaction_date": "2025-04-03",
       "dong": "대인동",
@@ -1087,7 +1113,33 @@
       "avg_price": 88910000,
       "source": "molit_api",
       "area": 21.3622,
+      "floor": 11,
+      "latest_transaction_date": "2025-04-03",
+      "dong": "대인동",
+      "jibun": "148-1"
+    },
+    {
+      "date": "2025-04-03",
+      "region_name": "광주 동구",
+      "complex_name": "영무파라드주상복합",
+      "transaction_count": 1,
+      "avg_price": 88910000,
+      "source": "molit_api",
+      "area": 21.3622,
       "floor": 12,
+      "latest_transaction_date": "2025-04-03",
+      "dong": "대인동",
+      "jibun": "148-1"
+    },
+    {
+      "date": "2025-04-03",
+      "region_name": "광주 동구",
+      "complex_name": "영무파라드주상복합",
+      "transaction_count": 1,
+      "avg_price": 88910000,
+      "source": "molit_api",
+      "area": 21.3622,
+      "floor": 13,
       "latest_transaction_date": "2025-04-03",
       "dong": "대인동",
       "jibun": "148-1"
@@ -1535,6 +1587,19 @@
       "jibun": "1827"
     },
     {
+      "date": "2025-04-04",
+      "region_name": "광주 동구",
+      "complex_name": "그랜드센트럴",
+      "transaction_count": 1,
+      "avg_price": 470000000,
+      "source": "molit_api",
+      "area": 75.9867,
+      "floor": 8,
+      "latest_transaction_date": "2025-04-04",
+      "dong": "계림동",
+      "jibun": "1827"
+    },
+    {
       "date": "2025-04-03",
       "region_name": "광주 동구",
       "complex_name": "월남호반베르디움2차",
@@ -1819,6 +1884,19 @@
       "latest_transaction_date": "2025-02-17",
       "dong": "용산동",
       "jibun": "177"
+    },
+    {
+      "date": "2025-02-27",
+      "region_name": "광주 동구",
+      "complex_name": "그랜드센트럴",
+      "transaction_count": 1,
+      "avg_price": 462000000,
+      "source": "molit_api",
+      "area": 75.9867,
+      "floor": 16,
+      "latest_transaction_date": "2025-02-27",
+      "dong": "계림동",
+      "jibun": "1827"
     },
     {
       "date": "2025-02-27",
@@ -2488,6 +2566,19 @@
       "region_name": "광주 동구",
       "complex_name": "그랜드센트럴",
       "transaction_count": 1,
+      "avg_price": 354000000,
+      "source": "molit_api",
+      "area": 59.9083,
+      "floor": 11,
+      "latest_transaction_date": "2025-02-17",
+      "dong": "계림동",
+      "jibun": "1827"
+    },
+    {
+      "date": "2025-02-17",
+      "region_name": "광주 동구",
+      "complex_name": "그랜드센트럴",
+      "transaction_count": 1,
       "avg_price": 415000000,
       "source": "molit_api",
       "area": 75.9117,
@@ -2534,6 +2625,19 @@
       "latest_transaction_date": "2025-02-15",
       "dong": "학동",
       "jibun": "1022"
+    },
+    {
+      "date": "2025-02-08",
+      "region_name": "광주 동구",
+      "complex_name": "지산휴먼시아",
+      "transaction_count": 1,
+      "avg_price": 355000000,
+      "source": "molit_api",
+      "area": 84.96,
+      "floor": 4,
+      "latest_transaction_date": "2025-02-08",
+      "dong": "지산동",
+      "jibun": "671"
     },
     {
       "date": "2025-02-06",
@@ -2640,6 +2744,19 @@
       "jibun": "52"
     },
     {
+      "date": "2025-02-07",
+      "region_name": "광주 동구",
+      "complex_name": "라인2차",
+      "transaction_count": 1,
+      "avg_price": 175000000,
+      "source": "molit_api",
+      "area": 84.7,
+      "floor": 9,
+      "latest_transaction_date": "2025-02-07",
+      "dong": "운림동",
+      "jibun": "654"
+    },
+    {
       "date": "2025-02-08",
       "region_name": "광주 동구",
       "complex_name": "광주용산지구2BL계룡리슈빌더포레스트아파트",
@@ -2690,6 +2807,19 @@
       "latest_transaction_date": "2025-02-09",
       "dong": "용산동",
       "jibun": "747"
+    },
+    {
+      "date": "2025-02-08",
+      "region_name": "광주 동구",
+      "complex_name": "삼성",
+      "transaction_count": 1,
+      "avg_price": 210000000,
+      "source": "molit_api",
+      "area": 84.945,
+      "floor": 13,
+      "latest_transaction_date": "2025-02-08",
+      "dong": "지산동",
+      "jibun": "315-1"
     },
     {
       "date": "2025-02-03",
@@ -2798,6 +2928,19 @@
     {
       "date": "2025-02-02",
       "region_name": "광주 동구",
+      "complex_name": "두산위브3차(두산위브더파크)",
+      "transaction_count": 1,
+      "avg_price": 385000000,
+      "source": "molit_api",
+      "area": 59.9903,
+      "floor": 11,
+      "latest_transaction_date": "2025-02-02",
+      "dong": "계림동",
+      "jibun": "1845"
+    },
+    {
+      "date": "2025-02-02",
+      "region_name": "광주 동구",
       "complex_name": "계림아이파크에스케이뷰",
       "transaction_count": 1,
       "avg_price": 590000000,
@@ -2807,6 +2950,19 @@
       "latest_transaction_date": "2025-02-02",
       "dong": "계림동",
       "jibun": "1869"
+    },
+    {
+      "date": "2025-02-02",
+      "region_name": "광주 동구",
+      "complex_name": "두산위브3차(두산위브더파크)",
+      "transaction_count": 1,
+      "avg_price": 385000000,
+      "source": "molit_api",
+      "area": 59.9903,
+      "floor": 11,
+      "latest_transaction_date": "2025-02-02",
+      "dong": "계림동",
+      "jibun": "1845"
     },
     {
       "date": "2025-01-23",
@@ -2872,6 +3028,32 @@
       "latest_transaction_date": "2025-01-21",
       "dong": "계림동",
       "jibun": "1827"
+    },
+    {
+      "date": "2025-01-23",
+      "region_name": "광주 동구",
+      "complex_name": "용산지구모아엘가에듀파크",
+      "transaction_count": 1,
+      "avg_price": 428000000,
+      "source": "molit_api",
+      "area": 84.9024,
+      "floor": 6,
+      "latest_transaction_date": "2025-01-23",
+      "dong": "용산동",
+      "jibun": "663"
+    },
+    {
+      "date": "2025-01-18",
+      "region_name": "광주 동구",
+      "complex_name": "용산지구모아엘가에듀파크",
+      "transaction_count": 1,
+      "avg_price": 425000000,
+      "source": "molit_api",
+      "area": 84.9024,
+      "floor": 4,
+      "latest_transaction_date": "2025-01-18",
+      "dong": "용산동",
+      "jibun": "663"
     },
     {
       "date": "2025-01-18",
@@ -3942,6 +4124,19 @@
       "jibun": "350-14"
     },
     {
+      "date": "2025-08-14",
+      "region_name": "광주 서구",
+      "complex_name": "상무자이",
+      "transaction_count": 1,
+      "avg_price": 680000000,
+      "source": "molit_api",
+      "area": 170.8552,
+      "floor": 4,
+      "latest_transaction_date": "2025-08-14",
+      "dong": "마륵동",
+      "jibun": "1"
+    },
+    {
       "date": "2025-08-10",
       "region_name": "광주 서구",
       "complex_name": "대주피오레",
@@ -4345,6 +4540,19 @@
       "jibun": "864"
     },
     {
+      "date": "2025-08-07",
+      "region_name": "광주 서구",
+      "complex_name": "상무버들마을주공2",
+      "transaction_count": 1,
+      "avg_price": 139000000,
+      "source": "molit_api",
+      "area": 49.74,
+      "floor": 7,
+      "latest_transaction_date": "2025-08-07",
+      "dong": "유촌동",
+      "jibun": "871"
+    },
+    {
       "date": "2025-08-09",
       "region_name": "광주 서구",
       "complex_name": "대주파크빌",
@@ -4460,6 +4668,19 @@
       "latest_transaction_date": "2025-08-06",
       "dong": "농성동",
       "jibun": "117"
+    },
+    {
+      "date": "2025-08-07",
+      "region_name": "광주 서구",
+      "complex_name": "금호2",
+      "transaction_count": 1,
+      "avg_price": 355000000,
+      "source": "molit_api",
+      "area": 106.21,
+      "floor": 6,
+      "latest_transaction_date": "2025-08-07",
+      "dong": "풍암동",
+      "jibun": "1093"
     },
     {
       "date": "2025-08-07",
@@ -5125,6 +5346,19 @@
       "jibun": "771"
     },
     {
+      "date": "2025-06-28",
+      "region_name": "광주 서구",
+      "complex_name": "우미린",
+      "transaction_count": 1,
+      "avg_price": 510000000,
+      "source": "molit_api",
+      "area": 84.9679,
+      "floor": 9,
+      "latest_transaction_date": "2025-06-28",
+      "dong": "동천동",
+      "jibun": "648"
+    },
+    {
       "date": "2025-06-30",
       "region_name": "광주 서구",
       "complex_name": "라인대주",
@@ -5216,6 +5450,19 @@
       "jibun": "871"
     },
     {
+      "date": "2025-06-17",
+      "region_name": "광주 서구",
+      "complex_name": "현대",
+      "transaction_count": 1,
+      "avg_price": 150000000,
+      "source": "molit_api",
+      "area": 59.95,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "풍암동",
+      "jibun": "1057"
+    },
+    {
       "date": "2025-06-23",
       "region_name": "광주 서구",
       "complex_name": "금호3",
@@ -5266,6 +5513,19 @@
       "latest_transaction_date": "2025-06-17",
       "dong": "화정동",
       "jibun": "1712"
+    },
+    {
+      "date": "2025-06-21",
+      "region_name": "광주 서구",
+      "complex_name": "힐스테이트광천",
+      "transaction_count": 1,
+      "avg_price": 458000000,
+      "source": "molit_api",
+      "area": 70.7285,
+      "floor": 13,
+      "latest_transaction_date": "2025-06-21",
+      "dong": "광천동",
+      "jibun": "899"
     },
     {
       "date": "2025-06-25",
@@ -5589,6 +5849,19 @@
       "area": 84.8726,
       "floor": 9,
       "latest_transaction_date": "2025-06-27",
+      "dong": "금호동",
+      "jibun": "1112"
+    },
+    {
+      "date": "2025-06-25",
+      "region_name": "광주 서구",
+      "complex_name": "금호지구대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 425000000,
+      "source": "molit_api",
+      "area": 84.8726,
+      "floor": 6,
+      "latest_transaction_date": "2025-06-25",
       "dong": "금호동",
       "jibun": "1112"
     },
@@ -6074,6 +6347,19 @@
       "jibun": "1712"
     },
     {
+      "date": "2025-06-01",
+      "region_name": "광주 서구",
+      "complex_name": "상무광명메이루즈",
+      "transaction_count": 1,
+      "avg_price": 420000000,
+      "source": "molit_api",
+      "area": 84.9857,
+      "floor": 29,
+      "latest_transaction_date": "2025-06-01",
+      "dong": "치평동",
+      "jibun": "1249"
+    },
+    {
       "date": "2025-06-11",
       "region_name": "광주 서구",
       "complex_name": "상무양우내안애",
@@ -6256,6 +6542,19 @@
       "jibun": "1110"
     },
     {
+      "date": "2025-06-07",
+      "region_name": "광주 서구",
+      "complex_name": "금호2",
+      "transaction_count": 1,
+      "avg_price": 380000000,
+      "source": "molit_api",
+      "area": 122.39,
+      "floor": 4,
+      "latest_transaction_date": "2025-06-07",
+      "dong": "풍암동",
+      "jibun": "1093"
+    },
+    {
       "date": "2025-06-22",
       "region_name": "광주 서구",
       "complex_name": "매월동아델리움로제비앙",
@@ -6319,6 +6618,19 @@
       "latest_transaction_date": "2025-06-14",
       "dong": "내방동",
       "jibun": "475-1"
+    },
+    {
+      "date": "2025-06-11",
+      "region_name": "광주 서구",
+      "complex_name": "금호대우",
+      "transaction_count": 1,
+      "avg_price": 235000000,
+      "source": "molit_api",
+      "area": 59.94,
+      "floor": 15,
+      "latest_transaction_date": "2025-06-11",
+      "dong": "치평동",
+      "jibun": "1166-2"
     },
     {
       "date": "2025-06-14",
@@ -6464,6 +6776,19 @@
       "jibun": "240-2"
     },
     {
+      "date": "2025-06-19",
+      "region_name": "광주 서구",
+      "complex_name": "중흥",
+      "transaction_count": 1,
+      "avg_price": 175000000,
+      "source": "molit_api",
+      "area": 59.46,
+      "floor": 13,
+      "latest_transaction_date": "2025-06-19",
+      "dong": "금호동",
+      "jibun": "787"
+    },
+    {
       "date": "2025-06-13",
       "region_name": "광주 서구",
       "complex_name": "금호지구대광로제비앙",
@@ -6527,6 +6852,19 @@
       "latest_transaction_date": "2025-06-19",
       "dong": "금호동",
       "jibun": "787"
+    },
+    {
+      "date": "2025-06-11",
+      "region_name": "광주 서구",
+      "complex_name": "송촌파인힐",
+      "transaction_count": 1,
+      "avg_price": 285000000,
+      "source": "molit_api",
+      "area": 84.75,
+      "floor": 14,
+      "latest_transaction_date": "2025-06-11",
+      "dong": "금호동",
+      "jibun": "785"
     },
     {
       "date": "2025-06-23",
@@ -6739,6 +7077,19 @@
     {
       "date": "2025-06-17",
       "region_name": "광주 서구",
+      "complex_name": "상무양우내안애",
+      "transaction_count": 1,
+      "avg_price": 515000000,
+      "source": "molit_api",
+      "area": 84.2343,
+      "floor": 15,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "마륵동",
+      "jibun": "812"
+    },
+    {
+      "date": "2025-06-17",
+      "region_name": "광주 서구",
       "complex_name": "광천모아엘가",
       "transaction_count": 1,
       "avg_price": 370000000,
@@ -6852,6 +7203,32 @@
       "latest_transaction_date": "2025-06-12",
       "dong": "유촌동",
       "jibun": "871"
+    },
+    {
+      "date": "2025-06-17",
+      "region_name": "광주 서구",
+      "complex_name": "신동아",
+      "transaction_count": 1,
+      "avg_price": 180000000,
+      "source": "molit_api",
+      "area": 84.94,
+      "floor": 4,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "화정동",
+      "jibun": "1062"
+    },
+    {
+      "date": "2025-06-17",
+      "region_name": "광주 서구",
+      "complex_name": "양동CENTRALVIEW",
+      "transaction_count": 1,
+      "avg_price": 305000000,
+      "source": "molit_api",
+      "area": 84.96,
+      "floor": 13,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "양동",
+      "jibun": "460"
     },
     {
       "date": "2025-06-15",
@@ -7049,6 +7426,19 @@
       "jibun": "702"
     },
     {
+      "date": "2025-06-14",
+      "region_name": "광주 서구",
+      "complex_name": "더샵염주센트럴파크",
+      "transaction_count": 1,
+      "avg_price": 570000000,
+      "source": "molit_api",
+      "area": 76.9341,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-14",
+      "dong": "화정동",
+      "jibun": "1712"
+    },
+    {
       "date": "2025-06-08",
       "region_name": "광주 서구",
       "complex_name": "상무엘리체",
@@ -7122,6 +7512,45 @@
       "source": "molit_api",
       "area": 80.1864,
       "floor": 16,
+      "latest_transaction_date": "2025-06-14",
+      "dong": "풍암동",
+      "jibun": "1099"
+    },
+    {
+      "date": "2025-06-14",
+      "region_name": "광주 서구",
+      "complex_name": "부영APT(신암마을)",
+      "transaction_count": 1,
+      "avg_price": 257000000,
+      "source": "molit_api",
+      "area": 80.1864,
+      "floor": 15,
+      "latest_transaction_date": "2025-06-14",
+      "dong": "풍암동",
+      "jibun": "1099"
+    },
+    {
+      "date": "2025-06-13",
+      "region_name": "광주 서구",
+      "complex_name": "대주파크빌",
+      "transaction_count": 1,
+      "avg_price": 160000000,
+      "source": "molit_api",
+      "area": 59.955,
+      "floor": 20,
+      "latest_transaction_date": "2025-06-13",
+      "dong": "금호동",
+      "jibun": "813"
+    },
+    {
+      "date": "2025-06-14",
+      "region_name": "광주 서구",
+      "complex_name": "부영APT(신암마을)",
+      "transaction_count": 1,
+      "avg_price": 257000000,
+      "source": "molit_api",
+      "area": 80.1864,
+      "floor": 15,
       "latest_transaction_date": "2025-06-14",
       "dong": "풍암동",
       "jibun": "1099"
@@ -7452,6 +7881,19 @@
       "jibun": "805"
     },
     {
+      "date": "2025-05-24",
+      "region_name": "광주 서구",
+      "complex_name": "동부센트레빌",
+      "transaction_count": 1,
+      "avg_price": 550000000,
+      "source": "molit_api",
+      "area": 133.435,
+      "floor": 8,
+      "latest_transaction_date": "2025-05-24",
+      "dong": "풍암동",
+      "jibun": "664-6"
+    },
+    {
       "date": "2025-05-15",
       "region_name": "광주 서구",
       "complex_name": "유니버시아드힐스테이트3단지",
@@ -7476,6 +7918,19 @@
       "latest_transaction_date": "2025-05-30",
       "dong": "풍암동",
       "jibun": "1063"
+    },
+    {
+      "date": "2025-05-24",
+      "region_name": "광주 서구",
+      "complex_name": "중흥(1168-1)",
+      "transaction_count": 1,
+      "avg_price": 435000000,
+      "source": "molit_api",
+      "area": 84.93,
+      "floor": 12,
+      "latest_transaction_date": "2025-05-24",
+      "dong": "치평동",
+      "jibun": "1168-1"
     },
     {
       "date": "2025-05-30",
@@ -7957,6 +8412,19 @@
       "latest_transaction_date": "2025-05-30",
       "dong": "쌍촌동",
       "jibun": "155"
+    },
+    {
+      "date": "2025-05-30",
+      "region_name": "광주 서구",
+      "complex_name": "유니버시아드힐스테이트3단지",
+      "transaction_count": 1,
+      "avg_price": 450000000,
+      "source": "molit_api",
+      "area": 84.97,
+      "floor": 26,
+      "latest_transaction_date": "2025-05-30",
+      "dong": "화정동",
+      "jibun": "1612"
     },
     {
       "date": "2025-05-30",
@@ -9246,6 +9714,19 @@
       "jibun": "439-116"
     },
     {
+      "date": "2025-05-10",
+      "region_name": "광주 서구",
+      "complex_name": "유니버시아드힐스테이트3단지",
+      "transaction_count": 1,
+      "avg_price": 557500000,
+      "source": "molit_api",
+      "area": 84.98,
+      "floor": 11,
+      "latest_transaction_date": "2025-05-10",
+      "dong": "화정동",
+      "jibun": "1612"
+    },
+    {
       "date": "2025-05-19",
       "region_name": "광주 서구",
       "complex_name": "럭키",
@@ -9831,6 +10312,19 @@
       "jibun": "871"
     },
     {
+      "date": "2025-05-08",
+      "region_name": "광주 서구",
+      "complex_name": "한양",
+      "transaction_count": 1,
+      "avg_price": 232000000,
+      "source": "molit_api",
+      "area": 84.99,
+      "floor": 8,
+      "latest_transaction_date": "2025-05-08",
+      "dong": "화정동",
+      "jibun": "1023"
+    },
+    {
       "date": "2025-05-10",
       "region_name": "광주 서구",
       "complex_name": "부영(마재마을)",
@@ -9905,6 +10399,19 @@
       "area": 84.96,
       "floor": 13,
       "latest_transaction_date": "2025-05-10",
+      "dong": "양동",
+      "jibun": "460"
+    },
+    {
+      "date": "2025-05-08",
+      "region_name": "광주 서구",
+      "complex_name": "양동CENTRALVIEW",
+      "transaction_count": 1,
+      "avg_price": 292500000,
+      "source": "molit_api",
+      "area": 84.87,
+      "floor": 6,
+      "latest_transaction_date": "2025-05-08",
       "dong": "양동",
       "jibun": "460"
     },
@@ -10206,6 +10713,19 @@
       "latest_transaction_date": "2025-05-06",
       "dong": "화정동",
       "jibun": "1712"
+    },
+    {
+      "date": "2025-05-06",
+      "region_name": "광주 서구",
+      "complex_name": "호반리젠시빌2차",
+      "transaction_count": 1,
+      "avg_price": 220000000,
+      "source": "molit_api",
+      "area": 84.994,
+      "floor": 1,
+      "latest_transaction_date": "2025-05-06",
+      "dong": "금호동",
+      "jibun": "815"
     },
     {
       "date": "2025-05-06",
@@ -10624,6 +11144,19 @@
       "jibun": "1127"
     },
     {
+      "date": "2025-04-30",
+      "region_name": "광주 서구",
+      "complex_name": "금호시영1단지",
+      "transaction_count": 1,
+      "avg_price": 128500000,
+      "source": "molit_api",
+      "area": 49.86,
+      "floor": 3,
+      "latest_transaction_date": "2025-04-30",
+      "dong": "금호동",
+      "jibun": "741-1"
+    },
+    {
       "date": "2025-04-16",
       "region_name": "광주 서구",
       "complex_name": "금호2지구도개공1단지",
@@ -10687,6 +11220,19 @@
       "latest_transaction_date": "2025-04-28",
       "dong": "쌍촌동",
       "jibun": "155"
+    },
+    {
+      "date": "2025-04-19",
+      "region_name": "광주 서구",
+      "complex_name": "상무버들마을주공2",
+      "transaction_count": 1,
+      "avg_price": 173500000,
+      "source": "molit_api",
+      "area": 59.97,
+      "floor": 8,
+      "latest_transaction_date": "2025-04-19",
+      "dong": "유촌동",
+      "jibun": "871"
     },
     {
       "date": "2025-04-28",
@@ -11090,6 +11636,19 @@
       "latest_transaction_date": "2025-04-24",
       "dong": "화정동",
       "jibun": "896-1"
+    },
+    {
+      "date": "2025-04-29",
+      "region_name": "광주 서구",
+      "complex_name": "더샵염주센트럴파크",
+      "transaction_count": 1,
+      "avg_price": 565000000,
+      "source": "molit_api",
+      "area": 76.9612,
+      "floor": 14,
+      "latest_transaction_date": "2025-04-29",
+      "dong": "화정동",
+      "jibun": "1712"
     },
     {
       "date": "2025-04-16",
@@ -11913,6 +12472,19 @@
     {
       "date": "2025-02-25",
       "region_name": "광주 서구",
+      "complex_name": "금호2",
+      "transaction_count": 1,
+      "avg_price": 230000000,
+      "source": "molit_api",
+      "area": 84.61,
+      "floor": 3,
+      "latest_transaction_date": "2025-02-25",
+      "dong": "화정동",
+      "jibun": "928-1"
+    },
+    {
+      "date": "2025-02-25",
+      "region_name": "광주 서구",
       "complex_name": "매월동아델리움로제비앙",
       "transaction_count": 1,
       "avg_price": 435000000,
@@ -11935,6 +12507,19 @@
       "latest_transaction_date": "2025-02-25",
       "dong": "유촌동",
       "jibun": "871"
+    },
+    {
+      "date": "2025-02-27",
+      "region_name": "광주 서구",
+      "complex_name": "광명중흥",
+      "transaction_count": 1,
+      "avg_price": 235000000,
+      "source": "molit_api",
+      "area": 84.99,
+      "floor": 15,
+      "latest_transaction_date": "2025-02-27",
+      "dong": "쌍촌동",
+      "jibun": "1232-1"
     },
     {
       "date": "2025-02-22",
@@ -12039,6 +12624,19 @@
       "latest_transaction_date": "2025-02-28",
       "dong": "화정동",
       "jibun": "859-2"
+    },
+    {
+      "date": "2025-02-13",
+      "region_name": "광주 서구",
+      "complex_name": "진흥더루벤스",
+      "transaction_count": 1,
+      "avg_price": 718000000,
+      "source": "molit_api",
+      "area": 136.235,
+      "floor": 12,
+      "latest_transaction_date": "2025-02-13",
+      "dong": "금호동",
+      "jibun": "268-1"
     },
     {
       "date": "2025-02-20",
@@ -12182,6 +12780,19 @@
       "latest_transaction_date": "2025-02-28",
       "dong": "쌍촌동",
       "jibun": "96"
+    },
+    {
+      "date": "2025-02-24",
+      "region_name": "광주 서구",
+      "complex_name": "빛고을파크",
+      "transaction_count": 1,
+      "avg_price": 107000000,
+      "source": "molit_api",
+      "area": 50.16,
+      "floor": 6,
+      "latest_transaction_date": "2025-02-24",
+      "dong": "쌍촌동",
+      "jibun": "1228-1"
     },
     {
       "date": "2025-02-24",
@@ -12559,6 +13170,19 @@
       "latest_transaction_date": "2025-02-25",
       "dong": "금호동",
       "jibun": "770-1"
+    },
+    {
+      "date": "2025-02-18",
+      "region_name": "광주 서구",
+      "complex_name": "매월동아델리움로제비앙",
+      "transaction_count": 1,
+      "avg_price": 395000000,
+      "source": "molit_api",
+      "area": 84.7741,
+      "floor": 1,
+      "latest_transaction_date": "2025-02-18",
+      "dong": "금호동",
+      "jibun": "1110"
     },
     {
       "date": "2025-02-22",
@@ -13120,6 +13744,19 @@
       "jibun": "1249"
     },
     {
+      "date": "2025-02-20",
+      "region_name": "광주 서구",
+      "complex_name": "용산그린",
+      "transaction_count": 1,
+      "avg_price": 150000000,
+      "source": "molit_api",
+      "area": 84.42,
+      "floor": 5,
+      "latest_transaction_date": "2025-02-20",
+      "dong": "쌍촌동",
+      "jibun": "543-1"
+    },
+    {
       "date": "2025-02-24",
       "region_name": "광주 서구",
       "complex_name": "우미",
@@ -13278,6 +13915,19 @@
     {
       "date": "2025-02-24",
       "region_name": "광주 서구",
+      "complex_name": "상무광명메이루즈",
+      "transaction_count": 1,
+      "avg_price": 360000000,
+      "source": "molit_api",
+      "area": 67.6269,
+      "floor": 11,
+      "latest_transaction_date": "2025-02-24",
+      "dong": "치평동",
+      "jibun": "1249"
+    },
+    {
+      "date": "2025-02-24",
+      "region_name": "광주 서구",
       "complex_name": "대우금호",
       "transaction_count": 1,
       "avg_price": 130000000,
@@ -13352,6 +14002,19 @@
       "latest_transaction_date": "2025-02-22",
       "dong": "쌍촌동",
       "jibun": "1380"
+    },
+    {
+      "date": "2025-02-22",
+      "region_name": "광주 서구",
+      "complex_name": "주은모아",
+      "transaction_count": 1,
+      "avg_price": 168000000,
+      "source": "molit_api",
+      "area": 59.28,
+      "floor": 5,
+      "latest_transaction_date": "2025-02-22",
+      "dong": "풍암동",
+      "jibun": "1127"
     },
     {
       "date": "2025-02-15",
@@ -14953,6 +15616,19 @@
       "jibun": "848"
     },
     {
+      "date": "2025-01-18",
+      "region_name": "광주 서구",
+      "complex_name": "내방마을주공",
+      "transaction_count": 1,
+      "avg_price": 260000000,
+      "source": "molit_api",
+      "area": 84.03,
+      "floor": 9,
+      "latest_transaction_date": "2025-01-18",
+      "dong": "내방동",
+      "jibun": "848"
+    },
+    {
       "date": "2025-01-23",
       "region_name": "광주 서구",
       "complex_name": "우미광장",
@@ -15304,6 +15980,19 @@
       "jibun": "1701"
     },
     {
+      "date": "2025-01-18",
+      "region_name": "광주 서구",
+      "complex_name": "유니버시아드힐스테이트1단지",
+      "transaction_count": 1,
+      "avg_price": 490000000,
+      "source": "molit_api",
+      "area": 84.97,
+      "floor": 15,
+      "latest_transaction_date": "2025-01-18",
+      "dong": "화정동",
+      "jibun": "1611"
+    },
+    {
       "date": "2025-01-20",
       "region_name": "광주 서구",
       "complex_name": "갤러리303",
@@ -15432,6 +16121,19 @@
       "latest_transaction_date": "2025-01-18",
       "dong": "쌍촌동",
       "jibun": "452-22"
+    },
+    {
+      "date": "2025-01-13",
+      "region_name": "광주 서구",
+      "complex_name": "광명메이루즈",
+      "transaction_count": 1,
+      "avg_price": 710000000,
+      "source": "molit_api",
+      "area": 130.461,
+      "floor": 10,
+      "latest_transaction_date": "2025-01-13",
+      "dong": "풍암동",
+      "jibun": "929-2"
     },
     {
       "date": "2025-01-16",
@@ -15759,6 +16461,19 @@
       "jibun": "1380"
     },
     {
+      "date": "2025-01-14",
+      "region_name": "광주 서구",
+      "complex_name": "상무엘리체",
+      "transaction_count": 1,
+      "avg_price": 450000000,
+      "source": "molit_api",
+      "area": 84.981,
+      "floor": 12,
+      "latest_transaction_date": "2025-01-14",
+      "dong": "쌍촌동",
+      "jibun": "1380"
+    },
+    {
       "date": "2025-01-03",
       "region_name": "광주 서구",
       "complex_name": "주은모아",
@@ -15796,6 +16511,19 @@
       "latest_transaction_date": "2025-01-13",
       "dong": "치평동",
       "jibun": "1249"
+    },
+    {
+      "date": "2025-01-14",
+      "region_name": "광주 서구",
+      "complex_name": "상무지구리채시티",
+      "transaction_count": 1,
+      "avg_price": 65000000,
+      "source": "molit_api",
+      "area": 20.0778,
+      "floor": 15,
+      "latest_transaction_date": "2025-01-14",
+      "dong": "치평동",
+      "jibun": "1218"
     },
     {
       "date": "2025-01-14",
@@ -15928,6 +16656,19 @@
       "jibun": "1171-5"
     },
     {
+      "date": "2025-01-10",
+      "region_name": "광주 서구",
+      "complex_name": "금호3",
+      "transaction_count": 1,
+      "avg_price": 460000000,
+      "source": "molit_api",
+      "area": 84.87,
+      "floor": 21,
+      "latest_transaction_date": "2025-01-10",
+      "dong": "치평동",
+      "jibun": "1171-5"
+    },
+    {
       "date": "2025-01-13",
       "region_name": "광주 서구",
       "complex_name": "광명",
@@ -15991,6 +16732,19 @@
       "latest_transaction_date": "2025-01-04",
       "dong": "양동",
       "jibun": "420-5"
+    },
+    {
+      "date": "2025-01-09",
+      "region_name": "광주 서구",
+      "complex_name": "금호3",
+      "transaction_count": 1,
+      "avg_price": 428000000,
+      "source": "molit_api",
+      "area": 84.87,
+      "floor": 20,
+      "latest_transaction_date": "2025-01-09",
+      "dong": "치평동",
+      "jibun": "1171-5"
     },
     {
       "date": "2025-01-10",
@@ -16134,6 +16888,19 @@
       "latest_transaction_date": "2025-01-07",
       "dong": "금호동",
       "jibun": "1077"
+    },
+    {
+      "date": "2025-01-04",
+      "region_name": "광주 서구",
+      "complex_name": "빛고을파크",
+      "transaction_count": 1,
+      "avg_price": 126000000,
+      "source": "molit_api",
+      "area": 50.16,
+      "floor": 13,
+      "latest_transaction_date": "2025-01-04",
+      "dong": "쌍촌동",
+      "jibun": "1228-1"
     },
     {
       "date": "2025-01-04",
@@ -16864,6 +17631,19 @@
       "latest_transaction_date": "2025-08-05",
       "dong": "행암동",
       "jibun": "530"
+    },
+    {
+      "date": "2025-08-10",
+      "region_name": "광주 남구",
+      "complex_name": "반도유보라더퍼스트",
+      "transaction_count": 1,
+      "avg_price": 375000000,
+      "source": "molit_api",
+      "area": 59.8794,
+      "floor": 25,
+      "latest_transaction_date": "2025-08-10",
+      "dong": "월산동",
+      "jibun": "1065"
     },
     {
       "date": "2025-08-10",
@@ -18010,6 +18790,19 @@
       "jibun": "871"
     },
     {
+      "date": "2025-07-21",
+      "region_name": "광주 남구",
+      "complex_name": "골드레이크",
+      "transaction_count": 1,
+      "avg_price": 288000000,
+      "source": "molit_api",
+      "area": 84.87,
+      "floor": 9,
+      "latest_transaction_date": "2025-07-21",
+      "dong": "노대동",
+      "jibun": "871"
+    },
+    {
       "date": "2025-07-20",
       "region_name": "광주 남구",
       "complex_name": "진아리채",
@@ -18060,6 +18853,19 @@
       "latest_transaction_date": "2025-07-11",
       "dong": "봉선동",
       "jibun": "107"
+    },
+    {
+      "date": "2025-07-20",
+      "region_name": "광주 남구",
+      "complex_name": "진아리채",
+      "transaction_count": 1,
+      "avg_price": 310000000,
+      "source": "molit_api",
+      "area": 84.8544,
+      "floor": 2,
+      "latest_transaction_date": "2025-07-20",
+      "dong": "진월동",
+      "jibun": "30"
     },
     {
       "date": "2025-07-08",
@@ -18723,6 +19529,19 @@
       "latest_transaction_date": "2025-07-12",
       "dong": "월산동",
       "jibun": "1065"
+    },
+    {
+      "date": "2025-07-12",
+      "region_name": "광주 남구",
+      "complex_name": "협진훼밀리",
+      "transaction_count": 1,
+      "avg_price": 140000000,
+      "source": "molit_api",
+      "area": 84.99,
+      "floor": 1,
+      "latest_transaction_date": "2025-07-12",
+      "dong": "진월동",
+      "jibun": "340"
     },
     {
       "date": "2025-07-11",
@@ -19622,6 +20441,19 @@
       "jibun": "1043"
     },
     {
+      "date": "2025-06-30",
+      "region_name": "광주 남구",
+      "complex_name": "모아2단지1차",
+      "transaction_count": 1,
+      "avg_price": 109000000,
+      "source": "molit_api",
+      "area": 59.92,
+      "floor": 14,
+      "latest_transaction_date": "2025-06-30",
+      "dong": "봉선동",
+      "jibun": "1043"
+    },
+    {
       "date": "2025-06-23",
       "region_name": "광주 남구",
       "complex_name": "무등파크3차(1단지)",
@@ -19789,6 +20621,19 @@
       "latest_transaction_date": "2025-06-28",
       "dong": "노대동",
       "jibun": "871"
+    },
+    {
+      "date": "2025-06-28",
+      "region_name": "광주 남구",
+      "complex_name": "효천1중흥에스-클래스에코파크",
+      "transaction_count": 1,
+      "avg_price": 400000000,
+      "source": "molit_api",
+      "area": 84.9772,
+      "floor": 8,
+      "latest_transaction_date": "2025-06-28",
+      "dong": "임암동",
+      "jibun": "855"
     },
     {
       "date": "2025-06-22",
@@ -19999,6 +20844,19 @@
       "jibun": "331-93"
     },
     {
+      "date": "2025-06-25",
+      "region_name": "광주 남구",
+      "complex_name": "모아",
+      "transaction_count": 1,
+      "avg_price": 109500000,
+      "source": "molit_api",
+      "area": 59.96,
+      "floor": 3,
+      "latest_transaction_date": "2025-06-25",
+      "dong": "방림동",
+      "jibun": "556"
+    },
+    {
       "date": "2025-06-27",
       "region_name": "광주 남구",
       "complex_name": "포스코더샵",
@@ -20075,6 +20933,19 @@
       "latest_transaction_date": "2025-06-25",
       "dong": "주월동",
       "jibun": "1303"
+    },
+    {
+      "date": "2025-06-25",
+      "region_name": "광주 남구",
+      "complex_name": "호반베르디움1차",
+      "transaction_count": 1,
+      "avg_price": 370000000,
+      "source": "molit_api",
+      "area": 84.7261,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-25",
+      "dong": "주월동",
+      "jibun": "458-1"
     },
     {
       "date": "2025-06-15",
@@ -20688,6 +21559,19 @@
       "jibun": "241"
     },
     {
+      "date": "2025-06-17",
+      "region_name": "광주 남구",
+      "complex_name": "라인",
+      "transaction_count": 1,
+      "avg_price": 230000000,
+      "source": "molit_api",
+      "area": 84.7,
+      "floor": 9,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "봉선동",
+      "jibun": "502"
+    },
+    {
       "date": "2025-06-14",
       "region_name": "광주 남구",
       "complex_name": "힐스테이트지석",
@@ -21221,6 +22105,19 @@
       "jibun": "604"
     },
     {
+      "date": "2025-06-10",
+      "region_name": "광주 남구",
+      "complex_name": "휴먼시아1단지",
+      "transaction_count": 1,
+      "avg_price": 335000000,
+      "source": "molit_api",
+      "area": 84.77,
+      "floor": 20,
+      "latest_transaction_date": "2025-06-10",
+      "dong": "양림동",
+      "jibun": "505"
+    },
+    {
       "date": "2025-06-05",
       "region_name": "광주 남구",
       "complex_name": "전일씨네빌",
@@ -21258,6 +22155,19 @@
       "latest_transaction_date": "2025-06-10",
       "dong": "월산동",
       "jibun": "110-5"
+    },
+    {
+      "date": "2025-06-09",
+      "region_name": "광주 남구",
+      "complex_name": "진월동한국아델리움아파트",
+      "transaction_count": 1,
+      "avg_price": 800000000,
+      "source": "molit_api",
+      "area": 166.1508,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-09",
+      "dong": "진월동",
+      "jibun": "514-22"
     },
     {
       "date": "2025-06-09",
@@ -21416,6 +22326,19 @@
       "jibun": "1242-5"
     },
     {
+      "date": "2025-06-06",
+      "region_name": "광주 남구",
+      "complex_name": "라인",
+      "transaction_count": 1,
+      "avg_price": 155000000,
+      "source": "molit_api",
+      "area": 84.97,
+      "floor": 20,
+      "latest_transaction_date": "2025-06-06",
+      "dong": "월산동",
+      "jibun": "606-3"
+    },
+    {
       "date": "2025-06-03",
       "region_name": "광주 남구",
       "complex_name": "성하맨션",
@@ -21427,6 +22350,19 @@
       "latest_transaction_date": "2025-06-03",
       "dong": "사동",
       "jibun": "163-8"
+    },
+    {
+      "date": "2025-06-06",
+      "region_name": "광주 남구",
+      "complex_name": "반도유보라더퍼스트",
+      "transaction_count": 1,
+      "avg_price": 445000000,
+      "source": "molit_api",
+      "area": 84.9789,
+      "floor": 9,
+      "latest_transaction_date": "2025-06-06",
+      "dong": "월산동",
+      "jibun": "1065"
     },
     {
       "date": "2025-06-04",
@@ -21635,6 +22571,19 @@
       "latest_transaction_date": "2025-06-01",
       "dong": "월산동",
       "jibun": "302-2"
+    },
+    {
+      "date": "2025-06-01",
+      "region_name": "광주 남구",
+      "complex_name": "봉선동제일풍경채엘리트파크",
+      "transaction_count": 1,
+      "avg_price": 830000000,
+      "source": "molit_api",
+      "area": 84.9639,
+      "floor": 8,
+      "latest_transaction_date": "2025-06-01",
+      "dong": "봉선동",
+      "jibun": "1092"
     },
     {
       "date": "2025-05-29",
@@ -22053,6 +23002,19 @@
       "jibun": "696"
     },
     {
+      "date": "2025-05-29",
+      "region_name": "광주 남구",
+      "complex_name": "모아2단지1차",
+      "transaction_count": 1,
+      "avg_price": 140000000,
+      "source": "molit_api",
+      "area": 59.92,
+      "floor": 9,
+      "latest_transaction_date": "2025-05-29",
+      "dong": "봉선동",
+      "jibun": "1043"
+    },
+    {
       "date": "2025-05-24",
       "region_name": "광주 남구",
       "complex_name": "무등산센트럴파크",
@@ -22090,6 +23052,19 @@
       "latest_transaction_date": "2025-05-24",
       "dong": "임암동",
       "jibun": "728"
+    },
+    {
+      "date": "2025-05-12",
+      "region_name": "광주 남구",
+      "complex_name": "백운우방아이유쉘",
+      "transaction_count": 1,
+      "avg_price": 365000000,
+      "source": "molit_api",
+      "area": 84.9888,
+      "floor": 8,
+      "latest_transaction_date": "2025-05-12",
+      "dong": "백운동",
+      "jibun": "696"
     },
     {
       "date": "2025-05-03",
@@ -22207,6 +23182,19 @@
       "latest_transaction_date": "2025-05-28",
       "dong": "방림동",
       "jibun": "571"
+    },
+    {
+      "date": "2025-05-26",
+      "region_name": "광주 남구",
+      "complex_name": "무등파크3차(1단지)",
+      "transaction_count": 1,
+      "avg_price": 185000000,
+      "source": "molit_api",
+      "area": 84.73,
+      "floor": 3,
+      "latest_transaction_date": "2025-05-26",
+      "dong": "봉선동",
+      "jibun": "23-3"
     },
     {
       "date": "2025-05-29",
@@ -22482,6 +23470,19 @@
       "jibun": "571"
     },
     {
+      "date": "2025-05-26",
+      "region_name": "광주 남구",
+      "complex_name": "무등파크3차(1단지)",
+      "transaction_count": 1,
+      "avg_price": 185000000,
+      "source": "molit_api",
+      "area": 84.73,
+      "floor": 3,
+      "latest_transaction_date": "2025-05-26",
+      "dong": "봉선동",
+      "jibun": "23-3"
+    },
+    {
       "date": "2025-05-24",
       "region_name": "광주 남구",
       "complex_name": "휴먼시아1단지",
@@ -22558,6 +23559,19 @@
       "latest_transaction_date": "2025-05-07",
       "dong": "지석동",
       "jibun": "506"
+    },
+    {
+      "date": "2025-05-26",
+      "region_name": "광주 남구",
+      "complex_name": "한신1",
+      "transaction_count": 1,
+      "avg_price": 180000000,
+      "source": "molit_api",
+      "area": 84.87,
+      "floor": 1,
+      "latest_transaction_date": "2025-05-26",
+      "dong": "진월동",
+      "jibun": "267"
     },
     {
       "date": "2025-05-12",
@@ -22653,6 +23667,19 @@
     {
       "date": "2025-05-24",
       "region_name": "광주 남구",
+      "complex_name": "효천시티프라디움",
+      "transaction_count": 1,
+      "avg_price": 455000000,
+      "source": "molit_api",
+      "area": 84.9948,
+      "floor": 8,
+      "latest_transaction_date": "2025-05-24",
+      "dong": "임암동",
+      "jibun": "728"
+    },
+    {
+      "date": "2025-05-24",
+      "region_name": "광주 남구",
       "complex_name": "힐스테이트백운",
       "transaction_count": 1,
       "avg_price": 420000000,
@@ -22688,6 +23715,19 @@
       "latest_transaction_date": "2025-05-24",
       "dong": "월산동",
       "jibun": "302-2"
+    },
+    {
+      "date": "2025-05-19",
+      "region_name": "광주 남구",
+      "complex_name": "포스코더샵",
+      "transaction_count": 1,
+      "avg_price": 760000000,
+      "source": "molit_api",
+      "area": 84.32,
+      "floor": 13,
+      "latest_transaction_date": "2025-05-19",
+      "dong": "봉선동",
+      "jibun": "1076"
     },
     {
       "date": "2025-05-23",
@@ -23303,6 +24343,19 @@
     {
       "date": "2025-05-10",
       "region_name": "광주 남구",
+      "complex_name": "봉선이지더원2단지",
+      "transaction_count": 1,
+      "avg_price": 255000000,
+      "source": "molit_api",
+      "area": 59.7827,
+      "floor": 14,
+      "latest_transaction_date": "2025-05-10",
+      "dong": "봉선동",
+      "jibun": "1147"
+    },
+    {
+      "date": "2025-05-10",
+      "region_name": "광주 남구",
       "complex_name": "봉선로광명메이루즈",
       "transaction_count": 1,
       "avg_price": 385000000,
@@ -23585,6 +24638,19 @@
       "latest_transaction_date": "2025-05-03",
       "dong": "주월동",
       "jibun": "1303"
+    },
+    {
+      "date": "2025-05-02",
+      "region_name": "광주 남구",
+      "complex_name": "효천남해오네뜨1단지",
+      "transaction_count": 1,
+      "avg_price": 310000000,
+      "source": "molit_api",
+      "area": 84.82,
+      "floor": 10,
+      "latest_transaction_date": "2025-05-02",
+      "dong": "행암동",
+      "jibun": "604"
     },
     {
       "date": "2025-05-03",
@@ -23886,6 +24952,19 @@
       "jibun": "26-5"
     },
     {
+      "date": "2025-04-26",
+      "region_name": "광주 남구",
+      "complex_name": "금호2",
+      "transaction_count": 1,
+      "avg_price": 890000000,
+      "source": "molit_api",
+      "area": 147.75,
+      "floor": 18,
+      "latest_transaction_date": "2025-04-26",
+      "dong": "봉선동",
+      "jibun": "490-1"
+    },
+    {
       "date": "2025-04-15",
       "region_name": "광주 남구",
       "complex_name": "라인하이츠",
@@ -24053,6 +25132,19 @@
       "latest_transaction_date": "2025-04-19",
       "dong": "주월동",
       "jibun": "1312"
+    },
+    {
+      "date": "2025-04-26",
+      "region_name": "광주 남구",
+      "complex_name": "봉선3차한국아델리움",
+      "transaction_count": 1,
+      "avg_price": 818000000,
+      "source": "molit_api",
+      "area": 84.815,
+      "floor": 7,
+      "latest_transaction_date": "2025-04-26",
+      "dong": "봉선동",
+      "jibun": "1085"
     },
     {
       "date": "2025-04-29",
@@ -24458,6 +25550,19 @@
       "jibun": "1073"
     },
     {
+      "date": "2025-04-27",
+      "region_name": "광주 남구",
+      "complex_name": "봉선지웰",
+      "transaction_count": 1,
+      "avg_price": 438000000,
+      "source": "molit_api",
+      "area": 84.81,
+      "floor": 5,
+      "latest_transaction_date": "2025-04-27",
+      "dong": "봉선동",
+      "jibun": "1089"
+    },
+    {
       "date": "2025-04-23",
       "region_name": "광주 남구",
       "complex_name": "진월동양지바른아파트102동",
@@ -24781,6 +25886,19 @@
       "latest_transaction_date": "2025-04-28",
       "dong": "진월동",
       "jibun": "281"
+    },
+    {
+      "date": "2025-04-23",
+      "region_name": "광주 남구",
+      "complex_name": "봉선이지더원2단지",
+      "transaction_count": 1,
+      "avg_price": 227000000,
+      "source": "molit_api",
+      "area": 59.7827,
+      "floor": 4,
+      "latest_transaction_date": "2025-04-23",
+      "dong": "봉선동",
+      "jibun": "1147"
     },
     {
       "date": "2025-04-23",
@@ -25498,6 +26616,19 @@
       "jibun": "70"
     },
     {
+      "date": "2025-04-03",
+      "region_name": "광주 남구",
+      "complex_name": "현대2",
+      "transaction_count": 1,
+      "avg_price": 179000000,
+      "source": "molit_api",
+      "area": 84.52,
+      "floor": 14,
+      "latest_transaction_date": "2025-04-03",
+      "dong": "주월동",
+      "jibun": "456"
+    },
+    {
       "date": "2025-04-13",
       "region_name": "광주 남구",
       "complex_name": "아남",
@@ -25784,6 +26915,19 @@
       "jibun": "508-5"
     },
     {
+      "date": "2025-04-01",
+      "region_name": "광주 남구",
+      "complex_name": "무등산센트럴파크",
+      "transaction_count": 1,
+      "avg_price": 340000000,
+      "source": "molit_api",
+      "area": 75.83,
+      "floor": 15,
+      "latest_transaction_date": "2025-04-01",
+      "dong": "방림동",
+      "jibun": "562"
+    },
+    {
       "date": "2025-04-08",
       "region_name": "광주 남구",
       "complex_name": "골드레이크",
@@ -25821,6 +26965,19 @@
       "latest_transaction_date": "2025-04-08",
       "dong": "봉선동",
       "jibun": "1076"
+    },
+    {
+      "date": "2025-04-04",
+      "region_name": "광주 남구",
+      "complex_name": "현대2",
+      "transaction_count": 1,
+      "avg_price": 230000000,
+      "source": "molit_api",
+      "area": 84.42,
+      "floor": 11,
+      "latest_transaction_date": "2025-04-04",
+      "dong": "진월동",
+      "jibun": "245"
     },
     {
       "date": "2025-04-01",
@@ -25927,6 +27084,19 @@
       "jibun": "66-1"
     },
     {
+      "date": "2025-04-06",
+      "region_name": "광주 남구",
+      "complex_name": "효천남해오네뜨2단지",
+      "transaction_count": 1,
+      "avg_price": 323000000,
+      "source": "molit_api",
+      "area": 84.82,
+      "floor": 9,
+      "latest_transaction_date": "2025-04-06",
+      "dong": "행암동",
+      "jibun": "598"
+    },
+    {
       "date": "2025-04-05",
       "region_name": "광주 남구",
       "complex_name": "브라운스톤효천",
@@ -25951,6 +27121,19 @@
       "latest_transaction_date": "2025-04-05",
       "dong": "봉선동",
       "jibun": "606"
+    },
+    {
+      "date": "2025-04-05",
+      "region_name": "광주 남구",
+      "complex_name": "제일풍경채에듀파크2단지",
+      "transaction_count": 1,
+      "avg_price": 405000000,
+      "source": "molit_api",
+      "area": 84.9184,
+      "floor": 16,
+      "latest_transaction_date": "2025-04-05",
+      "dong": "행암동",
+      "jibun": "562"
     },
     {
       "date": "2025-04-05",
@@ -26148,6 +27331,19 @@
       "jibun": "1065"
     },
     {
+      "date": "2025-03-08",
+      "region_name": "광주 남구",
+      "complex_name": "반도유보라더퍼스트",
+      "transaction_count": 1,
+      "avg_price": 430000000,
+      "source": "molit_api",
+      "area": 74.8311,
+      "floor": 15,
+      "latest_transaction_date": "2025-03-08",
+      "dong": "월산동",
+      "jibun": "1065"
+    },
+    {
       "date": "2025-03-21",
       "region_name": "광주 남구",
       "complex_name": "쌍용스윗닷홈",
@@ -26263,6 +27459,19 @@
       "latest_transaction_date": "2025-03-24",
       "dong": "봉선동",
       "jibun": "502"
+    },
+    {
+      "date": "2025-03-21",
+      "region_name": "광주 남구",
+      "complex_name": "쌍용스윗닷홈",
+      "transaction_count": 1,
+      "avg_price": 1455000000,
+      "source": "molit_api",
+      "area": 140.1509,
+      "floor": 15,
+      "latest_transaction_date": "2025-03-21",
+      "dong": "봉선동",
+      "jibun": "107"
     },
     {
       "date": "2025-03-22",
@@ -26733,6 +27942,19 @@
       "jibun": "606"
     },
     {
+      "date": "2025-03-08",
+      "region_name": "광주 남구",
+      "complex_name": "반도유보라더퍼스트",
+      "transaction_count": 1,
+      "avg_price": 430000000,
+      "source": "molit_api",
+      "area": 74.8311,
+      "floor": 15,
+      "latest_transaction_date": "2025-03-08",
+      "dong": "월산동",
+      "jibun": "1065"
+    },
+    {
       "date": "2025-03-13",
       "region_name": "광주 남구",
       "complex_name": "힐스테이트지석",
@@ -26978,6 +28200,19 @@
       "latest_transaction_date": "2025-03-04",
       "dong": "방림동",
       "jibun": "377-3"
+    },
+    {
+      "date": "2025-03-29",
+      "region_name": "광주 남구",
+      "complex_name": "휴먼시아1단지",
+      "transaction_count": 1,
+      "avg_price": 276000000,
+      "source": "molit_api",
+      "area": 75.77,
+      "floor": 2,
+      "latest_transaction_date": "2025-03-29",
+      "dong": "양림동",
+      "jibun": "505"
     },
     {
       "date": "2025-03-13",
@@ -27383,6 +28618,32 @@
       "jibun": "458"
     },
     {
+      "date": "2025-03-23",
+      "region_name": "광주 남구",
+      "complex_name": "금호타운",
+      "transaction_count": 1,
+      "avg_price": 125000000,
+      "source": "molit_api",
+      "area": 59.55,
+      "floor": 7,
+      "latest_transaction_date": "2025-03-23",
+      "dong": "송하동",
+      "jibun": "43-28"
+    },
+    {
+      "date": "2025-03-21",
+      "region_name": "광주 남구",
+      "complex_name": "금호타운",
+      "transaction_count": 1,
+      "avg_price": 138000000,
+      "source": "molit_api",
+      "area": 59.55,
+      "floor": 5,
+      "latest_transaction_date": "2025-03-21",
+      "dong": "송하동",
+      "jibun": "43-28"
+    },
+    {
       "date": "2025-03-05",
       "region_name": "광주 남구",
       "complex_name": "쌍용스윗닷홈",
@@ -27433,6 +28694,19 @@
       "latest_transaction_date": "2025-03-19",
       "dong": "월산동",
       "jibun": "110-5"
+    },
+    {
+      "date": "2025-03-18",
+      "region_name": "광주 남구",
+      "complex_name": "대흥백운스카이2",
+      "transaction_count": 1,
+      "avg_price": 133000000,
+      "source": "molit_api",
+      "area": 59.85,
+      "floor": 11,
+      "latest_transaction_date": "2025-03-18",
+      "dong": "백운동",
+      "jibun": "458"
     },
     {
       "date": "2025-03-11",
@@ -27513,6 +28787,19 @@
       "jibun": "594"
     },
     {
+      "date": "2025-03-15",
+      "region_name": "광주 남구",
+      "complex_name": "봉선지웰",
+      "transaction_count": 1,
+      "avg_price": 422000000,
+      "source": "molit_api",
+      "area": 84.82,
+      "floor": 9,
+      "latest_transaction_date": "2025-03-15",
+      "dong": "봉선동",
+      "jibun": "1089"
+    },
+    {
       "date": "2025-03-22",
       "region_name": "광주 남구",
       "complex_name": "반도유보라더퍼스트",
@@ -27524,6 +28811,19 @@
       "latest_transaction_date": "2025-03-22",
       "dong": "월산동",
       "jibun": "1065"
+    },
+    {
+      "date": "2025-03-23",
+      "region_name": "광주 남구",
+      "complex_name": "모아엘가",
+      "transaction_count": 1,
+      "avg_price": 845000000,
+      "source": "molit_api",
+      "area": 122.879,
+      "floor": 10,
+      "latest_transaction_date": "2025-03-23",
+      "dong": "봉선동",
+      "jibun": "31"
     },
     {
       "date": "2025-03-22",
@@ -27747,6 +29047,19 @@
       "jibun": "983"
     },
     {
+      "date": "2025-03-17",
+      "region_name": "광주 남구",
+      "complex_name": "삼익",
+      "transaction_count": 1,
+      "avg_price": 119000000,
+      "source": "molit_api",
+      "area": 59.97,
+      "floor": 7,
+      "latest_transaction_date": "2025-03-17",
+      "dong": "송하동",
+      "jibun": "45-1"
+    },
+    {
       "date": "2025-03-05",
       "region_name": "광주 남구",
       "complex_name": "호반",
@@ -27836,6 +29149,19 @@
       "latest_transaction_date": "2025-03-18",
       "dong": "월산동",
       "jibun": "302-2"
+    },
+    {
+      "date": "2025-03-17",
+      "region_name": "광주 남구",
+      "complex_name": "남구주월골드클래스어반시티",
+      "transaction_count": 1,
+      "avg_price": 483000000,
+      "source": "molit_api",
+      "area": 84.9589,
+      "floor": 20,
+      "latest_transaction_date": "2025-03-17",
+      "dong": "주월동",
+      "jibun": "1328"
     },
     {
       "date": "2025-03-17",
@@ -28202,6 +29528,19 @@
       "jibun": "1078"
     },
     {
+      "date": "2025-03-13",
+      "region_name": "광주 남구",
+      "complex_name": "브라운스톤효천",
+      "transaction_count": 1,
+      "avg_price": 313000000,
+      "source": "molit_api",
+      "area": 84.94,
+      "floor": 16,
+      "latest_transaction_date": "2025-03-13",
+      "dong": "행암동",
+      "jibun": "546"
+    },
+    {
       "date": "2025-03-07",
       "region_name": "광주 남구",
       "complex_name": "금영푸르미",
@@ -28317,6 +29656,19 @@
       "latest_transaction_date": "2025-03-08",
       "dong": "월산동",
       "jibun": "284"
+    },
+    {
+      "date": "2025-03-11",
+      "region_name": "광주 남구",
+      "complex_name": "효천시티프라디움",
+      "transaction_count": 1,
+      "avg_price": 430000000,
+      "source": "molit_api",
+      "area": 84.9948,
+      "floor": 16,
+      "latest_transaction_date": "2025-03-11",
+      "dong": "임암동",
+      "jibun": "728"
     },
     {
       "date": "2025-03-06",
@@ -28605,6 +29957,19 @@
       "jibun": "1328"
     },
     {
+      "date": "2025-03-03",
+      "region_name": "광주 남구",
+      "complex_name": "힐스테이트지석",
+      "transaction_count": 1,
+      "avg_price": 390000000,
+      "source": "molit_api",
+      "area": 84.9892,
+      "floor": 4,
+      "latest_transaction_date": "2025-03-03",
+      "dong": "지석동",
+      "jibun": "506"
+    },
+    {
       "date": "2025-03-02",
       "region_name": "광주 남구",
       "complex_name": "광명그린",
@@ -28616,6 +29981,19 @@
       "latest_transaction_date": "2025-03-02",
       "dong": "방림동",
       "jibun": "558"
+    },
+    {
+      "date": "2025-03-01",
+      "region_name": "광주 남구",
+      "complex_name": "대주2",
+      "transaction_count": 1,
+      "avg_price": 198000000,
+      "source": "molit_api",
+      "area": 84.41,
+      "floor": 10,
+      "latest_transaction_date": "2025-03-01",
+      "dong": "진월동",
+      "jibun": "295"
     },
     {
       "date": "2025-03-01",
@@ -29411,6 +30789,19 @@
       "jibun": "291"
     },
     {
+      "date": "2025-02-26",
+      "region_name": "광주 남구",
+      "complex_name": "서동영무예다음",
+      "transaction_count": 1,
+      "avg_price": 328000000,
+      "source": "molit_api",
+      "area": 84.9373,
+      "floor": 4,
+      "latest_transaction_date": "2025-02-26",
+      "dong": "서동",
+      "jibun": "291"
+    },
+    {
       "date": "2025-02-25",
       "region_name": "광주 남구",
       "complex_name": "힐스테이트월산",
@@ -29554,6 +30945,19 @@
       "jibun": "530"
     },
     {
+      "date": "2025-02-19",
+      "region_name": "광주 남구",
+      "complex_name": "힐스테이트월산",
+      "transaction_count": 1,
+      "avg_price": 472000000,
+      "source": "molit_api",
+      "area": 84.9303,
+      "floor": 20,
+      "latest_transaction_date": "2025-02-19",
+      "dong": "월산동",
+      "jibun": "1073"
+    },
+    {
       "date": "2025-02-25",
       "region_name": "광주 남구",
       "complex_name": "서라",
@@ -29565,6 +30969,19 @@
       "latest_transaction_date": "2025-02-25",
       "dong": "진월동",
       "jibun": "489-2"
+    },
+    {
+      "date": "2025-02-21",
+      "region_name": "광주 남구",
+      "complex_name": "힐스테이트월산",
+      "transaction_count": 1,
+      "avg_price": 440000000,
+      "source": "molit_api",
+      "area": 84.9303,
+      "floor": 10,
+      "latest_transaction_date": "2025-02-21",
+      "dong": "월산동",
+      "jibun": "1073"
     },
     {
       "date": "2025-02-21",
@@ -30100,6 +31517,19 @@
       "jibun": "598"
     },
     {
+      "date": "2025-02-18",
+      "region_name": "광주 남구",
+      "complex_name": "주월동이지더원3단지",
+      "transaction_count": 1,
+      "avg_price": 397000000,
+      "source": "molit_api",
+      "area": 84.9381,
+      "floor": 10,
+      "latest_transaction_date": "2025-02-18",
+      "dong": "봉선동",
+      "jibun": "1148"
+    },
+    {
       "date": "2025-02-05",
       "region_name": "광주 남구",
       "complex_name": "방림명지로드힐",
@@ -30111,6 +31541,19 @@
       "latest_transaction_date": "2025-02-05",
       "dong": "방림동",
       "jibun": "569"
+    },
+    {
+      "date": "2025-02-17",
+      "region_name": "광주 남구",
+      "complex_name": "남양휴튼1차",
+      "transaction_count": 1,
+      "avg_price": 1043000000,
+      "source": "molit_api",
+      "area": 158.6392,
+      "floor": 1,
+      "latest_transaction_date": "2025-02-17",
+      "dong": "봉선동",
+      "jibun": "606"
     },
     {
       "date": "2025-02-13",
@@ -30592,6 +32035,19 @@
       "latest_transaction_date": "2025-02-07",
       "dong": "진월동",
       "jibun": "348"
+    },
+    {
+      "date": "2025-02-08",
+      "region_name": "광주 남구",
+      "complex_name": "봉선동한국아델리움57더펜트",
+      "transaction_count": 1,
+      "avg_price": 1260000000,
+      "source": "molit_api",
+      "area": 164.69,
+      "floor": 10,
+      "latest_transaction_date": "2025-02-08",
+      "dong": "봉선동",
+      "jibun": "1163"
     },
     {
       "date": "2025-02-09",
@@ -31127,6 +32583,19 @@
       "jibun": "514-22"
     },
     {
+      "date": "2025-01-31",
+      "region_name": "광주 남구",
+      "complex_name": "봉선동제일풍경채엘리트파크",
+      "transaction_count": 1,
+      "avg_price": 885000000,
+      "source": "molit_api",
+      "area": 84.968,
+      "floor": 15,
+      "latest_transaction_date": "2025-01-31",
+      "dong": "봉선동",
+      "jibun": "1092"
+    },
+    {
       "date": "2025-01-20",
       "region_name": "광주 남구",
       "complex_name": "삼익2",
@@ -31190,6 +32659,19 @@
       "latest_transaction_date": "2025-01-23",
       "dong": "월산동",
       "jibun": "1073"
+    },
+    {
+      "date": "2025-01-25",
+      "region_name": "광주 남구",
+      "complex_name": "효천2지구중흥S-클래스",
+      "transaction_count": 1,
+      "avg_price": 380000000,
+      "source": "molit_api",
+      "area": 84.9933,
+      "floor": 8,
+      "latest_transaction_date": "2025-01-25",
+      "dong": "행암동",
+      "jibun": "530"
     },
     {
       "date": "2025-01-23",
@@ -31281,6 +32763,19 @@
       "latest_transaction_date": "2025-01-20",
       "dong": "봉선동",
       "jibun": "610-1"
+    },
+    {
+      "date": "2025-01-23",
+      "region_name": "광주 남구",
+      "complex_name": "힐스테이트월산",
+      "transaction_count": 1,
+      "avg_price": 449000000,
+      "source": "molit_api",
+      "area": 84.9643,
+      "floor": 13,
+      "latest_transaction_date": "2025-01-23",
+      "dong": "월산동",
+      "jibun": "1073"
     },
     {
       "date": "2025-01-14",
@@ -31647,6 +33142,19 @@
       "jibun": "43-28"
     },
     {
+      "date": "2025-01-17",
+      "region_name": "광주 남구",
+      "complex_name": "한국아델리움2차",
+      "transaction_count": 1,
+      "avg_price": 470000000,
+      "source": "molit_api",
+      "area": 84.8207,
+      "floor": 11,
+      "latest_transaction_date": "2025-01-17",
+      "dong": "진월동",
+      "jibun": "870"
+    },
+    {
       "date": "2025-01-18",
       "region_name": "광주 남구",
       "complex_name": "진아하이빌2차",
@@ -31905,6 +33413,19 @@
       "latest_transaction_date": "2025-01-26",
       "dong": "봉선동",
       "jibun": "469-5"
+    },
+    {
+      "date": "2025-01-30",
+      "region_name": "광주 남구",
+      "complex_name": "주월동이지더원1단지",
+      "transaction_count": 1,
+      "avg_price": 329000000,
+      "source": "molit_api",
+      "area": 84.9476,
+      "floor": 1,
+      "latest_transaction_date": "2025-01-30",
+      "dong": "주월동",
+      "jibun": "1301"
     },
     {
       "date": "2025-01-24",
@@ -32271,6 +33792,19 @@
       "jibun": "506"
     },
     {
+      "date": "2025-01-21",
+      "region_name": "광주 남구",
+      "complex_name": "아남",
+      "transaction_count": 1,
+      "avg_price": 145000000,
+      "source": "molit_api",
+      "area": 59.76,
+      "floor": 9,
+      "latest_transaction_date": "2025-01-21",
+      "dong": "진월동",
+      "jibun": "348"
+    },
+    {
       "date": "2025-01-02",
       "region_name": "광주 남구",
       "complex_name": "포스코더샵",
@@ -32362,6 +33896,19 @@
       "jibun": "606-3"
     },
     {
+      "date": "2025-01-18",
+      "region_name": "광주 남구",
+      "complex_name": "진월동한국아델리움아파트",
+      "transaction_count": 1,
+      "avg_price": 490000000,
+      "source": "molit_api",
+      "area": 93.5552,
+      "floor": 13,
+      "latest_transaction_date": "2025-01-18",
+      "dong": "진월동",
+      "jibun": "514-22"
+    },
+    {
       "date": "2025-01-14",
       "region_name": "광주 남구",
       "complex_name": "반도유보라더퍼스트",
@@ -32438,6 +33985,19 @@
       "latest_transaction_date": "2025-01-19",
       "dong": "행암동",
       "jibun": "530"
+    },
+    {
+      "date": "2025-01-19",
+      "region_name": "광주 남구",
+      "complex_name": "효천1중흥에스-클래스에코시티",
+      "transaction_count": 1,
+      "avg_price": 473000000,
+      "source": "molit_api",
+      "area": 84.9772,
+      "floor": 14,
+      "latest_transaction_date": "2025-01-19",
+      "dong": "임암동",
+      "jibun": "881"
     },
     {
       "date": "2025-01-18",
@@ -32776,6 +34336,19 @@
       "latest_transaction_date": "2025-01-08",
       "dong": "백운동",
       "jibun": "699"
+    },
+    {
+      "date": "2025-01-10",
+      "region_name": "광주 남구",
+      "complex_name": "호반힐하임",
+      "transaction_count": 1,
+      "avg_price": 425000000,
+      "source": "molit_api",
+      "area": 84.9399,
+      "floor": 6,
+      "latest_transaction_date": "2025-01-10",
+      "dong": "주월동",
+      "jibun": "1303"
     },
     {
       "date": "2025-01-13",
@@ -33296,6 +34869,19 @@
       "latest_transaction_date": "2025-01-04",
       "dong": "진월동",
       "jibun": "267"
+    },
+    {
+      "date": "2025-01-04",
+      "region_name": "광주 남구",
+      "complex_name": "코아루아팰리스힐",
+      "transaction_count": 1,
+      "avg_price": 365000000,
+      "source": "molit_api",
+      "area": 71.3925,
+      "floor": 11,
+      "latest_transaction_date": "2025-01-04",
+      "dong": "백운동",
+      "jibun": "705"
     },
     {
       "date": "2025-01-04",
@@ -34290,6 +35876,19 @@
     {
       "date": "2025-08-09",
       "region_name": "광주 북구",
+      "complex_name": "모아미래도",
+      "transaction_count": 1,
+      "avg_price": 230000000,
+      "source": "molit_api",
+      "area": 83.9394,
+      "floor": 9,
+      "latest_transaction_date": "2025-08-09",
+      "dong": "용봉동",
+      "jibun": "1406-1"
+    },
+    {
+      "date": "2025-08-09",
+      "region_name": "광주 북구",
       "complex_name": "힐스테이트연제",
       "transaction_count": 1,
       "avg_price": 443000000,
@@ -34329,6 +35928,19 @@
     {
       "date": "2025-08-09",
       "region_name": "광주 북구",
+      "complex_name": "이안광주첨단아파트",
+      "transaction_count": 1,
+      "avg_price": 265000000,
+      "source": "molit_api",
+      "area": 59.98,
+      "floor": 7,
+      "latest_transaction_date": "2025-08-09",
+      "dong": "용두동",
+      "jibun": "1111"
+    },
+    {
+      "date": "2025-08-09",
+      "region_name": "광주 북구",
       "complex_name": "라인",
       "transaction_count": 1,
       "avg_price": 128000000,
@@ -34351,6 +35963,19 @@
       "latest_transaction_date": "2025-08-09",
       "dong": "동림동",
       "jibun": "1330"
+    },
+    {
+      "date": "2025-08-01",
+      "region_name": "광주 북구",
+      "complex_name": "용봉엘리체",
+      "transaction_count": 1,
+      "avg_price": 420000000,
+      "source": "molit_api",
+      "area": 84.5816,
+      "floor": 17,
+      "latest_transaction_date": "2025-08-01",
+      "dong": "용봉동",
+      "jibun": "1474"
     },
     {
       "date": "2025-08-02",
@@ -34572,6 +36197,19 @@
       "latest_transaction_date": "2025-08-07",
       "dong": "운암동",
       "jibun": "67"
+    },
+    {
+      "date": "2025-08-06",
+      "region_name": "광주 북구",
+      "complex_name": "일신1차",
+      "transaction_count": 1,
+      "avg_price": 176500000,
+      "source": "molit_api",
+      "area": 59.785,
+      "floor": 6,
+      "latest_transaction_date": "2025-08-06",
+      "dong": "양산동",
+      "jibun": "205-1"
     },
     {
       "date": "2025-08-08",
@@ -34836,6 +36474,19 @@
     {
       "date": "2025-08-04",
       "region_name": "광주 북구",
+      "complex_name": "임동중흥에스클래스센텀파크",
+      "transaction_count": 1,
+      "avg_price": 606000000,
+      "source": "molit_api",
+      "area": 84.9506,
+      "floor": 11,
+      "latest_transaction_date": "2025-08-04",
+      "dong": "임동",
+      "jibun": "637"
+    },
+    {
+      "date": "2025-08-04",
+      "region_name": "광주 북구",
       "complex_name": "용두주공",
       "transaction_count": 1,
       "avg_price": 183000000,
@@ -35029,6 +36680,19 @@
       "jibun": "848-2"
     },
     {
+      "date": "2025-08-04",
+      "region_name": "광주 북구",
+      "complex_name": "한국",
+      "transaction_count": 1,
+      "avg_price": 173000000,
+      "source": "molit_api",
+      "area": 84.975,
+      "floor": 5,
+      "latest_transaction_date": "2025-08-04",
+      "dong": "운암동",
+      "jibun": "110-80"
+    },
+    {
       "date": "2025-08-03",
       "region_name": "광주 북구",
       "complex_name": "제일풍경채센트럴파크1단지",
@@ -35131,6 +36795,19 @@
       "latest_transaction_date": "2025-08-01",
       "dong": "신용동",
       "jibun": "549"
+    },
+    {
+      "date": "2025-08-01",
+      "region_name": "광주 북구",
+      "complex_name": "중흥동영무예다음아파트",
+      "transaction_count": 1,
+      "avg_price": 335000000,
+      "source": "molit_api",
+      "area": 73.8921,
+      "floor": 13,
+      "latest_transaction_date": "2025-08-01",
+      "dong": "중흥동",
+      "jibun": "819"
     },
     {
       "date": "2025-08-01",
@@ -35601,6 +37278,19 @@
       "jibun": "721"
     },
     {
+      "date": "2025-07-25",
+      "region_name": "광주 북구",
+      "complex_name": "벽산",
+      "transaction_count": 1,
+      "avg_price": 210000000,
+      "source": "molit_api",
+      "area": 84.99,
+      "floor": 3,
+      "latest_transaction_date": "2025-07-25",
+      "dong": "일곡동",
+      "jibun": "817-2"
+    },
+    {
       "date": "2025-07-31",
       "region_name": "광주 북구",
       "complex_name": "미라보4",
@@ -35991,6 +37681,19 @@
       "jibun": "1147-1"
     },
     {
+      "date": "2025-07-23",
+      "region_name": "광주 북구",
+      "complex_name": "부영사랑으로",
+      "transaction_count": 1,
+      "avg_price": 244000000,
+      "source": "molit_api",
+      "area": 84.9931,
+      "floor": 14,
+      "latest_transaction_date": "2025-07-23",
+      "dong": "본촌동",
+      "jibun": "3077"
+    },
+    {
       "date": "2025-07-28",
       "region_name": "광주 북구",
       "complex_name": "각화골드클래스",
@@ -36184,6 +37887,19 @@
       "latest_transaction_date": "2025-07-28",
       "dong": "신용동",
       "jibun": "643-1"
+    },
+    {
+      "date": "2025-07-28",
+      "region_name": "광주 북구",
+      "complex_name": "각화골드클래스",
+      "transaction_count": 1,
+      "avg_price": 330000000,
+      "source": "molit_api",
+      "area": 84.968,
+      "floor": 2,
+      "latest_transaction_date": "2025-07-28",
+      "dong": "각화동",
+      "jibun": "587"
     },
     {
       "date": "2025-07-20",
@@ -36405,6 +38121,19 @@
       "latest_transaction_date": "2025-07-21",
       "dong": "신용동",
       "jibun": "684"
+    },
+    {
+      "date": "2025-07-26",
+      "region_name": "광주 북구",
+      "complex_name": "중흥동영무예다음아파트",
+      "transaction_count": 1,
+      "avg_price": 365000000,
+      "source": "molit_api",
+      "area": 83.9485,
+      "floor": 7,
+      "latest_transaction_date": "2025-07-26",
+      "dong": "중흥동",
+      "jibun": "819"
     },
     {
       "date": "2025-07-23",
@@ -36745,6 +38474,19 @@
       "jibun": "533"
     },
     {
+      "date": "2025-07-24",
+      "region_name": "광주 북구",
+      "complex_name": "남양휴튼",
+      "transaction_count": 1,
+      "avg_price": 570000000,
+      "source": "molit_api",
+      "area": 129.7907,
+      "floor": 13,
+      "latest_transaction_date": "2025-07-24",
+      "dong": "운암동",
+      "jibun": "1761"
+    },
+    {
       "date": "2025-07-21",
       "region_name": "광주 북구",
       "complex_name": "동림푸른주공3",
@@ -37055,6 +38797,19 @@
       "latest_transaction_date": "2025-07-22",
       "dong": "용두동",
       "jibun": "1120"
+    },
+    {
+      "date": "2025-07-22",
+      "region_name": "광주 북구",
+      "complex_name": "모아미래도",
+      "transaction_count": 1,
+      "avg_price": 98000000,
+      "source": "molit_api",
+      "area": 36.0791,
+      "floor": 8,
+      "latest_transaction_date": "2025-07-22",
+      "dong": "용봉동",
+      "jibun": "1406-1"
     },
     {
       "date": "2025-07-21",
@@ -37681,6 +39436,19 @@
       "jibun": "549"
     },
     {
+      "date": "2025-07-06",
+      "region_name": "광주 북구",
+      "complex_name": "대주파크빌2",
+      "transaction_count": 1,
+      "avg_price": 207000000,
+      "source": "molit_api",
+      "area": 84.9843,
+      "floor": 5,
+      "latest_transaction_date": "2025-07-06",
+      "dong": "용봉동",
+      "jibun": "1066"
+    },
+    {
       "date": "2025-07-18",
       "region_name": "광주 북구",
       "complex_name": "일신",
@@ -38149,6 +39917,19 @@
       "jibun": "919"
     },
     {
+      "date": "2025-07-15",
+      "region_name": "광주 북구",
+      "complex_name": "한일",
+      "transaction_count": 1,
+      "avg_price": 135000000,
+      "source": "molit_api",
+      "area": 59.915,
+      "floor": 2,
+      "latest_transaction_date": "2025-07-15",
+      "dong": "일곡동",
+      "jibun": "849-1"
+    },
+    {
       "date": "2025-07-14",
       "region_name": "광주 북구",
       "complex_name": "문흥상록",
@@ -38511,6 +40292,19 @@
       "latest_transaction_date": "2025-07-12",
       "dong": "일곡동",
       "jibun": "849-9"
+    },
+    {
+      "date": "2025-07-10",
+      "region_name": "광주 북구",
+      "complex_name": "한화꿈에그린",
+      "transaction_count": 1,
+      "avg_price": 300000000,
+      "source": "molit_api",
+      "area": 84.8797,
+      "floor": 22,
+      "latest_transaction_date": "2025-07-10",
+      "dong": "용봉동",
+      "jibun": "1468"
     },
     {
       "date": "2025-07-12",
@@ -39163,6 +40957,19 @@
       "jibun": "205-6"
     },
     {
+      "date": "2025-07-07",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구사랑으로부영",
+      "transaction_count": 1,
+      "avg_price": 240000000,
+      "source": "molit_api",
+      "area": 60.4624,
+      "floor": 25,
+      "latest_transaction_date": "2025-07-07",
+      "dong": "신용동",
+      "jibun": "737"
+    },
+    {
       "date": "2025-07-08",
       "region_name": "광주 북구",
       "complex_name": "일곡엘리체프라임",
@@ -39397,6 +41204,19 @@
       "jibun": "1038-1"
     },
     {
+      "date": "2025-07-05",
+      "region_name": "광주 북구",
+      "complex_name": "양산진아리채",
+      "transaction_count": 1,
+      "avg_price": 320000000,
+      "source": "molit_api",
+      "area": 83.2578,
+      "floor": 5,
+      "latest_transaction_date": "2025-07-05",
+      "dong": "용두동",
+      "jibun": "1096"
+    },
+    {
       "date": "2025-07-07",
       "region_name": "광주 북구",
       "complex_name": "교대금호어울림",
@@ -39607,6 +41427,19 @@
     {
       "date": "2025-07-04",
       "region_name": "광주 북구",
+      "complex_name": "첨단2지구중흥에스-클래스",
+      "transaction_count": 1,
+      "avg_price": 519000000,
+      "source": "molit_api",
+      "area": 84.9976,
+      "floor": 24,
+      "latest_transaction_date": "2025-07-04",
+      "dong": "신용동",
+      "jibun": "671"
+    },
+    {
+      "date": "2025-07-04",
+      "region_name": "광주 북구",
       "complex_name": "대림1",
       "transaction_count": 1,
       "avg_price": 196000000,
@@ -39759,6 +41592,19 @@
       "latest_transaction_date": "2025-07-03",
       "dong": "각화동",
       "jibun": "608"
+    },
+    {
+      "date": "2025-07-01",
+      "region_name": "광주 북구",
+      "complex_name": "용두주공",
+      "transaction_count": 1,
+      "avg_price": 161000000,
+      "source": "molit_api",
+      "area": 59.99,
+      "floor": 16,
+      "latest_transaction_date": "2025-07-01",
+      "dong": "신용동",
+      "jibun": "643-1"
     },
     {
       "date": "2025-07-03",
@@ -39993,6 +41839,19 @@
       "latest_transaction_date": "2025-07-01",
       "dong": "용두동",
       "jibun": "330"
+    },
+    {
+      "date": "2025-07-02",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구사랑으로부영",
+      "transaction_count": 1,
+      "avg_price": 315000000,
+      "source": "molit_api",
+      "area": 84.3616,
+      "floor": 4,
+      "latest_transaction_date": "2025-07-02",
+      "dong": "신용동",
+      "jibun": "737"
     },
     {
       "date": "2025-07-02",
@@ -40734,6 +42593,19 @@
       "latest_transaction_date": "2025-06-30",
       "dong": "문흥동",
       "jibun": "1010-7"
+    },
+    {
+      "date": "2025-06-22",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구호반베르디움1단지",
+      "transaction_count": 1,
+      "avg_price": 450000000,
+      "source": "molit_api",
+      "area": 84.9697,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-22",
+      "dong": "신용동",
+      "jibun": "675"
     },
     {
       "date": "2025-06-22",
@@ -42116,6 +43988,19 @@
     {
       "date": "2025-06-24",
       "region_name": "광주 북구",
+      "complex_name": "각화골드클래스",
+      "transaction_count": 1,
+      "avg_price": 370000000,
+      "source": "molit_api",
+      "area": 84.9701,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-24",
+      "dong": "각화동",
+      "jibun": "587"
+    },
+    {
+      "date": "2025-06-24",
+      "region_name": "광주 북구",
       "complex_name": "수하임아파트101동",
       "transaction_count": 1,
       "avg_price": 210500000,
@@ -42203,6 +44088,19 @@
       "latest_transaction_date": "2025-06-24",
       "dong": "우산동",
       "jibun": "835"
+    },
+    {
+      "date": "2025-06-24",
+      "region_name": "광주 북구",
+      "complex_name": "각화골드클래스",
+      "transaction_count": 1,
+      "avg_price": 370000000,
+      "source": "molit_api",
+      "area": 84.9701,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-24",
+      "dong": "각화동",
+      "jibun": "587"
     },
     {
       "date": "2025-06-24",
@@ -42400,6 +44298,19 @@
       "jibun": "969-1"
     },
     {
+      "date": "2025-06-13",
+      "region_name": "광주 북구",
+      "complex_name": "각화센트럴파크서희스타힐스",
+      "transaction_count": 1,
+      "avg_price": 405000000,
+      "source": "molit_api",
+      "area": 84.9796,
+      "floor": 4,
+      "latest_transaction_date": "2025-06-13",
+      "dong": "각화동",
+      "jibun": "608"
+    },
+    {
       "date": "2025-06-20",
       "region_name": "광주 북구",
       "complex_name": "주공1",
@@ -42595,6 +44506,19 @@
       "jibun": "290"
     },
     {
+      "date": "2025-06-22",
+      "region_name": "광주 북구",
+      "complex_name": "제일풍경채센트럴파크2단지",
+      "transaction_count": 1,
+      "avg_price": 385000000,
+      "source": "molit_api",
+      "area": 59.98,
+      "floor": 10,
+      "latest_transaction_date": "2025-06-22",
+      "dong": "중흥동",
+      "jibun": "847"
+    },
+    {
       "date": "2025-06-19",
       "region_name": "광주 북구",
       "complex_name": "연제대광로제비앙",
@@ -42671,6 +44595,19 @@
       "latest_transaction_date": "2025-06-22",
       "dong": "우산동",
       "jibun": "835"
+    },
+    {
+      "date": "2025-06-22",
+      "region_name": "광주 북구",
+      "complex_name": "제일풍경채센트럴파크2단지",
+      "transaction_count": 1,
+      "avg_price": 385000000,
+      "source": "molit_api",
+      "area": 59.98,
+      "floor": 10,
+      "latest_transaction_date": "2025-06-22",
+      "dong": "중흥동",
+      "jibun": "847"
     },
     {
       "date": "2025-06-21",
@@ -43219,6 +45156,32 @@
       "jibun": "643-1"
     },
     {
+      "date": "2025-06-17",
+      "region_name": "광주 북구",
+      "complex_name": "우성",
+      "transaction_count": 1,
+      "avg_price": 98000000,
+      "source": "molit_api",
+      "area": 59.96,
+      "floor": 3,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "운암동",
+      "jibun": "232"
+    },
+    {
+      "date": "2025-06-06",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구호반베르디움1단지",
+      "transaction_count": 1,
+      "avg_price": 524000000,
+      "source": "molit_api",
+      "area": 84.9751,
+      "floor": 6,
+      "latest_transaction_date": "2025-06-06",
+      "dong": "신용동",
+      "jibun": "675"
+    },
+    {
       "date": "2025-06-19",
       "region_name": "광주 북구",
       "complex_name": "쌍용예가",
@@ -43399,6 +45362,19 @@
       "latest_transaction_date": "2025-06-07",
       "dong": "오치동",
       "jibun": "866-2"
+    },
+    {
+      "date": "2025-06-17",
+      "region_name": "광주 북구",
+      "complex_name": "호반리젠시빌",
+      "transaction_count": 1,
+      "avg_price": 240000000,
+      "source": "molit_api",
+      "area": 84.6862,
+      "floor": 16,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "양산동",
+      "jibun": "18-3"
     },
     {
       "date": "2025-06-18",
@@ -43858,6 +45834,19 @@
     {
       "date": "2025-06-15",
       "region_name": "광주 북구",
+      "complex_name": "라인동산",
+      "transaction_count": 1,
+      "avg_price": 202000000,
+      "source": "molit_api",
+      "area": 84.86,
+      "floor": 4,
+      "latest_transaction_date": "2025-06-15",
+      "dong": "문흥동",
+      "jibun": "972-4"
+    },
+    {
+      "date": "2025-06-15",
+      "region_name": "광주 북구",
       "complex_name": "양산타운",
       "transaction_count": 1,
       "avg_price": 130000000,
@@ -43919,6 +45908,19 @@
       "latest_transaction_date": "2025-06-16",
       "dong": "연제동",
       "jibun": "1116"
+    },
+    {
+      "date": "2025-06-16",
+      "region_name": "광주 북구",
+      "complex_name": "라인동산",
+      "transaction_count": 1,
+      "avg_price": 170000000,
+      "source": "molit_api",
+      "area": 59.79,
+      "floor": 5,
+      "latest_transaction_date": "2025-06-16",
+      "dong": "두암동",
+      "jibun": "73"
     },
     {
       "date": "2025-06-09",
@@ -43999,6 +46001,19 @@
       "jibun": "232"
     },
     {
+      "date": "2025-06-16",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구사랑으로부영",
+      "transaction_count": 1,
+      "avg_price": 235000000,
+      "source": "molit_api",
+      "area": 60.4624,
+      "floor": 7,
+      "latest_transaction_date": "2025-06-16",
+      "dong": "신용동",
+      "jibun": "737"
+    },
+    {
       "date": "2025-06-13",
       "region_name": "광주 북구",
       "complex_name": "주공",
@@ -44075,6 +46090,19 @@
       "latest_transaction_date": "2025-06-15",
       "dong": "연제동",
       "jibun": "1116"
+    },
+    {
+      "date": "2025-06-14",
+      "region_name": "광주 북구",
+      "complex_name": "첨단2지구중흥에스-클래스",
+      "transaction_count": 1,
+      "avg_price": 465000000,
+      "source": "molit_api",
+      "area": 84.9976,
+      "floor": 4,
+      "latest_transaction_date": "2025-06-14",
+      "dong": "신용동",
+      "jibun": "671"
     },
     {
       "date": "2025-06-14",
@@ -44309,6 +46337,19 @@
       "latest_transaction_date": "2025-06-02",
       "dong": "용두동",
       "jibun": "1111"
+    },
+    {
+      "date": "2025-06-13",
+      "region_name": "광주 북구",
+      "complex_name": "운암동롯데캐슬1단지",
+      "transaction_count": 1,
+      "avg_price": 310000000,
+      "source": "molit_api",
+      "area": 84.9273,
+      "floor": 4,
+      "latest_transaction_date": "2025-06-13",
+      "dong": "운암동",
+      "jibun": "364-1"
     },
     {
       "date": "2025-06-11",
@@ -44989,6 +47030,19 @@
     {
       "date": "2025-06-09",
       "region_name": "광주 북구",
+      "complex_name": "호반",
+      "transaction_count": 1,
+      "avg_price": 82000000,
+      "source": "molit_api",
+      "area": 59.4,
+      "floor": 2,
+      "latest_transaction_date": "2025-06-09",
+      "dong": "삼각동",
+      "jibun": "755-22"
+    },
+    {
+      "date": "2025-06-09",
+      "region_name": "광주 북구",
       "complex_name": "대주피오레",
       "transaction_count": 1,
       "avg_price": 287500000,
@@ -45297,6 +47351,19 @@
       "latest_transaction_date": "2025-06-05",
       "dong": "오치동",
       "jibun": "1005"
+    },
+    {
+      "date": "2025-06-03",
+      "region_name": "광주 북구",
+      "complex_name": "대우",
+      "transaction_count": 1,
+      "avg_price": 170000000,
+      "source": "molit_api",
+      "area": 59.946,
+      "floor": 18,
+      "latest_transaction_date": "2025-06-03",
+      "dong": "일곡동",
+      "jibun": "849-9"
     },
     {
       "date": "2025-06-05",
@@ -45765,6 +47832,19 @@
       "latest_transaction_date": "2025-06-02",
       "dong": "오치동",
       "jibun": "869-6"
+    },
+    {
+      "date": "2025-06-02",
+      "region_name": "광주 북구",
+      "complex_name": "제일풍경채센트럴파크1단지",
+      "transaction_count": 1,
+      "avg_price": 617000000,
+      "source": "molit_api",
+      "area": 84.92,
+      "floor": 10,
+      "latest_transaction_date": "2025-06-02",
+      "dong": "중흥동",
+      "jibun": "836"
     },
     {
       "date": "2025-06-02",
@@ -46623,6 +48703,19 @@
       "latest_transaction_date": "2025-05-27",
       "dong": "용봉동",
       "jibun": "973-1"
+    },
+    {
+      "date": "2025-05-29",
+      "region_name": "광주 북구",
+      "complex_name": "쌍용예가",
+      "transaction_count": 1,
+      "avg_price": 445000000,
+      "source": "molit_api",
+      "area": 114.1204,
+      "floor": 2,
+      "latest_transaction_date": "2025-05-29",
+      "dong": "용봉동",
+      "jibun": "999"
     },
     {
       "date": "2025-05-29",
@@ -48263,6 +50356,19 @@
       "jibun": "819-2"
     },
     {
+      "date": "2025-05-24",
+      "region_name": "광주 북구",
+      "complex_name": "광신프로그레스",
+      "transaction_count": 1,
+      "avg_price": 405000000,
+      "source": "molit_api",
+      "area": 76.4501,
+      "floor": 20,
+      "latest_transaction_date": "2025-05-24",
+      "dong": "동림동",
+      "jibun": "1326"
+    },
+    {
       "date": "2025-05-25",
       "region_name": "광주 북구",
       "complex_name": "운암신성포레힐아파트",
@@ -48599,6 +50705,19 @@
       "latest_transaction_date": "2025-05-18",
       "dong": "우산동",
       "jibun": "631-1"
+    },
+    {
+      "date": "2025-05-23",
+      "region_name": "광주 북구",
+      "complex_name": "용봉동아델리움인비엔날레",
+      "transaction_count": 1,
+      "avg_price": 415000000,
+      "source": "molit_api",
+      "area": 84.8857,
+      "floor": 9,
+      "latest_transaction_date": "2025-05-23",
+      "dong": "용봉동",
+      "jibun": "1478"
     },
     {
       "date": "2025-05-17",
@@ -49641,6 +51760,32 @@
       "jibun": "1007"
     },
     {
+      "date": "2025-05-16",
+      "region_name": "광주 북구",
+      "complex_name": "금호",
+      "transaction_count": 1,
+      "avg_price": 205000000,
+      "source": "molit_api",
+      "area": 84.72,
+      "floor": 7,
+      "latest_transaction_date": "2025-05-16",
+      "dong": "용봉동",
+      "jibun": "842-1"
+    },
+    {
+      "date": "2025-05-17",
+      "region_name": "광주 북구",
+      "complex_name": "힐스테이트연제",
+      "transaction_count": 1,
+      "avg_price": 420000000,
+      "source": "molit_api",
+      "area": 84.9934,
+      "floor": 4,
+      "latest_transaction_date": "2025-05-17",
+      "dong": "연제동",
+      "jibun": "1119"
+    },
+    {
       "date": "2025-05-17",
       "region_name": "광주 북구",
       "complex_name": "첨단자이2차",
@@ -49691,6 +51836,19 @@
       "latest_transaction_date": "2025-05-16",
       "dong": "우산동",
       "jibun": "835"
+    },
+    {
+      "date": "2025-05-16",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구사랑으로부영",
+      "transaction_count": 1,
+      "avg_price": 354000000,
+      "source": "molit_api",
+      "area": 84.3616,
+      "floor": 4,
+      "latest_transaction_date": "2025-05-16",
+      "dong": "신용동",
+      "jibun": "737"
     },
     {
       "date": "2025-05-17",
@@ -49756,6 +51914,19 @@
       "latest_transaction_date": "2025-05-08",
       "dong": "일곡동",
       "jibun": "849-1"
+    },
+    {
+      "date": "2025-05-14",
+      "region_name": "광주 북구",
+      "complex_name": "금호",
+      "transaction_count": 1,
+      "avg_price": 210000000,
+      "source": "molit_api",
+      "area": 84.84,
+      "floor": 2,
+      "latest_transaction_date": "2025-05-14",
+      "dong": "문흥동",
+      "jibun": "972-1"
     },
     {
       "date": "2025-05-15",
@@ -49912,6 +52083,19 @@
       "latest_transaction_date": "2025-05-15",
       "dong": "문흥동",
       "jibun": "996-3"
+    },
+    {
+      "date": "2025-05-15",
+      "region_name": "광주 북구",
+      "complex_name": "더샵광주포레스트",
+      "transaction_count": 1,
+      "avg_price": 520000000,
+      "source": "molit_api",
+      "area": 84.9797,
+      "floor": 24,
+      "latest_transaction_date": "2025-05-15",
+      "dong": "각화동",
+      "jibun": "724"
     },
     {
       "date": "2025-05-15",
@@ -50579,6 +52763,19 @@
     {
       "date": "2025-05-10",
       "region_name": "광주 북구",
+      "complex_name": "각화골드클래스",
+      "transaction_count": 1,
+      "avg_price": 310000000,
+      "source": "molit_api",
+      "area": 71.8177,
+      "floor": 1,
+      "latest_transaction_date": "2025-05-10",
+      "dong": "각화동",
+      "jibun": "587"
+    },
+    {
+      "date": "2025-05-10",
+      "region_name": "광주 북구",
       "complex_name": "광주첨단2지구사랑으로부영",
       "transaction_count": 1,
       "avg_price": 328000000,
@@ -50588,6 +52785,19 @@
       "latest_transaction_date": "2025-05-10",
       "dong": "신용동",
       "jibun": "737"
+    },
+    {
+      "date": "2025-05-08",
+      "region_name": "광주 북구",
+      "complex_name": "용두주공",
+      "transaction_count": 1,
+      "avg_price": 145000000,
+      "source": "molit_api",
+      "area": 59.99,
+      "floor": 10,
+      "latest_transaction_date": "2025-05-08",
+      "dong": "신용동",
+      "jibun": "643-1"
     },
     {
       "date": "2025-05-10",
@@ -50679,6 +52889,19 @@
       "latest_transaction_date": "2025-05-10",
       "dong": "용두동",
       "jibun": "1123"
+    },
+    {
+      "date": "2025-05-09",
+      "region_name": "광주 북구",
+      "complex_name": "호반리젠시빌",
+      "transaction_count": 1,
+      "avg_price": 89000000,
+      "source": "molit_api",
+      "area": 37.479,
+      "floor": 5,
+      "latest_transaction_date": "2025-05-09",
+      "dong": "양산동",
+      "jibun": "18-3"
     },
     {
       "date": "2025-05-01",
@@ -51307,6 +53530,19 @@
     {
       "date": "2025-05-03",
       "region_name": "광주 북구",
+      "complex_name": "모아미래도",
+      "transaction_count": 1,
+      "avg_price": 229000000,
+      "source": "molit_api",
+      "area": 83.9394,
+      "floor": 4,
+      "latest_transaction_date": "2025-05-03",
+      "dong": "용봉동",
+      "jibun": "1406-1"
+    },
+    {
+      "date": "2025-05-03",
+      "region_name": "광주 북구",
       "complex_name": "한양수자인리버뷰",
       "transaction_count": 1,
       "avg_price": 390000000,
@@ -51708,6 +53944,19 @@
       "jibun": "947-1"
     },
     {
+      "date": "2025-04-13",
+      "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 663000000,
+      "source": "molit_api",
+      "area": 84.924,
+      "floor": 26,
+      "latest_transaction_date": "2025-04-13",
+      "dong": "우산동",
+      "jibun": "835"
+    },
+    {
       "date": "2025-04-29",
       "region_name": "광주 북구",
       "complex_name": "무등파크2",
@@ -51732,6 +53981,19 @@
       "latest_transaction_date": "2025-04-26",
       "dong": "동림동",
       "jibun": "1147-1"
+    },
+    {
+      "date": "2025-04-26",
+      "region_name": "광주 북구",
+      "complex_name": "우성",
+      "transaction_count": 1,
+      "avg_price": 165000000,
+      "source": "molit_api",
+      "area": 84.94,
+      "floor": 4,
+      "latest_transaction_date": "2025-04-26",
+      "dong": "오치동",
+      "jibun": "862-1"
     },
     {
       "date": "2025-04-30",
@@ -51927,6 +54189,19 @@
       "latest_transaction_date": "2025-04-22",
       "dong": "신용동",
       "jibun": "671"
+    },
+    {
+      "date": "2025-04-13",
+      "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 663000000,
+      "source": "molit_api",
+      "area": 84.924,
+      "floor": 26,
+      "latest_transaction_date": "2025-04-13",
+      "dong": "우산동",
+      "jibun": "835"
     },
     {
       "date": "2025-04-19",
@@ -52161,6 +54436,19 @@
       "latest_transaction_date": "2025-04-28",
       "dong": "운암동",
       "jibun": "67"
+    },
+    {
+      "date": "2025-04-26",
+      "region_name": "광주 북구",
+      "complex_name": "운암동롯데캐슬3단지",
+      "transaction_count": 1,
+      "avg_price": 226000000,
+      "source": "molit_api",
+      "area": 59.8159,
+      "floor": 2,
+      "latest_transaction_date": "2025-04-26",
+      "dong": "운암동",
+      "jibun": "366-2"
     },
     {
       "date": "2025-04-22",
@@ -53164,6 +55452,19 @@
       "jibun": "655"
     },
     {
+      "date": "2025-04-12",
+      "region_name": "광주 북구",
+      "complex_name": "벽산블루밍메가씨티1단지",
+      "transaction_count": 1,
+      "avg_price": 515000000,
+      "source": "molit_api",
+      "area": 129.386,
+      "floor": 8,
+      "latest_transaction_date": "2025-04-12",
+      "dong": "운암동",
+      "jibun": "67"
+    },
+    {
       "date": "2025-04-28",
       "region_name": "광주 북구",
       "complex_name": "주공",
@@ -53736,6 +56037,19 @@
       "jibun": "631-1"
     },
     {
+      "date": "2025-04-19",
+      "region_name": "광주 북구",
+      "complex_name": "동림푸른주공4",
+      "transaction_count": 1,
+      "avg_price": 205000000,
+      "source": "molit_api",
+      "area": 84.79,
+      "floor": 10,
+      "latest_transaction_date": "2025-04-19",
+      "dong": "동림동",
+      "jibun": "1161-1"
+    },
+    {
       "date": "2025-04-10",
       "region_name": "광주 북구",
       "complex_name": "무등산자이앤어울림1단지",
@@ -54113,6 +56427,19 @@
       "jibun": "529"
     },
     {
+      "date": "2025-04-21",
+      "region_name": "광주 북구",
+      "complex_name": "미라보3",
+      "transaction_count": 1,
+      "avg_price": 220000000,
+      "source": "molit_api",
+      "area": 84.98,
+      "floor": 16,
+      "latest_transaction_date": "2025-04-21",
+      "dong": "운암동",
+      "jibun": "229"
+    },
+    {
       "date": "2025-04-22",
       "region_name": "광주 북구",
       "complex_name": "호반",
@@ -54241,6 +56568,19 @@
       "latest_transaction_date": "2025-04-21",
       "dong": "두암동",
       "jibun": "883-1"
+    },
+    {
+      "date": "2025-04-12",
+      "region_name": "광주 북구",
+      "complex_name": "벽산블루밍메가씨티3단지",
+      "transaction_count": 1,
+      "avg_price": 272500000,
+      "source": "molit_api",
+      "area": 58.7079,
+      "floor": 13,
+      "latest_transaction_date": "2025-04-12",
+      "dong": "운암동",
+      "jibun": "69"
     },
     {
       "date": "2025-04-21",
@@ -54384,6 +56724,19 @@
       "latest_transaction_date": "2025-04-18",
       "dong": "연제동",
       "jibun": "1119"
+    },
+    {
+      "date": "2025-04-18",
+      "region_name": "광주 북구",
+      "complex_name": "각화골드클래스",
+      "transaction_count": 1,
+      "avg_price": 368000000,
+      "source": "molit_api",
+      "area": 84.9701,
+      "floor": 25,
+      "latest_transaction_date": "2025-04-18",
+      "dong": "각화동",
+      "jibun": "587"
     },
     {
       "date": "2025-04-21",
@@ -54631,6 +56984,19 @@
       "latest_transaction_date": "2025-04-01",
       "dong": "용봉동",
       "jibun": "1470"
+    },
+    {
+      "date": "2025-04-17",
+      "region_name": "광주 북구",
+      "complex_name": "용두주공",
+      "transaction_count": 1,
+      "avg_price": 130000000,
+      "source": "molit_api",
+      "area": 59.94,
+      "floor": 3,
+      "latest_transaction_date": "2025-04-17",
+      "dong": "신용동",
+      "jibun": "643-1"
     },
     {
       "date": "2025-04-18",
@@ -55959,6 +58325,19 @@
       "jibun": "232"
     },
     {
+      "date": "2025-04-12",
+      "region_name": "광주 북구",
+      "complex_name": "대성베르힐",
+      "transaction_count": 1,
+      "avg_price": 307000000,
+      "source": "molit_api",
+      "area": 84.8488,
+      "floor": 7,
+      "latest_transaction_date": "2025-04-12",
+      "dong": "매곡동",
+      "jibun": "232"
+    },
+    {
       "date": "2025-04-11",
       "region_name": "광주 북구",
       "complex_name": "광주첨단2지구호반베르디움2단지",
@@ -56336,6 +58715,19 @@
       "jibun": "591"
     },
     {
+      "date": "2025-04-10",
+      "region_name": "광주 북구",
+      "complex_name": "한양수자인리버뷰",
+      "transaction_count": 1,
+      "avg_price": 340000000,
+      "source": "molit_api",
+      "area": 65.5173,
+      "floor": 16,
+      "latest_transaction_date": "2025-04-10",
+      "dong": "신용동",
+      "jibun": "651"
+    },
+    {
       "date": "2025-04-08",
       "region_name": "광주 북구",
       "complex_name": "라인동산",
@@ -56700,6 +59092,19 @@
       "jibun": "594"
     },
     {
+      "date": "2025-04-08",
+      "region_name": "광주 북구",
+      "complex_name": "힐스테이트각화",
+      "transaction_count": 1,
+      "avg_price": 377000000,
+      "source": "molit_api",
+      "area": 79.9219,
+      "floor": 13,
+      "latest_transaction_date": "2025-04-08",
+      "dong": "각화동",
+      "jibun": "594"
+    },
+    {
       "date": "2025-04-07",
       "region_name": "광주 북구",
       "complex_name": "힐스테이트각화",
@@ -56843,6 +59248,19 @@
       "jibun": "1005"
     },
     {
+      "date": "2025-04-05",
+      "region_name": "광주 북구",
+      "complex_name": "연제대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 420000000,
+      "source": "molit_api",
+      "area": 105.6416,
+      "floor": 7,
+      "latest_transaction_date": "2025-04-05",
+      "dong": "연제동",
+      "jibun": "1109"
+    },
+    {
       "date": "2025-04-01",
       "region_name": "광주 북구",
       "complex_name": "공간",
@@ -56854,6 +59272,19 @@
       "latest_transaction_date": "2025-04-01",
       "dong": "문흥동",
       "jibun": "996-2"
+    },
+    {
+      "date": "2025-04-07",
+      "region_name": "광주 북구",
+      "complex_name": "교대금호어울림",
+      "transaction_count": 1,
+      "avg_price": 482000000,
+      "source": "molit_api",
+      "area": 84.9833,
+      "floor": 20,
+      "latest_transaction_date": "2025-04-07",
+      "dong": "풍향동",
+      "jibun": "808"
     },
     {
       "date": "2025-04-07",
@@ -56971,6 +59402,19 @@
       "latest_transaction_date": "2025-04-06",
       "dong": "용두동",
       "jibun": "1123"
+    },
+    {
+      "date": "2025-04-06",
+      "region_name": "광주 북구",
+      "complex_name": "힐스테이트본촌",
+      "transaction_count": 1,
+      "avg_price": 452000000,
+      "source": "molit_api",
+      "area": 84.9976,
+      "floor": 16,
+      "latest_transaction_date": "2025-04-06",
+      "dong": "본촌동",
+      "jibun": "3102"
     },
     {
       "date": "2025-04-05",
@@ -57339,6 +59783,19 @@
     {
       "date": "2025-04-02",
       "region_name": "광주 북구",
+      "complex_name": "해광파크맨션",
+      "transaction_count": 1,
+      "avg_price": 127000000,
+      "source": "molit_api",
+      "area": 84.82,
+      "floor": 8,
+      "latest_transaction_date": "2025-04-02",
+      "dong": "각화동",
+      "jibun": "194"
+    },
+    {
+      "date": "2025-04-02",
+      "region_name": "광주 북구",
       "complex_name": "문흥상록",
       "transaction_count": 1,
       "avg_price": 114000000,
@@ -57686,6 +60143,19 @@
       "latest_transaction_date": "2025-03-29",
       "dong": "오치동",
       "jibun": "1005"
+    },
+    {
+      "date": "2025-03-28",
+      "region_name": "광주 북구",
+      "complex_name": "벽산블루밍메가씨티2단지",
+      "transaction_count": 1,
+      "avg_price": 543000000,
+      "source": "molit_api",
+      "area": 129.386,
+      "floor": 5,
+      "latest_transaction_date": "2025-03-28",
+      "dong": "운암동",
+      "jibun": "68"
     },
     {
       "date": "2025-03-31",
@@ -58286,6 +60756,19 @@
       "jibun": "533"
     },
     {
+      "date": "2025-03-12",
+      "region_name": "광주 북구",
+      "complex_name": "매곡대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 271000000,
+      "source": "molit_api",
+      "area": 80.3123,
+      "floor": 10,
+      "latest_transaction_date": "2025-03-12",
+      "dong": "매곡동",
+      "jibun": "494"
+    },
+    {
       "date": "2025-03-23",
       "region_name": "광주 북구",
       "complex_name": "모아미래도",
@@ -58518,6 +61001,19 @@
       "latest_transaction_date": "2025-03-31",
       "dong": "용봉동",
       "jibun": "1478"
+    },
+    {
+      "date": "2025-03-27",
+      "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 560000000,
+      "source": "molit_api",
+      "area": 74.9794,
+      "floor": 21,
+      "latest_transaction_date": "2025-03-27",
+      "dong": "우산동",
+      "jibun": "835"
     },
     {
       "date": "2025-03-31",
@@ -58975,6 +61471,19 @@
       "jibun": "999"
     },
     {
+      "date": "2025-03-12",
+      "region_name": "광주 북구",
+      "complex_name": "금호",
+      "transaction_count": 1,
+      "avg_price": 280000000,
+      "source": "molit_api",
+      "area": 84.72,
+      "floor": 10,
+      "latest_transaction_date": "2025-03-12",
+      "dong": "일곡동",
+      "jibun": "818-4"
+    },
+    {
       "date": "2025-03-31",
       "region_name": "광주 북구",
       "complex_name": "청솔3차",
@@ -59274,6 +61783,19 @@
       "jibun": "816-3"
     },
     {
+      "date": "2025-03-26",
+      "region_name": "광주 북구",
+      "complex_name": "삼익",
+      "transaction_count": 1,
+      "avg_price": 98000000,
+      "source": "molit_api",
+      "area": 52.89,
+      "floor": 13,
+      "latest_transaction_date": "2025-03-26",
+      "dong": "동림동",
+      "jibun": "645"
+    },
+    {
       "date": "2025-03-28",
       "region_name": "광주 북구",
       "complex_name": "주공",
@@ -59532,6 +62054,19 @@
       "latest_transaction_date": "2025-03-15",
       "dong": "삼각동",
       "jibun": "533"
+    },
+    {
+      "date": "2025-03-19",
+      "region_name": "광주 북구",
+      "complex_name": "한국아델리움",
+      "transaction_count": 1,
+      "avg_price": 220000000,
+      "source": "molit_api",
+      "area": 84.545,
+      "floor": 14,
+      "latest_transaction_date": "2025-03-19",
+      "dong": "연제동",
+      "jibun": "33-7"
     },
     {
       "date": "2025-03-27",
@@ -59950,6 +62485,19 @@
       "jibun": "67"
     },
     {
+      "date": "2025-03-22",
+      "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 618000000,
+      "source": "molit_api",
+      "area": 84.924,
+      "floor": 12,
+      "latest_transaction_date": "2025-03-22",
+      "dong": "우산동",
+      "jibun": "835"
+    },
+    {
       "date": "2025-03-14",
       "region_name": "광주 북구",
       "complex_name": "무등산자이앤어울림1단지",
@@ -60078,6 +62626,19 @@
       "latest_transaction_date": "2025-03-08",
       "dong": "양산동",
       "jibun": "205-1"
+    },
+    {
+      "date": "2025-03-20",
+      "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 639000000,
+      "source": "molit_api",
+      "area": 84.924,
+      "floor": 10,
+      "latest_transaction_date": "2025-03-20",
+      "dong": "우산동",
+      "jibun": "835"
     },
     {
       "date": "2025-03-24",
@@ -60325,6 +62886,19 @@
       "latest_transaction_date": "2025-03-22",
       "dong": "신용동",
       "jibun": "643-1"
+    },
+    {
+      "date": "2025-03-22",
+      "region_name": "광주 북구",
+      "complex_name": "한양수자인리버뷰",
+      "transaction_count": 1,
+      "avg_price": 356000000,
+      "source": "molit_api",
+      "area": 65.6043,
+      "floor": 22,
+      "latest_transaction_date": "2025-03-22",
+      "dong": "신용동",
+      "jibun": "651"
     },
     {
       "date": "2025-03-22",
@@ -60977,6 +63551,19 @@
       "jibun": "675"
     },
     {
+      "date": "2025-03-19",
+      "region_name": "광주 북구",
+      "complex_name": "힐스테이트연제",
+      "transaction_count": 1,
+      "avg_price": 457000000,
+      "source": "molit_api",
+      "area": 84.9934,
+      "floor": 11,
+      "latest_transaction_date": "2025-03-19",
+      "dong": "연제동",
+      "jibun": "1119"
+    },
+    {
       "date": "2025-03-20",
       "region_name": "광주 북구",
       "complex_name": "무등파크1",
@@ -61066,6 +63653,19 @@
       "latest_transaction_date": "2025-03-10",
       "dong": "중흥동",
       "jibun": "836"
+    },
+    {
+      "date": "2025-03-18",
+      "region_name": "광주 북구",
+      "complex_name": "S-클래스더제니스",
+      "transaction_count": 1,
+      "avg_price": 935000000,
+      "source": "molit_api",
+      "area": 107.0208,
+      "floor": 35,
+      "latest_transaction_date": "2025-03-18",
+      "dong": "임동",
+      "jibun": "887"
     },
     {
       "date": "2025-03-17",
@@ -61250,6 +63850,19 @@
       "jibun": "69"
     },
     {
+      "date": "2025-03-17",
+      "region_name": "광주 북구",
+      "complex_name": "명지맨션",
+      "transaction_count": 1,
+      "avg_price": 184000000,
+      "source": "molit_api",
+      "area": 84.84,
+      "floor": 18,
+      "latest_transaction_date": "2025-03-17",
+      "dong": "문흥동",
+      "jibun": "995-5"
+    },
+    {
       "date": "2025-03-18",
       "region_name": "광주 북구",
       "complex_name": "금남로대광로제비앙",
@@ -61287,6 +63900,19 @@
       "latest_transaction_date": "2025-03-06",
       "dong": "매곡동",
       "jibun": "214-12"
+    },
+    {
+      "date": "2025-03-18",
+      "region_name": "광주 북구",
+      "complex_name": "연제2차대주피오레",
+      "transaction_count": 1,
+      "avg_price": 262000000,
+      "source": "molit_api",
+      "area": 84.8728,
+      "floor": 3,
+      "latest_transaction_date": "2025-03-18",
+      "dong": "연제동",
+      "jibun": "1009"
     },
     {
       "date": "2025-03-17",
@@ -61391,6 +64017,19 @@
       "latest_transaction_date": "2025-03-08",
       "dong": "문흥동",
       "jibun": "787-6"
+    },
+    {
+      "date": "2025-03-04",
+      "region_name": "광주 북구",
+      "complex_name": "호반일신",
+      "transaction_count": 1,
+      "avg_price": 155000000,
+      "source": "molit_api",
+      "area": 59.935,
+      "floor": 1,
+      "latest_transaction_date": "2025-03-04",
+      "dong": "일곡동",
+      "jibun": "850-5"
     },
     {
       "date": "2025-03-05",
@@ -61547,6 +64186,19 @@
       "latest_transaction_date": "2025-03-14",
       "dong": "운암동",
       "jibun": "1058-3"
+    },
+    {
+      "date": "2025-03-16",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구호반베르디움2단지",
+      "transaction_count": 1,
+      "avg_price": 525000000,
+      "source": "molit_api",
+      "area": 84.9419,
+      "floor": 19,
+      "latest_transaction_date": "2025-03-16",
+      "dong": "신용동",
+      "jibun": "684"
     },
     {
       "date": "2025-03-07",
@@ -61742,6 +64394,19 @@
       "latest_transaction_date": "2025-03-17",
       "dong": "연제동",
       "jibun": "1109"
+    },
+    {
+      "date": "2025-03-16",
+      "region_name": "광주 북구",
+      "complex_name": "양산지구현진에버빌",
+      "transaction_count": 1,
+      "avg_price": 367000000,
+      "source": "molit_api",
+      "area": 84.53,
+      "floor": 4,
+      "latest_transaction_date": "2025-03-16",
+      "dong": "본촌동",
+      "jibun": "3078"
     },
     {
       "date": "2025-03-16",
@@ -62225,6 +64890,19 @@
       "jibun": "1119"
     },
     {
+      "date": "2025-03-13",
+      "region_name": "광주 북구",
+      "complex_name": "일곡엘리체프라임",
+      "transaction_count": 1,
+      "avg_price": 335000000,
+      "source": "molit_api",
+      "area": 74.1967,
+      "floor": 16,
+      "latest_transaction_date": "2025-03-13",
+      "dong": "삼각동",
+      "jibun": "835"
+    },
+    {
       "date": "2025-03-08",
       "region_name": "광주 북구",
       "complex_name": "동림대광로제비앙",
@@ -62262,6 +64940,19 @@
       "latest_transaction_date": "2025-03-06",
       "dong": "신용동",
       "jibun": "643-1"
+    },
+    {
+      "date": "2025-03-12",
+      "region_name": "광주 북구",
+      "complex_name": "대주파크빌2",
+      "transaction_count": 1,
+      "avg_price": 220000000,
+      "source": "molit_api",
+      "area": 84.9843,
+      "floor": 4,
+      "latest_transaction_date": "2025-03-12",
+      "dong": "용봉동",
+      "jibun": "1066"
     },
     {
       "date": "2025-03-10",
@@ -62314,6 +65005,32 @@
       "latest_transaction_date": "2025-03-12",
       "dong": "연제동",
       "jibun": "36-1"
+    },
+    {
+      "date": "2025-03-04",
+      "region_name": "광주 북구",
+      "complex_name": "주공",
+      "transaction_count": 1,
+      "avg_price": 55000000,
+      "source": "molit_api",
+      "area": 44.52,
+      "floor": 1,
+      "latest_transaction_date": "2025-03-04",
+      "dong": "오치동",
+      "jibun": "1005"
+    },
+    {
+      "date": "2025-03-06",
+      "region_name": "광주 북구",
+      "complex_name": "무등파크맨션",
+      "transaction_count": 1,
+      "avg_price": 170000000,
+      "source": "molit_api",
+      "area": 84.85,
+      "floor": 15,
+      "latest_transaction_date": "2025-03-06",
+      "dong": "두암동",
+      "jibun": "63-1"
     },
     {
       "date": "2025-03-12",
@@ -62916,6 +65633,19 @@
     {
       "date": "2025-03-08",
       "region_name": "광주 북구",
+      "complex_name": "호반리젠시빌",
+      "transaction_count": 1,
+      "avg_price": 225000000,
+      "source": "molit_api",
+      "area": 84.6862,
+      "floor": 16,
+      "latest_transaction_date": "2025-03-08",
+      "dong": "양산동",
+      "jibun": "18-3"
+    },
+    {
+      "date": "2025-03-08",
+      "region_name": "광주 북구",
       "complex_name": "용두주공",
       "transaction_count": 1,
       "avg_price": 153000000,
@@ -63081,6 +65811,45 @@
       "latest_transaction_date": "2025-03-01",
       "dong": "우산동",
       "jibun": "5-1"
+    },
+    {
+      "date": "2025-03-01",
+      "region_name": "광주 북구",
+      "complex_name": "율곡타운(주공1)",
+      "transaction_count": 1,
+      "avg_price": 65000000,
+      "source": "molit_api",
+      "area": 41.85,
+      "floor": 8,
+      "latest_transaction_date": "2025-03-01",
+      "dong": "두암동",
+      "jibun": "968-1"
+    },
+    {
+      "date": "2025-03-03",
+      "region_name": "광주 북구",
+      "complex_name": "삼익",
+      "transaction_count": 1,
+      "avg_price": 140000000,
+      "source": "molit_api",
+      "area": 84.87,
+      "floor": 20,
+      "latest_transaction_date": "2025-03-03",
+      "dong": "매곡동",
+      "jibun": "42-2"
+    },
+    {
+      "date": "2025-03-07",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구사랑으로부영",
+      "transaction_count": 1,
+      "avg_price": 337000000,
+      "source": "molit_api",
+      "area": 84.3616,
+      "floor": 8,
+      "latest_transaction_date": "2025-03-07",
+      "dong": "신용동",
+      "jibun": "737"
     },
     {
       "date": "2025-03-07",
@@ -63291,6 +66060,19 @@
       "jibun": "1147-1"
     },
     {
+      "date": "2025-03-06",
+      "region_name": "광주 북구",
+      "complex_name": "용두주공",
+      "transaction_count": 1,
+      "avg_price": 130000000,
+      "source": "molit_api",
+      "area": 49.29,
+      "floor": 6,
+      "latest_transaction_date": "2025-03-06",
+      "dong": "신용동",
+      "jibun": "643-1"
+    },
+    {
       "date": "2025-03-05",
       "region_name": "광주 북구",
       "complex_name": "수하임아파트101동",
@@ -63302,6 +66084,19 @@
       "latest_transaction_date": "2025-03-05",
       "dong": "운암동",
       "jibun": "1769"
+    },
+    {
+      "date": "2025-03-06",
+      "region_name": "광주 북구",
+      "complex_name": "광주첨단2지구사랑으로부영",
+      "transaction_count": 1,
+      "avg_price": 329000000,
+      "source": "molit_api",
+      "area": 84.3616,
+      "floor": 3,
+      "latest_transaction_date": "2025-03-06",
+      "dong": "신용동",
+      "jibun": "737"
     },
     {
       "date": "2025-03-05",
@@ -63527,6 +66322,32 @@
     {
       "date": "2025-03-05",
       "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 600000000,
+      "source": "molit_api",
+      "area": 84.9596,
+      "floor": 4,
+      "latest_transaction_date": "2025-03-05",
+      "dong": "우산동",
+      "jibun": "835"
+    },
+    {
+      "date": "2025-03-05",
+      "region_name": "광주 북구",
+      "complex_name": "양산동고운하이플러스",
+      "transaction_count": 1,
+      "avg_price": 257000000,
+      "source": "molit_api",
+      "area": 75.7323,
+      "floor": 17,
+      "latest_transaction_date": "2025-03-05",
+      "dong": "양산동",
+      "jibun": "1151"
+    },
+    {
+      "date": "2025-03-05",
+      "region_name": "광주 북구",
       "complex_name": "동림대광로제비앙",
       "transaction_count": 1,
       "avg_price": 425000000,
@@ -63692,6 +66513,19 @@
       "latest_transaction_date": "2025-03-03",
       "dong": "운암동",
       "jibun": "1783"
+    },
+    {
+      "date": "2025-03-01",
+      "region_name": "광주 북구",
+      "complex_name": "삼호가든",
+      "transaction_count": 1,
+      "avg_price": 163000000,
+      "source": "molit_api",
+      "area": 84.99,
+      "floor": 6,
+      "latest_transaction_date": "2025-03-01",
+      "dong": "동림동",
+      "jibun": "37-10"
     },
     {
       "date": "2025-03-01",
@@ -64292,6 +67126,19 @@
       "jibun": "1123"
     },
     {
+      "date": "2025-02-24",
+      "region_name": "광주 북구",
+      "complex_name": "송지트리뷰",
+      "transaction_count": 1,
+      "avg_price": 252000000,
+      "source": "molit_api",
+      "area": 84.8915,
+      "floor": 7,
+      "latest_transaction_date": "2025-02-24",
+      "dong": "양산동",
+      "jibun": "1148"
+    },
+    {
       "date": "2025-02-14",
       "region_name": "광주 북구",
       "complex_name": "올리브",
@@ -64407,6 +67254,19 @@
       "latest_transaction_date": "2025-02-23",
       "dong": "일곡동",
       "jibun": "848-1"
+    },
+    {
+      "date": "2025-02-16",
+      "region_name": "광주 북구",
+      "complex_name": "부영사랑으로",
+      "transaction_count": 1,
+      "avg_price": 270000000,
+      "source": "molit_api",
+      "area": 84.9931,
+      "floor": 16,
+      "latest_transaction_date": "2025-02-16",
+      "dong": "본촌동",
+      "jibun": "3077"
     },
     {
       "date": "2025-02-28",
@@ -64862,6 +67722,19 @@
       "latest_transaction_date": "2025-02-11",
       "dong": "동림동",
       "jibun": "1334"
+    },
+    {
+      "date": "2025-02-28",
+      "region_name": "광주 북구",
+      "complex_name": "금호",
+      "transaction_count": 1,
+      "avg_price": 250000000,
+      "source": "molit_api",
+      "area": 84.72,
+      "floor": 18,
+      "latest_transaction_date": "2025-02-28",
+      "dong": "일곡동",
+      "jibun": "818-4"
     },
     {
       "date": "2025-02-24",
@@ -65373,6 +68246,19 @@
     {
       "date": "2025-02-27",
       "region_name": "광주 북구",
+      "complex_name": "동림푸른주공3",
+      "transaction_count": 1,
+      "avg_price": 115000000,
+      "source": "molit_api",
+      "area": 49.29,
+      "floor": 11,
+      "latest_transaction_date": "2025-02-27",
+      "dong": "동림동",
+      "jibun": "1147-1"
+    },
+    {
+      "date": "2025-02-27",
+      "region_name": "광주 북구",
       "complex_name": "청솔4차",
       "transaction_count": 1,
       "avg_price": 90000000,
@@ -65473,6 +68359,19 @@
       "latest_transaction_date": "2025-02-25",
       "dong": "일곡동",
       "jibun": "819-2"
+    },
+    {
+      "date": "2025-02-27",
+      "region_name": "광주 북구",
+      "complex_name": "삼성",
+      "transaction_count": 1,
+      "avg_price": 119000000,
+      "source": "molit_api",
+      "area": 59.76,
+      "floor": 16,
+      "latest_transaction_date": "2025-02-27",
+      "dong": "용봉동",
+      "jibun": "973-1"
     },
     {
       "date": "2025-02-17",
@@ -66032,6 +68931,19 @@
       "latest_transaction_date": "2025-02-24",
       "dong": "문흥동",
       "jibun": "920"
+    },
+    {
+      "date": "2025-02-24",
+      "region_name": "광주 북구",
+      "complex_name": "문화B",
+      "transaction_count": 1,
+      "avg_price": 65000000,
+      "source": "molit_api",
+      "area": 70.64,
+      "floor": 3,
+      "latest_transaction_date": "2025-02-24",
+      "dong": "두암동",
+      "jibun": "825-1"
     },
     {
       "date": "2025-02-25",
@@ -67594,6 +70506,32 @@
       "jibun": "492"
     },
     {
+      "date": "2025-02-18",
+      "region_name": "광주 북구",
+      "complex_name": "동일",
+      "transaction_count": 1,
+      "avg_price": 132000000,
+      "source": "molit_api",
+      "area": 84.93,
+      "floor": 5,
+      "latest_transaction_date": "2025-02-18",
+      "dong": "운암동",
+      "jibun": "133-9"
+    },
+    {
+      "date": "2025-02-17",
+      "region_name": "광주 북구",
+      "complex_name": "현대3",
+      "transaction_count": 1,
+      "avg_price": 235000000,
+      "source": "molit_api",
+      "area": 84.985,
+      "floor": 12,
+      "latest_transaction_date": "2025-02-17",
+      "dong": "일곡동",
+      "jibun": "819-1"
+    },
+    {
       "date": "2025-02-17",
       "region_name": "광주 북구",
       "complex_name": "주공1",
@@ -67787,6 +70725,19 @@
       "latest_transaction_date": "2025-02-11",
       "dong": "우산동",
       "jibun": "631-1"
+    },
+    {
+      "date": "2025-02-17",
+      "region_name": "광주 북구",
+      "complex_name": "매곡대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 265000000,
+      "source": "molit_api",
+      "area": 80.3123,
+      "floor": 6,
+      "latest_transaction_date": "2025-02-17",
+      "dong": "매곡동",
+      "jibun": "494"
     },
     {
       "date": "2025-02-15",
@@ -68049,6 +71000,19 @@
       "jibun": "2-7"
     },
     {
+      "date": "2025-02-11",
+      "region_name": "광주 북구",
+      "complex_name": "S-클래스더제니스",
+      "transaction_count": 1,
+      "avg_price": 700000000,
+      "source": "molit_api",
+      "area": 84.9799,
+      "floor": 27,
+      "latest_transaction_date": "2025-02-11",
+      "dong": "임동",
+      "jibun": "887"
+    },
+    {
       "date": "2025-02-16",
       "region_name": "광주 북구",
       "complex_name": "첨단자이2차",
@@ -68112,6 +71076,19 @@
       "latest_transaction_date": "2025-02-15",
       "dong": "오치동",
       "jibun": "855-9"
+    },
+    {
+      "date": "2025-02-15",
+      "region_name": "광주 북구",
+      "complex_name": "한양수자인리버뷰",
+      "transaction_count": 1,
+      "avg_price": 375000000,
+      "source": "molit_api",
+      "area": 65.6043,
+      "floor": 21,
+      "latest_transaction_date": "2025-02-15",
+      "dong": "신용동",
+      "jibun": "651"
     },
     {
       "date": "2025-02-15",
@@ -68333,6 +71310,19 @@
       "latest_transaction_date": "2025-02-14",
       "dong": "용봉동",
       "jibun": "1474"
+    },
+    {
+      "date": "2025-02-14",
+      "region_name": "광주 북구",
+      "complex_name": "용두주공",
+      "transaction_count": 1,
+      "avg_price": 110000000,
+      "source": "molit_api",
+      "area": 49.29,
+      "floor": 10,
+      "latest_transaction_date": "2025-02-14",
+      "dong": "신용동",
+      "jibun": "643-1"
     },
     {
       "date": "2025-02-14",
@@ -68684,6 +71674,19 @@
       "latest_transaction_date": "2025-02-05",
       "dong": "일곡동",
       "jibun": "850-3"
+    },
+    {
+      "date": "2025-02-12",
+      "region_name": "광주 북구",
+      "complex_name": "힐스테이트각화",
+      "transaction_count": 1,
+      "avg_price": 430000000,
+      "source": "molit_api",
+      "area": 84.9442,
+      "floor": 21,
+      "latest_transaction_date": "2025-02-12",
+      "dong": "각화동",
+      "jibun": "594"
     },
     {
       "date": "2025-02-12",
@@ -69635,6 +72638,19 @@
       "jibun": "643-1"
     },
     {
+      "date": "2025-02-04",
+      "region_name": "광주 북구",
+      "complex_name": "금호",
+      "transaction_count": 1,
+      "avg_price": 182000000,
+      "source": "molit_api",
+      "area": 84.84,
+      "floor": 6,
+      "latest_transaction_date": "2025-02-04",
+      "dong": "매곡동",
+      "jibun": "83-1"
+    },
+    {
       "date": "2025-02-01",
       "region_name": "광주 북구",
       "complex_name": "용두주공",
@@ -69687,6 +72703,19 @@
       "jibun": "72-4"
     },
     {
+      "date": "2025-02-05",
+      "region_name": "광주 북구",
+      "complex_name": "연제대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 360000000,
+      "source": "molit_api",
+      "area": 84.6216,
+      "floor": 12,
+      "latest_transaction_date": "2025-02-05",
+      "dong": "연제동",
+      "jibun": "1109"
+    },
+    {
       "date": "2025-02-20",
       "region_name": "광주 북구",
       "complex_name": "문흥동대주3",
@@ -69698,6 +72727,19 @@
       "latest_transaction_date": "2025-02-20",
       "dong": "문흥동",
       "jibun": "1011-2"
+    },
+    {
+      "date": "2025-02-03",
+      "region_name": "광주 북구",
+      "complex_name": "대주피오레",
+      "transaction_count": 1,
+      "avg_price": 270000000,
+      "source": "molit_api",
+      "area": 84.9996,
+      "floor": 14,
+      "latest_transaction_date": "2025-02-03",
+      "dong": "연제동",
+      "jibun": "1007"
     },
     {
       "date": "2025-02-06",
@@ -70742,6 +73784,19 @@
     {
       "date": "2025-01-24",
       "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 578000000,
+      "source": "molit_api",
+      "area": 84.924,
+      "floor": 3,
+      "latest_transaction_date": "2025-01-24",
+      "dong": "우산동",
+      "jibun": "835"
+    },
+    {
+      "date": "2025-01-24",
+      "region_name": "광주 북구",
       "complex_name": "문흥제일파크",
       "transaction_count": 1,
       "avg_price": 85000000,
@@ -70855,6 +73910,19 @@
       "latest_transaction_date": "2025-01-24",
       "dong": "중흥동",
       "jibun": "323-1"
+    },
+    {
+      "date": "2025-01-18",
+      "region_name": "광주 북구",
+      "complex_name": "유창하이리빙맨션1",
+      "transaction_count": 1,
+      "avg_price": 165000000,
+      "source": "molit_api",
+      "area": 84.84,
+      "floor": 13,
+      "latest_transaction_date": "2025-01-18",
+      "dong": "용봉동",
+      "jibun": "405"
     },
     {
       "date": "2025-01-25",
@@ -71052,6 +74120,19 @@
       "jibun": "1051-1"
     },
     {
+      "date": "2025-01-18",
+      "region_name": "광주 북구",
+      "complex_name": "벽산블루밍메가씨티3단지",
+      "transaction_count": 1,
+      "avg_price": 347000000,
+      "source": "molit_api",
+      "area": 84.8269,
+      "floor": 2,
+      "latest_transaction_date": "2025-01-18",
+      "dong": "운암동",
+      "jibun": "69"
+    },
+    {
       "date": "2025-01-19",
       "region_name": "광주 북구",
       "complex_name": "한국",
@@ -71130,6 +74211,19 @@
       "jibun": "205-1"
     },
     {
+      "date": "2025-01-21",
+      "region_name": "광주 북구",
+      "complex_name": "광명2차",
+      "transaction_count": 1,
+      "avg_price": 112000000,
+      "source": "molit_api",
+      "area": 59.97,
+      "floor": 18,
+      "latest_transaction_date": "2025-01-21",
+      "dong": "연제동",
+      "jibun": "2-7"
+    },
+    {
       "date": "2025-01-04",
       "region_name": "광주 북구",
       "complex_name": "교대금호어울림",
@@ -71154,6 +74248,19 @@
       "latest_transaction_date": "2025-01-31",
       "dong": "운암동",
       "jibun": "1058-3"
+    },
+    {
+      "date": "2025-01-16",
+      "region_name": "광주 북구",
+      "complex_name": "나산건강",
+      "transaction_count": 1,
+      "avg_price": 169000000,
+      "source": "molit_api",
+      "area": 59.97,
+      "floor": 9,
+      "latest_transaction_date": "2025-01-16",
+      "dong": "운암동",
+      "jibun": "1101-1"
     },
     {
       "date": "2025-01-07",
@@ -71416,6 +74523,19 @@
       "jibun": "637"
     },
     {
+      "date": "2025-01-25",
+      "region_name": "광주 북구",
+      "complex_name": "호반",
+      "transaction_count": 1,
+      "avg_price": 69800000,
+      "source": "molit_api",
+      "area": 37.83,
+      "floor": 12,
+      "latest_transaction_date": "2025-01-25",
+      "dong": "양산동",
+      "jibun": "288-15"
+    },
+    {
       "date": "2025-01-24",
       "region_name": "광주 북구",
       "complex_name": "새봄",
@@ -71544,6 +74664,19 @@
       "latest_transaction_date": "2025-01-25",
       "dong": "양산동",
       "jibun": "288-15"
+    },
+    {
+      "date": "2025-01-23",
+      "region_name": "광주 북구",
+      "complex_name": "남양휴튼",
+      "transaction_count": 1,
+      "avg_price": 435000000,
+      "source": "molit_api",
+      "area": 111.0942,
+      "floor": 11,
+      "latest_transaction_date": "2025-01-23",
+      "dong": "운암동",
+      "jibun": "1761"
     },
     {
       "date": "2025-01-24",
@@ -71730,6 +74863,19 @@
     {
       "date": "2025-01-23",
       "region_name": "광주 북구",
+      "complex_name": "제일풍경채센트럴파크1단지",
+      "transaction_count": 1,
+      "avg_price": 605000000,
+      "source": "molit_api",
+      "area": 84.92,
+      "floor": 5,
+      "latest_transaction_date": "2025-01-23",
+      "dong": "중흥동",
+      "jibun": "836"
+    },
+    {
+      "date": "2025-01-23",
+      "region_name": "광주 북구",
       "complex_name": "용봉엘리체",
       "transaction_count": 1,
       "avg_price": 320000000,
@@ -71897,6 +75043,19 @@
       "jibun": "1783"
     },
     {
+      "date": "2025-01-23",
+      "region_name": "광주 북구",
+      "complex_name": "두암동현대1차",
+      "transaction_count": 1,
+      "avg_price": 219000000,
+      "source": "molit_api",
+      "area": 84.97,
+      "floor": 2,
+      "latest_transaction_date": "2025-01-23",
+      "dong": "두암동",
+      "jibun": "72-4"
+    },
+    {
       "date": "2025-01-04",
       "region_name": "광주 북구",
       "complex_name": "유창하이리빙맨션2",
@@ -71921,6 +75080,19 @@
       "latest_transaction_date": "2025-01-22",
       "dong": "임동",
       "jibun": "340"
+    },
+    {
+      "date": "2025-01-22",
+      "region_name": "광주 북구",
+      "complex_name": "제일풍경채센트럴파크1단지",
+      "transaction_count": 1,
+      "avg_price": 635000000,
+      "source": "molit_api",
+      "area": 84.92,
+      "floor": 10,
+      "latest_transaction_date": "2025-01-22",
+      "dong": "중흥동",
+      "jibun": "836"
     },
     {
       "date": "2025-01-22",
@@ -72575,6 +75747,19 @@
     {
       "date": "2025-01-03",
       "region_name": "광주 북구",
+      "complex_name": "한양수자인리버뷰",
+      "transaction_count": 1,
+      "avg_price": 359000000,
+      "source": "molit_api",
+      "area": 65.5173,
+      "floor": 21,
+      "latest_transaction_date": "2025-01-03",
+      "dong": "신용동",
+      "jibun": "651"
+    },
+    {
+      "date": "2025-01-03",
+      "region_name": "광주 북구",
       "complex_name": "금호",
       "transaction_count": 1,
       "avg_price": 243000000,
@@ -72688,6 +75873,19 @@
       "latest_transaction_date": "2025-01-05",
       "dong": "운암동",
       "jibun": "69"
+    },
+    {
+      "date": "2025-01-17",
+      "region_name": "광주 북구",
+      "complex_name": "S-클래스더제니스",
+      "transaction_count": 1,
+      "avg_price": 548000000,
+      "source": "molit_api",
+      "area": 76.8906,
+      "floor": 4,
+      "latest_transaction_date": "2025-01-17",
+      "dong": "임동",
+      "jibun": "887"
     },
     {
       "date": "2025-01-14",
@@ -73548,6 +76746,19 @@
       "jibun": "594"
     },
     {
+      "date": "2025-01-04",
+      "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 629000000,
+      "source": "molit_api",
+      "area": 84.9713,
+      "floor": 7,
+      "latest_transaction_date": "2025-01-04",
+      "dong": "우산동",
+      "jibun": "835"
+    },
+    {
       "date": "2025-01-13",
       "region_name": "광주 북구",
       "complex_name": "서광인텔파크",
@@ -73728,6 +76939,19 @@
       "latest_transaction_date": "2025-01-08",
       "dong": "문흥동",
       "jibun": "920"
+    },
+    {
+      "date": "2025-01-03",
+      "region_name": "광주 북구",
+      "complex_name": "무등산자이앤어울림1단지",
+      "transaction_count": 1,
+      "avg_price": 436000000,
+      "source": "molit_api",
+      "area": 59.9883,
+      "floor": 13,
+      "latest_transaction_date": "2025-01-03",
+      "dong": "우산동",
+      "jibun": "835"
     },
     {
       "date": "2025-01-07",
@@ -74274,6 +77498,19 @@
       "latest_transaction_date": "2025-01-02",
       "dong": "문흥동",
       "jibun": "787-1"
+    },
+    {
+      "date": "2025-01-06",
+      "region_name": "광주 북구",
+      "complex_name": "휴먼파크서희스타힐스",
+      "transaction_count": 1,
+      "avg_price": 320000000,
+      "source": "molit_api",
+      "area": 76.7843,
+      "floor": 3,
+      "latest_transaction_date": "2025-01-06",
+      "dong": "각화동",
+      "jibun": "591"
     },
     {
       "date": "2025-01-06",
@@ -75021,6 +78258,19 @@
     {
       "date": "2025-08-14",
       "region_name": "광주 광산구",
+      "complex_name": "하남3지구모아엘가",
+      "transaction_count": 1,
+      "avg_price": 405000000,
+      "source": "molit_api",
+      "area": 84.9817,
+      "floor": 18,
+      "latest_transaction_date": "2025-08-14",
+      "dong": "하남동",
+      "jibun": "971"
+    },
+    {
+      "date": "2025-08-14",
+      "region_name": "광주 광산구",
       "complex_name": "쌍용더플래티넘광산",
       "transaction_count": 1,
       "avg_price": 413000000,
@@ -75277,6 +78527,19 @@
       "latest_transaction_date": "2025-08-11",
       "dong": "우산동",
       "jibun": "1621"
+    },
+    {
+      "date": "2025-08-12",
+      "region_name": "광주 광산구",
+      "complex_name": "중도다이아빌",
+      "transaction_count": 1,
+      "avg_price": 135000000,
+      "source": "molit_api",
+      "area": 59.9807,
+      "floor": 6,
+      "latest_transaction_date": "2025-08-12",
+      "dong": "신촌동",
+      "jibun": "844"
     },
     {
       "date": "2025-08-12",
@@ -75970,6 +79233,19 @@
     {
       "date": "2025-08-04",
       "region_name": "광주 광산구",
+      "complex_name": "중흥2차",
+      "transaction_count": 1,
+      "avg_price": 87000000,
+      "source": "molit_api",
+      "area": 59.76,
+      "floor": 3,
+      "latest_transaction_date": "2025-08-04",
+      "dong": "도천동",
+      "jibun": "628-1"
+    },
+    {
+      "date": "2025-08-04",
+      "region_name": "광주 광산구",
       "complex_name": "하남주공(2단지)",
       "transaction_count": 1,
       "avg_price": 81000000,
@@ -76458,6 +79734,19 @@
       "area": 59.9323,
       "floor": 3,
       "latest_transaction_date": "2025-07-29",
+      "dong": "우산동",
+      "jibun": "1621"
+    },
+    {
+      "date": "2025-07-20",
+      "region_name": "광주 광산구",
+      "complex_name": "세계수영선수촌 중흥에스-클래스 센트럴",
+      "transaction_count": 1,
+      "avg_price": 383000000,
+      "source": "molit_api",
+      "area": 84.9276,
+      "floor": 12,
+      "latest_transaction_date": "2025-07-20",
       "dong": "우산동",
       "jibun": "1621"
     },
@@ -78659,6 +81948,19 @@
       "jibun": "152-5"
     },
     {
+      "date": "2025-07-15",
+      "region_name": "광주 광산구",
+      "complex_name": "운남진아리채리버힐즈",
+      "transaction_count": 1,
+      "avg_price": 430000000,
+      "source": "molit_api",
+      "area": 84.9895,
+      "floor": 20,
+      "latest_transaction_date": "2025-07-15",
+      "dong": "운남동",
+      "jibun": "802"
+    },
+    {
       "date": "2025-07-04",
       "region_name": "광주 광산구",
       "complex_name": "성덕마을대방노블랜드3차",
@@ -78748,6 +82050,19 @@
       "latest_transaction_date": "2025-07-14",
       "dong": "산월동",
       "jibun": "883-2"
+    },
+    {
+      "date": "2025-07-14",
+      "region_name": "광주 광산구",
+      "complex_name": "대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 295000000,
+      "source": "molit_api",
+      "area": 84.8724,
+      "floor": 9,
+      "latest_transaction_date": "2025-07-14",
+      "dong": "우산동",
+      "jibun": "1311-1"
     },
     {
       "date": "2025-07-04",
@@ -78852,6 +82167,19 @@
       "latest_transaction_date": "2025-07-14",
       "dong": "운남동",
       "jibun": "771-1"
+    },
+    {
+      "date": "2025-07-14",
+      "region_name": "광주 광산구",
+      "complex_name": "대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 295000000,
+      "source": "molit_api",
+      "area": 84.8724,
+      "floor": 9,
+      "latest_transaction_date": "2025-07-14",
+      "dong": "우산동",
+      "jibun": "1311-1"
     },
     {
       "date": "2025-07-13",
@@ -79660,6 +82988,19 @@
       "jibun": "1625"
     },
     {
+      "date": "2025-07-04",
+      "region_name": "광주 광산구",
+      "complex_name": "호반리젠시빌2차",
+      "transaction_count": 1,
+      "avg_price": 250000000,
+      "source": "molit_api",
+      "area": 84.0624,
+      "floor": 10,
+      "latest_transaction_date": "2025-07-04",
+      "dong": "신가동",
+      "jibun": "961-1"
+    },
+    {
       "date": "2025-07-07",
       "region_name": "광주 광산구",
       "complex_name": "광주선운지구이지더원3단지",
@@ -80221,6 +83562,19 @@
     {
       "date": "2025-07-01",
       "region_name": "광주 광산구",
+      "complex_name": "수완대성베르힐",
+      "transaction_count": 1,
+      "avg_price": 490000000,
+      "source": "molit_api",
+      "area": 84.9888,
+      "floor": 14,
+      "latest_transaction_date": "2025-07-01",
+      "dong": "신가동",
+      "jibun": "1199"
+    },
+    {
+      "date": "2025-07-01",
+      "region_name": "광주 광산구",
       "complex_name": "대주피오레1단지",
       "transaction_count": 1,
       "avg_price": 530000000,
@@ -80230,6 +83584,19 @@
       "latest_transaction_date": "2025-07-01",
       "dong": "장덕동",
       "jibun": "1686"
+    },
+    {
+      "date": "2025-07-01",
+      "region_name": "광주 광산구",
+      "complex_name": "수완대성베르힐",
+      "transaction_count": 1,
+      "avg_price": 490000000,
+      "source": "molit_api",
+      "area": 84.9888,
+      "floor": 14,
+      "latest_transaction_date": "2025-07-01",
+      "dong": "신가동",
+      "jibun": "1199"
     },
     {
       "date": "2025-07-01",
@@ -80334,6 +83701,19 @@
       "latest_transaction_date": "2025-07-01",
       "dong": "월계동",
       "jibun": "883-1"
+    },
+    {
+      "date": "2025-07-01",
+      "region_name": "광주 광산구",
+      "complex_name": "삼성",
+      "transaction_count": 1,
+      "avg_price": 220000000,
+      "source": "molit_api",
+      "area": 70.97,
+      "floor": 11,
+      "latest_transaction_date": "2025-07-01",
+      "dong": "운남동",
+      "jibun": "387-22"
     },
     {
       "date": "2025-06-15",
@@ -80806,6 +84186,19 @@
     {
       "date": "2025-06-23",
       "region_name": "광주 광산구",
+      "complex_name": "운남주공10단지",
+      "transaction_count": 1,
+      "avg_price": 300000000,
+      "source": "molit_api",
+      "area": 84.03,
+      "floor": 2,
+      "latest_transaction_date": "2025-06-23",
+      "dong": "월곡동",
+      "jibun": "685-1"
+    },
+    {
+      "date": "2025-06-23",
+      "region_name": "광주 광산구",
       "complex_name": "신창7차부영사랑으로",
       "transaction_count": 1,
       "avg_price": 325000000,
@@ -80986,6 +84379,19 @@
       "jibun": "290-46"
     },
     {
+      "date": "2025-06-27",
+      "region_name": "광주 광산구",
+      "complex_name": "어등산진아리채리버필드",
+      "transaction_count": 1,
+      "avg_price": 440000000,
+      "source": "molit_api",
+      "area": 79.0078,
+      "floor": 10,
+      "latest_transaction_date": "2025-06-27",
+      "dong": "선암동",
+      "jibun": "869"
+    },
+    {
       "date": "2025-06-23",
       "region_name": "광주 광산구",
       "complex_name": "첨단두산1차",
@@ -81036,6 +84442,19 @@
       "latest_transaction_date": "2025-06-24",
       "dong": "월계동",
       "jibun": "757-3"
+    },
+    {
+      "date": "2025-06-18",
+      "region_name": "광주 광산구",
+      "complex_name": "호반",
+      "transaction_count": 1,
+      "avg_price": 75000000,
+      "source": "molit_api",
+      "area": 39.68,
+      "floor": 4,
+      "latest_transaction_date": "2025-06-18",
+      "dong": "비아동",
+      "jibun": "152-5"
     },
     {
       "date": "2025-06-26",
@@ -81114,6 +84533,19 @@
       "latest_transaction_date": "2025-06-29",
       "dong": "신창동",
       "jibun": "1110"
+    },
+    {
+      "date": "2025-06-30",
+      "region_name": "광주 광산구",
+      "complex_name": "삼성",
+      "transaction_count": 1,
+      "avg_price": 244000000,
+      "source": "molit_api",
+      "area": 84.92,
+      "floor": 21,
+      "latest_transaction_date": "2025-06-30",
+      "dong": "운남동",
+      "jibun": "387-22"
     },
     {
       "date": "2025-06-28",
@@ -83339,6 +86771,19 @@
       "jibun": "524"
     },
     {
+      "date": "2025-06-17",
+      "region_name": "광주 광산구",
+      "complex_name": "광주선운지구이지더원3단지",
+      "transaction_count": 1,
+      "avg_price": 369000000,
+      "source": "molit_api",
+      "area": 72.2197,
+      "floor": 19,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "선암동",
+      "jibun": "549"
+    },
+    {
       "date": "2025-06-15",
       "region_name": "광주 광산구",
       "complex_name": "한성1차",
@@ -83415,6 +86860,19 @@
       "latest_transaction_date": "2025-06-10",
       "dong": "운남동",
       "jibun": "387-22"
+    },
+    {
+      "date": "2025-06-17",
+      "region_name": "광주 광산구",
+      "complex_name": "광주선운지구이지더원3단지",
+      "transaction_count": 1,
+      "avg_price": 369000000,
+      "source": "molit_api",
+      "area": 72.2197,
+      "floor": 19,
+      "latest_transaction_date": "2025-06-17",
+      "dong": "선암동",
+      "jibun": "549"
     },
     {
       "date": "2025-06-14",
@@ -83495,6 +86953,19 @@
       "jibun": "885-1"
     },
     {
+      "date": "2025-06-06",
+      "region_name": "광주 광산구",
+      "complex_name": "신창3차부영사랑으로",
+      "transaction_count": 1,
+      "avg_price": 197000000,
+      "source": "molit_api",
+      "area": 59.748,
+      "floor": 14,
+      "latest_transaction_date": "2025-06-06",
+      "dong": "신창동",
+      "jibun": "1110"
+    },
+    {
       "date": "2025-06-15",
       "region_name": "광주 광산구",
       "complex_name": "모아드림타운1차",
@@ -83519,6 +86990,19 @@
       "latest_transaction_date": "2025-06-14",
       "dong": "소촌동",
       "jibun": "290-46"
+    },
+    {
+      "date": "2025-06-14",
+      "region_name": "광주 광산구",
+      "complex_name": "우미린2차",
+      "transaction_count": 1,
+      "avg_price": 480000000,
+      "source": "molit_api",
+      "area": 84.9547,
+      "floor": 14,
+      "latest_transaction_date": "2025-06-14",
+      "dong": "수완동",
+      "jibun": "908"
     },
     {
       "date": "2025-06-15",
@@ -83662,6 +87146,19 @@
       "latest_transaction_date": "2025-06-16",
       "dong": "수완동",
       "jibun": "908"
+    },
+    {
+      "date": "2025-06-16",
+      "region_name": "광주 광산구",
+      "complex_name": "신창3차부영사랑으로",
+      "transaction_count": 1,
+      "avg_price": 199000000,
+      "source": "molit_api",
+      "area": 59.748,
+      "floor": 12,
+      "latest_transaction_date": "2025-06-16",
+      "dong": "신창동",
+      "jibun": "1110"
     },
     {
       "date": "2025-06-16",
@@ -83898,6 +87395,19 @@
       "jibun": "1118"
     },
     {
+      "date": "2025-06-14",
+      "region_name": "광주 광산구",
+      "complex_name": "광주수완세영리첼",
+      "transaction_count": 1,
+      "avg_price": 440000000,
+      "source": "molit_api",
+      "area": 84.6782,
+      "floor": 10,
+      "latest_transaction_date": "2025-06-14",
+      "dong": "장덕동",
+      "jibun": "1111"
+    },
+    {
       "date": "2025-06-05",
       "region_name": "광주 광산구",
       "complex_name": "운남주공7단지",
@@ -84078,6 +87588,19 @@
       "latest_transaction_date": "2025-06-12",
       "dong": "선암동",
       "jibun": "869"
+    },
+    {
+      "date": "2025-06-13",
+      "region_name": "광주 광산구",
+      "complex_name": "수완센트럴시티서희스타힐스",
+      "transaction_count": 1,
+      "avg_price": 400000000,
+      "source": "molit_api",
+      "area": 84.9901,
+      "floor": 21,
+      "latest_transaction_date": "2025-06-13",
+      "dong": "흑석동",
+      "jibun": "811"
     },
     {
       "date": "2025-06-13",
@@ -84379,6 +87902,19 @@
       "jibun": "1110"
     },
     {
+      "date": "2025-06-03",
+      "region_name": "광주 광산구",
+      "complex_name": "코오롱하늘채",
+      "transaction_count": 1,
+      "avg_price": 610000000,
+      "source": "molit_api",
+      "area": 103.71,
+      "floor": 8,
+      "latest_transaction_date": "2025-06-03",
+      "dong": "수완동",
+      "jibun": "913"
+    },
+    {
       "date": "2025-06-06",
       "region_name": "광주 광산구",
       "complex_name": "호반리젠시빌1",
@@ -84429,6 +87965,19 @@
       "latest_transaction_date": "2025-06-11",
       "dong": "신가동",
       "jibun": "1048"
+    },
+    {
+      "date": "2025-06-09",
+      "region_name": "광주 광산구",
+      "complex_name": "모아드림타운1차",
+      "transaction_count": 1,
+      "avg_price": 170000000,
+      "source": "molit_api",
+      "area": 82.8908,
+      "floor": 2,
+      "latest_transaction_date": "2025-06-09",
+      "dong": "소촌동",
+      "jibun": "286-1"
     },
     {
       "date": "2025-06-11",
@@ -84925,6 +88474,19 @@
       "jibun": "387-22"
     },
     {
+      "date": "2025-06-02",
+      "region_name": "광주 광산구",
+      "complex_name": "수완지구호반베르디움1차",
+      "transaction_count": 1,
+      "avg_price": 641000000,
+      "source": "molit_api",
+      "area": 84.884,
+      "floor": 11,
+      "latest_transaction_date": "2025-06-02",
+      "dong": "신가동",
+      "jibun": "1058"
+    },
+    {
       "date": "2025-06-07",
       "region_name": "광주 광산구",
       "complex_name": "서라",
@@ -85287,6 +88849,19 @@
       "latest_transaction_date": "2025-06-05",
       "dong": "신창동",
       "jibun": "1270"
+    },
+    {
+      "date": "2025-06-05",
+      "region_name": "광주 광산구",
+      "complex_name": "신창5차호반베르디움",
+      "transaction_count": 1,
+      "avg_price": 310000000,
+      "source": "molit_api",
+      "area": 84.9429,
+      "floor": 2,
+      "latest_transaction_date": "2025-06-05",
+      "dong": "신창동",
+      "jibun": "1111"
     },
     {
       "date": "2025-06-05",
@@ -86030,6 +89605,19 @@
       "jibun": "152-5"
     },
     {
+      "date": "2025-05-31",
+      "region_name": "광주 광산구",
+      "complex_name": "운남주공1,2단지",
+      "transaction_count": 1,
+      "avg_price": 119000000,
+      "source": "molit_api",
+      "area": 59.76,
+      "floor": 13,
+      "latest_transaction_date": "2025-05-31",
+      "dong": "운남동",
+      "jibun": "776-1"
+    },
+    {
       "date": "2025-05-22",
       "region_name": "광주 광산구",
       "complex_name": "운남주공7단지",
@@ -86459,6 +90047,19 @@
       "jibun": "802"
     },
     {
+      "date": "2025-05-31",
+      "region_name": "광주 광산구",
+      "complex_name": "선운지구진아리채",
+      "transaction_count": 1,
+      "avg_price": 305000000,
+      "source": "molit_api",
+      "area": 78.0887,
+      "floor": 2,
+      "latest_transaction_date": "2025-05-31",
+      "dong": "선암동",
+      "jibun": "782"
+    },
+    {
       "date": "2025-05-19",
       "region_name": "광주 광산구",
       "complex_name": "호반2차",
@@ -86641,6 +90242,19 @@
       "jibun": "538-1"
     },
     {
+      "date": "2025-05-30",
+      "region_name": "광주 광산구",
+      "complex_name": "어등산진아리채리버필드",
+      "transaction_count": 1,
+      "avg_price": 450000000,
+      "source": "molit_api",
+      "area": 79.0078,
+      "floor": 13,
+      "latest_transaction_date": "2025-05-30",
+      "dong": "선암동",
+      "jibun": "869"
+    },
+    {
       "date": "2025-05-23",
       "region_name": "광주 광산구",
       "complex_name": "신창유탑유블레스리버뷰",
@@ -86808,6 +90422,19 @@
       "latest_transaction_date": "2025-05-29",
       "dong": "신가동",
       "jibun": "1034"
+    },
+    {
+      "date": "2025-05-29",
+      "region_name": "광주 광산구",
+      "complex_name": "우방아이유쉘",
+      "transaction_count": 1,
+      "avg_price": 284000000,
+      "source": "molit_api",
+      "area": 59.7699,
+      "floor": 11,
+      "latest_transaction_date": "2025-05-29",
+      "dong": "운남동",
+      "jibun": "800"
     },
     {
       "date": "2025-05-01",
@@ -87187,6 +90814,19 @@
       "jibun": "524"
     },
     {
+      "date": "2025-05-13",
+      "region_name": "광주 광산구",
+      "complex_name": "호반리젠시빌4",
+      "transaction_count": 1,
+      "avg_price": 288000000,
+      "source": "molit_api",
+      "area": 83.7154,
+      "floor": 8,
+      "latest_transaction_date": "2025-05-13",
+      "dong": "산월동",
+      "jibun": "883-1"
+    },
+    {
       "date": "2025-05-24",
       "region_name": "광주 광산구",
       "complex_name": "하남2지구다사로움3단지도시형생활주택",
@@ -87397,6 +91037,19 @@
     {
       "date": "2025-05-26",
       "region_name": "광주 광산구",
+      "complex_name": "현진에버빌2단지",
+      "transaction_count": 1,
+      "avg_price": 495000000,
+      "source": "molit_api",
+      "area": 84.9649,
+      "floor": 7,
+      "latest_transaction_date": "2025-05-26",
+      "dong": "장덕동",
+      "jibun": "1593"
+    },
+    {
+      "date": "2025-05-26",
+      "region_name": "광주 광산구",
       "complex_name": "운남주공7단지",
       "transaction_count": 1,
       "avg_price": 87000000,
@@ -87564,6 +91217,19 @@
       "jibun": "65-50"
     },
     {
+      "date": "2025-05-25",
+      "region_name": "광주 광산구",
+      "complex_name": "쌍암중흥에스-클래스리버시티",
+      "transaction_count": 1,
+      "avg_price": 400000000,
+      "source": "molit_api",
+      "area": 76.9179,
+      "floor": 7,
+      "latest_transaction_date": "2025-05-25",
+      "dong": "쌍암동",
+      "jibun": "694-59"
+    },
+    {
       "date": "2025-05-14",
       "region_name": "광주 광산구",
       "complex_name": "대주피오레1차",
@@ -87664,6 +91330,19 @@
       "area": 84.95,
       "floor": 33,
       "latest_transaction_date": "2025-05-24",
+      "dong": "쌍암동",
+      "jibun": "695-1"
+    },
+    {
+      "date": "2025-05-21",
+      "region_name": "광주 광산구",
+      "complex_name": "힐스테이트리버파크",
+      "transaction_count": 1,
+      "avg_price": 600000000,
+      "source": "molit_api",
+      "area": 84.95,
+      "floor": 16,
+      "latest_transaction_date": "2025-05-21",
       "dong": "쌍암동",
       "jibun": "695-1"
     },
@@ -88123,6 +91802,19 @@
       "jibun": "1298-3"
     },
     {
+      "date": "2025-05-22",
+      "region_name": "광주 광산구",
+      "complex_name": "삼성",
+      "transaction_count": 1,
+      "avg_price": 152500000,
+      "source": "molit_api",
+      "area": 59.91,
+      "floor": 1,
+      "latest_transaction_date": "2025-05-22",
+      "dong": "운남동",
+      "jibun": "387-22"
+    },
+    {
       "date": "2025-05-23",
       "region_name": "광주 광산구",
       "complex_name": "리버힐",
@@ -88147,6 +91839,19 @@
       "latest_transaction_date": "2025-05-16",
       "dong": "월계동",
       "jibun": "761-3"
+    },
+    {
+      "date": "2025-05-19",
+      "region_name": "광주 광산구",
+      "complex_name": "호반2차",
+      "transaction_count": 1,
+      "avg_price": 145000000,
+      "source": "molit_api",
+      "area": 59.95,
+      "floor": 11,
+      "latest_transaction_date": "2025-05-19",
+      "dong": "도산동",
+      "jibun": "782"
     },
     {
       "date": "2025-05-22",
@@ -88318,6 +92023,19 @@
       "jibun": "1309"
     },
     {
+      "date": "2025-05-17",
+      "region_name": "광주 광산구",
+      "complex_name": "중흥2",
+      "transaction_count": 1,
+      "avg_price": 119000000,
+      "source": "molit_api",
+      "area": 59.955,
+      "floor": 1,
+      "latest_transaction_date": "2025-05-17",
+      "dong": "신가동",
+      "jibun": "302-25"
+    },
+    {
       "date": "2025-05-02",
       "region_name": "광주 광산구",
       "complex_name": "첨단대우",
@@ -88407,6 +92125,19 @@
       "latest_transaction_date": "2025-05-13",
       "dong": "송정동",
       "jibun": "238"
+    },
+    {
+      "date": "2025-05-15",
+      "region_name": "광주 광산구",
+      "complex_name": "중흥에스-클래스3단지",
+      "transaction_count": 1,
+      "avg_price": 444000000,
+      "source": "molit_api",
+      "area": 84.9684,
+      "floor": 13,
+      "latest_transaction_date": "2025-05-15",
+      "dong": "흑석동",
+      "jibun": "503"
     },
     {
       "date": "2025-05-03",
@@ -88576,6 +92307,19 @@
       "latest_transaction_date": "2025-05-16",
       "dong": "도천동",
       "jibun": "628-1"
+    },
+    {
+      "date": "2025-05-03",
+      "region_name": "광주 광산구",
+      "complex_name": "하남3지구모아엘가",
+      "transaction_count": 1,
+      "avg_price": 403000000,
+      "source": "molit_api",
+      "area": 84.9817,
+      "floor": 15,
+      "latest_transaction_date": "2025-05-03",
+      "dong": "하남동",
+      "jibun": "971"
     },
     {
       "date": "2025-05-17",
@@ -88820,6 +92564,19 @@
       "source": "molit_api",
       "area": 84.9578,
       "floor": 6,
+      "latest_transaction_date": "2025-05-16",
+      "dong": "우산동",
+      "jibun": "1616"
+    },
+    {
+      "date": "2025-05-16",
+      "region_name": "광주 광산구",
+      "complex_name": "우산동중흥s-클래스리버티",
+      "transaction_count": 1,
+      "avg_price": 330000000,
+      "source": "molit_api",
+      "area": 74.9629,
+      "floor": 3,
       "latest_transaction_date": "2025-05-16",
       "dong": "우산동",
       "jibun": "1616"
@@ -89243,6 +93000,19 @@
     {
       "date": "2025-05-13",
       "region_name": "광주 광산구",
+      "complex_name": "호반리젠시빌4",
+      "transaction_count": 1,
+      "avg_price": 288000000,
+      "source": "molit_api",
+      "area": 83.7154,
+      "floor": 8,
+      "latest_transaction_date": "2025-05-13",
+      "dong": "산월동",
+      "jibun": "883-1"
+    },
+    {
+      "date": "2025-05-13",
+      "region_name": "광주 광산구",
       "complex_name": "신창7차부영사랑으로",
       "transaction_count": 1,
       "avg_price": 280000000,
@@ -89449,6 +93219,19 @@
       "jibun": "202"
     },
     {
+      "date": "2025-05-06",
+      "region_name": "광주 광산구",
+      "complex_name": "부영사랑으로7차",
+      "transaction_count": 1,
+      "avg_price": 295000000,
+      "source": "molit_api",
+      "area": 84.9931,
+      "floor": 5,
+      "latest_transaction_date": "2025-05-06",
+      "dong": "산월동",
+      "jibun": "886-2"
+    },
+    {
       "date": "2025-05-03",
       "region_name": "광주 광산구",
       "complex_name": "운남주공6단지",
@@ -89564,6 +93347,19 @@
       "latest_transaction_date": "2025-05-07",
       "dong": "월곡동",
       "jibun": "614-2"
+    },
+    {
+      "date": "2025-05-11",
+      "region_name": "광주 광산구",
+      "complex_name": "신창2차부영",
+      "transaction_count": 1,
+      "avg_price": 248000000,
+      "source": "molit_api",
+      "area": 84.7886,
+      "floor": 9,
+      "latest_transaction_date": "2025-05-11",
+      "dong": "신창동",
+      "jibun": "1270"
     },
     {
       "date": "2025-05-11",
@@ -90086,6 +93882,19 @@
       "jibun": "1571-1"
     },
     {
+      "date": "2025-05-07",
+      "region_name": "광주 광산구",
+      "complex_name": "성덕마을대방노블랜드5차",
+      "transaction_count": 1,
+      "avg_price": 820000000,
+      "source": "molit_api",
+      "area": 117.816,
+      "floor": 19,
+      "latest_transaction_date": "2025-05-07",
+      "dong": "장덕동",
+      "jibun": "1690"
+    },
+    {
       "date": "2025-05-06",
       "region_name": "광주 광산구",
       "complex_name": "첨단두산1차",
@@ -90175,6 +93984,19 @@
       "latest_transaction_date": "2025-05-02",
       "dong": "산월동",
       "jibun": "886-1"
+    },
+    {
+      "date": "2025-05-06",
+      "region_name": "광주 광산구",
+      "complex_name": "부영사랑으로7차",
+      "transaction_count": 1,
+      "avg_price": 295000000,
+      "source": "molit_api",
+      "area": 84.9931,
+      "floor": 5,
+      "latest_transaction_date": "2025-05-06",
+      "dong": "산월동",
+      "jibun": "886-2"
     },
     {
       "date": "2025-05-03",
@@ -90671,6 +94493,19 @@
       "jibun": "1593"
     },
     {
+      "date": "2025-04-30",
+      "region_name": "광주 광산구",
+      "complex_name": "성덕마을대방노블랜드5차",
+      "transaction_count": 1,
+      "avg_price": 792000000,
+      "source": "molit_api",
+      "area": 129.084,
+      "floor": 13,
+      "latest_transaction_date": "2025-04-30",
+      "dong": "장덕동",
+      "jibun": "1690"
+    },
+    {
       "date": "2025-04-29",
       "region_name": "광주 광산구",
       "complex_name": "삼성",
@@ -90775,6 +94610,19 @@
       "jibun": "1316"
     },
     {
+      "date": "2025-04-01",
+      "region_name": "광주 광산구",
+      "complex_name": "중흥2",
+      "transaction_count": 1,
+      "avg_price": 212000000,
+      "source": "molit_api",
+      "area": 84.66,
+      "floor": 8,
+      "latest_transaction_date": "2025-04-01",
+      "dong": "신가동",
+      "jibun": "302-25"
+    },
+    {
       "date": "2025-04-16",
       "region_name": "광주 광산구",
       "complex_name": "수동리안아파트",
@@ -90799,6 +94647,19 @@
       "latest_transaction_date": "2025-04-24",
       "dong": "소촌동",
       "jibun": "232-6"
+    },
+    {
+      "date": "2025-04-16",
+      "region_name": "광주 광산구",
+      "complex_name": "대주피오레6단지",
+      "transaction_count": 1,
+      "avg_price": 580000000,
+      "source": "molit_api",
+      "area": 84.8453,
+      "floor": 11,
+      "latest_transaction_date": "2025-04-16",
+      "dong": "수완동",
+      "jibun": "975"
     },
     {
       "date": "2025-04-30",
@@ -90983,6 +94844,19 @@
       "jibun": "681-1"
     },
     {
+      "date": "2025-04-30",
+      "region_name": "광주 광산구",
+      "complex_name": "성덕마을대방노블랜드5차",
+      "transaction_count": 1,
+      "avg_price": 792000000,
+      "source": "molit_api",
+      "area": 129.084,
+      "floor": 13,
+      "latest_transaction_date": "2025-04-30",
+      "dong": "장덕동",
+      "jibun": "1690"
+    },
+    {
       "date": "2025-04-29",
       "region_name": "광주 광산구",
       "complex_name": "중흥2차",
@@ -91074,6 +94948,19 @@
       "jibun": "1046"
     },
     {
+      "date": "2025-04-22",
+      "region_name": "광주 광산구",
+      "complex_name": "현진에버빌2단지",
+      "transaction_count": 1,
+      "avg_price": 380000000,
+      "source": "molit_api",
+      "area": 79.1518,
+      "floor": 1,
+      "latest_transaction_date": "2025-04-22",
+      "dong": "장덕동",
+      "jibun": "1593"
+    },
+    {
       "date": "2025-04-30",
       "region_name": "광주 광산구",
       "complex_name": "어등산진아리채리버필드",
@@ -91098,6 +94985,19 @@
       "latest_transaction_date": "2025-04-28",
       "dong": "신창동",
       "jibun": "1108-3"
+    },
+    {
+      "date": "2025-04-13",
+      "region_name": "광주 광산구",
+      "complex_name": "광주수완세영리첼",
+      "transaction_count": 1,
+      "avg_price": 470000000,
+      "source": "molit_api",
+      "area": 84.9871,
+      "floor": 14,
+      "latest_transaction_date": "2025-04-13",
+      "dong": "장덕동",
+      "jibun": "1111"
     },
     {
       "date": "2025-04-28",
@@ -92296,6 +96196,19 @@
       "jibun": "1048"
     },
     {
+      "date": "2025-04-20",
+      "region_name": "광주 광산구",
+      "complex_name": "수완이지더원",
+      "transaction_count": 1,
+      "avg_price": 423000000,
+      "source": "molit_api",
+      "area": 84.7601,
+      "floor": 17,
+      "latest_transaction_date": "2025-04-20",
+      "dong": "흑석동",
+      "jibun": "524"
+    },
+    {
       "date": "2025-04-23",
       "region_name": "광주 광산구",
       "complex_name": "해솔마을대방노블랜드2차",
@@ -92519,6 +96432,19 @@
     {
       "date": "2025-04-22",
       "region_name": "광주 광산구",
+      "complex_name": "어등산진아리채리버필드",
+      "transaction_count": 1,
+      "avg_price": 435000000,
+      "source": "molit_api",
+      "area": 79.0078,
+      "floor": 13,
+      "latest_transaction_date": "2025-04-22",
+      "dong": "선암동",
+      "jibun": "869"
+    },
+    {
+      "date": "2025-04-22",
+      "region_name": "광주 광산구",
       "complex_name": "광주신창동대광로제비앙아파트",
       "transaction_count": 1,
       "avg_price": 360000000,
@@ -92606,6 +96532,19 @@
       "latest_transaction_date": "2025-04-19",
       "dong": "도천동",
       "jibun": "628-1"
+    },
+    {
+      "date": "2025-04-16",
+      "region_name": "광주 광산구",
+      "complex_name": "부영1차",
+      "transaction_count": 1,
+      "avg_price": 280000000,
+      "source": "molit_api",
+      "area": 84.9763,
+      "floor": 11,
+      "latest_transaction_date": "2025-04-16",
+      "dong": "산월동",
+      "jibun": "882-1"
     },
     {
       "date": "2025-04-19",
@@ -92920,6 +96859,19 @@
       "jibun": "1264"
     },
     {
+      "date": "2025-04-16",
+      "region_name": "광주 광산구",
+      "complex_name": "수동리안아파트",
+      "transaction_count": 1,
+      "avg_price": 220000000,
+      "source": "molit_api",
+      "area": 84.83,
+      "floor": 12,
+      "latest_transaction_date": "2025-04-16",
+      "dong": "신가동",
+      "jibun": "1019-1"
+    },
+    {
       "date": "2025-04-10",
       "region_name": "광주 광산구",
       "complex_name": "삼성",
@@ -92931,6 +96883,19 @@
       "latest_transaction_date": "2025-04-10",
       "dong": "운남동",
       "jibun": "387-22"
+    },
+    {
+      "date": "2025-04-20",
+      "region_name": "광주 광산구",
+      "complex_name": "다사로움2단지",
+      "transaction_count": 1,
+      "avg_price": 197000000,
+      "source": "molit_api",
+      "area": 59.9451,
+      "floor": 10,
+      "latest_transaction_date": "2025-04-20",
+      "dong": "산정동",
+      "jibun": "1027"
     },
     {
       "date": "2025-04-10",
@@ -93650,6 +97615,19 @@
     {
       "date": "2025-04-14",
       "region_name": "광주 광산구",
+      "complex_name": "부영2차",
+      "transaction_count": 1,
+      "avg_price": 275000000,
+      "source": "molit_api",
+      "area": 84.7886,
+      "floor": 1,
+      "latest_transaction_date": "2025-04-14",
+      "dong": "산월동",
+      "jibun": "885-1"
+    },
+    {
+      "date": "2025-04-14",
+      "region_name": "광주 광산구",
       "complex_name": "운남주공8단지",
       "transaction_count": 1,
       "avg_price": 190000000,
@@ -93789,6 +97767,19 @@
       "latest_transaction_date": "2025-04-11",
       "dong": "산월동",
       "jibun": "885-3"
+    },
+    {
+      "date": "2025-04-13",
+      "region_name": "광주 광산구",
+      "complex_name": "신창7차부영사랑으로",
+      "transaction_count": 1,
+      "avg_price": 265000000,
+      "source": "molit_api",
+      "area": 84.9931,
+      "floor": 2,
+      "latest_transaction_date": "2025-04-13",
+      "dong": "신가동",
+      "jibun": "1030"
     },
     {
       "date": "2025-04-13",
@@ -94792,6 +98783,19 @@
       "jibun": "1046"
     },
     {
+      "date": "2025-04-05",
+      "region_name": "광주 광산구",
+      "complex_name": "첨단부영6차",
+      "transaction_count": 1,
+      "avg_price": 360000000,
+      "source": "molit_api",
+      "area": 84.9931,
+      "floor": 15,
+      "latest_transaction_date": "2025-04-05",
+      "dong": "산월동",
+      "jibun": "886-1"
+    },
+    {
       "date": "2025-04-07",
       "region_name": "광주 광산구",
       "complex_name": "신창3차부영사랑으로",
@@ -94842,6 +98846,19 @@
       "latest_transaction_date": "2025-04-01",
       "dong": "소촌동",
       "jibun": "69-3"
+    },
+    {
+      "date": "2025-04-01",
+      "region_name": "광주 광산구",
+      "complex_name": "중흥2",
+      "transaction_count": 1,
+      "avg_price": 212000000,
+      "source": "molit_api",
+      "area": 84.66,
+      "floor": 8,
+      "latest_transaction_date": "2025-04-01",
+      "dong": "신가동",
+      "jibun": "302-25"
     },
     {
       "date": "2025-04-03",
@@ -95143,6 +99160,19 @@
       "jibun": "1616"
     },
     {
+      "date": "2025-04-02",
+      "region_name": "광주 광산구",
+      "complex_name": "우미3",
+      "transaction_count": 1,
+      "avg_price": 187000000,
+      "source": "molit_api",
+      "area": 59.83,
+      "floor": 3,
+      "latest_transaction_date": "2025-04-02",
+      "dong": "월계동",
+      "jibun": "763-3"
+    },
+    {
       "date": "2025-04-03",
       "region_name": "광주 광산구",
       "complex_name": "풍영리버빌(신가부영)",
@@ -95245,6 +99275,19 @@
       "latest_transaction_date": "2025-04-02",
       "dong": "신창동",
       "jibun": "1264"
+    },
+    {
+      "date": "2025-04-02",
+      "region_name": "광주 광산구",
+      "complex_name": "힐스테이트리버파크",
+      "transaction_count": 1,
+      "avg_price": 900000000,
+      "source": "molit_api",
+      "area": 101.92,
+      "floor": 23,
+      "latest_transaction_date": "2025-04-02",
+      "dong": "쌍암동",
+      "jibun": "695-1"
     },
     {
       "date": "2025-04-02",
@@ -95479,6 +99522,19 @@
       "latest_transaction_date": "2025-03-31",
       "dong": "우산동",
       "jibun": "1621"
+    },
+    {
+      "date": "2025-03-30",
+      "region_name": "광주 광산구",
+      "complex_name": "대화",
+      "transaction_count": 1,
+      "avg_price": 108000000,
+      "source": "molit_api",
+      "area": 59.91,
+      "floor": 1,
+      "latest_transaction_date": "2025-03-30",
+      "dong": "송정동",
+      "jibun": "202"
     },
     {
       "date": "2025-03-29",
@@ -95804,6 +99860,19 @@
       "latest_transaction_date": "2025-03-27",
       "dong": "월계동",
       "jibun": "763-2"
+    },
+    {
+      "date": "2025-03-07",
+      "region_name": "광주 광산구",
+      "complex_name": "신창5차호반베르디움",
+      "transaction_count": 1,
+      "avg_price": 330000000,
+      "source": "molit_api",
+      "area": 84.6799,
+      "floor": 8,
+      "latest_transaction_date": "2025-03-07",
+      "dong": "신창동",
+      "jibun": "1111"
     },
     {
       "date": "2025-03-13",
@@ -96495,6 +100564,19 @@
       "jibun": "869"
     },
     {
+      "date": "2025-03-30",
+      "region_name": "광주 광산구",
+      "complex_name": "부영사랑으로",
+      "transaction_count": 1,
+      "avg_price": 260000000,
+      "source": "molit_api",
+      "area": 84.8198,
+      "floor": 16,
+      "latest_transaction_date": "2025-03-30",
+      "dong": "하남동",
+      "jibun": "547"
+    },
+    {
       "date": "2025-03-31",
       "region_name": "광주 광산구",
       "complex_name": "선운리버프라임",
@@ -96755,6 +100837,19 @@
       "jibun": "886-1"
     },
     {
+      "date": "2025-03-28",
+      "region_name": "광주 광산구",
+      "complex_name": "광주수완6차대방노블랜드",
+      "transaction_count": 1,
+      "avg_price": 735000000,
+      "source": "molit_api",
+      "area": 115.9435,
+      "floor": 6,
+      "latest_transaction_date": "2025-03-28",
+      "dong": "수완동",
+      "jibun": "926"
+    },
+    {
       "date": "2025-03-29",
       "region_name": "광주 광산구",
       "complex_name": "송정우방아이유쉘아파트",
@@ -96978,6 +101073,19 @@
     {
       "date": "2025-03-28",
       "region_name": "광주 광산구",
+      "complex_name": "새한포유",
+      "transaction_count": 1,
+      "avg_price": 473000000,
+      "source": "molit_api",
+      "area": 84.9401,
+      "floor": 2,
+      "latest_transaction_date": "2025-03-28",
+      "dong": "장덕동",
+      "jibun": "1689"
+    },
+    {
+      "date": "2025-03-28",
+      "region_name": "광주 광산구",
       "complex_name": "무진로진아리채리버뷰",
       "transaction_count": 1,
       "avg_price": 424000000,
@@ -97184,6 +101292,19 @@
       "jibun": "1122"
     },
     {
+      "date": "2025-03-22",
+      "region_name": "광주 광산구",
+      "complex_name": "세계수영선수촌 중흥에스-클래스 센트럴",
+      "transaction_count": 1,
+      "avg_price": 390000000,
+      "source": "molit_api",
+      "area": 84.9276,
+      "floor": 20,
+      "latest_transaction_date": "2025-03-22",
+      "dong": "우산동",
+      "jibun": "1621"
+    },
+    {
       "date": "2025-03-26",
       "region_name": "광주 광산구",
       "complex_name": "신창유탑유블레스리버뷰",
@@ -97260,6 +101381,19 @@
       "latest_transaction_date": "2025-03-08",
       "dong": "운남동",
       "jibun": "776-1"
+    },
+    {
+      "date": "2025-03-25",
+      "region_name": "광주 광산구",
+      "complex_name": "우미린2차",
+      "transaction_count": 1,
+      "avg_price": 467000000,
+      "source": "molit_api",
+      "area": 84.9626,
+      "floor": 14,
+      "latest_transaction_date": "2025-03-25",
+      "dong": "수완동",
+      "jibun": "908"
     },
     {
       "date": "2025-03-22",
@@ -97390,6 +101524,19 @@
       "latest_transaction_date": "2025-03-23",
       "dong": "흑석동",
       "jibun": "524"
+    },
+    {
+      "date": "2025-03-22",
+      "region_name": "광주 광산구",
+      "complex_name": "신창3차부영사랑으로",
+      "transaction_count": 1,
+      "avg_price": 205000000,
+      "source": "molit_api",
+      "area": 59.748,
+      "floor": 3,
+      "latest_transaction_date": "2025-03-22",
+      "dong": "신창동",
+      "jibun": "1110"
     },
     {
       "date": "2025-03-15",
@@ -97585,6 +101732,19 @@
       "latest_transaction_date": "2025-03-21",
       "dong": "소촌동",
       "jibun": "414-2"
+    },
+    {
+      "date": "2025-03-20",
+      "region_name": "광주 광산구",
+      "complex_name": "대주피오레6단지",
+      "transaction_count": 1,
+      "avg_price": 630000000,
+      "source": "molit_api",
+      "area": 84.8453,
+      "floor": 14,
+      "latest_transaction_date": "2025-03-20",
+      "dong": "수완동",
+      "jibun": "975"
     },
     {
       "date": "2025-03-11",
@@ -97977,6 +102137,19 @@
       "jibun": "970"
     },
     {
+      "date": "2025-03-07",
+      "region_name": "광주 광산구",
+      "complex_name": "신창5차호반베르디움",
+      "transaction_count": 1,
+      "avg_price": 330000000,
+      "source": "molit_api",
+      "area": 84.6799,
+      "floor": 8,
+      "latest_transaction_date": "2025-03-07",
+      "dong": "신창동",
+      "jibun": "1111"
+    },
+    {
       "date": "2025-03-22",
       "region_name": "광주 광산구",
       "complex_name": "한양수자인",
@@ -98276,6 +102449,19 @@
       "jibun": "1689"
     },
     {
+      "date": "2025-03-17",
+      "region_name": "광주 광산구",
+      "complex_name": "힐스테이트리버파크",
+      "transaction_count": 1,
+      "avg_price": 547000000,
+      "source": "molit_api",
+      "area": 74.79,
+      "floor": 29,
+      "latest_transaction_date": "2025-03-17",
+      "dong": "쌍암동",
+      "jibun": "695-1"
+    },
+    {
       "date": "2025-03-20",
       "region_name": "광주 광산구",
       "complex_name": "온세계아이조움",
@@ -98404,6 +102590,19 @@
       "latest_transaction_date": "2025-03-16",
       "dong": "신창동",
       "jibun": "1118"
+    },
+    {
+      "date": "2025-03-19",
+      "region_name": "광주 광산구",
+      "complex_name": "새한포유",
+      "transaction_count": 1,
+      "avg_price": 465000000,
+      "source": "molit_api",
+      "area": 84.9401,
+      "floor": 4,
+      "latest_transaction_date": "2025-03-19",
+      "dong": "장덕동",
+      "jibun": "1689"
     },
     {
       "date": "2025-03-18",
@@ -98716,6 +102915,19 @@
       "latest_transaction_date": "2025-03-15",
       "dong": "수완동",
       "jibun": "926"
+    },
+    {
+      "date": "2025-03-15",
+      "region_name": "광주 광산구",
+      "complex_name": "현진에버빌2단지",
+      "transaction_count": 1,
+      "avg_price": 480000000,
+      "source": "molit_api",
+      "area": 84.9568,
+      "floor": 3,
+      "latest_transaction_date": "2025-03-15",
+      "dong": "장덕동",
+      "jibun": "1593"
     },
     {
       "date": "2025-03-14",
@@ -99875,6 +104087,19 @@
       "jibun": "1625"
     },
     {
+      "date": "2025-03-12",
+      "region_name": "광주 광산구",
+      "complex_name": "운남주공7단지",
+      "transaction_count": 1,
+      "avg_price": 149500000,
+      "source": "molit_api",
+      "area": 49.83,
+      "floor": 23,
+      "latest_transaction_date": "2025-03-12",
+      "dong": "운남동",
+      "jibun": "794-3"
+    },
+    {
       "date": "2025-03-06",
       "region_name": "광주 광산구",
       "complex_name": "어등하이빌",
@@ -99990,6 +104215,19 @@
       "latest_transaction_date": "2025-03-10",
       "dong": "산월동",
       "jibun": "886-2"
+    },
+    {
+      "date": "2025-03-05",
+      "region_name": "광주 광산구",
+      "complex_name": "중흥2차",
+      "transaction_count": 1,
+      "avg_price": 90000000,
+      "source": "molit_api",
+      "area": 59.76,
+      "floor": 14,
+      "latest_transaction_date": "2025-03-05",
+      "dong": "도천동",
+      "jibun": "628-1"
     },
     {
       "date": "2025-03-05",
@@ -100202,6 +104440,19 @@
     {
       "date": "2025-03-11",
       "region_name": "광주 광산구",
+      "complex_name": "우미린1차",
+      "transaction_count": 1,
+      "avg_price": 502500000,
+      "source": "molit_api",
+      "area": 84.1244,
+      "floor": 2,
+      "latest_transaction_date": "2025-03-11",
+      "dong": "수완동",
+      "jibun": "1488"
+    },
+    {
+      "date": "2025-03-11",
+      "region_name": "광주 광산구",
       "complex_name": "어등산대방노블랜드",
       "transaction_count": 1,
       "avg_price": 590000000,
@@ -100263,6 +104514,19 @@
       "latest_transaction_date": "2025-03-10",
       "dong": "월곡동",
       "jibun": "613-1"
+    },
+    {
+      "date": "2025-03-08",
+      "region_name": "광주 광산구",
+      "complex_name": "금호",
+      "transaction_count": 1,
+      "avg_price": 255000000,
+      "source": "molit_api",
+      "area": 92.39,
+      "floor": 10,
+      "latest_transaction_date": "2025-03-08",
+      "dong": "월계동",
+      "jibun": "756-5"
     },
     {
       "date": "2025-03-09",
@@ -100488,6 +104752,19 @@
     {
       "date": "2025-03-08",
       "region_name": "광주 광산구",
+      "complex_name": "중흥S클래스1단지",
+      "transaction_count": 1,
+      "avg_price": 580000000,
+      "source": "molit_api",
+      "area": 84.4012,
+      "floor": 24,
+      "latest_transaction_date": "2025-03-08",
+      "dong": "신가동",
+      "jibun": "1306"
+    },
+    {
+      "date": "2025-03-08",
+      "region_name": "광주 광산구",
       "complex_name": "한성2차",
       "transaction_count": 1,
       "avg_price": 159000000,
@@ -100510,6 +104787,19 @@
       "latest_transaction_date": "2025-03-07",
       "dong": "우산동",
       "jibun": "1572-1"
+    },
+    {
+      "date": "2025-03-07",
+      "region_name": "광주 광산구",
+      "complex_name": "부영애시앙2차",
+      "transaction_count": 1,
+      "avg_price": 325000000,
+      "source": "molit_api",
+      "area": 84.8198,
+      "floor": 13,
+      "latest_transaction_date": "2025-03-07",
+      "dong": "산정동",
+      "jibun": "1056"
     },
     {
       "date": "2025-03-07",
@@ -100787,6 +105077,19 @@
     {
       "date": "2025-03-06",
       "region_name": "광주 광산구",
+      "complex_name": "광주수완세영리첼",
+      "transaction_count": 1,
+      "avg_price": 455000000,
+      "source": "molit_api",
+      "area": 84.9871,
+      "floor": 18,
+      "latest_transaction_date": "2025-03-06",
+      "dong": "장덕동",
+      "jibun": "1111"
+    },
+    {
+      "date": "2025-03-06",
+      "region_name": "광주 광산구",
       "complex_name": "광주선운지구이지더원3단지",
       "transaction_count": 1,
       "avg_price": 355000000,
@@ -100956,6 +105259,19 @@
     {
       "date": "2025-03-05",
       "region_name": "광주 광산구",
+      "complex_name": "중흥2차",
+      "transaction_count": 1,
+      "avg_price": 90000000,
+      "source": "molit_api",
+      "area": 59.76,
+      "floor": 14,
+      "latest_transaction_date": "2025-03-05",
+      "dong": "도천동",
+      "jibun": "628-1"
+    },
+    {
+      "date": "2025-03-05",
+      "region_name": "광주 광산구",
       "complex_name": "송정역센트럴시티",
       "transaction_count": 1,
       "avg_price": 120000000,
@@ -100965,6 +105281,19 @@
       "latest_transaction_date": "2025-03-05",
       "dong": "송정동",
       "jibun": "840-33"
+    },
+    {
+      "date": "2025-03-05",
+      "region_name": "광주 광산구",
+      "complex_name": "쌍용더플래티넘광산",
+      "transaction_count": 1,
+      "avg_price": 445000000,
+      "source": "molit_api",
+      "area": 84.9784,
+      "floor": 15,
+      "latest_transaction_date": "2025-03-05",
+      "dong": "우산동",
+      "jibun": "1625"
     },
     {
       "date": "2025-03-04",
@@ -101669,6 +105998,19 @@
       "jibun": "593"
     },
     {
+      "date": "2025-02-25",
+      "region_name": "광주 광산구",
+      "complex_name": "호반리젠시빌2",
+      "transaction_count": 1,
+      "avg_price": 319000000,
+      "source": "molit_api",
+      "area": 84.3979,
+      "floor": 8,
+      "latest_transaction_date": "2025-02-25",
+      "dong": "산월동",
+      "jibun": "884-1"
+    },
+    {
       "date": "2025-02-21",
       "region_name": "광주 광산구",
       "complex_name": "삼성",
@@ -101706,6 +106048,19 @@
       "latest_transaction_date": "2025-02-15",
       "dong": "우산동",
       "jibun": "1625"
+    },
+    {
+      "date": "2025-02-26",
+      "region_name": "광주 광산구",
+      "complex_name": "우산동한국아델리움앤중해마루힐",
+      "transaction_count": 1,
+      "avg_price": 308000000,
+      "source": "molit_api",
+      "area": 76.7778,
+      "floor": 4,
+      "latest_transaction_date": "2025-02-26",
+      "dong": "우산동",
+      "jibun": "1589-3"
     },
     {
       "date": "2025-02-28",
@@ -102813,6 +107168,19 @@
       "jibun": "1572-6"
     },
     {
+      "date": "2025-02-26",
+      "region_name": "광주 광산구",
+      "complex_name": "대주피오레1단지",
+      "transaction_count": 1,
+      "avg_price": 540000000,
+      "source": "molit_api",
+      "area": 84.7712,
+      "floor": 4,
+      "latest_transaction_date": "2025-02-26",
+      "dong": "장덕동",
+      "jibun": "1686"
+    },
+    {
       "date": "2025-02-21",
       "region_name": "광주 광산구",
       "complex_name": "수동리안아파트",
@@ -102850,6 +107218,19 @@
       "latest_transaction_date": "2025-02-09",
       "dong": "신가동",
       "jibun": "1012"
+    },
+    {
+      "date": "2025-02-26",
+      "region_name": "광주 광산구",
+      "complex_name": "운남주공6단지",
+      "transaction_count": 1,
+      "avg_price": 338000000,
+      "source": "molit_api",
+      "area": 84.28,
+      "floor": 13,
+      "latest_transaction_date": "2025-02-26",
+      "dong": "운남동",
+      "jibun": "782-1"
     },
     {
       "date": "2025-02-19",
@@ -102930,6 +107311,19 @@
       "jibun": "302-25"
     },
     {
+      "date": "2025-02-25",
+      "region_name": "광주 광산구",
+      "complex_name": "우미린2차",
+      "transaction_count": 1,
+      "avg_price": 428000000,
+      "source": "molit_api",
+      "area": 84.9547,
+      "floor": 3,
+      "latest_transaction_date": "2025-02-25",
+      "dong": "수완동",
+      "jibun": "908"
+    },
+    {
       "date": "2025-02-15",
       "region_name": "광주 광산구",
       "complex_name": "우미이노스빌",
@@ -102941,6 +107335,19 @@
       "latest_transaction_date": "2025-02-15",
       "dong": "신가동",
       "jibun": "1012"
+    },
+    {
+      "date": "2025-02-05",
+      "region_name": "광주 광산구",
+      "complex_name": "힐스테이트리버파크",
+      "transaction_count": 1,
+      "avg_price": 900000000,
+      "source": "molit_api",
+      "area": 101.92,
+      "floor": 18,
+      "latest_transaction_date": "2025-02-05",
+      "dong": "쌍암동",
+      "jibun": "695-1"
     },
     {
       "date": "2025-02-24",
@@ -103751,6 +108158,19 @@
     {
       "date": "2025-02-21",
       "region_name": "광주 광산구",
+      "complex_name": "신안실크밸리",
+      "transaction_count": 1,
+      "avg_price": 380000000,
+      "source": "molit_api",
+      "area": 84.9129,
+      "floor": 17,
+      "latest_transaction_date": "2025-02-21",
+      "dong": "장덕동",
+      "jibun": "1110"
+    },
+    {
+      "date": "2025-02-21",
+      "region_name": "광주 광산구",
       "complex_name": "새한포유",
       "transaction_count": 1,
       "avg_price": 475000000,
@@ -104295,6 +108715,19 @@
       "jibun": "613-1"
     },
     {
+      "date": "2025-02-05",
+      "region_name": "광주 광산구",
+      "complex_name": "힐스테이트리버파크",
+      "transaction_count": 1,
+      "avg_price": 900000000,
+      "source": "molit_api",
+      "area": 101.92,
+      "floor": 18,
+      "latest_transaction_date": "2025-02-05",
+      "dong": "쌍암동",
+      "jibun": "695-1"
+    },
+    {
       "date": "2025-02-19",
       "region_name": "광주 광산구",
       "complex_name": "신창5차부영사랑으로",
@@ -104553,6 +108986,19 @@
       "latest_transaction_date": "2025-02-15",
       "dong": "도산동",
       "jibun": "1314"
+    },
+    {
+      "date": "2025-02-05",
+      "region_name": "광주 광산구",
+      "complex_name": "삼성",
+      "transaction_count": 1,
+      "avg_price": 150000000,
+      "source": "molit_api",
+      "area": 70.97,
+      "floor": 22,
+      "latest_transaction_date": "2025-02-05",
+      "dong": "운남동",
+      "jibun": "387-22"
     },
     {
       "date": "2025-02-04",
@@ -105948,6 +110394,19 @@
     {
       "date": "2025-02-04",
       "region_name": "광주 광산구",
+      "complex_name": "우방아이유쉘",
+      "transaction_count": 1,
+      "avg_price": 230000000,
+      "source": "molit_api",
+      "area": 59.7926,
+      "floor": 6,
+      "latest_transaction_date": "2025-02-04",
+      "dong": "도산동",
+      "jibun": "1314"
+    },
+    {
+      "date": "2025-02-04",
+      "region_name": "광주 광산구",
       "complex_name": "신창7차부영사랑으로",
       "transaction_count": 1,
       "avg_price": 260000000,
@@ -105957,6 +110416,19 @@
       "latest_transaction_date": "2025-02-04",
       "dong": "신가동",
       "jibun": "1030"
+    },
+    {
+      "date": "2025-02-03",
+      "region_name": "광주 광산구",
+      "complex_name": "대주피오레1차",
+      "transaction_count": 1,
+      "avg_price": 230000000,
+      "source": "molit_api",
+      "area": 84.98,
+      "floor": 12,
+      "latest_transaction_date": "2025-02-03",
+      "dong": "도산동",
+      "jibun": "790"
     },
     {
       "date": "2025-02-03",
@@ -106074,6 +110546,19 @@
       "latest_transaction_date": "2025-01-12",
       "dong": "신창동",
       "jibun": "1118"
+    },
+    {
+      "date": "2025-01-10",
+      "region_name": "광주 광산구",
+      "complex_name": "광주선운지구EGthe12단지",
+      "transaction_count": 1,
+      "avg_price": 320000000,
+      "source": "molit_api",
+      "area": 73.8321,
+      "floor": 8,
+      "latest_transaction_date": "2025-01-10",
+      "dong": "선암동",
+      "jibun": "560"
     },
     {
       "date": "2025-01-10",
@@ -107792,6 +112277,19 @@
       "jibun": "1019-2"
     },
     {
+      "date": "2025-01-22",
+      "region_name": "광주 광산구",
+      "complex_name": "부영그린타운",
+      "transaction_count": 1,
+      "avg_price": 282000000,
+      "source": "molit_api",
+      "area": 84.8512,
+      "floor": 1,
+      "latest_transaction_date": "2025-01-22",
+      "dong": "산월동",
+      "jibun": "885-3"
+    },
+    {
       "date": "2025-01-11",
       "region_name": "광주 광산구",
       "complex_name": "하남3지구모아엘가",
@@ -107883,6 +112381,19 @@
       "jibun": "1609-16"
     },
     {
+      "date": "2025-01-18",
+      "region_name": "광주 광산구",
+      "complex_name": "운남주공5단지",
+      "transaction_count": 1,
+      "avg_price": 229000000,
+      "source": "molit_api",
+      "area": 84.77,
+      "floor": 17,
+      "latest_transaction_date": "2025-01-18",
+      "dong": "운남동",
+      "jibun": "769-1"
+    },
+    {
       "date": "2025-01-16",
       "region_name": "광주 광산구",
       "complex_name": "운남주공7단지",
@@ -107894,6 +112405,19 @@
       "latest_transaction_date": "2025-01-16",
       "dong": "운남동",
       "jibun": "794-3"
+    },
+    {
+      "date": "2025-01-09",
+      "region_name": "광주 광산구",
+      "complex_name": "신창5차호반베르디움",
+      "transaction_count": 1,
+      "avg_price": 335000000,
+      "source": "molit_api",
+      "area": 84.976,
+      "floor": 14,
+      "latest_transaction_date": "2025-01-09",
+      "dong": "신창동",
+      "jibun": "1111"
     },
     {
       "date": "2025-01-21",
@@ -108102,6 +112626,19 @@
       "latest_transaction_date": "2025-01-13",
       "dong": "소촌동",
       "jibun": "877"
+    },
+    {
+      "date": "2025-01-12",
+      "region_name": "광주 광산구",
+      "complex_name": "신창3차호반베르디움",
+      "transaction_count": 1,
+      "avg_price": 319500000,
+      "source": "molit_api",
+      "area": 84.6574,
+      "floor": 3,
+      "latest_transaction_date": "2025-01-12",
+      "dong": "신창동",
+      "jibun": "1118"
     },
     {
       "date": "2025-01-10",
@@ -108808,6 +113345,19 @@
     {
       "date": "2025-01-11",
       "region_name": "광주 광산구",
+      "complex_name": "모아엘가",
+      "transaction_count": 1,
+      "avg_price": 630000000,
+      "source": "molit_api",
+      "area": 84.9331,
+      "floor": 21,
+      "latest_transaction_date": "2025-01-11",
+      "dong": "수완동",
+      "jibun": "1486"
+    },
+    {
+      "date": "2025-01-11",
+      "region_name": "광주 광산구",
       "complex_name": "EG스위트밸리2차",
       "transaction_count": 1,
       "avg_price": 215000000,
@@ -108871,6 +113421,19 @@
       "jibun": "1118"
     },
     {
+      "date": "2025-01-10",
+      "region_name": "광주 광산구",
+      "complex_name": "광주선운지구EGthe12단지",
+      "transaction_count": 1,
+      "avg_price": 320000000,
+      "source": "molit_api",
+      "area": 73.8321,
+      "floor": 8,
+      "latest_transaction_date": "2025-01-10",
+      "dong": "선암동",
+      "jibun": "560"
+    },
+    {
       "date": "2025-01-04",
       "region_name": "광주 광산구",
       "complex_name": "다사로움2단지",
@@ -108882,6 +113445,19 @@
       "latest_transaction_date": "2025-01-04",
       "dong": "산정동",
       "jibun": "1027"
+    },
+    {
+      "date": "2025-01-11",
+      "region_name": "광주 광산구",
+      "complex_name": "세계수영선수촌 중흥에스-클래스 센트럴",
+      "transaction_count": 1,
+      "avg_price": 350000000,
+      "source": "molit_api",
+      "area": 78.9882,
+      "floor": 14,
+      "latest_transaction_date": "2025-01-11",
+      "dong": "우산동",
+      "jibun": "1621"
     },
     {
       "date": "2025-01-10",
@@ -109718,6 +114294,19 @@
     {
       "date": "2025-01-04",
       "region_name": "광주 광산구",
+      "complex_name": "광주수완6차대방노블랜드",
+      "transaction_count": 1,
+      "avg_price": 750000000,
+      "source": "molit_api",
+      "area": 115.9812,
+      "floor": 7,
+      "latest_transaction_date": "2025-01-04",
+      "dong": "수완동",
+      "jibun": "926"
+    },
+    {
+      "date": "2025-01-04",
+      "region_name": "광주 광산구",
       "complex_name": "현진에버빌1단지",
       "transaction_count": 1,
       "avg_price": 930000000,
@@ -109766,6 +114355,32 @@
       "latest_transaction_date": "2025-01-03",
       "dong": "산월동",
       "jibun": "884-1"
+    },
+    {
+      "date": "2025-01-03",
+      "region_name": "광주 광산구",
+      "complex_name": "대방노블랜드",
+      "transaction_count": 1,
+      "avg_price": 462000000,
+      "source": "molit_api",
+      "area": 84.9366,
+      "floor": 22,
+      "latest_transaction_date": "2025-01-03",
+      "dong": "신가동",
+      "jibun": "1304"
+    },
+    {
+      "date": "2025-01-02",
+      "region_name": "광주 광산구",
+      "complex_name": "첨단센트럴파크2차",
+      "transaction_count": 1,
+      "avg_price": 145000000,
+      "source": "molit_api",
+      "area": 47.44,
+      "floor": 9,
+      "latest_transaction_date": "2025-01-02",
+      "dong": "쌍암동",
+      "jibun": "676-3"
     },
     {
       "date": "2025-01-03",
@@ -110095,6 +114710,19 @@
       "jibun": "1116"
     },
     {
+      "date": "2025-08-27",
+      "region_name": "지역코드_29170",
+      "complex_name": "금남로대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 425000000,
+      "source": "molit_api",
+      "area": 84.7468,
+      "floor": 24,
+      "latest_transaction_date": "2025-08-27",
+      "dong": "유동",
+      "jibun": "141"
+    },
+    {
       "date": "2025-08-26",
       "region_name": "지역코드_29170",
       "complex_name": "동림푸른주공",
@@ -110381,6 +115009,19 @@
       "jibun": "645"
     },
     {
+      "date": "2025-08-25",
+      "region_name": "지역코드_29170",
+      "complex_name": "동림대광로제비앙",
+      "transaction_count": 1,
+      "avg_price": 360000000,
+      "source": "molit_api",
+      "area": 74.7877,
+      "floor": 5,
+      "latest_transaction_date": "2025-08-25",
+      "dong": "동림동",
+      "jibun": "1334"
+    },
+    {
       "date": "2025-08-04",
       "region_name": "지역코드_29170",
       "complex_name": "더샵광주포레스트",
@@ -110561,6 +115202,19 @@
       "latest_transaction_date": "2025-08-25",
       "dong": "용두동",
       "jibun": "330"
+    },
+    {
+      "date": "2025-08-23",
+      "region_name": "지역코드_29170",
+      "complex_name": "청솔3차",
+      "transaction_count": 1,
+      "avg_price": 103000000,
+      "source": "molit_api",
+      "area": 48.45,
+      "floor": 7,
+      "latest_transaction_date": "2025-08-23",
+      "dong": "일곡동",
+      "jibun": "817-5"
     },
     {
       "date": "2025-08-19",
@@ -111033,6 +115687,19 @@
     {
       "date": "2025-08-21",
       "region_name": "지역코드_29170",
+      "complex_name": "중흥동도나우타운",
+      "transaction_count": 1,
+      "avg_price": 220000000,
+      "source": "molit_api",
+      "area": 83.446,
+      "floor": 11,
+      "latest_transaction_date": "2025-08-21",
+      "dong": "중흥동",
+      "jibun": "683-6"
+    },
+    {
+      "date": "2025-08-21",
+      "region_name": "지역코드_29170",
       "complex_name": "임동중흥에스클래스센텀파크",
       "transaction_count": 1,
       "avg_price": 495000000,
@@ -111198,6 +115865,19 @@
       "latest_transaction_date": "2025-08-20",
       "dong": "양산동",
       "jibun": "205-1"
+    },
+    {
+      "date": "2025-08-20",
+      "region_name": "지역코드_29170",
+      "complex_name": "교대금호어울림",
+      "transaction_count": 1,
+      "avg_price": 330000000,
+      "source": "molit_api",
+      "area": 59.973,
+      "floor": 8,
+      "latest_transaction_date": "2025-08-20",
+      "dong": "풍향동",
+      "jibun": "808"
     },
     {
       "date": "2025-08-20",
@@ -111809,6 +116489,19 @@
       "latest_transaction_date": "2025-08-12",
       "dong": "임동",
       "jibun": "887"
+    },
+    {
+      "date": "2025-08-16",
+      "region_name": "지역코드_29170",
+      "complex_name": "첨단자이2차",
+      "transaction_count": 1,
+      "avg_price": 448000000,
+      "source": "molit_api",
+      "area": 84.9442,
+      "floor": 20,
+      "latest_transaction_date": "2025-08-16",
+      "dong": "신용동",
+      "jibun": "863"
     },
     {
       "date": "2025-08-14",
@@ -112437,6 +117130,19 @@
     {
       "date": "2025-08-09",
       "region_name": "지역코드_29170",
+      "complex_name": "모아미래도",
+      "transaction_count": 1,
+      "avg_price": 230000000,
+      "source": "molit_api",
+      "area": 83.9394,
+      "floor": 9,
+      "latest_transaction_date": "2025-08-09",
+      "dong": "용봉동",
+      "jibun": "1406-1"
+    },
+    {
+      "date": "2025-08-09",
+      "region_name": "지역코드_29170",
       "complex_name": "힐스테이트연제",
       "transaction_count": 1,
       "avg_price": 443000000,
@@ -112446,6 +117152,32 @@
       "latest_transaction_date": "2025-08-09",
       "dong": "연제동",
       "jibun": "1119"
+    },
+    {
+      "date": "2025-08-09",
+      "region_name": "지역코드_29170",
+      "complex_name": "이안광주첨단아파트",
+      "transaction_count": 1,
+      "avg_price": 265000000,
+      "source": "molit_api",
+      "area": 59.98,
+      "floor": 7,
+      "latest_transaction_date": "2025-08-09",
+      "dong": "용두동",
+      "jibun": "1111"
+    },
+    {
+      "date": "2025-08-09",
+      "region_name": "지역코드_29170",
+      "complex_name": "제일풍경채센트럴파크1단지",
+      "transaction_count": 1,
+      "avg_price": 568000000,
+      "source": "molit_api",
+      "area": 84.92,
+      "floor": 4,
+      "latest_transaction_date": "2025-08-09",
+      "dong": "중흥동",
+      "jibun": "836"
     },
     {
       "date": "2025-08-09",
@@ -112485,6 +117217,19 @@
       "latest_transaction_date": "2025-08-09",
       "dong": "동림동",
       "jibun": "1330"
+    },
+    {
+      "date": "2025-08-01",
+      "region_name": "지역코드_29170",
+      "complex_name": "용봉엘리체",
+      "transaction_count": 1,
+      "avg_price": 420000000,
+      "source": "molit_api",
+      "area": 84.5816,
+      "floor": 17,
+      "latest_transaction_date": "2025-08-01",
+      "dong": "용봉동",
+      "jibun": "1474"
     },
     {
       "date": "2025-08-02",
@@ -112706,6 +117451,19 @@
       "latest_transaction_date": "2025-08-07",
       "dong": "운암동",
       "jibun": "67"
+    },
+    {
+      "date": "2025-08-06",
+      "region_name": "지역코드_29170",
+      "complex_name": "일신1차",
+      "transaction_count": 1,
+      "avg_price": 176500000,
+      "source": "molit_api",
+      "area": 59.785,
+      "floor": 6,
+      "latest_transaction_date": "2025-08-06",
+      "dong": "양산동",
+      "jibun": "205-1"
     },
     {
       "date": "2025-08-08",
@@ -112970,6 +117728,19 @@
     {
       "date": "2025-08-04",
       "region_name": "지역코드_29170",
+      "complex_name": "임동중흥에스클래스센텀파크",
+      "transaction_count": 1,
+      "avg_price": 606000000,
+      "source": "molit_api",
+      "area": 84.9506,
+      "floor": 11,
+      "latest_transaction_date": "2025-08-04",
+      "dong": "임동",
+      "jibun": "637"
+    },
+    {
+      "date": "2025-08-04",
+      "region_name": "지역코드_29170",
       "complex_name": "용두주공",
       "transaction_count": 1,
       "avg_price": 183000000,
@@ -113163,6 +117934,19 @@
       "jibun": "848-2"
     },
     {
+      "date": "2025-08-04",
+      "region_name": "지역코드_29170",
+      "complex_name": "한국",
+      "transaction_count": 1,
+      "avg_price": 173000000,
+      "source": "molit_api",
+      "area": 84.975,
+      "floor": 5,
+      "latest_transaction_date": "2025-08-04",
+      "dong": "운암동",
+      "jibun": "110-80"
+    },
+    {
       "date": "2025-08-03",
       "region_name": "지역코드_29170",
       "complex_name": "제일풍경채센트럴파크1단지",
@@ -113278,6 +118062,19 @@
       "latest_transaction_date": "2025-08-01",
       "dong": "신용동",
       "jibun": "549"
+    },
+    {
+      "date": "2025-08-01",
+      "region_name": "지역코드_29170",
+      "complex_name": "중흥동영무예다음아파트",
+      "transaction_count": 1,
+      "avg_price": 335000000,
+      "source": "molit_api",
+      "area": 73.8921,
+      "floor": 13,
+      "latest_transaction_date": "2025-08-01",
+      "dong": "중흥동",
+      "jibun": "819"
     },
     {
       "date": "2025-08-01",

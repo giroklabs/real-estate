@@ -250754,6 +250754,19 @@
       {
         "date": "2025-08-08",
         "region_name": "부산 수영구",
+        "complex_name": "센텀비치푸르지오",
+        "transaction_count": 1,
+        "avg_price": 455000000,
+        "source": "molit_api",
+        "area": 73.09,
+        "floor": 2,
+        "latest_transaction_date": "2025-08-08",
+        "dong": "민락동",
+        "jibun": "108-1"
+      },
+      {
+        "date": "2025-08-08",
+        "region_name": "부산 수영구",
         "complex_name": "뉴비치",
         "transaction_count": 1,
         "avg_price": 860000000,
@@ -250895,6 +250908,19 @@
         "jibun": "778"
       },
       {
+        "date": "2025-08-02",
+        "region_name": "부산 수영구",
+        "complex_name": "남천자이",
+        "transaction_count": 1,
+        "avg_price": 1330000000,
+        "source": "molit_api",
+        "area": 84.9919,
+        "floor": 7,
+        "latest_transaction_date": "2025-08-02",
+        "dong": "남천동",
+        "jibun": "613"
+      },
+      {
         "date": "2025-08-01",
         "region_name": "부산 수영구",
         "complex_name": "새광안맨션",
@@ -250932,6 +250958,19 @@
         "latest_transaction_date": "2025-07-17",
         "dong": "망미동",
         "jibun": "941-1"
+      },
+      {
+        "date": "2025-07-30",
+        "region_name": "부산 수영구",
+        "complex_name": "광안자이",
+        "transaction_count": 1,
+        "avg_price": 598000000,
+        "source": "molit_api",
+        "area": 59.85,
+        "floor": 2,
+        "latest_transaction_date": "2025-07-30",
+        "dong": "광안동",
+        "jibun": "1334"
       },
       {
         "date": "2025-07-30",
@@ -251257,6 +251296,19 @@
         "latest_transaction_date": "2025-07-05",
         "dong": "남천동",
         "jibun": "595"
+      },
+      {
+        "date": "2025-07-19",
+        "region_name": "부산 수영구",
+        "complex_name": "광안에일린의뜰",
+        "transaction_count": 1,
+        "avg_price": 615000000,
+        "source": "molit_api",
+        "area": 74.9342,
+        "floor": 7,
+        "latest_transaction_date": "2025-07-19",
+        "dong": "광안동",
+        "jibun": "1335"
       },
       {
         "date": "2025-07-24",
@@ -252067,6 +252119,32 @@
       {
         "date": "2025-07-12",
         "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 685000000,
+        "source": "molit_api",
+        "area": 84.9819,
+        "floor": 29,
+        "latest_transaction_date": "2025-07-12",
+        "dong": "망미동",
+        "jibun": "1176"
+      },
+      {
+        "date": "2025-07-12",
+        "region_name": "부산 수영구",
+        "complex_name": "e편한세상오션테라스1단지",
+        "transaction_count": 1,
+        "avg_price": 880000000,
+        "source": "molit_api",
+        "area": 84.9275,
+        "floor": 23,
+        "latest_transaction_date": "2025-07-12",
+        "dong": "민락동",
+        "jibun": "780"
+      },
+      {
+        "date": "2025-07-12",
+        "region_name": "부산 수영구",
         "complex_name": "센텀비스타동원",
         "transaction_count": 1,
         "avg_price": 990000000,
@@ -252286,6 +252364,19 @@
         "jibun": "148-4"
       },
       {
+        "date": "2025-07-07",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 658000000,
+        "source": "molit_api",
+        "area": 41.52,
+        "floor": 11,
+        "latest_transaction_date": "2025-07-07",
+        "dong": "남천동",
+        "jibun": "148-4"
+      },
+      {
         "date": "2025-07-08",
         "region_name": "부산 수영구",
         "complex_name": "뉴하이츠빌라",
@@ -252457,6 +252548,19 @@
       {
         "date": "2025-07-05",
         "region_name": "부산 수영구",
+        "complex_name": "롯데캐슬자이언트",
+        "transaction_count": 1,
+        "avg_price": 620000000,
+        "source": "molit_api",
+        "area": 84.9393,
+        "floor": 19,
+        "latest_transaction_date": "2025-07-05",
+        "dong": "민락동",
+        "jibun": "110-8"
+      },
+      {
+        "date": "2025-07-05",
+        "region_name": "부산 수영구",
         "complex_name": "쌍용예가디오션",
         "transaction_count": 1,
         "avg_price": 1200000000,
@@ -252481,6 +252585,19 @@
         "jibun": "1154"
       },
       {
+        "date": "2025-07-06",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 440000000,
+        "source": "molit_api",
+        "area": 59.9642,
+        "floor": 3,
+        "latest_transaction_date": "2025-07-06",
+        "dong": "망미동",
+        "jibun": "1176"
+      },
+      {
         "date": "2025-07-04",
         "region_name": "부산 수영구",
         "complex_name": "더샵남천프레스티지",
@@ -252492,6 +252609,19 @@
         "latest_transaction_date": "2025-07-04",
         "dong": "남천동",
         "jibun": "599"
+      },
+      {
+        "date": "2025-07-03",
+        "region_name": "부산 수영구",
+        "complex_name": "더샵파크리치",
+        "transaction_count": 1,
+        "avg_price": 540000000,
+        "source": "molit_api",
+        "area": 84.98,
+        "floor": 5,
+        "latest_transaction_date": "2025-07-03",
+        "dong": "망미동",
+        "jibun": "693-1"
       },
       {
         "date": "2025-07-03",
@@ -252531,6 +252661,19 @@
         "latest_transaction_date": "2025-07-02",
         "dong": "광안동",
         "jibun": "1334"
+      },
+      {
+        "date": "2025-07-02",
+        "region_name": "부산 수영구",
+        "complex_name": "e편한세상광안비치",
+        "transaction_count": 1,
+        "avg_price": 630000000,
+        "source": "molit_api",
+        "area": 84.955,
+        "floor": 4,
+        "latest_transaction_date": "2025-07-02",
+        "dong": "민락동",
+        "jibun": "773"
       },
       {
         "date": "2025-07-02",
@@ -252676,6 +252819,19 @@
         "jibun": "108-1"
       },
       {
+        "date": "2025-06-20",
+        "region_name": "부산 수영구",
+        "complex_name": "e편한세상오션테라스3단지",
+        "transaction_count": 1,
+        "avg_price": 775000000,
+        "source": "molit_api",
+        "area": 84.9275,
+        "floor": 14,
+        "latest_transaction_date": "2025-06-20",
+        "dong": "민락동",
+        "jibun": "783"
+      },
+      {
         "date": "2025-06-17",
         "region_name": "부산 수영구",
         "complex_name": "남천금호어울림더비치",
@@ -252726,6 +252882,19 @@
         "latest_transaction_date": "2025-06-26",
         "dong": "광안동",
         "jibun": "473-2"
+      },
+      {
+        "date": "2025-06-28",
+        "region_name": "부산 수영구",
+        "complex_name": "광안자이",
+        "transaction_count": 1,
+        "avg_price": 1035000000,
+        "source": "molit_api",
+        "area": 84.48,
+        "floor": 22,
+        "latest_transaction_date": "2025-06-28",
+        "dong": "광안동",
+        "jibun": "1334"
       },
       {
         "date": "2025-06-28",
@@ -253092,6 +253261,19 @@
         "jibun": "599"
       },
       {
+        "date": "2025-06-20",
+        "region_name": "부산 수영구",
+        "complex_name": "e편한세상광안비치",
+        "transaction_count": 1,
+        "avg_price": 840000000,
+        "source": "molit_api",
+        "area": 84.997,
+        "floor": 26,
+        "latest_transaction_date": "2025-06-20",
+        "dong": "민락동",
+        "jibun": "773"
+      },
+      {
         "date": "2025-06-27",
         "region_name": "부산 수영구",
         "complex_name": "센텀비스타동원2차",
@@ -253391,6 +253573,19 @@
         "jibun": "774"
       },
       {
+        "date": "2025-06-28",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 850000000,
+        "source": "molit_api",
+        "area": 60.83,
+        "floor": 5,
+        "latest_transaction_date": "2025-06-28",
+        "dong": "남천동",
+        "jibun": "148-4"
+      },
+      {
         "date": "2025-06-09",
         "region_name": "부산 수영구",
         "complex_name": "삼익비치",
@@ -253402,6 +253597,19 @@
         "latest_transaction_date": "2025-06-09",
         "dong": "남천동",
         "jibun": "148-4"
+      },
+      {
+        "date": "2025-06-28",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비치푸르지오",
+        "transaction_count": 1,
+        "avg_price": 680000000,
+        "source": "molit_api",
+        "area": 98.94,
+        "floor": 27,
+        "latest_transaction_date": "2025-06-28",
+        "dong": "민락동",
+        "jibun": "108-1"
       },
       {
         "date": "2025-06-29",
@@ -254041,6 +254249,45 @@
         "jibun": "765"
       },
       {
+        "date": "2025-06-20",
+        "region_name": "부산 수영구",
+        "complex_name": "e편한세상광안비치",
+        "transaction_count": 1,
+        "avg_price": 840000000,
+        "source": "molit_api",
+        "area": 84.997,
+        "floor": 26,
+        "latest_transaction_date": "2025-06-20",
+        "dong": "민락동",
+        "jibun": "773"
+      },
+      {
+        "date": "2025-06-10",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비스타동원",
+        "transaction_count": 1,
+        "avg_price": 795000000,
+        "source": "molit_api",
+        "area": 84.8264,
+        "floor": 9,
+        "latest_transaction_date": "2025-06-10",
+        "dong": "민락동",
+        "jibun": "778"
+      },
+      {
+        "date": "2025-06-17",
+        "region_name": "부산 수영구",
+        "complex_name": "남천금호어울림더비치",
+        "transaction_count": 1,
+        "avg_price": 871000000,
+        "source": "molit_api",
+        "area": 84.94,
+        "floor": 8,
+        "latest_transaction_date": "2025-06-17",
+        "dong": "남천동",
+        "jibun": "595"
+      },
+      {
         "date": "2025-06-07",
         "region_name": "부산 수영구",
         "complex_name": "부산더샵센텀포레",
@@ -254078,6 +254325,19 @@
         "latest_transaction_date": "2025-06-12",
         "dong": "민락동",
         "jibun": "784"
+      },
+      {
+        "date": "2025-06-20",
+        "region_name": "부산 수영구",
+        "complex_name": "e편한세상오션테라스2단지",
+        "transaction_count": 1,
+        "avg_price": 700000000,
+        "source": "molit_api",
+        "area": 84.9776,
+        "floor": 21,
+        "latest_transaction_date": "2025-06-20",
+        "dong": "민락동",
+        "jibun": "781"
       },
       {
         "date": "2025-06-12",
@@ -254392,6 +254652,19 @@
         "jibun": "1176"
       },
       {
+        "date": "2025-06-14",
+        "region_name": "부산 수영구",
+        "complex_name": "광안자이",
+        "transaction_count": 1,
+        "avg_price": 755000000,
+        "source": "molit_api",
+        "area": 73.67,
+        "floor": 9,
+        "latest_transaction_date": "2025-06-14",
+        "dong": "광안동",
+        "jibun": "1334"
+      },
+      {
         "date": "2025-06-09",
         "region_name": "부산 수영구",
         "complex_name": "비치-그린아파트",
@@ -254511,6 +254784,19 @@
       {
         "date": "2025-06-12",
         "region_name": "부산 수영구",
+        "complex_name": "더샵남천프레스티지",
+        "transaction_count": 1,
+        "avg_price": 990000000,
+        "source": "molit_api",
+        "area": 84.1286,
+        "floor": 14,
+        "latest_transaction_date": "2025-06-12",
+        "dong": "남천동",
+        "jibun": "599"
+      },
+      {
+        "date": "2025-06-12",
+        "region_name": "부산 수영구",
         "complex_name": "범바우빌라",
         "transaction_count": 1,
         "avg_price": 208000000,
@@ -254520,6 +254806,19 @@
         "latest_transaction_date": "2025-06-12",
         "dong": "광안동",
         "jibun": "774-12"
+      },
+      {
+        "date": "2025-06-11",
+        "region_name": "부산 수영구",
+        "complex_name": "더샵남천프레스티지",
+        "transaction_count": 1,
+        "avg_price": 1150000000,
+        "source": "molit_api",
+        "area": 84.4281,
+        "floor": 20,
+        "latest_transaction_date": "2025-06-11",
+        "dong": "남천동",
+        "jibun": "599"
       },
       {
         "date": "2025-06-07",
@@ -254769,6 +255068,19 @@
         "jibun": "765"
       },
       {
+        "date": "2025-06-07",
+        "region_name": "부산 수영구",
+        "complex_name": "부산더샵센텀포레",
+        "transaction_count": 1,
+        "avg_price": 615000000,
+        "source": "molit_api",
+        "area": 59.9415,
+        "floor": 4,
+        "latest_transaction_date": "2025-06-07",
+        "dong": "민락동",
+        "jibun": "765"
+      },
+      {
         "date": "2025-06-06",
         "region_name": "부산 수영구",
         "complex_name": "비치-그린아파트",
@@ -254884,6 +255196,32 @@
         "latest_transaction_date": "2025-06-01",
         "dong": "남천동",
         "jibun": "148-4"
+      },
+      {
+        "date": "2025-06-02",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 890000000,
+        "source": "molit_api",
+        "area": 84.9833,
+        "floor": 16,
+        "latest_transaction_date": "2025-06-02",
+        "dong": "광안동",
+        "jibun": "1330"
+      },
+      {
+        "date": "2025-06-01",
+        "region_name": "부산 수영구",
+        "complex_name": "e편한세상오션테라스1단지",
+        "transaction_count": 1,
+        "avg_price": 835000000,
+        "source": "molit_api",
+        "area": 91.9754,
+        "floor": 10,
+        "latest_transaction_date": "2025-06-01",
+        "dong": "민락동",
+        "jibun": "780"
       },
       {
         "date": "2025-06-01",
@@ -255133,6 +255471,19 @@
         "jibun": "613"
       },
       {
+        "date": "2025-05-19",
+        "region_name": "부산 수영구",
+        "complex_name": "수영강동원로얄듀크",
+        "transaction_count": 1,
+        "avg_price": 500000000,
+        "source": "molit_api",
+        "area": 80.5623,
+        "floor": 10,
+        "latest_transaction_date": "2025-05-19",
+        "dong": "수영동",
+        "jibun": "552"
+      },
+      {
         "date": "2025-05-27",
         "region_name": "부산 수영구",
         "complex_name": "부산더샵센텀포레",
@@ -255248,6 +255599,19 @@
         "latest_transaction_date": "2025-05-19",
         "dong": "광안동",
         "jibun": "529"
+      },
+      {
+        "date": "2025-05-24",
+        "region_name": "부산 수영구",
+        "complex_name": "남천자이",
+        "transaction_count": 1,
+        "avg_price": 1385000000,
+        "source": "molit_api",
+        "area": 77.9819,
+        "floor": 16,
+        "latest_transaction_date": "2025-05-24",
+        "dong": "남천동",
+        "jibun": "613"
       },
       {
         "date": "2025-05-25",
@@ -255369,6 +255733,19 @@
       {
         "date": "2025-05-17",
         "region_name": "부산 수영구",
+        "complex_name": "광안자이",
+        "transaction_count": 1,
+        "avg_price": 865000000,
+        "source": "molit_api",
+        "area": 84.48,
+        "floor": 15,
+        "latest_transaction_date": "2025-05-17",
+        "dong": "광안동",
+        "jibun": "1334"
+      },
+      {
+        "date": "2025-05-17",
+        "region_name": "부산 수영구",
         "complex_name": "삼익비치",
         "transaction_count": 1,
         "avg_price": 1395000000,
@@ -255402,6 +255779,19 @@
         "area": 84.9897,
         "floor": 8,
         "latest_transaction_date": "2025-05-25",
+        "dong": "광안동",
+        "jibun": "1330"
+      },
+      {
+        "date": "2025-05-20",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 1030000000,
+        "source": "molit_api",
+        "area": 84.9897,
+        "floor": 29,
+        "latest_transaction_date": "2025-05-20",
         "dong": "광안동",
         "jibun": "1330"
       },
@@ -255690,6 +256080,19 @@
         "latest_transaction_date": "2025-05-16",
         "dong": "광안동",
         "jibun": "1334"
+      },
+      {
+        "date": "2025-05-21",
+        "region_name": "부산 수영구",
+        "complex_name": "현대",
+        "transaction_count": 1,
+        "avg_price": 595000000,
+        "source": "molit_api",
+        "area": 52.38,
+        "floor": 10,
+        "latest_transaction_date": "2025-05-21",
+        "dong": "수영동",
+        "jibun": "541"
       },
       {
         "date": "2025-05-28",
@@ -256199,6 +256602,19 @@
         "jibun": "1136"
       },
       {
+        "date": "2025-05-21",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 930000000,
+        "source": "molit_api",
+        "area": 84.9616,
+        "floor": 10,
+        "latest_transaction_date": "2025-05-21",
+        "dong": "광안동",
+        "jibun": "1330"
+      },
+      {
         "date": "2025-05-03",
         "region_name": "부산 수영구",
         "complex_name": "광일센텀스카이뷰",
@@ -256342,6 +256758,19 @@
         "jibun": "165-14"
       },
       {
+        "date": "2025-05-06",
+        "region_name": "부산 수영구",
+        "complex_name": "비치-그린아파트",
+        "transaction_count": 1,
+        "avg_price": 320000000,
+        "source": "molit_api",
+        "area": 84.9,
+        "floor": 7,
+        "latest_transaction_date": "2025-05-06",
+        "dong": "광안동",
+        "jibun": "529"
+      },
+      {
         "date": "2025-05-19",
         "region_name": "부산 수영구",
         "complex_name": "수영강동원로얄듀크",
@@ -256353,6 +256782,19 @@
         "latest_transaction_date": "2025-05-19",
         "dong": "수영동",
         "jibun": "552"
+      },
+      {
+        "date": "2025-05-03",
+        "region_name": "부산 수영구",
+        "complex_name": "남천자이",
+        "transaction_count": 1,
+        "avg_price": 1220000000,
+        "source": "molit_api",
+        "area": 84.9852,
+        "floor": 15,
+        "latest_transaction_date": "2025-05-03",
+        "dong": "남천동",
+        "jibun": "613"
       },
       {
         "date": "2025-05-10",
@@ -256457,6 +256899,19 @@
         "latest_transaction_date": "2025-05-17",
         "dong": "민락동",
         "jibun": "765"
+      },
+      {
+        "date": "2025-05-13",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 620000000,
+        "source": "molit_api",
+        "area": 41.52,
+        "floor": 6,
+        "latest_transaction_date": "2025-05-13",
+        "dong": "남천동",
+        "jibun": "148-4"
       },
       {
         "date": "2025-05-03",
@@ -256628,6 +257083,19 @@
         "jibun": "784"
       },
       {
+        "date": "2025-05-10",
+        "region_name": "부산 수영구",
+        "complex_name": "남천자이",
+        "transaction_count": 1,
+        "avg_price": 1080000000,
+        "source": "molit_api",
+        "area": 74.9957,
+        "floor": 32,
+        "latest_transaction_date": "2025-05-10",
+        "dong": "남천동",
+        "jibun": "613"
+      },
+      {
         "date": "2025-05-13",
         "region_name": "부산 수영구",
         "complex_name": "e편한세상오션테라스3단지",
@@ -256747,6 +257215,19 @@
       {
         "date": "2025-05-12",
         "region_name": "부산 수영구",
+        "complex_name": "센텀비스타동원2차",
+        "transaction_count": 1,
+        "avg_price": 810000000,
+        "source": "molit_api",
+        "area": 84.9275,
+        "floor": 31,
+        "latest_transaction_date": "2025-05-12",
+        "dong": "민락동",
+        "jibun": "774"
+      },
+      {
+        "date": "2025-05-12",
+        "region_name": "부산 수영구",
         "complex_name": "쌍용예가디오션",
         "transaction_count": 1,
         "avg_price": 940000000,
@@ -256832,6 +257313,32 @@
         "area": 84.9468,
         "floor": 20,
         "latest_transaction_date": "2025-05-09",
+        "dong": "수영동",
+        "jibun": "432-1"
+      },
+      {
+        "date": "2025-05-09",
+        "region_name": "부산 수영구",
+        "complex_name": "수영협성르네상스타운",
+        "transaction_count": 1,
+        "avg_price": 695000000,
+        "source": "molit_api",
+        "area": 84.9468,
+        "floor": 20,
+        "latest_transaction_date": "2025-05-09",
+        "dong": "수영동",
+        "jibun": "432-1"
+      },
+      {
+        "date": "2025-05-08",
+        "region_name": "부산 수영구",
+        "complex_name": "수영협성르네상스타운",
+        "transaction_count": 1,
+        "avg_price": 655000000,
+        "source": "molit_api",
+        "area": 84.9468,
+        "floor": 7,
+        "latest_transaction_date": "2025-05-08",
         "dong": "수영동",
         "jibun": "432-1"
       },
@@ -256992,6 +257499,19 @@
         "jibun": "10-14"
       },
       {
+        "date": "2025-05-03",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 622500000,
+        "source": "molit_api",
+        "area": 84.9819,
+        "floor": 15,
+        "latest_transaction_date": "2025-05-03",
+        "dong": "망미동",
+        "jibun": "1176"
+      },
+      {
         "date": "2025-05-02",
         "region_name": "부산 수영구",
         "complex_name": "수영강동원로얄듀크",
@@ -257083,6 +257603,19 @@
         "jibun": "556-3"
       },
       {
+        "date": "2025-04-15",
+        "region_name": "부산 수영구",
+        "complex_name": "뉴비치",
+        "transaction_count": 1,
+        "avg_price": 768000000,
+        "source": "molit_api",
+        "area": 75.42,
+        "floor": 7,
+        "latest_transaction_date": "2025-04-15",
+        "dong": "남천동",
+        "jibun": "556-3"
+      },
+      {
         "date": "2025-04-30",
         "region_name": "부산 수영구",
         "complex_name": "삼익비치",
@@ -257148,6 +257681,19 @@
         "jibun": "148-4"
       },
       {
+        "date": "2025-04-30",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 560000000,
+        "source": "molit_api",
+        "area": 41.52,
+        "floor": 11,
+        "latest_transaction_date": "2025-04-30",
+        "dong": "남천동",
+        "jibun": "148-4"
+      },
+      {
         "date": "2025-04-25",
         "region_name": "부산 수영구",
         "complex_name": "코오롱하늘채골든비치",
@@ -257172,6 +257718,19 @@
         "latest_transaction_date": "2025-04-28",
         "dong": "광안동",
         "jibun": "1069-3"
+      },
+      {
+        "date": "2025-04-27",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 1125000000,
+        "source": "molit_api",
+        "area": 84.83,
+        "floor": 11,
+        "latest_transaction_date": "2025-04-27",
+        "dong": "남천동",
+        "jibun": "148-4"
       },
       {
         "date": "2025-04-28",
@@ -257239,6 +257798,19 @@
         "jibun": "110-8"
       },
       {
+        "date": "2025-04-23",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비치푸르지오",
+        "transaction_count": 1,
+        "avg_price": 548000000,
+        "source": "molit_api",
+        "area": 84.97,
+        "floor": 3,
+        "latest_transaction_date": "2025-04-23",
+        "dong": "민락동",
+        "jibun": "108-1"
+      },
+      {
         "date": "2025-04-19",
         "region_name": "부산 수영구",
         "complex_name": "이편한세상3차",
@@ -257304,6 +257876,19 @@
         "jibun": "1046-7"
       },
       {
+        "date": "2025-04-19",
+        "region_name": "부산 수영구",
+        "complex_name": "이편한세상3차",
+        "transaction_count": 1,
+        "avg_price": 382000000,
+        "source": "molit_api",
+        "area": 84.977,
+        "floor": 6,
+        "latest_transaction_date": "2025-04-19",
+        "dong": "망미동",
+        "jibun": "1136"
+      },
+      {
         "date": "2025-04-14",
         "region_name": "부산 수영구",
         "complex_name": "현대",
@@ -257328,6 +257913,19 @@
         "latest_transaction_date": "2025-04-18",
         "dong": "남천동",
         "jibun": "556-3"
+      },
+      {
+        "date": "2025-04-23",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비치푸르지오",
+        "transaction_count": 1,
+        "avg_price": 548000000,
+        "source": "molit_api",
+        "area": 84.97,
+        "floor": 3,
+        "latest_transaction_date": "2025-04-23",
+        "dong": "민락동",
+        "jibun": "108-1"
       },
       {
         "date": "2025-04-15",
@@ -257512,6 +258110,19 @@
         "jibun": "185-6"
       },
       {
+        "date": "2025-04-21",
+        "region_name": "부산 수영구",
+        "complex_name": "롯데캐슬자이언트",
+        "transaction_count": 1,
+        "avg_price": 670000000,
+        "source": "molit_api",
+        "area": 84.9393,
+        "floor": 31,
+        "latest_transaction_date": "2025-04-21",
+        "dong": "민락동",
+        "jibun": "110-8"
+      },
+      {
         "date": "2025-04-19",
         "region_name": "부산 수영구",
         "complex_name": "현대",
@@ -257655,6 +258266,19 @@
         "jibun": "1334"
       },
       {
+        "date": "2025-04-28",
+        "region_name": "부산 수영구",
+        "complex_name": "현대",
+        "transaction_count": 1,
+        "avg_price": 680000000,
+        "source": "molit_api",
+        "area": 68.76,
+        "floor": 14,
+        "latest_transaction_date": "2025-04-28",
+        "dong": "수영동",
+        "jibun": "541"
+      },
+      {
         "date": "2025-04-10",
         "region_name": "부산 수영구",
         "complex_name": "더샵남천프레스티지",
@@ -257783,6 +258407,32 @@
         "latest_transaction_date": "2025-04-25",
         "dong": "광안동",
         "jibun": "1334"
+      },
+      {
+        "date": "2025-04-26",
+        "region_name": "부산 수영구",
+        "complex_name": "코오롱하늘채골든비치",
+        "transaction_count": 1,
+        "avg_price": 1070000000,
+        "source": "molit_api",
+        "area": 125.5,
+        "floor": 11,
+        "latest_transaction_date": "2025-04-26",
+        "dong": "남천동",
+        "jibun": "151"
+      },
+      {
+        "date": "2025-04-15",
+        "region_name": "부산 수영구",
+        "complex_name": "뉴비치",
+        "transaction_count": 1,
+        "avg_price": 768000000,
+        "source": "molit_api",
+        "area": 75.42,
+        "floor": 7,
+        "latest_transaction_date": "2025-04-15",
+        "dong": "남천동",
+        "jibun": "556-3"
       },
       {
         "date": "2025-04-10",
@@ -258069,6 +258719,19 @@
         "latest_transaction_date": "2025-04-16",
         "dong": "민락동",
         "jibun": "784"
+      },
+      {
+        "date": "2025-04-05",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 920000000,
+        "source": "molit_api",
+        "area": 84.98,
+        "floor": 10,
+        "latest_transaction_date": "2025-04-05",
+        "dong": "광안동",
+        "jibun": "1330"
       },
       {
         "date": "2025-04-11",
@@ -258643,6 +259306,19 @@
         "jibun": "773"
       },
       {
+        "date": "2025-04-13",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비스타동원2차",
+        "transaction_count": 1,
+        "avg_price": 730000000,
+        "source": "molit_api",
+        "area": 84.951,
+        "floor": 17,
+        "latest_transaction_date": "2025-04-13",
+        "dong": "민락동",
+        "jibun": "774"
+      },
+      {
         "date": "2025-04-10",
         "region_name": "부산 수영구",
         "complex_name": "광안KCC스위첸하버뷰",
@@ -258758,6 +259434,19 @@
         "latest_transaction_date": "2025-04-07",
         "dong": "남천동",
         "jibun": "74-18"
+      },
+      {
+        "date": "2025-04-07",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 450000000,
+        "source": "molit_api",
+        "area": 59.9694,
+        "floor": 17,
+        "latest_transaction_date": "2025-04-07",
+        "dong": "망미동",
+        "jibun": "1176"
       },
       {
         "date": "2025-04-05",
@@ -259072,6 +259761,19 @@
         "jibun": "783"
       },
       {
+        "date": "2025-03-31",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 634000000,
+        "source": "molit_api",
+        "area": 84.9819,
+        "floor": 8,
+        "latest_transaction_date": "2025-03-31",
+        "dong": "망미동",
+        "jibun": "1176"
+      },
+      {
         "date": "2025-03-29",
         "region_name": "부산 수영구",
         "complex_name": "성우센텀스카이뷰비",
@@ -259083,6 +259785,19 @@
         "latest_transaction_date": "2025-03-29",
         "dong": "광안동",
         "jibun": "377-14"
+      },
+      {
+        "date": "2025-03-20",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비스타동원",
+        "transaction_count": 1,
+        "avg_price": 1110000000,
+        "source": "molit_api",
+        "area": 109.1877,
+        "floor": 27,
+        "latest_transaction_date": "2025-03-20",
+        "dong": "민락동",
+        "jibun": "778"
       },
       {
         "date": "2025-03-23",
@@ -259109,6 +259824,19 @@
         "latest_transaction_date": "2025-03-07",
         "dong": "광안동",
         "jibun": "1330"
+      },
+      {
+        "date": "2025-03-20",
+        "region_name": "부산 수영구",
+        "complex_name": "남천자이",
+        "transaction_count": 1,
+        "avg_price": 2350000000,
+        "source": "molit_api",
+        "area": 142.5956,
+        "floor": 36,
+        "latest_transaction_date": "2025-03-20",
+        "dong": "남천동",
+        "jibun": "613"
       },
       {
         "date": "2025-03-28",
@@ -259306,6 +260034,19 @@
         "jibun": "599"
       },
       {
+        "date": "2025-03-31",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 634000000,
+        "source": "molit_api",
+        "area": 84.9819,
+        "floor": 8,
+        "latest_transaction_date": "2025-03-31",
+        "dong": "망미동",
+        "jibun": "1176"
+      },
+      {
         "date": "2025-03-15",
         "region_name": "부산 수영구",
         "complex_name": "센텀비스타동원",
@@ -259488,6 +260229,19 @@
         "jibun": "529"
       },
       {
+        "date": "2025-03-10",
+        "region_name": "부산 수영구",
+        "complex_name": "이편한세상1차",
+        "transaction_count": 1,
+        "avg_price": 342000000,
+        "source": "molit_api",
+        "area": 84.9357,
+        "floor": 12,
+        "latest_transaction_date": "2025-03-10",
+        "dong": "망미동",
+        "jibun": "1154"
+      },
+      {
         "date": "2025-03-07",
         "region_name": "부산 수영구",
         "complex_name": "남천자이",
@@ -259499,6 +260253,19 @@
         "latest_transaction_date": "2025-03-07",
         "dong": "남천동",
         "jibun": "613"
+      },
+      {
+        "date": "2025-03-29",
+        "region_name": "부산 수영구",
+        "complex_name": "더샵남천프레스티지",
+        "transaction_count": 1,
+        "avg_price": 795000000,
+        "source": "molit_api",
+        "area": 59.1813,
+        "floor": 21,
+        "latest_transaction_date": "2025-03-29",
+        "dong": "남천동",
+        "jibun": "599"
       },
       {
         "date": "2025-03-28",
@@ -259553,6 +260320,19 @@
         "jibun": "1176"
       },
       {
+        "date": "2025-03-12",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비스타동원2차",
+        "transaction_count": 1,
+        "avg_price": 705000000,
+        "source": "molit_api",
+        "area": 84.9547,
+        "floor": 8,
+        "latest_transaction_date": "2025-03-12",
+        "dong": "민락동",
+        "jibun": "774"
+      },
+      {
         "date": "2025-03-31",
         "region_name": "부산 수영구",
         "complex_name": "부산더샵센텀포레",
@@ -259603,6 +260383,19 @@
         "latest_transaction_date": "2025-03-30",
         "dong": "망미동",
         "jibun": "1176"
+      },
+      {
+        "date": "2025-03-29",
+        "region_name": "부산 수영구",
+        "complex_name": "더샵남천프레스티지",
+        "transaction_count": 1,
+        "avg_price": 1190000000,
+        "source": "molit_api",
+        "area": 93.3606,
+        "floor": 22,
+        "latest_transaction_date": "2025-03-29",
+        "dong": "남천동",
+        "jibun": "599"
       },
       {
         "date": "2025-03-28",
@@ -259720,6 +260513,19 @@
         "latest_transaction_date": "2025-03-04",
         "dong": "민락동",
         "jibun": "773"
+      },
+      {
+        "date": "2025-03-15",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 1410000000,
+        "source": "molit_api",
+        "area": 115.6,
+        "floor": 11,
+        "latest_transaction_date": "2025-03-15",
+        "dong": "남천동",
+        "jibun": "148-4"
       },
       {
         "date": "2025-03-13",
@@ -259930,6 +260736,19 @@
         "jibun": "1334"
       },
       {
+        "date": "2025-03-22",
+        "region_name": "부산 수영구",
+        "complex_name": "광안리슈빌DS",
+        "transaction_count": 1,
+        "avg_price": 535000000,
+        "source": "molit_api",
+        "area": 77.958,
+        "floor": 17,
+        "latest_transaction_date": "2025-03-22",
+        "dong": "민락동",
+        "jibun": "184-2"
+      },
+      {
         "date": "2025-03-24",
         "region_name": "부산 수영구",
         "complex_name": "남천블루비치",
@@ -259943,6 +260762,19 @@
         "jibun": "12-22"
       },
       {
+        "date": "2025-03-22",
+        "region_name": "부산 수영구",
+        "complex_name": "남천자이",
+        "transaction_count": 1,
+        "avg_price": 800000000,
+        "source": "molit_api",
+        "area": 59.9606,
+        "floor": 7,
+        "latest_transaction_date": "2025-03-22",
+        "dong": "남천동",
+        "jibun": "613"
+      },
+      {
         "date": "2025-03-23",
         "region_name": "부산 수영구",
         "complex_name": "광안자이",
@@ -259954,6 +260786,19 @@
         "latest_transaction_date": "2025-03-23",
         "dong": "광안동",
         "jibun": "1334"
+      },
+      {
+        "date": "2025-03-08",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 1080000000,
+        "source": "molit_api",
+        "area": 84.9616,
+        "floor": 32,
+        "latest_transaction_date": "2025-03-08",
+        "dong": "광안동",
+        "jibun": "1330"
       },
       {
         "date": "2025-03-21",
@@ -259980,6 +260825,32 @@
         "latest_transaction_date": "2025-03-22",
         "dong": "광안동",
         "jibun": "1335"
+      },
+      {
+        "date": "2025-03-21",
+        "region_name": "부산 수영구",
+        "complex_name": "이편한세상2차",
+        "transaction_count": 1,
+        "avg_price": 340000000,
+        "source": "molit_api",
+        "area": 84.939,
+        "floor": 2,
+        "latest_transaction_date": "2025-03-21",
+        "dong": "망미동",
+        "jibun": "1128"
+      },
+      {
+        "date": "2025-03-21",
+        "region_name": "부산 수영구",
+        "complex_name": "이편한세상2차",
+        "transaction_count": 1,
+        "avg_price": 340000000,
+        "source": "molit_api",
+        "area": 84.939,
+        "floor": 2,
+        "latest_transaction_date": "2025-03-21",
+        "dong": "망미동",
+        "jibun": "1128"
       },
       {
         "date": "2025-03-21",
@@ -260058,6 +260929,19 @@
         "latest_transaction_date": "2025-03-18",
         "dong": "민락동",
         "jibun": "108-1"
+      },
+      {
+        "date": "2025-03-13",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 1417000000,
+        "source": "molit_api",
+        "area": 115.6,
+        "floor": 4,
+        "latest_transaction_date": "2025-03-13",
+        "dong": "남천동",
+        "jibun": "148-4"
       },
       {
         "date": "2025-03-06",
@@ -260255,6 +261139,19 @@
         "jibun": "1176"
       },
       {
+        "date": "2025-03-07",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 920000000,
+        "source": "molit_api",
+        "area": 84.9897,
+        "floor": 13,
+        "latest_transaction_date": "2025-03-07",
+        "dong": "광안동",
+        "jibun": "1330"
+      },
+      {
         "date": "2025-03-12",
         "region_name": "부산 수영구",
         "complex_name": "e편한세상오션테라스2단지",
@@ -260292,6 +261189,19 @@
         "latest_transaction_date": "2025-03-08",
         "dong": "광안동",
         "jibun": "1046-7"
+      },
+      {
+        "date": "2025-03-11",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 1270000000,
+        "source": "molit_api",
+        "area": 112.0164,
+        "floor": 21,
+        "latest_transaction_date": "2025-03-11",
+        "dong": "광안동",
+        "jibun": "1330"
       },
       {
         "date": "2025-03-11",
@@ -260673,6 +261583,19 @@
       {
         "date": "2025-03-07",
         "region_name": "부산 수영구",
+        "complex_name": "민락동센텀메르빌",
+        "transaction_count": 1,
+        "avg_price": 377000000,
+        "source": "molit_api",
+        "area": 68.2215,
+        "floor": 3,
+        "latest_transaction_date": "2025-03-07",
+        "dong": "민락동",
+        "jibun": "336-48"
+      },
+      {
+        "date": "2025-03-07",
+        "region_name": "부산 수영구",
         "complex_name": "뉴비치",
         "transaction_count": 1,
         "avg_price": 457000000,
@@ -260957,6 +261880,19 @@
         "jibun": "822-4"
       },
       {
+        "date": "2025-02-28",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 1000000000,
+        "source": "molit_api",
+        "area": 84.9897,
+        "floor": 22,
+        "latest_transaction_date": "2025-02-28",
+        "dong": "광안동",
+        "jibun": "1330"
+      },
+      {
         "date": "2025-02-21",
         "region_name": "부산 수영구",
         "complex_name": "협성엠파이어(101,102동)",
@@ -261020,6 +261956,19 @@
         "latest_transaction_date": "2025-02-18",
         "dong": "민락동",
         "jibun": "110-8"
+      },
+      {
+        "date": "2025-02-24",
+        "region_name": "부산 수영구",
+        "complex_name": "더샵남천프레스티지",
+        "transaction_count": 1,
+        "avg_price": 660000000,
+        "source": "molit_api",
+        "area": 59.1813,
+        "floor": 3,
+        "latest_transaction_date": "2025-02-24",
+        "dong": "남천동",
+        "jibun": "599"
       },
       {
         "date": "2025-02-25",
@@ -261137,6 +262086,19 @@
         "latest_transaction_date": "2025-02-25",
         "dong": "광안동",
         "jibun": "734-2"
+      },
+      {
+        "date": "2025-02-20",
+        "region_name": "부산 수영구",
+        "complex_name": "쌍용예가디오션",
+        "transaction_count": 1,
+        "avg_price": 905000000,
+        "source": "molit_api",
+        "area": 84.9897,
+        "floor": 14,
+        "latest_transaction_date": "2025-02-20",
+        "dong": "광안동",
+        "jibun": "1330"
       },
       {
         "date": "2025-02-15",
@@ -261425,6 +262387,19 @@
         "jibun": "526-1"
       },
       {
+        "date": "2025-02-22",
+        "region_name": "부산 수영구",
+        "complex_name": "광원",
+        "transaction_count": 1,
+        "avg_price": 235000000,
+        "source": "molit_api",
+        "area": 59.94,
+        "floor": 6,
+        "latest_transaction_date": "2025-02-22",
+        "dong": "광안동",
+        "jibun": "526-1"
+      },
+      {
         "date": "2025-02-05",
         "region_name": "부산 수영구",
         "complex_name": "망미이진캐스빌",
@@ -261488,6 +262463,19 @@
         "latest_transaction_date": "2025-02-04",
         "dong": "남천동",
         "jibun": "47-1"
+      },
+      {
+        "date": "2025-02-21",
+        "region_name": "부산 수영구",
+        "complex_name": "협성엠파이어(101,102동)",
+        "transaction_count": 1,
+        "avg_price": 620000000,
+        "source": "molit_api",
+        "area": 84.987,
+        "floor": 11,
+        "latest_transaction_date": "2025-02-21",
+        "dong": "광안동",
+        "jibun": "742-2"
       },
       {
         "date": "2025-02-15",
@@ -261581,6 +262569,19 @@
         "jibun": "10-14"
       },
       {
+        "date": "2025-02-26",
+        "region_name": "부산 수영구",
+        "complex_name": "삼익비치",
+        "transaction_count": 1,
+        "avg_price": 995000000,
+        "source": "molit_api",
+        "area": 73.92,
+        "floor": 8,
+        "latest_transaction_date": "2025-02-26",
+        "dong": "남천동",
+        "jibun": "148-4"
+      },
+      {
         "date": "2025-02-10",
         "region_name": "부산 수영구",
         "complex_name": "삼익비치",
@@ -261644,6 +262645,19 @@
         "latest_transaction_date": "2025-02-15",
         "dong": "광안동",
         "jibun": "139-1"
+      },
+      {
+        "date": "2025-02-20",
+        "region_name": "부산 수영구",
+        "complex_name": "센텀비스타동원",
+        "transaction_count": 1,
+        "avg_price": 990000000,
+        "source": "molit_api",
+        "area": 109.1877,
+        "floor": 26,
+        "latest_transaction_date": "2025-02-20",
+        "dong": "민락동",
+        "jibun": "778"
       },
       {
         "date": "2025-02-24",
@@ -261867,6 +262881,19 @@
         "jibun": "1176"
       },
       {
+        "date": "2025-02-22",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 466500000,
+        "source": "molit_api",
+        "area": 59.9642,
+        "floor": 22,
+        "latest_transaction_date": "2025-02-22",
+        "dong": "망미동",
+        "jibun": "1176"
+      },
+      {
         "date": "2025-02-20",
         "region_name": "부산 수영구",
         "complex_name": "에이스센텀빌리지",
@@ -261917,6 +262944,19 @@
         "latest_transaction_date": "2025-02-11",
         "dong": "광안동",
         "jibun": "99-5"
+      },
+      {
+        "date": "2025-02-19",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
+        "avg_price": 455000000,
+        "source": "molit_api",
+        "area": 59.9876,
+        "floor": 5,
+        "latest_transaction_date": "2025-02-19",
+        "dong": "망미동",
+        "jibun": "1176"
       },
       {
         "date": "2025-02-16",
@@ -262348,6 +263388,19 @@
         "jibun": "12-22"
       },
       {
+        "date": "2025-02-05",
+        "region_name": "부산 수영구",
+        "complex_name": "남천알파타워",
+        "transaction_count": 1,
+        "avg_price": 54000000,
+        "source": "molit_api",
+        "area": 15.85,
+        "floor": 5,
+        "latest_transaction_date": "2025-02-05",
+        "dong": "남천동",
+        "jibun": "10-14"
+      },
+      {
         "date": "2025-02-10",
         "region_name": "부산 수영구",
         "complex_name": "부산더샵센텀포레",
@@ -262777,6 +263830,32 @@
         "jibun": "1176"
       },
       {
+        "date": "2025-01-25",
+        "region_name": "부산 수영구",
+        "complex_name": "에이스센텀빌리지",
+        "transaction_count": 1,
+        "avg_price": 125000000,
+        "source": "molit_api",
+        "area": 29.69,
+        "floor": 12,
+        "latest_transaction_date": "2025-01-25",
+        "dong": "광안동",
+        "jibun": "44-16"
+      },
+      {
+        "date": "2025-01-22",
+        "region_name": "부산 수영구",
+        "complex_name": "광안자이",
+        "transaction_count": 1,
+        "avg_price": 1030000000,
+        "source": "molit_api",
+        "area": 84.48,
+        "floor": 27,
+        "latest_transaction_date": "2025-01-22",
+        "dong": "광안동",
+        "jibun": "1334"
+      },
+      {
         "date": "2025-01-31",
         "region_name": "부산 수영구",
         "complex_name": "테넌바움294",
@@ -263015,6 +264094,19 @@
         "region_name": "부산 수영구",
         "complex_name": "수영SKVIEW1단지",
         "transaction_count": 1,
+        "avg_price": 620000000,
+        "source": "molit_api",
+        "area": 84.9819,
+        "floor": 10,
+        "latest_transaction_date": "2025-01-27",
+        "dong": "망미동",
+        "jibun": "1176"
+      },
+      {
+        "date": "2025-01-27",
+        "region_name": "부산 수영구",
+        "complex_name": "수영SKVIEW1단지",
+        "transaction_count": 1,
         "avg_price": 447000000,
         "source": "molit_api",
         "area": 59.9876,
@@ -263035,6 +264127,19 @@
         "latest_transaction_date": "2025-01-26",
         "dong": "남천동",
         "jibun": "599"
+      },
+      {
+        "date": "2025-01-25",
+        "region_name": "부산 수영구",
+        "complex_name": "부일",
+        "transaction_count": 1,
+        "avg_price": 173000000,
+        "source": "molit_api",
+        "area": 84.15,
+        "floor": 4,
+        "latest_transaction_date": "2025-01-25",
+        "dong": "망미동",
+        "jibun": "962-6"
       },
       {
         "date": "2025-01-11",
@@ -263505,6 +264610,19 @@
         "jibun": "784"
       },
       {
+        "date": "2025-01-08",
+        "region_name": "부산 수영구",
+        "complex_name": "대원리치빌",
+        "transaction_count": 1,
+        "avg_price": 240000000,
+        "source": "molit_api",
+        "area": 68.32,
+        "floor": 6,
+        "latest_transaction_date": "2025-01-08",
+        "dong": "민락동",
+        "jibun": "149-1"
+      },
+      {
         "date": "2025-01-04",
         "region_name": "부산 수영구",
         "complex_name": "더샵남천프레스티지",
@@ -263540,6 +264658,19 @@
         "area": 84.6239,
         "floor": 7,
         "latest_transaction_date": "2025-01-03",
+        "dong": "민락동",
+        "jibun": "784"
+      },
+      {
+        "date": "2025-01-06",
+        "region_name": "부산 수영구",
+        "complex_name": "테넌바움294",
+        "transaction_count": 1,
+        "avg_price": 1490000000,
+        "source": "molit_api",
+        "area": 84.6239,
+        "floor": 34,
+        "latest_transaction_date": "2025-01-06",
         "dong": "민락동",
         "jibun": "784"
       },
