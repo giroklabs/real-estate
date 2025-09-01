@@ -10,13 +10,17 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedMonths, setSelectedMonths] = useState(() => {
-        // 초기값을 2025년 전체로 설정
-        const months2025 = [];
-        for (let month = 1; month <= 12; month++) {
-            const monthStr = month < 10 ? `0${month}` : `${month}`;
-            months2025.push(`2025-${monthStr}`);
-        }
-        return months2025;
+        // 초기값을 현재월과 지난월로 설정
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1; // 0-based이므로 +1
+        
+        const currentMonthStr = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+        const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+        const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+        const lastMonthStr = `${lastMonthYear}-${lastMonth.toString().padStart(2, '0')}`;
+        
+        return [currentMonthStr, lastMonthStr];
     });
     const [sortBy, setSortBy] = useState('transaction_count'); // 정렬 기준
     const [sortOrder, setSortOrder] = useState('desc'); // 정렬 순서
@@ -129,18 +133,24 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         };
     }, [isMonthDropdownOpen, isRegionDropdownOpen]);
 
-    // 도시 변경 시 2025년 전체 데이터 자동 선택
+    // 도시 변경 시 현재월과 지난월 데이터 자동 선택
     useEffect(() => {
         if (selectedCity) {
-            // 2025년 전체 월을 자동으로 선택
-            const months2025 = generateAvailableMonths()
-                .filter(m => m.value.startsWith('2025-'))
-                .map(m => m.value);
+            // 현재월과 지난월만 자동으로 선택
+            const availableMonths = generateAvailableMonths();
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth() + 1; // 0-based이므로 +1
             
-            if (months2025.length > 0) {
-                setSelectedMonths(months2025);
-                setLoading(true);
+            // 실제 데이터가 있는 최신 2개월 선택
+            if (availableMonths.length > 0) {
+                const latestMonths = availableMonths
+                    .slice(0, 2)
+                    .map(m => m.value);
+                setSelectedMonths(latestMonths);
             }
+            
+            setLoading(true);
         }
     }, [selectedCity]);
 
@@ -150,6 +160,26 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             fetchRankings();
         }
     }, [selectedMonths]);
+
+    // 도시 전체 표시 텍스트 생성
+    const getCityAllText = (city) => {
+        const cityNames = {
+            'seoul': '서울시 전체',
+            'busan': '부산시 전체',
+            'incheon': '인천시 전체',
+            'daegu': '대구시 전체',
+            'gwangju': '광주시 전체',
+            'daejeon': '대전시 전체',
+            'ulsan': '울산시 전체',
+            'bucheon': '부천시 전체',
+            'guri': '구리시 전체',
+            'seongnam': '성남시 전체',
+            'suwon': '수원시 전체',
+            'yongin': '용인시 전체',
+            'anyang': '안양시 전체'
+        };
+        return cityNames[city] || (city ? `${city} 전체` : '전체');
+    };
 
     // 선택된 월들의 표시 텍스트 생성 (중복 선택 고려)
     const getSelectedMonthsText = () => {
@@ -161,7 +191,14 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         if (uniqueMonths.length === 1) {
             const month = generateAvailableMonths().find(m => m.value === uniqueMonths[0]);
             const count = selectedMonths.filter(m => m === uniqueMonths[0]).length;
-            return month ? `${month.label} (${count}회 선택)` : `${uniqueMonths[0]} (${count}회 선택)`;
+            if (month) {
+                return `${month.label}${count > 1 ? ` (${count}회 선택)` : ''}`;
+            } else {
+                // 폴백: YYYY-MM 형식을 YYYY년 MM월로 변환
+                const [year, monthNum] = uniqueMonths[0].split('-');
+                const formattedMonth = `${year}년 ${parseInt(monthNum, 10)}월`;
+                return `${formattedMonth}${count > 1 ? ` (${count}회 선택)` : ''}`;
+            }
         }
         
         if (uniqueMonths.length === generateAvailableMonths().length) return '전체 기간';
@@ -172,10 +209,18 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             monthCounts[month] = (monthCounts[month] || 0) + 1;
         });
         
+        // 모든 월을 "YYYY년 MM월" 형식으로 통일
         const displayText = uniqueMonths.slice(0, 2).map(month => {
             const monthInfo = generateAvailableMonths().find(m => m.value === month);
             const count = monthCounts[month];
-            return monthInfo ? `${monthInfo.label}${count > 1 ? `(${count}회)` : ''}` : month;
+            if (monthInfo) {
+                return `${monthInfo.label}${count > 1 ? ` (${count}회)` : ''}`;
+            } else {
+                // 폴백: YYYY-MM 형식을 YYYY년 MM월로 변환
+                const [year, monthNum] = month.split('-');
+                const formattedMonth = `${year}년 ${parseInt(monthNum, 10)}월`;
+                return `${formattedMonth}${count > 1 ? ` (${count}회)` : ''}`;
+            }
         }).join(', ');
         
         if (uniqueMonths.length > 2) {
@@ -468,6 +513,9 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             } else if (selectedCity) {
                 // 지역을 특정하지 않았을 때는 선택된 도시로 필터링하도록 city 전달
                 params.push(`city=${encodeURIComponent(selectedCity)}`);
+            } else {
+                // 도시도 지역도 선택되지 않았을 때는 모든 지역의 Hot한 아파트 조회
+                console.log('🌍 모든 지역의 Hot한 아파트 조회');
             }
             
             if (selectedMonths.length > 0) {
@@ -481,9 +529,16 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             
             const response = await axios.get(url);
             
-            if (response.data && Array.isArray(response.data)) {
-                const sortedData = sortRankings(response.data);
-                setRankings(sortedData);
+            if (response.data && response.data.status === 'success') {
+                // 'apartments' 키 또는 'data' 키에서 데이터 가져오기
+                const rankingsData = response.data.apartments || response.data.data;
+                if (Array.isArray(rankingsData)) {
+                    const sortedData = sortRankings(rankingsData);
+                    setRankings(sortedData);
+                } else {
+                    console.error('API 응답이 배열이 아닙니다:', response.data);
+                    setRankings([]);
+                }
             } else {
                 console.error('API 응답이 배열이 아닙니다:', response.data);
                 setRankings([]);
@@ -586,9 +641,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                 onClick={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
                                 className="region-select-toggle"
                             >
-                                {selectedRegion || (selectedCity === 'busan' ? '부산시 전체' :
-                                    selectedCity === 'incheon' ? '인천시 전체' :
-                                    selectedCity === 'seoul' ? '서울시 전체' : '전체')}
+                                {selectedRegion || getCityAllText(selectedCity)}
                             </button>
                             {isRegionDropdownOpen && (
                                 <div className="region-select-dropdown">
@@ -599,9 +652,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                         }} 
                                         className="region-select-option"
                                     >
-                                        {selectedCity === 'busan' ? '부산시 전체' :
-                                         selectedCity === 'incheon' ? '인천시 전체' :
-                                         selectedCity === 'seoul' ? '서울시 전체' : '전체'}
+                                        {getCityAllText(selectedCity)}
                                     </button>
                                     {cityRegions.map(region => (
                                         <button 

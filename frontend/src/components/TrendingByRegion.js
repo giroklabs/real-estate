@@ -55,7 +55,7 @@ const TrendingByRegion = ({ allData }) => {
     const prev = monthsSorted[monthsSorted.length - 2];
     const prev2 = monthsSorted[monthsSorted.length - 3];
 
-    // 지역별 1위 산출
+    // 지역별 1위 산출 (기존 방식으로 복원)
     const priceCards = [];
     const volumeCards = [];
 
@@ -77,13 +77,14 @@ const TrendingByRegion = ({ allData }) => {
         priceCards.push({ region, ...top });
       }
 
-      // 거래량 3개월 연속 증가 Top1
+      // 거래량 상승 추세 Top1
       const volumeRisersRanked = Object.entries(complexMap).map(([complex, monthsMap]) => {
         const c0 = (monthsMap[prev2]?.totalCount) || 0;
         const c1 = (monthsMap[prev]?.totalCount) || 0;
         const c2 = (monthsMap[last]?.totalCount) || 0;
-        const ok = prev2 && prev && last ? (c0 < c1 && c1 < c2) : false;
-        const pct = ok ? calcChangePct(c2, c0 || 0) : null;
+        // 조건 완화: 최근월에 거래가 있고, 이전 대비 증가한 경우
+        const ok = (c2 > 0) && (c2 > c1 || c2 > c0);
+        const pct = ok ? calcChangePct(c2, Math.max(c0, c1) || 1) : null;
         return { complex, m0: c0, m1: c1, m2: c2, changePct: pct };
       })
       .filter((x) => x.changePct !== null && x.changePct > 0)

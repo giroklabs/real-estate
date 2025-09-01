@@ -78,29 +78,29 @@ function App() {
             }
           }
           
-          // 백그라운드에서 다른 지역 데이터 점진적 로딩
-          setTimeout(async () => {
-            console.log('🔄 백그라운드에서 다른 지역 데이터 로딩 시작...');
-            try {
-              // 전체 데이터 캐시 확인
-              if (fullDataCache.has('integrated')) {
-                console.log('⚡ 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
-                const cachedFullData = fullDataCache.get('integrated');
-                setAllData(cachedFullData);
-                return;
-              }
-              
-              const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-              if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
-                const fullData = fullDataResponse.data.data;
-                fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
-                setAllData(fullData);
-                console.log('✅ 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)');
-              }
-            } catch (error) {
-              console.log('백그라운드 데이터 로딩 실패:', error);
-            }
-          }, 2000); // 2초 후 백그라운드 로딩 시작
+          // 백그라운드 데이터 로딩 비활성화 (데이터 덮어쓰기 방지)
+          // setTimeout(async () => {
+          //   console.log('🔄 백그라운드에서 다른 지역 데이터 로딩 시작...');
+          //   try {
+          //     // 전체 데이터 캐시 확인
+          //     if (fullDataCache.has('integrated')) {
+          //       console.log('⚡ 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
+          //       const cachedFullData = fullDataCache.get('integrated');
+          //       setAllData(cachedFullData);
+          //       return;
+          //     }
+          //     
+          //     const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+          //     if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+          //       const fullData = fullDataResponse.data.data;
+          //       fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
+          //       setAllData(fullData);
+          //       console.log('✅ 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)');
+          //     }
+          //   } catch (error) {
+          //     console.log('백그라운드 데이터 로딩 실패:', error);
+          //   }
+          // }, 2000); // 2초 후 백그라운드 로딩 시작
           
           return; // 새로운 최적화된 로딩 경로 종료
         }
@@ -117,29 +117,29 @@ function App() {
             setAllData(seoulPriority); // 우선 데이터 즉시 반영
             setLoading(false);
 
-            // 백그라운드에서 다른 지역 데이터 점진적 로딩
-            setTimeout(async () => {
-              console.log('🔄 (LOCAL) 백그라운드에서 다른 지역 데이터 로딩 시작...');
-              try {
-                // 전체 데이터 캐시 확인
-                if (fullDataCache.has('integrated')) {
-                  console.log('⚡ (LOCAL) 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
-                  const cachedFullData = fullDataCache.get('integrated');
-                  setAllData(cachedFullData);
-                  return;
-                }
-                
-                const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-                if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
-                  const fullData = fullDataResponse.data.data;
-                  fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
-                  setAllData(fullData);
-                  console.log('✅ (LOCAL) 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)');
-                }
-              } catch (error) {
-                console.log('(LOCAL) 백그라운드 데이터 로딩 실패:', error);
-              }
-            }, 2000); // 2초 후 백그라운드 로딩 시작
+            // 백그라운드 데이터 로딩 비활성화 (데이터 덮어쓰기 방지)
+            // setTimeout(async () => {
+            //   console.log('🔄 (LOCAL) 백그라운드에서 다른 지역 데이터 로딩 시작...');
+            //   try {
+            //     // 전체 데이터 캐시 확인
+            //     if (fullDataCache.has('integrated')) {
+            //       console.log('⚡ (LOCAL) 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
+            //       const cachedFullData = fullDataCache.get('integrated');
+            //       setAllData(cachedFullData);
+            //       return;
+            //     }
+            //     
+            //     const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+            //     if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+            //       const fullData = fullDataResponse.data.data;
+            //       fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
+            //       setAllData(fullData);
+            //       console.log('✅ (LOCAL) 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)');
+            //     }
+            //   } catch (error) {
+            //     console.log('(LOCAL) 백그라운드 데이터 로딩 실패:', error);
+            //   }
+            // }, 2000); // 2초 후 백그라운드 로딩 시작
             
             return; // 로컬 우선 로딩 경로 종료
           }
@@ -148,48 +148,16 @@ function App() {
         }
       }
 
-      // 기본 경로: 요약 데이터 → 전체 데이터 (기존 로직 유지)
+      // 기본 경로: 선택된 도시 데이터만 로드 (백그라운드 로딩 제거)
       const startTime = performance.now();
-      const summaryResponse = await axios.get(`${API_BASE_URL}/integrated-data?type=summary`);
-      const summaryLoadTime = performance.now() - startTime;
+      const cityResponse = await axios.get(`${API_BASE_URL}/cities/${selectedCity}`);
+      const cityLoadTime = performance.now() - startTime;
       
-      if (summaryResponse.data.status === 'success') {
-        const summaryData = summaryResponse.data.data;
-        setAllData(summaryData); // 기본 정보 표시
+      if (cityResponse.data.status === 'success') {
+        const cityData = cityResponse.data.data;
+        setAllData(cityData);
         setLoading(false);
-        console.log(`✅ 요약 데이터 로드 완료: ${summaryLoadTime.toFixed(2)}ms`);
-        
-        // 2단계: 백그라운드에서 전체 데이터 로드
-        setTimeout(async () => {
-          try {
-            // 전체 데이터 캐시 확인
-            if (fullDataCache.has('integrated')) {
-              console.log('⚡ 전체 데이터가 메모리 캐시에 있음 - 즉시 로드');
-              const cachedFullData = fullDataCache.get('integrated');
-              setAllData(cachedFullData);
-              return;
-            }
-            
-            const fullStartTime = performance.now();
-            const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-            const fullLoadTime = performance.now() - fullStartTime;
-            
-            if (fullDataResponse.data.status === 'success') {
-              const fullData = fullDataResponse.data.data;
-              const timestamp = fullDataResponse.data.metadata.collection_date;
-              
-              fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
-              setAllData(fullData);
-              setDataTimestamp(timestamp);
-              await realEstateDB.saveDataCompressed(fullData, timestamp);
-              
-              console.log(`🚀 전체 데이터 로드 완료: ${fullLoadTime.toFixed(2)}ms (캐시에 저장됨)`);
-              console.log(`📊 데이터 크기: ${JSON.stringify(fullDataResponse.data.metadata)}`);
-            }
-          } catch (error) {
-            console.log('전체 데이터 로드 실패, 요약 데이터로 계속');
-          }
-        }, 500);
+        console.log(`✅ ${selectedCity} 도시 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
       }
     } catch (error) {
       // 폴백: 기존 방식
@@ -276,22 +244,23 @@ function App() {
     }
   };
 
-  const checkForUpdates = async () => {
-    try {
-      const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-      if (integratedResponse.data.status === 'success') {
-        const data = integratedResponse.data.data;
-        const timestamp = integratedResponse.data.metadata.collection_date;
-        
-        setAllData(data);
-        setDataTimestamp(timestamp);
-        await realEstateDB.saveDataCompressed(data, timestamp);
-        console.log('백그라운드에서 최신 데이터 업데이트 완료');
-      }
-    } catch (error) {
-      console.log('백그라운드 데이터 업데이트 실패');
-    }
-  };
+  // checkForUpdates 함수 제거 (백그라운드 데이터 로딩 방지)
+  // const checkForUpdates = async () => {
+  //   try {
+  //     const integratedResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+  //     if (integratedResponse.data.status === 'success') {
+  //       const data = integratedResponse.data.data;
+  //       const timestamp = integratedResponse.data.metadata.collection_date;
+  //       
+  //       setAllData(data);
+  //       setDataTimestamp(timestamp);
+  //       await realEstateDB.saveDataCompressed(data, timestamp);
+  //       console.log('백그라운드에서 최신 데이터 업데이트 완료');
+  //     }
+  //   } catch (error) {
+  //     console.log('백그라운드 데이터 업데이트 실패');
+  //   }
+  // };
 
   // 카카오 애드핏 Web 배너 SDK 로드
   useEffect(() => {
@@ -329,29 +298,29 @@ function App() {
           setDataTimestamp(cachedResult.timestamp);
           console.log('IndexedDB에서 캐시된 데이터 로드 완료');
           
-          // 캐시된 데이터가 있어도 백그라운드에서 최신 데이터 확인
-          setTimeout(async () => {
-            console.log('🔄 백그라운드에서 최신 데이터 확인 중...');
-            try {
-              const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-              if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
-                const fullData = fullDataResponse.data.data;
-                const timestamp = fullDataResponse.data.metadata.collection_date;
-                
-                // 캐시된 데이터와 다르면 업데이트
-                if (JSON.stringify(cachedResult.data) !== JSON.stringify(fullData)) {
-                  setAllData(fullData);
-                  setDataTimestamp(timestamp);
-                  await realEstateDB.saveDataCompressed(fullData, timestamp);
-                  console.log('✅ 백그라운드에서 최신 데이터로 업데이트 완료');
-                } else {
-                  console.log('✅ 캐시된 데이터가 최신 상태입니다');
-                }
-              }
-            } catch (error) {
-              console.log('백그라운드 데이터 확인 실패:', error);
-            }
-          }, 3000); // 3초 후 백그라운드 확인
+          // 백그라운드 데이터 확인 제거 (데이터 덮어쓰기 방지)
+          // setTimeout(async () => {
+          //   console.log('🔄 백그라운드에서 최신 데이터 확인 중...');
+          //   try {
+          //     const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+          //     if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+          //       const fullData = fullDataResponse.data.data;
+          //       const timestamp = fullDataResponse.data.metadata.collection_date;
+          //       
+          //       // 캐시된 데이터와 다르면 업데이트
+          //       if (JSON.stringify(cachedResult.data) !== JSON.stringify(fullData)) {
+          //         setAllData(fullData);
+          //         setDataTimestamp(timestamp);
+          //         await realEstateDB.saveDataCompressed(fullData, timestamp);
+          //         console.log('✅ 백그라운드에서 최신 데이터로 업데이트 완료');
+          //       } else {
+          //         console.log('✅ 캐시된 데이터가 최신 상태입니다');
+          //       }
+          //     }
+          //   } catch (error) {
+          //     console.log('백그라운드 데이터 확인 실패:', error);
+          //   }
+          // }, 3000); // 3초 후 백그라운드 확인
           
           return;
         }
@@ -424,33 +393,33 @@ function App() {
           }
         }
         
-        // 백그라운드에서 다른 지역 데이터 점진적 로딩
-        setTimeout(async () => {
-          console.log(`🔄 ${cityNames[cityId]} 백그라운드에서 다른 지역 데이터 로딩 시작...`);
-          try {
-            // 전체 데이터 캐시 확인
-            if (fullDataCache.has('integrated')) {
-              console.log(`⚡ ${cityNames[cityId]} 전체 데이터가 메모리 캐시에 있음 - 즉시 로드`);
-              const cachedFullData = fullDataCache.get('integrated');
-              setAllData(cachedFullData);
-              return;
-            }
-            
-            const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
-            if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
-              const fullData = fullDataResponse.data.data;
-              const timestamp = fullDataResponse.data.metadata.collection_date;
-              
-              fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
-              setAllData(fullData);
-              setDataTimestamp(timestamp);
-              await realEstateDB.saveDataCompressed(fullData, timestamp);
-              console.log(`✅ ${cityNames[cityId]} 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)`);
-            }
-          } catch (error) {
-            console.log(`${cityNames[cityId]} 백그라운드 데이터 로딩 실패:`, error);
-          }
-        }, 2000); // 2초 후 백그라운드 로딩 시작
+        // 백그라운드 데이터 로딩 제거 (데이터 덮어쓰기 방지)
+        // setTimeout(async () => {
+        //   console.log(`🔄 ${cityNames[cityId]} 백그라운드에서 다른 지역 데이터 로딩 시작...`);
+        //   try {
+        //     // 전체 데이터 캐시 확인
+        //     if (fullDataCache.has('integrated')) {
+        //       console.log(`⚡ ${cityNames[cityId]} 전체 데이터가 메모리 캐시에 있음 - 즉시 로드`);
+        //       const cachedFullData = fullDataCache.get('integrated');
+        //       setAllData(cachedFullData);
+        //       return;
+        //     }
+        //     
+        //     const fullDataResponse = await axios.get(`${API_BASE_URL}/integrated-data`);
+        //     if (fullDataResponse.data && fullDataResponse.data.status === 'success') {
+        //       const fullData = fullDataResponse.data.data;
+        //       const timestamp = fullDataResponse.data.metadata.collection_date;
+        //       
+        //       fullDataCache.set('integrated', fullData); // 메모리 캐시에 저장
+        //       setAllData(fullData);
+        //       setDataTimestamp(timestamp);
+        //       await realEstateDB.saveDataCompressed(fullData, timestamp);
+        //       console.log(`✅ ${cityNames[cityId]} 백그라운드 전체 데이터 로딩 완료 (캐시에 저장됨)`);
+        //     }
+        //   } catch (error) {
+        //     console.log(`${cityNames[cityId]} 백그라운드 데이터 로딩 실패:`, error);
+        //   }
+        // }, 2000); // 2초 후 백그라운드 로딩 시작
         
       } catch (error) {
         console.log(`${cityNames[cityId]} 데이터 로드 오류:`, error);

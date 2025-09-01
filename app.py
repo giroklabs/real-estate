@@ -9,6 +9,55 @@ import urllib.parse
 from database.models import init_db
 from crawlers.public_data_crawler import PublicDataCrawler
 
+# 메모리 캐싱 시스템
+import functools
+from typing import Dict, Any, Optional
+
+# 전역 캐시 딕셔너리
+_data_cache: Dict[str, Any] = {}
+_cache_timestamps: Dict[str, datetime] = {}
+CACHE_DURATION = 3600  # 1시간 (초)
+
+def get_cached_data(cache_key: str, load_function, cache_duration: int = CACHE_DURATION) -> Any:
+    """메모리 캐싱 함수"""
+    now = datetime.now()
+    
+    # 캐시가 있고 유효한 경우
+    if (cache_key in _data_cache and 
+        cache_key in _cache_timestamps and
+        (now - _cache_timestamps[cache_key]).total_seconds() < cache_duration):
+        print(f"🚀 캐시 히트: {cache_key}")
+        return _data_cache[cache_key]
+    
+    # 캐시가 없거나 만료된 경우 새로 로드
+    print(f"💾 캐시 미스: {cache_key}, 데이터 로딩 중...")
+    data = load_function()
+    _data_cache[cache_key] = data
+    _cache_timestamps[cache_key] = now
+    print(f"✅ 캐시 저장 완료: {cache_key}")
+    return data
+
+def clear_cache(cache_key: Optional[str] = None):
+    """캐시 클리어"""
+    if cache_key:
+        _data_cache.pop(cache_key, None)
+        _cache_timestamps.pop(cache_key, None)
+        print(f"🗑️ 캐시 클리어: {cache_key}")
+    else:
+        _data_cache.clear()
+        _cache_timestamps.clear()
+        print("🗑️ 전체 캐시 클리어")
+
+# 임베드된 데이터 로드 (있는 경우)
+try:
+    from embedded_data import EMBEDDED_DATA
+    print("✅ 임베드된 데이터 로드 완료")
+    _data_cache['embedded_data'] = EMBEDDED_DATA
+    _cache_timestamps['embedded_data'] = datetime.now()
+except ImportError:
+    print("⚠️ 임베드된 데이터 파일이 없습니다. JSON 파일을 사용합니다.")
+    EMBEDDED_DATA = None
+
 # 선택적 의존성(셀레니움 등)에 의존하는 크롤러는 지연/옵션 임포트로 처리
 try:
     from crawlers.asil_crawler import AsilCrawler  # requires selenium
@@ -202,6 +251,51 @@ region_service = RegionService()
 def health_check():
     """서버 상태 확인"""
     return jsonify({'status': 'healthy', 'timestamp': datetime.now().isoformat()})
+
+@app.route('/api/cache/status', methods=['GET'])
+def get_cache_status():
+    """캐시 상태 확인"""
+    try:
+        cache_info = {
+            'total_cached_items': len(_data_cache),
+            'cache_keys': list(_data_cache.keys()),
+            'cache_timestamps': {k: v.isoformat() for k, v in _cache_timestamps.items()},
+            'embedded_data_available': EMBEDDED_DATA is not None,
+            'cache_duration': CACHE_DURATION
+        }
+        return jsonify({
+            'status': 'success',
+            'data': cache_info
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/cache/clear', methods=['POST'])
+def clear_cache_endpoint():
+    """캐시 클리어"""
+    try:
+        data = request.get_json() or {}
+        cache_key = data.get('cache_key')
+        
+        if cache_key:
+            clear_cache(cache_key)
+            message = f"캐시 클리어 완료: {cache_key}"
+        else:
+            clear_cache()
+            message = "전체 캐시 클리어 완료"
+        
+        return jsonify({
+            'status': 'success',
+            'message': message
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
 
 @app.route('/api/busan-data', methods=['GET'])
 def get_busan_data():
@@ -785,6 +879,7 @@ def get_transaction_details(region_name):
         
         transactions = []
         seen_transactions = set()  # 중복 방지를 위한 Set
+        removed_count = 0
         
         for transaction in city_data:
             # 중복 체크를 위한 고유 키 생성 (날짜 + 아파트명 + 가격 + 면적 + 층수)
@@ -804,6 +899,13 @@ def get_transaction_details(region_name):
                     'source': transaction.get('source', 'molit_api'),
                     'latest_transaction_date': transaction.get('latest_transaction_date', transaction.get('date', ''))
                 })
+            else:
+                removed_count += 1
+                if '오션테라스1단지' in transaction.get('complex_name', ''):
+                    print(f"🚫 get_transaction_details에서 오션테라스1단지 중복 제거: {transaction.get('date', '')}")
+        
+        if removed_count > 0:
+            print(f"🔍 get_transaction_details: {region_name} - {removed_count}건 중복 제거")
         
         # 최신순으로 정렬하고 최대 50건만 반환
         transactions.sort(key=lambda x: x['transaction_date'], reverse=True)
@@ -814,7 +916,7 @@ def get_transaction_details(region_name):
         return jsonify({'error': str(e)}), 500
 
 def get_city_data_for_region(region_name):
-    """지역명으로 도시 데이터에서 해당 지역의 거래내역 조회"""
+    """지역명으로 도시 데이터에서 해당 지역의 거래내역 조회 - 캐싱 최적화"""
     try:
         # 지역명에서 도시 추출 (예: "서울 강남구" -> "seoul")
         city_mapping = {
@@ -837,22 +939,55 @@ def get_city_data_for_region(region_name):
         if not city:
             return []
         
-        # 도시 데이터 파일 로드
-        data_file = f'collected_data/{city}_all_data.json'
+        # 1. 임베드된 데이터에서 먼저 확인
+        if EMBEDDED_DATA and city in EMBEDDED_DATA:
+            print(f"🔍 get_city_data_for_region: {region_name} - 임베드 데이터 사용")
+            data = EMBEDDED_DATA[city]
+            
+            # 중첩된 데이터 구조 처리 (서울, 인천, 대구)
+            if isinstance(data, dict) and 'data' in data:
+                print(f"🔍 get_city_data_for_region: {region_name} - 중첩된 데이터 구조 감지, data 키 추출")
+                data = data['data']
+        else:
+            # 2. 캐시에서 확인
+            print(f"🔍 get_city_data_for_region: {region_name} - 파일 데이터 사용")
+            cache_key = f"city_data_{city}"
+            data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city))
         
-        if not os.path.exists(data_file):
+        if not data:
             return []
         
-        with open(data_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
         # 해당 지역의 데이터 찾기
+        region_data = []
         if 'data' in data and region_name in data['data']:
-            return data['data'][region_name]
+            region_data = data['data'][region_name]
         elif region_name in data:
-            return data[region_name]
+            region_data = data[region_name]
         
-        return []
+        if not region_data:
+            return []
+        
+        # 중복 제거 로직 추가
+        seen_transactions = set()
+        cleaned_data = []
+        removed_count = 0
+        
+        for transaction in region_data:
+            # 중복 체크를 위한 고유 키 생성 (날짜 + 아파트명 + 가격 + 면적 + 층수)
+            unique_key = f"{transaction.get('date', '')}_{transaction.get('complex_name', '')}_{transaction.get('avg_price', 0)}_{transaction.get('area', 0)}_{transaction.get('floor', 0)}"
+            
+            if unique_key not in seen_transactions:
+                seen_transactions.add(unique_key)
+                cleaned_data.append(transaction)
+            else:
+                removed_count += 1
+                if '오션테라스1단지' in transaction.get('complex_name', ''):
+                    print(f"🚫 오션테라스1단지 중복 제거: {transaction.get('date', '')}")
+        
+        if removed_count > 0:
+            print(f"🔍 get_city_data_for_region: {region_name} - {removed_count}건 중복 제거")
+        
+        return cleaned_data
         
     except Exception as e:
         print(f"지역 데이터 조회 오류: {e}")
@@ -1316,16 +1451,331 @@ def get_market_overview():
         'active_regions': active_regions
     })
 
+def get_apartment_rankings_from_embedded(city, region, period, month):
+    """임베드된 데이터에서 아파트 순위 조회"""
+    try:
+        months_param = request.args.get('months', '')
+        print(f"🔍 임베드 데이터 조회: city={city}, region={region}, months={months_param}")
+        city_data = EMBEDDED_DATA[city]
+        
+        # 대구 데이터 구조 처리 (data 키가 있는 경우)
+        if isinstance(city_data, dict) and 'data' in city_data:
+            city_data = city_data['data']
+        
+        all_transactions = []
+        
+        # 모든 구/군의 데이터 수집
+        for region_name, region_data in city_data.items():
+            if isinstance(region_data, list):
+                for transaction in region_data:
+                    if isinstance(transaction, dict):
+                        # 날짜 필터링
+                        transaction_date = transaction.get('date', '')
+                        if months_param and months_param != 'all':
+                            month_list = months_param.split(',')
+                            if not any(transaction_date.startswith(month_str.strip()) for month_str in month_list):
+                                continue
+                        elif month:
+                            if not transaction_date.startswith(month):
+                                continue
+                        else:
+                            # 기간 필터 (30일)
+                            from datetime import datetime, timedelta
+                            try:
+                                trans_date = datetime.strptime(transaction_date, '%Y-%m-%d')
+                                cutoff_date = datetime.now() - timedelta(days=period)
+                                if trans_date < cutoff_date:
+                                    continue
+                            except:
+                                continue
+                        
+                        # 지역 필터링
+                        if region and region != region_name:
+                            continue
+                        
+                        all_transactions.append({
+                            'region_name': region_name,
+                            'complex_name': transaction.get('complex_name', ''),
+                            'avg_price': transaction.get('avg_price', 0),
+                            'transaction_count': 1,  # 개별 거래는 항상 1건
+                            'area': transaction.get('area', 0),
+                            'floor': transaction.get('floor', 0),
+                            'latest_transaction_date': transaction.get('latest_transaction_date', transaction_date)
+                        })
+        
+        # 아파트별 그룹화 및 순위 계산 (중복 제거 비활성화)
+        apartment_groups = {}
+        
+        for trans in all_transactions:
+            complex_name = trans['complex_name']
+            
+            if complex_name not in apartment_groups:
+                apartment_groups[complex_name] = {
+                    'region_name': trans['region_name'],
+                    'complex_name': complex_name,
+                    'prices': [],
+                    'areas': [],
+                    'floors': [],
+                    'dates': [],
+                    'transaction_counts': []  # 개별 거래 건수 저장
+                }
+            
+            apartment_groups[complex_name]['prices'].append(trans['avg_price'])
+            apartment_groups[complex_name]['areas'].append(trans['area'])
+            apartment_groups[complex_name]['floors'].append(trans['floor'])
+            apartment_groups[complex_name]['dates'].append(trans['latest_transaction_date'])
+            apartment_groups[complex_name]['transaction_counts'].append(trans['transaction_count'])
+            
+            # 오션테라스1단지 디버그 로그
+            if '오션테라스1단지' in complex_name:
+                print(f"🔍 오션테라스1단지 거래 추가: {trans['latest_transaction_date']}, 가격: {trans['avg_price']:,.0f}원, 거래건수: {trans['transaction_count']}")
+                print(f"   현재 그룹 거래 건수: {len(apartment_groups[complex_name]['prices'])}")
+        
+        # 오션테라스1단지 최종 그룹 상태 확인
+        for complex_name, data in apartment_groups.items():
+            if '오션테라스1단지' in complex_name:
+                print(f"🏢 오션테라스1단지 최종 그룹 상태:")
+                print(f"   총 거래 건수: {len(data['prices'])}")
+                print(f"   거래 건수 합계: {sum(data['transaction_counts'])}")
+                print(f"   가격 목록: {data['prices']}")
+                print(f"   날짜 목록: {data['dates']}")
+                break
+        
+        # 순위 데이터 생성
+        rankings = []
+        for complex_name, data in apartment_groups.items():
+            if data['prices']:
+                # 거래량 계산
+                transaction_count = sum(data['transaction_counts'])
+                
+                # 지역명에서 도시명 추출
+                region_name = data['region_name']
+                city_name = get_city_name_from_region(region_name)
+                
+                rankings.append({
+                    'region_name': data['region_name'],
+                    'complex_name': complex_name,
+                    'avg_price': sum(data['prices']) / len(data['prices']),
+                    'transaction_count': transaction_count,  # 개별 거래 건수 합계
+                    'avg_area': sum(data['areas']) / len(data['areas']) if data['areas'] else 0,
+                    'avg_floor': sum(data['floors']) / len(data['floors']) if data['floors'] else 0,
+                    'latest_transaction_date': max(data['dates']),
+                    'city_name': city_name,  # 도시명 추가
+                    'city_code': city  # 도시 코드 추가
+                })
+        
+        # 거래량 순으로 정렬하고 상위 30개 반환 (거래량 상승 추세 우선)
+        rankings.sort(key=lambda x: x['transaction_count'], reverse=True)
+        top_rankings = rankings[:30]
+        
+        print(f"조회된 아파트 데이터: {len(top_rankings)}건")
+        if top_rankings:
+            print(f"첫 번째 행: {tuple(top_rankings[0].values())}")
+        
+        # 디버깅: 거래량 분포 확인
+        volume_distribution = {}
+        for apt in top_rankings:
+            volume = apt.get('transaction_count', 0)
+            if volume not in volume_distribution:
+                volume_distribution[volume] = 0
+            volume_distribution[volume] += 1
+        
+        print(f"거래량 분포: {volume_distribution}")
+        print(f"총 거래 수: {len(all_transactions)}")
+        print(f"아파트 그룹 수: {len(apartment_groups)}")
+        
+        return create_gzipped_response({
+            'status': 'success',
+            'data': top_rankings,
+            'total_count': len(all_transactions),
+            'message': f'{city} 아파트 순위를 성공적으로 조회했습니다.'
+        })
+        
+    except Exception as e:
+        print(f"임베드된 데이터 아파트 순위 조회 오류: {e}")
+        return jsonify({
+            'status': 'error',
+            'message': f'아파트 순위 조회 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+def get_all_cities_hot_apartments(period=30, month=''):
+    """모든 지역의 Hot한 아파트 조회 (거래량 상위 30개) - 면적별 그룹화"""
+    try:
+        all_hot_apartments = []
+        
+        # 임베드된 데이터에서 모든 지역 조회
+        for city_code in EMBEDDED_DATA.keys():
+            if city_code in ['seoul', 'busan', 'incheon', 'daegu', 'daejeon', 'gwangju', 'ulsan', 'bucheon', 'seongnam', 'guri', 'suwon', 'yongin']:
+                print(f"🔍 {city_code} 지역 Hot한 아파트 조회 중...")
+                
+                # 직접 임베드된 데이터에서 처리
+                if city_code in EMBEDDED_DATA:
+                    city_data = EMBEDDED_DATA[city_code]
+                    
+                    # 중첩된 구조 처리
+                    if isinstance(city_data, dict) and 'data' in city_data:
+                        city_data = city_data['data']
+                    
+                    # 모든 거래 수집
+                    all_transactions = []
+                    for region_name, region_data in city_data.items():
+                        if isinstance(region_data, list):
+                            for transaction in region_data:
+                                # 월별 필터링
+                                if month and month != 'all':
+                                    transaction_date = transaction.get('date', '') or transaction.get('latest_transaction_date', '')
+                                    if transaction_date and len(transaction_date) >= 7:
+                                        transaction_month = transaction_date[:7]  # YYYY-MM
+                                        if transaction_month not in month.split(','):
+                                            continue
+                                
+                                all_transactions.append({
+                                    'region_name': region_name,
+                                    'complex_name': transaction.get('complex_name', ''),
+                                    'avg_price': transaction.get('avg_price', 0),
+                                    'transaction_count': 1,
+                                    'area': transaction.get('area', 0),  # area 필드 직접 사용
+                                    'floor': transaction.get('floor', 0),
+                                    'latest_transaction_date': transaction.get('latest_transaction_date', transaction.get('date', ''))
+                                })
+                    
+                    # 아파트별 그룹화
+                    apartment_groups = {}
+                    for trans in all_transactions:
+                        complex_name = trans['complex_name']
+                        if complex_name not in apartment_groups:
+                            apartment_groups[complex_name] = {
+                                'region_name': trans['region_name'],
+                                'complex_name': complex_name,
+                                'prices': [],
+                                'areas': [],
+                                'floors': [],
+                                'dates': [],
+                                'transaction_counts': []
+                            }
+                        
+                        apartment_groups[complex_name]['prices'].append(trans['avg_price'])
+                        apartment_groups[complex_name]['areas'].append(trans['area'])
+                        apartment_groups[complex_name]['floors'].append(trans['floor'])
+                        apartment_groups[complex_name]['dates'].append(trans['latest_transaction_date'])
+                        apartment_groups[complex_name]['transaction_counts'].append(trans['transaction_count'])
+                    
+                    # 순위 데이터 생성 (거래량 기준)
+                    city_rankings = []
+                    
+                    for complex_name, data in apartment_groups.items():
+                        if data['prices']:
+                            transaction_count = sum(data['transaction_counts'])
+                            avg_area = sum(data['areas']) / len(data['areas']) if data['areas'] else 0
+                            
+                            # 거래량이 2건 이상인 아파트만 포함
+                            if transaction_count >= 2:
+                                city_rankings.append({
+                                    'region_name': data['region_name'],
+                                    'complex_name': complex_name,
+                                    'avg_price': sum(data['prices']) / len(data['prices']),
+                                    'transaction_count': transaction_count,
+                                    'avg_area': avg_area,
+                                    'avg_floor': sum(data['floors']) / len(data['floors']) if data['floors'] else 0,
+                                    'latest_transaction_date': max(data['dates']),
+                                    'city_name': get_city_name(city_code),
+                                    'city_code': city_code
+                                })
+                    
+                    all_hot_apartments.extend(city_rankings)
+                    print(f"✅ {city_code}: {len(city_rankings)}개 Hot한 아파트 추가")
+        
+        # 거래량 순으로 정렬하고 상위 30개 반환
+        all_hot_apartments.sort(key=lambda x: x.get('transaction_count', 0), reverse=True)
+        top_hot_apartments = all_hot_apartments[:30]
+        
+        print(f"🌍 전체 Hot한 아파트: {len(top_hot_apartments)}개")
+        
+        return create_gzipped_response({
+            'status': 'success',
+            'apartments': top_hot_apartments,
+            'total_count': len(top_hot_apartments),
+            'message': f'전체 지역의 Hot한 아파트를 성공적으로 조회했습니다.'
+        })
+        
+    except Exception as e:
+        print(f"전체 지역 Hot한 아파트 조회 오류: {e}")
+        return jsonify({
+            'status': 'error',
+            'message': f'Hot한 아파트 조회 중 오류가 발생했습니다: {str(e)}'
+        }), 500
+
+def get_city_name(city_code):
+    """도시 코드를 한글 이름으로 변환"""
+    city_names = {
+        'seoul': '서울',
+        'busan': '부산', 
+        'incheon': '인천',
+        'daegu': '대구',
+        'daejeon': '대전',
+        'gwangju': '광주',
+        'ulsan': '울산',
+        'bucheon': '부천',
+        'seongnam': '성남',
+        'guri': '구리',
+        'suwon': '수원',
+        'yongin': '용인'
+    }
+    return city_names.get(city_code, city_code)
+
+def get_city_name_from_region(region_name):
+    """지역명에서 도시명 추출"""
+    if region_name.startswith('서울'):
+        return '서울'
+    elif region_name.startswith('부산'):
+        return '부산'
+    elif region_name.startswith('인천'):
+        return '인천'
+    elif region_name.startswith('대구'):
+        return '대구'
+    elif region_name.startswith('대전'):
+        return '대전'
+    elif region_name.startswith('광주'):
+        return '광주'
+    elif region_name.startswith('울산'):
+        return '울산'
+    elif region_name.startswith('부천'):
+        return '부천'
+    elif region_name.startswith('성남'):
+        return '성남'
+    elif region_name.startswith('구리'):
+        return '구리'
+    elif region_name.startswith('수원'):
+        return '수원'
+    elif region_name.startswith('용인'):
+        return '용인'
+    else:
+        return '기타'
+
 @app.route('/api/apartments/rankings', methods=['GET'])
 def get_apartment_rankings():
-    """시군구별 아파트 순위 (30위까지)"""
+    """시군구별 아파트 순위 (30위까지) - 임베드된 데이터 우선 사용"""
     try:
         region = request.args.get('region', '')
+        city = request.args.get('city', '')
         period = int(request.args.get('period', 30))
         month = request.args.get('month', '')
         
-        print(f"아파트 순위 조회: region={region}, period={period}, month={month}")
+        print(f"아파트 순위 조회: region={region}, city={city}, period={period}, month={month}")
         
+        # 모든 지역의 Hot한 아파트 조회 (city가 지정되지 않은 경우)
+        if not city:
+            print(f"🌍 모든 지역의 Hot한 아파트 조회")
+            return get_all_cities_hot_apartments(period, month)
+        
+        # 임베드된 데이터에서 조회 시도
+        if city in EMBEDDED_DATA:
+            print(f"✅ 임베드된 데이터에서 {city} 아파트 순위 조회")
+            return get_apartment_rankings_from_embedded(city, region, period, month)
+        else:
+            print(f"❌ 임베드된 데이터에 {city} 없음, SQLite DB 사용")
+        
+        # SQLite 데이터베이스에서 조회 (기존 방식)
         conn = sqlite3.connect('realstate.db')
         cursor = conn.cursor()
         
@@ -1335,8 +1785,21 @@ def get_apartment_rankings():
         print(f"총 거래 데이터: {total_count}건")
         
         # 월별 필터 조건 설정
-        if month:
-            # 특정 월 데이터 조회
+        months_param = request.args.get('months', '')
+        if months_param and months_param != 'all':
+            # 여러 월 데이터 조회 (예: 2025-09,2025-08)
+            month_list = months_param.split(',')
+            month_conditions = []
+            for month_str in month_list:
+                month_str = month_str.strip()
+                if len(month_str) == 7 and month_str[4] == '-':  # YYYY-MM 형식
+                    month_conditions.append(f"strftime('%Y-%m', date) = '{month_str}'")
+            if month_conditions:
+                date_filter = f"AND ({' OR '.join(month_conditions)})"
+            else:
+                date_filter = ""
+        elif month:
+            # 단일 월 데이터 조회 (기존 호환성)
             year = month[:4]
             month_num = month[4:6]
             date_filter = f"AND strftime('%Y%m', date) = '{month}'"
@@ -1344,6 +1807,36 @@ def get_apartment_rankings():
             # 기간 필터 적용
             date_filter = f"AND date >= date('now', '-' || {period} || ' days')"
         
+        # 도시별 필터 조건 설정
+        city_filter = ""
+        if city:
+            if city == 'seoul':
+                city_filter = "AND region_name LIKE '서울 %'"
+            elif city == 'busan':
+                city_filter = "AND region_name LIKE '부산 %'"
+            elif city == 'incheon':
+                city_filter = "AND region_name LIKE '인천 %'"
+            elif city == 'daegu':
+                city_filter = "AND region_name LIKE '대구 %'"
+            elif city == 'daejeon':
+                city_filter = "AND region_name LIKE '대전 %'"
+            elif city == 'gwangju':
+                city_filter = "AND region_name LIKE '광주 %'"
+            elif city == 'ulsan':
+                city_filter = "AND region_name LIKE '울산 %'"
+            elif city == 'bucheon':
+                city_filter = "AND region_name LIKE '부천%'"
+            elif city == 'seongnam':
+                city_filter = "AND region_name LIKE '성남%'"
+            elif city == 'guri':
+                city_filter = "AND region_name LIKE '구리%'"
+            elif city == 'suwon':
+                city_filter = "AND region_name LIKE '수원%'"
+            elif city == 'yongin':
+                city_filter = "AND region_name LIKE '용인%'"
+            elif city == 'anyang':
+                city_filter = "AND region_name LIKE '안양%'"
+
         if region:
             # 특정 시군구의 아파트 순위
             query = f'''
@@ -1363,7 +1856,7 @@ def get_apartment_rankings():
             '''
             cursor.execute(query, (region,))
         else:
-            # 전체 아파트 순위
+            # 전체 아파트 순위 (도시 필터 적용)
             query = f'''
                 SELECT 
                     region_name,
@@ -1376,6 +1869,7 @@ def get_apartment_rankings():
                 FROM transactions
                 WHERE 1=1
                 {date_filter}
+                {city_filter}
                 GROUP BY region_name, complex_name
                 ORDER BY avg_price DESC
                 LIMIT 30
@@ -1417,7 +1911,12 @@ def get_apartment_rankings():
         
         conn.close()
         print(f"반환할 순위 데이터: {len(rankings)}건")
-        return jsonify(rankings)
+        return jsonify({
+            'status': 'success',
+            'data': rankings,
+            'total_count': len(rankings),
+            'message': f'{city} 아파트 순위를 성공적으로 조회했습니다.'
+        })
         
     except Exception as e:
         print(f"Error in get_apartment_rankings: {str(e)}")
@@ -1500,30 +1999,85 @@ def find_city_data_file(city_code):
     return None
 
 def get_city_data(city_code):
-    """특정 도시의 전체 데이터 조회 - 동적 파일 검색 방식"""
+    """특정 도시의 전체 데이터 조회 - 캐싱 및 임베드 데이터 우선 사용"""
     print(f"🚀 get_city_data 호출됨: {city_code}")
     try:
-        # 동적으로 파일 찾기
-        filepath = find_city_data_file(city_code)
-        
-        if filepath and os.path.exists(filepath):
-            print(f"개별 파일 로드: {filepath}")
-            with open(filepath, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        else:
-            # 개별 파일이 없는 경우 통합 파일에서 추출
-            print(f"개별 파일 없음, 통합 파일에서 추출: {city_code}")
-            data = extract_city_from_integrated_data(city_code)
-            if not data:
-                print(f"통합 파일에서도 {city_code} 데이터를 찾을 수 없음")
-                return jsonify({
-                    'status': 'error',
-                    'message': f'{city_code} 데이터를 찾을 수 없습니다. 데이터 파일이 존재하지 않거나 도시 코드가 지원되지 않습니다.'
-                }), 404
+        # 1. 임베드된 데이터에서 먼저 확인
+        if EMBEDDED_DATA and city_code in EMBEDDED_DATA:
+            print(f"✅ 임베드된 데이터에서 {city_code} 발견")
+            raw_data = EMBEDDED_DATA[city_code]
             
+            # 중첩된 데이터 구조 처리 (서울, 인천, 대구) - 강제 평면화
+            if isinstance(raw_data, dict) and 'data' in raw_data and 'metadata' in raw_data:
+                print(f"🔍 {city_code} 중첩된 데이터 구조 감지, 강제 평면화")
+                raw_data = raw_data['data']
+                print(f"🔍 {city_code} 강제 평면화 완료, 키: {list(raw_data.keys())[:3]}...")
+            elif isinstance(raw_data, dict) and 'data' in raw_data:
+                print(f"🔍 {city_code} 중첩된 데이터 구조 감지, data 키 추출")
+                raw_data = raw_data['data']
+                print(f"🔍 {city_code} 추출된 데이터 키: {list(raw_data.keys())[:3]}...")
+        else:
+            # 2. 캐시에서 확인
+            cache_key = f"city_data_{city_code}"
+            raw_data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city_code))
+        
+        # raw_data가 None이거나 비어있는 경우 처리
+        if not raw_data:
+            print(f"❌ {city_code} 데이터가 없음")
+            return jsonify({
+                'status': 'error',
+                'message': f'{city_code} 데이터를 찾을 수 없습니다.'
+            })
+        
+        print(f"🔍 {city_code} 최종 raw_data 타입: {type(raw_data)}, 키 개수: {len(raw_data) if isinstance(raw_data, dict) else 'N/A'}")
+        
+        # 중복 제거 로직 추가
+        cleaned_data = {}
+        total_removed = 0
+        
+        for region_name, region_data in raw_data.items():
+            if isinstance(region_data, list):
+                seen_transactions = set()
+                cleaned_region_data = []
+                region_removed = 0
+                
+                for transaction in region_data:
+                    # 중복 체크를 위한 고유 키 생성
+                    unique_key = f"{transaction.get('date', '')}_{transaction.get('complex_name', '')}_{transaction.get('avg_price', 0)}_{transaction.get('area', 0)}_{transaction.get('floor', 0)}"
+                    
+                    if unique_key not in seen_transactions:
+                        seen_transactions.add(unique_key)
+                        cleaned_region_data.append(transaction)
+                    else:
+                        region_removed += 1
+                        if '오션테라스1단지' in transaction.get('complex_name', ''):
+                            print(f"🚫 get_city_data에서 오션테라스1단지 중복 제거: {transaction.get('date', '')}")
+                
+                cleaned_data[region_name] = cleaned_region_data
+                total_removed += region_removed
+                
+                if region_removed > 0:
+                    print(f"🔍 get_city_data: {region_name} - {region_removed}건 중복 제거")
+            else:
+                cleaned_data[region_name] = region_data
+        
+        if total_removed > 0:
+            print(f"🔍 get_city_data: {city_code} 총 {total_removed}건 중복 제거")
+        
+        # 최종 데이터 반환 - 중첩된 구조 완전 제거
+        final_data = cleaned_data
+        
+        # 추가 중첩 구조 체크 및 제거
+        if isinstance(final_data, dict) and 'data' in final_data:
+            if len(final_data) == 1 or (len(final_data) == 2 and 'metadata' in final_data):
+                final_data = final_data['data']
+                print(f"🔍 {city_code} 추가 중첩된 data 키 제거 완료")
+        
+        print(f"🔍 {city_code} 최종 반환 데이터 타입: {type(final_data)}, 키 개수: {len(final_data) if isinstance(final_data, dict) else 'N/A'}")
+        
         return create_gzipped_response({
             'status': 'success',
-            'data': data,
+            'data': final_data,
             'city': city_code,
             'message': f'{city_code} 데이터를 성공적으로 로드했습니다.'
         })
@@ -1534,6 +2088,24 @@ def get_city_data(city_code):
             'status': 'error',
             'message': f'데이터 로드 중 오류가 발생했습니다: {str(e)}'
         }), 500
+
+def _load_city_data_from_file(city_code):
+    """파일에서 도시 데이터 로드 (캐싱용 내부 함수)"""
+    # 동적으로 파일 찾기
+    filepath = find_city_data_file(city_code)
+    
+    if filepath and os.path.exists(filepath):
+        print(f"개별 파일 로드: {filepath}")
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    else:
+        # 개별 파일이 없는 경우 통합 파일에서 추출
+        print(f"개별 파일 없음, 통합 파일에서 추출: {city_code}")
+        data = extract_city_from_integrated_data(city_code)
+        if not data:
+            print(f"통합 파일에서도 {city_code} 데이터를 찾을 수 없음")
+            return None
+        return data
 
 @app.route('/api/cities/<city_code>', methods=['GET'])
 def get_city_data_endpoint(city_code):
