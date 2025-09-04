@@ -122,15 +122,9 @@ def get_critical_data():
             CRITICAL_DATA = {}
     return CRITICAL_DATA
 
-# 임베드된 데이터 로드 (있는 경우)
-try:
-    from embedded_data import EMBEDDED_DATA
-    print("✅ 임베드된 데이터 로드 완료")
-    _data_cache['embedded_data'] = EMBEDDED_DATA
-    _cache_timestamps['embedded_data'] = datetime.now()
-except ImportError:
-    print("⚠️ 임베드된 데이터 파일이 없습니다. JSON 파일을 사용합니다.")
-    EMBEDDED_DATA = None
+# 임베드된 데이터 로드 비활성화 (메모리 절약)
+EMBEDDED_DATA = None
+print("⚠️ 임베드된 데이터 로드 비활성화 - 메모리 절약을 위해 DB 쿼리 방식만 사용")
 
 # 선택적 의존성(셀레니움 등)에 의존하는 크롤러는 지연/옵션 임포트로 처리
 try:
@@ -361,7 +355,7 @@ def get_cache_status():
             'total_cached_items': len(_data_cache),
             'cache_keys': list(_data_cache.keys()),
             'cache_timestamps': {k: v.isoformat() for k, v in _cache_timestamps.items()},
-            'embedded_data_available': EMBEDDED_DATA is not None,
+            'embedded_data_available': False,  # 임베드 데이터 비활성화
             'cache_duration': CACHE_DURATION
         }
         return jsonify({
@@ -1040,10 +1034,9 @@ def get_city_data_for_region(region_name):
         if not city:
             return []
         
-        # 1. 임베드된 데이터에서 먼저 확인
-        if EMBEDDED_DATA and city in EMBEDDED_DATA:
-            print(f"🔍 get_city_data_for_region: {region_name} - 임베드 데이터 사용")
-            data = EMBEDDED_DATA[city]
+        # 1. DB 쿼리 방식으로 데이터 조회 (메모리 절약)
+        print(f"🔍 get_city_data_for_region: {region_name} - DB 쿼리 방식 사용")
+        data = None
             
             # 중첩된 데이터 구조 처리 (서울, 인천, 대구)
             if isinstance(data, dict) and 'data' in data:
@@ -1647,7 +1640,8 @@ def get_apartment_rankings_from_embedded(city, region, period, month):
     try:
         months_param = request.args.get('months', '')
         print(f"🔍 임베드 데이터 조회: city={city}, region={region}, months={months_param}")
-        city_data = EMBEDDED_DATA[city]
+        # 임베드 데이터 비활성화 - DB 쿼리 방식만 사용
+        city_data = None
         
         # 대구 데이터 구조 처리 (data 키가 있는 경우)
         if isinstance(city_data, dict) and 'data' in city_data:
@@ -1794,14 +1788,14 @@ def get_all_cities_hot_apartments(period=30, month=''):
     try:
         all_hot_apartments = []
         
-        # 임베드된 데이터에서 모든 지역 조회
-        for city_code in EMBEDDED_DATA.keys():
+        # 임베드 데이터 비활성화 - DB 쿼리 방식만 사용
+        city_codes = ['seoul', 'busan', 'incheon', 'daegu', 'daejeon', 'gwangju', 'ulsan', 'bucheon', 'seongnam', 'guri', 'suwon', 'yongin']
+        for city_code in city_codes:
             if city_code in ['seoul', 'busan', 'incheon', 'daegu', 'daejeon', 'gwangju', 'ulsan', 'bucheon', 'seongnam', 'guri', 'suwon', 'yongin']:
                 print(f"🔍 {city_code} 지역 Hot한 아파트 조회 중...")
                 
-                # 직접 임베드된 데이터에서 처리
-                if city_code in EMBEDDED_DATA:
-                    city_data = EMBEDDED_DATA[city_code]
+                # 임베드 데이터 비활성화 - DB 쿼리 방식만 사용
+                city_data = None
                     
                     # 중첩된 구조 처리
                     if isinstance(city_data, dict) and 'data' in city_data:
@@ -2190,10 +2184,9 @@ def get_city_data(city_code):
     """특정 도시의 전체 데이터 조회 - 캐싱 및 임베드 데이터 우선 사용"""
     print(f"🚀 get_city_data 호출됨: {city_code}")
     try:
-        # 1. 임베드된 데이터에서 먼저 확인
-        if EMBEDDED_DATA and city_code in EMBEDDED_DATA:
-            print(f"✅ 임베드된 데이터에서 {city_code} 발견")
-            raw_data = EMBEDDED_DATA[city_code]
+        # 1. 임베드 데이터 비활성화 - DB 쿼리 방식만 사용
+        print(f"⚠️ 임베드 데이터 비활성화 - {city_code} 데이터를 DB에서 조회")
+        raw_data = None
             
             # 중첩된 데이터 구조 처리 (서울, 인천, 대구) - 강제 평면화
             if isinstance(raw_data, dict) and 'data' in raw_data and 'metadata' in raw_data:
