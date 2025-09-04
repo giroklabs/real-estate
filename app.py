@@ -18,6 +18,27 @@ _data_cache: Dict[str, Any] = {}
 _cache_timestamps: Dict[str, datetime] = {}
 CACHE_DURATION = 3600  # 1시간 (초)
 
+def get_city_name_from_region(region_name):
+    """지역명에서 도시명 추출"""
+    if region_name.startswith('서울'):
+        return '서울'
+    elif region_name.startswith('부산'):
+        return '부산'
+    elif region_name.startswith('인천'):
+        return '인천'
+    elif region_name.startswith('대구'):
+        return '대구'
+    elif region_name.startswith('광주'):
+        return '광주'
+    elif region_name.startswith('대전'):
+        return '대전'
+    elif region_name.startswith('울산'):
+        return '울산'
+    elif region_name.startswith('부천'):
+        return '부천'
+    else:
+        return '기타'
+
 def get_cached_data(cache_key: str, load_function, cache_duration: int = CACHE_DURATION) -> Any:
     """메모리 캐싱 함수"""
     now = datetime.now()
@@ -47,6 +68,59 @@ def clear_cache(cache_key: Optional[str] = None):
         _data_cache.clear()
         _cache_timestamps.clear()
         print("🗑️ 전체 캐시 클리어")
+
+# 핵심 데이터 캐시 (서울 강남구)
+CRITICAL_DATA = None
+
+def get_critical_data():
+    """핵심 데이터 (서울 강남구) DB 쿼리 방식 - 초기 로드 속도 최적화"""
+    global CRITICAL_DATA
+    if CRITICAL_DATA is None:
+        print("🔄 핵심 데이터 (서울 강남구) DB 쿼리 시작...")
+        try:
+            # 데이터베이스에서 서울 강남구 상위 50개 아파트 조회
+            conn = sqlite3.connect('realstate.db')
+            cursor = conn.cursor()
+            
+            cursor.execute("""
+                SELECT complex_name, avg_price, transaction_count, latest_transaction_date,
+                       area, floor, dong, jibun
+                FROM transactions 
+                WHERE region_name = '서울 강남구' 
+                ORDER BY avg_price DESC 
+                LIMIT 50
+            """)
+            
+            results = cursor.fetchall()
+            conn.close()
+            
+            # JSON 형태로 변환
+            critical_apartments = []
+            for row in results:
+                critical_apartments.append({
+                    'complex_name': row[0],
+                    'avg_price': row[1],
+                    'transaction_count': row[2],
+                    'latest_transaction_date': row[3],
+                    'area': row[4],
+                    'floor': row[5],
+                    'dong': row[6],
+                    'jibun': row[7],
+                    'source': 'molit_api'
+                })
+            
+            CRITICAL_DATA = {
+                'seoul': {
+                    '서울 강남구': critical_apartments
+                }
+            }
+            
+            print(f"✅ 핵심 데이터 DB 쿼리 완료 - 서울 강남구 ({len(critical_apartments)}건)")
+            
+        except Exception as e:
+            print(f"❌ 핵심 데이터 DB 쿼리 실패: {e}")
+            CRITICAL_DATA = {}
+    return CRITICAL_DATA
 
 # 임베드된 데이터 로드 (있는 경우)
 try:
@@ -82,7 +156,7 @@ def create_gzipped_response(data, status_code=200):
     """Gzip 압축된 JSON 응답 생성 (최적화된 압축률 및 JSON 형식)"""
     # JSON 최적화: separators로 공백 제거, 최대 압축률 적용
     json_data = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
-    gzip_data = gzip.compress(json_data.encode('utf-8'), compresslevel=9)
+    gzip_data = gzip.compress(json_data.encode('utf-8'), compresslevel=1)  # 속도 우선
     
     response = jsonify(data)
     response.headers['Content-Encoding'] = 'gzip'
@@ -251,6 +325,33 @@ region_service = RegionService()
 def health_check():
     """서버 상태 확인"""
     return jsonify({'status': 'healthy', 'timestamp': datetime.now().isoformat()})
+
+@app.route('/api/critical-data', methods=['GET'])
+def get_critical_data_endpoint():
+    """핵심 데이터 (서울 강남구) 조회 - 빠른 로딩용"""
+    try:
+        critical_data = get_critical_data()
+        if critical_data:
+            return create_gzipped_response({
+                'status': 'success',
+                'data': critical_data,
+                'type': 'critical_data',
+                'metadata': {
+                    'description': '서울 강남구 핵심 데이터 (빠른 로딩용)',
+                    'loaded_at': datetime.now().isoformat(),
+                    'total_transactions': len(critical_data.get('seoul', {}).get('서울 강남구', []))
+                }
+            })
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': '핵심 데이터를 로드할 수 없습니다.'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'핵심 데이터 조회 실패: {str(e)}'
+        }), 500
 
 @app.route('/api/cache/status', methods=['GET'])
 def get_cache_status():
@@ -1451,8 +1552,98 @@ def get_market_overview():
         'active_regions': active_regions
     })
 
+def get_apartment_rankings_from_db(city, region, period, month):
+    """데이터베이스에서 아파트 순위 조회 (DB 쿼리 방식) - 초기 로드 속도 최적화"""
+    try:
+        months_param = request.args.get('months', '')
+        print(f"🔍 DB 쿼리 조회: city={city}, region={region}, months={months_param}")
+        
+        # 데이터베이스 연결
+        conn = sqlite3.connect('realstate.db')
+        cursor = conn.cursor()
+        
+        # 동적 쿼리 구성
+        query = """
+            SELECT region_name, complex_name, avg_price, transaction_count,
+                   area, floor, latest_transaction_date, dong, jibun
+            FROM transactions
+            WHERE 1=1
+        """
+        params = []
+        
+        # 도시 필터
+        if city:
+            query += " AND city_code = ?"
+            params.append(city)
+        
+        # 지역 필터
+        if region:
+            query += " AND region_name = ?"
+            params.append(region)
+        
+        # 월 필터
+        if months_param and months_param != 'all':
+            month_list = months_param.split(',')
+            month_conditions = []
+            for month_str in month_list:
+                month_conditions.append("date LIKE ?")
+                params.append(f"{month_str.strip()}%")
+            query += f" AND ({' OR '.join(month_conditions)})"
+        elif month:
+            query += " AND date LIKE ?"
+            params.append(f"{month}%")
+        else:
+            # 기간 필터 (30일)
+            from datetime import datetime, timedelta
+            cutoff_date = datetime.now() - timedelta(days=period)
+            query += " AND date >= ?"
+            params.append(cutoff_date.strftime('%Y-%m-%d'))
+        
+        # 정렬 및 제한
+        query += " ORDER BY avg_price DESC LIMIT 30"
+        
+        cursor.execute(query, params)
+        results = cursor.fetchall()
+        conn.close()
+        
+        # 결과를 JSON 형태로 변환
+        apartment_rankings = []
+        for row in results:
+            # 지역명에서 도시명 추출
+            region_name = row[0]
+            city_name = get_city_name_from_region(region_name)
+            
+            apartment_rankings.append({
+                'region_name': row[0],
+                'complex_name': row[1],
+                'avg_price': row[2],
+                'transaction_count': row[3],
+                'avg_area': row[4],
+                'avg_floor': row[5],
+                'latest_transaction_date': row[6],
+                'city_name': city_name,
+                'city_code': city
+            })
+        
+        print(f"조회된 아파트 데이터: {len(apartment_rankings)}건")
+        if apartment_rankings:
+            print(f"첫 번째 행: {tuple(apartment_rankings[0].values())}")
+        
+        return create_gzipped_response({
+            'status': 'success',
+            'data': apartment_rankings,
+            'total_count': len(apartment_rankings),
+            'message': f'{city} 아파트 순위를 성공적으로 조회했습니다.'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'아파트 순위 조회 실패: {str(e)}'
+        }), 500
+
 def get_apartment_rankings_from_embedded(city, region, period, month):
-    """임베드된 데이터에서 아파트 순위 조회"""
+    """임베드된 데이터에서 아파트 순위 조회 (기존 방식)"""
     try:
         months_param = request.args.get('months', '')
         print(f"🔍 임베드 데이터 조회: city={city}, region={region}, months={months_param}")
@@ -1768,12 +1959,9 @@ def get_apartment_rankings():
             print(f"🌍 모든 지역의 Hot한 아파트 조회")
             return get_all_cities_hot_apartments(period, month)
         
-        # 임베드된 데이터에서 조회 시도
-        if city in EMBEDDED_DATA:
-            print(f"✅ 임베드된 데이터에서 {city} 아파트 순위 조회")
-            return get_apartment_rankings_from_embedded(city, region, period, month)
-        else:
-            print(f"❌ 임베드된 데이터에 {city} 없음, SQLite DB 사용")
+        # DB 쿼리 방식으로 직접 조회 (초기 로드 속도 최적화)
+        print(f"🔍 DB 쿼리 방식으로 {city} 아파트 순위 조회")
+        return get_apartment_rankings_from_db(city, region, period, month)
         
         # SQLite 데이터베이스에서 조회 (기존 방식)
         conn = sqlite3.connect('realstate.db')
