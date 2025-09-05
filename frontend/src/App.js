@@ -148,16 +148,26 @@ function App() {
         }
       }
 
-      // 기본 경로: 선택된 도시 데이터만 로드 (백그라운드 로딩 제거)
+      // 기본 경로: 선택된 도시 데이터 최소 렌더 + 전체는 백그라운드 로드
       const startTime = performance.now();
-      const cityResponse = await axios.get(`${API_BASE_URL}/cities/${selectedCity}`);
+      const cityResponse = await axios.get(`${API_BASE_URL}/cities/${selectedCity}?fields=min`);
       const cityLoadTime = performance.now() - startTime;
-      
+
       if (cityResponse.data.status === 'success') {
         const cityData = cityResponse.data.data;
         setAllData(cityData);
         setLoading(false);
         console.log(`✅ ${selectedCity} 도시 데이터 로드 완료: ${cityLoadTime.toFixed(2)}ms`);
+
+        // 전체 데이터(요약 또는 통합)를 백그라운드로 보강 로드하여 캐시
+        setTimeout(async () => {
+          try {
+            // 서버에서 집계된 랭킹 전체를 미리 불러 캐시 효과
+            await axios.get(`/api/apartments/rankings?city=${encodeURIComponent(selectedCity)}&months=all`);
+          } catch (e) {
+            // 백그라운드 실패 무시
+          }
+        }, 0);
       }
     } catch (error) {
       // 폴백: 기존 방식

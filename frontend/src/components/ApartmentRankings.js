@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
+const TOP_N = parseInt(process.env.REACT_APP_TOP_N || '50', 10);
+
 const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimestamp }) => {
     console.log('ApartmentRankings 렌더링됨');
     console.log('props - allData:', allData);
@@ -8,7 +10,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     console.log('props - selectedCity:', selectedCity);
     const [rankings, setRankings] = useState([]);
 
-    const [selectedRegion, setSelectedRegion] = useState('');
+    const [selectedRegion, setSelectedRegion] = useState('서울 강남구');
     const [selectedMonths, setSelectedMonths] = useState(() => {
         // 초기값을 현재월과 지난월로 설정
         const currentDate = new Date();
@@ -504,7 +506,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             
 
             
-            // currentCityData가 없으면 백엔드 API 호출
+            // currentCityData가 없으면 백엔드 API 호출 (2단계 로딩: top 100 -> full)
             let url = '/api/apartments/rankings?';
             const params = [];
             
@@ -525,23 +527,27 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 params.push(`months=all`);
             }
             
-            url += params.join('&');
-            
-            const response = await axios.get(url);
-            
-            if (response.data && response.data.status === 'success') {
-                // 'apartments' 키 또는 'data' 키에서 데이터 가져오기
-                const rankingsData = response.data.apartments || response.data.data;
-                if (Array.isArray(rankingsData)) {
-                    const sortedData = sortRankings(rankingsData);
-                    setRankings(sortedData);
-                } else {
-                    console.error('API 응답이 배열이 아닙니다:', response.data);
-                    setRankings([]);
-                }
+            // 1) Top 100 먼저
+            const topUrl = `${url}${params.join('&')}${params.length ? '&' : ''}limit=${TOP_N}`;
+            const responseTop = await axios.get(topUrl);
+            if (responseTop.data && responseTop.data.status === 'success') {
+                const topData = responseTop.data.apartments || responseTop.data.data || [];
+                setRankings(sortRankings(topData));
             } else {
-                console.error('API 응답이 배열이 아닙니다:', response.data);
                 setRankings([]);
+            }
+
+            // 2) 전체 데이터 비동기 로드
+            try {
+                const fullUrl = `${url}${params.join('&')}`; // limit 없이 전체
+                const responseFull = await axios.get(fullUrl);
+                if (responseFull.data && responseFull.data.status === 'success') {
+                    const fullData = responseFull.data.apartments || responseFull.data.data || [];
+                    // 기존 top 100와 동일 정렬 기준으로 교체
+                    setRankings(sortRankings(fullData));
+                }
+            } catch (e) {
+                // 전체 로드는 실패해도 화면 영향 최소화
             }
         } catch (error) {
             console.error('아파트 순위 조회 실패:', error);
@@ -555,9 +561,13 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         fetchRankings();
     }, [fetchRankings]);
 
-    // 도시가 바뀌면 지역 선택을 초기화하여 이전 도시의 지역값이 남지 않게 함
+    // 도시 변경 시 기본 지역 선택 로직: 서울이면 '서울 강남구' 우선, 그 외는 초기화
     useEffect(() => {
-        setSelectedRegion('');
+        if (selectedCity === 'seoul') {
+            setSelectedRegion(prev => prev || '서울 강남구');
+        } else {
+            setSelectedRegion('');
+        }
     }, [selectedCity]);
 
     // 정렬이 변경될 때마다 순위 데이터 재정렬 (중복 실행 방지)

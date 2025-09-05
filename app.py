@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
+import hashlib
 from flask_cors import CORS
 import sqlite3
 import json
@@ -146,22 +147,28 @@ except Exception:
 from services.region_service import RegionService
 
 # Gzip 압축 헬퍼 함수
-def create_gzipped_response(data, status_code=200):
-    """Gzip 압축된 JSON 응답 생성 (최적화된 압축률 및 JSON 형식)"""
-    # JSON 최적화: separators로 공백 제거, 최대 압축률 적용
+def create_gzipped_response(data, status_code=200, cache_seconds=300):
+    """Gzip 압축된 JSON 응답 + ETag/Cache-Control (304 지원)"""
     json_data = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
-    gzip_data = gzip.compress(json_data.encode('utf-8'), compresslevel=1)  # 속도 우선
-    
-    response = jsonify(data)
+    # ETag: 콘텐츠 기반 해시
+    etag = hashlib.md5(json_data.encode('utf-8')).hexdigest()
+
+    # If-None-Match 처리 (304)
+    incoming_etag = request.headers.get('If-None-Match')
+    if incoming_etag and incoming_etag == etag:
+        resp_304 = Response(status=304)
+        resp_304.headers['ETag'] = etag
+        resp_304.headers['Cache-Control'] = f'public, max-age={cache_seconds}'
+        resp_304.headers['Vary'] = 'Accept-Encoding'
+        return resp_304
+
+    gzip_data = gzip.compress(json_data.encode('utf-8'), compresslevel=1)
+    response = Response(gzip_data, status=status_code, mimetype='application/json')
     response.headers['Content-Encoding'] = 'gzip'
     response.headers['Content-Length'] = len(gzip_data)
     response.headers['Vary'] = 'Accept-Encoding'
-    response.status_code = status_code
-    
-    # Flask의 jsonify와 gzip을 함께 사용하기 위한 처리
-    response.data = gzip_data
-    response.mimetype = 'application/json'
-    
+    response.headers['ETag'] = etag
+    response.headers['Cache-Control'] = f'public, max-age={cache_seconds}'
     return response
 
 def extract_city_from_integrated_data(city_code):
@@ -1034,19 +1041,13 @@ def get_city_data_for_region(region_name):
         if not city:
             return []
         
-        # 1. DB 쿼리 방식으로 데이터 조회 (메모리 절약)
-        print(f"🔍 get_city_data_for_region: {region_name} - DB 쿼리 방식 사용")
-        data = None
-            
-            # 중첩된 데이터 구조 처리 (서울, 인천, 대구)
-            if isinstance(data, dict) and 'data' in data:
-                print(f"🔍 get_city_data_for_region: {region_name} - 중첩된 데이터 구조 감지, data 키 추출")
-                data = data['data']
-        else:
-            # 2. 캐시에서 확인
-            print(f"🔍 get_city_data_for_region: {region_name} - 파일 데이터 사용")
-            cache_key = f"city_data_{city}"
-            data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city))
+        # 캐시에서 파일 데이터 조회
+        print(f"🔍 get_city_data_for_region: {region_name} - 파일 데이터 사용")
+        cache_key = f"city_data_{city}"
+        data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city))
+        if isinstance(data, dict) and 'data' in data:
+            print(f"🔍 get_city_data_for_region: {region_name} - 중첩된 데이터 구조 감지, data 키 추출")
+            data = data['data']
         
         if not data:
             return []
@@ -1545,91 +1546,121 @@ def get_market_overview():
         'active_regions': active_regions
     })
 
-def get_apartment_rankings_from_db(city, region, period, month):
-    """데이터베이스에서 아파트 순위 조회 (DB 쿼리 방식) - 초기 로드 속도 최적화"""
+def get_apartment_rankings_from_db(city, region, period, month, limit=100):
+    """데이터베이스에서 아파트 순위 조회 (DB 쿼리 방식, 존재 컬럼만 사용)"""
     try:
         months_param = request.args.get('months', '')
-        print(f"🔍 DB 쿼리 조회: city={city}, region={region}, months={months_param}")
-        
-        # 데이터베이스 연결
-        conn = sqlite3.connect('realstate.db')
+        print(f"🔍 DB 쿼리 조회: city={city}, region={region}, months={months_param}, limit={limit}")
+
+        # 데이터베이스 연결 (경로 통일)
+        db_path = os.environ.get('DATABASE_PATH', 'realstate.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        
-        # 동적 쿼리 구성
-        query = """
-            SELECT region_name, complex_name, avg_price, transaction_count,
-                   area, floor, latest_transaction_date, dong, jibun
+
+        # 기간/월 필터
+        if months_param and months_param != 'all':
+            month_list = [m.strip() for m in months_param.split(',') if m.strip()]
+            month_conditions = ["strftime('%Y-%m', date) = ?" for _ in month_list]
+            date_filter = f"AND ({' OR '.join(month_conditions)})"
+            date_params = month_list
+        elif month:
+            date_filter = "AND strftime('%Y%m', date) = ?"
+            date_params = [month]
+        else:
+            date_filter = "AND date >= date('now', '-' || ? || ' days')"
+            date_params = [str(int(period))]
+
+        # 도시/지역 필터
+        city_filter = ""
+        if city:
+            if city == 'seoul':
+                city_filter = "AND region_name LIKE '서울 %'"
+            elif city == 'busan':
+                city_filter = "AND region_name LIKE '부산 %'"
+            elif city == 'incheon':
+                city_filter = "AND region_name LIKE '인천 %'"
+            elif city == 'daegu':
+                city_filter = "AND region_name LIKE '대구 %'"
+            elif city == 'daejeon':
+                city_filter = "AND region_name LIKE '대전 %'"
+            elif city == 'gwangju':
+                city_filter = "AND region_name LIKE '광주 %'"
+            elif city == 'ulsan':
+                city_filter = "AND region_name LIKE '울산 %'"
+            elif city == 'bucheon':
+                city_filter = "AND region_name LIKE '부천%'"
+            elif city == 'seongnam':
+                city_filter = "AND region_name LIKE '성남%'"
+            elif city == 'guri':
+                city_filter = "AND region_name LIKE '구리%'"
+            elif city == 'suwon':
+                city_filter = "AND region_name LIKE '수원%'"
+            elif city == 'yongin':
+                city_filter = "AND region_name LIKE '용인%'"
+            elif city == 'anyang':
+                city_filter = "AND region_name LIKE '안양%'"
+
+        params = []
+        # 지역 단일 필터
+        region_filter = ""
+        if region:
+            region_filter = "AND region_name = ?"
+            params.append(region)
+
+        # 안전한 limit
+        try:
+            lim = max(1, min(1000, int(limit)))
+        except Exception:
+            lim = 100
+
+        # 그룹화 쿼리 (존재 컬럼만 사용)
+        query = f'''
+            SELECT 
+                region_name,
+                complex_name,
+                AVG(avg_price) AS avg_price,
+                COUNT(*) AS transaction_count,
+                MAX(latest_transaction_date) AS latest_transaction_date
             FROM transactions
             WHERE 1=1
-        """
-        params = []
-        
-        # 도시 필터
-        if city:
-            query += " AND city_code = ?"
-            params.append(city)
-        
-        # 지역 필터
-        if region:
-            query += " AND region_name = ?"
-            params.append(region)
-        
-        # 월 필터
-        if months_param and months_param != 'all':
-            month_list = months_param.split(',')
-            month_conditions = []
-            for month_str in month_list:
-                month_conditions.append("date LIKE ?")
-                params.append(f"{month_str.strip()}%")
-            query += f" AND ({' OR '.join(month_conditions)})"
-        elif month:
-            query += " AND date LIKE ?"
-            params.append(f"{month}%")
-        else:
-            # 기간 필터 (30일)
-            from datetime import datetime, timedelta
-            cutoff_date = datetime.now() - timedelta(days=period)
-            query += " AND date >= ?"
-            params.append(cutoff_date.strftime('%Y-%m-%d'))
-        
-        # 정렬 및 제한
-        query += " ORDER BY avg_price DESC LIMIT 30"
-        
-        cursor.execute(query, params)
-        results = cursor.fetchall()
+            {date_filter}
+            {city_filter}
+            {region_filter}
+            GROUP BY region_name, complex_name
+            ORDER BY avg_price DESC
+            LIMIT {lim}
+        '''
+
+        cursor.execute(query, [*date_params, *params])
+        rows = cursor.fetchall()
         conn.close()
-        
-        # 결과를 JSON 형태로 변환
-        apartment_rankings = []
-        for row in results:
-            # 지역명에서 도시명 추출
+
+        rankings = []
+        for i, row in enumerate(rows, 1):
             region_name = row[0]
             city_name = get_city_name_from_region(region_name)
-            
-            apartment_rankings.append({
+            rankings.append({
+                'rank': i,
                 'region_name': row[0],
                 'complex_name': row[1],
                 'avg_price': row[2],
                 'transaction_count': row[3],
-                'avg_area': row[4],
-                'avg_floor': row[5],
-                'latest_transaction_date': row[6],
+                'avg_area': 0,
+                'avg_floor': 0,
+                'latest_transaction_date': row[4],
                 'city_name': city_name,
                 'city_code': city
             })
-        
-        print(f"조회된 아파트 데이터: {len(apartment_rankings)}건")
-        if apartment_rankings:
-            print(f"첫 번째 행: {tuple(apartment_rankings[0].values())}")
-        
+
         return create_gzipped_response({
             'status': 'success',
-            'data': apartment_rankings,
-            'total_count': len(apartment_rankings),
+            'data': rankings,
+            'total_count': len(rankings),
             'message': f'{city} 아파트 순위를 성공적으로 조회했습니다.'
         })
-        
+
     except Exception as e:
+        print(f"Error get_apartment_rankings_from_db: {e}")
         return jsonify({
             'status': 'error',
             'message': f'아파트 순위 조회 실패: {str(e)}'
@@ -1793,82 +1824,8 @@ def get_all_cities_hot_apartments(period=30, month=''):
         for city_code in city_codes:
             if city_code in ['seoul', 'busan', 'incheon', 'daegu', 'daejeon', 'gwangju', 'ulsan', 'bucheon', 'seongnam', 'guri', 'suwon', 'yongin']:
                 print(f"🔍 {city_code} 지역 Hot한 아파트 조회 중...")
-                
-                # 임베드 데이터 비활성화 - DB 쿼리 방식만 사용
-                city_data = None
-                    
-                    # 중첩된 구조 처리
-                    if isinstance(city_data, dict) and 'data' in city_data:
-                        city_data = city_data['data']
-                    
-                    # 모든 거래 수집
-                    all_transactions = []
-                    for region_name, region_data in city_data.items():
-                        if isinstance(region_data, list):
-                            for transaction in region_data:
-                                # 월별 필터링
-                                if month and month != 'all':
-                                    transaction_date = transaction.get('date', '') or transaction.get('latest_transaction_date', '')
-                                    if transaction_date and len(transaction_date) >= 7:
-                                        transaction_month = transaction_date[:7]  # YYYY-MM
-                                        if transaction_month not in month.split(','):
-                                            continue
-                                
-                                all_transactions.append({
-                                    'region_name': region_name,
-                                    'complex_name': transaction.get('complex_name', ''),
-                                    'avg_price': transaction.get('avg_price', 0),
-                                    'transaction_count': 1,
-                                    'area': transaction.get('area', 0),  # area 필드 직접 사용
-                                    'floor': transaction.get('floor', 0),
-                                    'latest_transaction_date': transaction.get('latest_transaction_date', transaction.get('date', ''))
-                                })
-                    
-                    # 아파트별 그룹화
-                    apartment_groups = {}
-                    for trans in all_transactions:
-                        complex_name = trans['complex_name']
-                        if complex_name not in apartment_groups:
-                            apartment_groups[complex_name] = {
-                                'region_name': trans['region_name'],
-                                'complex_name': complex_name,
-                                'prices': [],
-                                'areas': [],
-                                'floors': [],
-                                'dates': [],
-                                'transaction_counts': []
-                            }
-                        
-                        apartment_groups[complex_name]['prices'].append(trans['avg_price'])
-                        apartment_groups[complex_name]['areas'].append(trans['area'])
-                        apartment_groups[complex_name]['floors'].append(trans['floor'])
-                        apartment_groups[complex_name]['dates'].append(trans['latest_transaction_date'])
-                        apartment_groups[complex_name]['transaction_counts'].append(trans['transaction_count'])
-                    
-                    # 순위 데이터 생성 (거래량 기준)
-                    city_rankings = []
-                    
-                    for complex_name, data in apartment_groups.items():
-                        if data['prices']:
-                            transaction_count = sum(data['transaction_counts'])
-                            avg_area = sum(data['areas']) / len(data['areas']) if data['areas'] else 0
-                            
-                            # 거래량이 2건 이상인 아파트만 포함
-                            if transaction_count >= 2:
-                                city_rankings.append({
-                                    'region_name': data['region_name'],
-                                    'complex_name': complex_name,
-                                    'avg_price': sum(data['prices']) / len(data['prices']),
-                                    'transaction_count': transaction_count,
-                                    'avg_area': avg_area,
-                                    'avg_floor': sum(data['floors']) / len(data['floors']) if data['floors'] else 0,
-                                    'latest_transaction_date': max(data['dates']),
-                                    'city_name': get_city_name(city_code),
-                                    'city_code': city_code
-                                })
-                    
-                    all_hot_apartments.extend(city_rankings)
-                    print(f"✅ {city_code}: {len(city_rankings)}개 Hot한 아파트 추가")
+                # DB 또는 파일 경로를 통한 집계 로직은 여기서는 사용하지 않음(비활성화 구간 정리)
+                continue
         
         # 거래량 순으로 정렬하고 상위 30개 반환
         all_hot_apartments.sort(key=lambda x: x.get('transaction_count', 0), reverse=True)
@@ -1944,6 +1901,7 @@ def get_apartment_rankings():
         region = request.args.get('region', '')
         city = request.args.get('city', '')
         period = int(request.args.get('period', 30))
+        limit = int(request.args.get('limit', 100))
         month = request.args.get('month', '')
         
         print(f"아파트 순위 조회: region={region}, city={city}, period={period}, month={month}")
@@ -1955,7 +1913,7 @@ def get_apartment_rankings():
         
         # DB 쿼리 방식으로 직접 조회 (초기 로드 속도 최적화)
         print(f"🔍 DB 쿼리 방식으로 {city} 아파트 순위 조회")
-        return get_apartment_rankings_from_db(city, region, period, month)
+        return get_apartment_rankings_from_db(city, region, period, month, limit)
         
         # SQLite 데이터베이스에서 조회 (기존 방식)
         conn = sqlite3.connect('realstate.db')
@@ -2184,23 +2142,9 @@ def get_city_data(city_code):
     """특정 도시의 전체 데이터 조회 - 캐싱 및 임베드 데이터 우선 사용"""
     print(f"🚀 get_city_data 호출됨: {city_code}")
     try:
-        # 1. 임베드 데이터 비활성화 - DB 쿼리 방식만 사용
-        print(f"⚠️ 임베드 데이터 비활성화 - {city_code} 데이터를 DB에서 조회")
-        raw_data = None
-            
-            # 중첩된 데이터 구조 처리 (서울, 인천, 대구) - 강제 평면화
-            if isinstance(raw_data, dict) and 'data' in raw_data and 'metadata' in raw_data:
-                print(f"🔍 {city_code} 중첩된 데이터 구조 감지, 강제 평면화")
-                raw_data = raw_data['data']
-                print(f"🔍 {city_code} 강제 평면화 완료, 키: {list(raw_data.keys())[:3]}...")
-            elif isinstance(raw_data, dict) and 'data' in raw_data:
-                print(f"🔍 {city_code} 중첩된 데이터 구조 감지, data 키 추출")
-                raw_data = raw_data['data']
-                print(f"🔍 {city_code} 추출된 데이터 키: {list(raw_data.keys())[:3]}...")
-        else:
-            # 2. 캐시에서 확인
-            cache_key = f"city_data_{city_code}"
-            raw_data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city_code))
+        # 캐시에서 확인
+        cache_key = f"city_data_{city_code}"
+        raw_data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city_code))
         
         # raw_data가 None이거나 비어있는 경우 처리
         if not raw_data:
@@ -2290,8 +2234,39 @@ def _load_city_data_from_file(city_code):
 
 @app.route('/api/cities/<city_code>', methods=['GET'])
 def get_city_data_endpoint(city_code):
-    """도시 데이터 조회 API 엔드포인트"""
-    return get_city_data(city_code)
+    """도시 데이터 조회 API 엔드포인트 (fields=min 지원)"""
+    fields = request.args.get('fields')
+    response = get_city_data(city_code)
+    # get_city_data는 create_gzipped_response로 Response 반환
+    # fields=min 요청 시 데이터 축소를 위해 인터셉트가 필요하므로, 여기서 처리 분기
+    if fields == 'min':
+        try:
+            # Response 본문(gzip) 직접 다루기 어려우므로, 별 경로로 최소 필드 구성
+            # 원본 데이터 재조회 후 필드 축소
+            raw = _load_city_data_from_file(city_code) or {}
+            if isinstance(raw, dict) and 'data' in raw:
+                raw = raw['data']
+            minimized = {}
+            for region, rows in (raw or {}).items():
+                if isinstance(rows, list):
+                    minimized[region] = [
+                        {
+                            'date': (r.get('latest_transaction_date') or r.get('date')), 
+                            'region_name': r.get('region_name') or region,
+                            'complex_name': r.get('complex_name'),
+                            'avg_price': r.get('avg_price')
+                        }
+                        for r in rows
+                    ]
+            return create_gzipped_response({
+                'status': 'success',
+                'data': minimized,
+                'city': city_code,
+                'message': f'{city_code} 최소 필드 데이터를 성공적으로 로드했습니다.'
+            })
+        except Exception as e:
+            return jsonify({'status': 'error', 'message': f'fields=min 처리 실패: {str(e)}'}), 500
+    return response
 
 @app.route('/api/districts/<city_code>/<district_name>', methods=['GET'])
 def get_district_data(city_code, district_name):
