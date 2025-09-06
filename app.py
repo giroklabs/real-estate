@@ -2339,6 +2339,178 @@ def get_regions_summary():
             'message': f'지역 요약 조회 실패: {str(e)}'
         }), 500
 
+
+
+# =========================
+# Sentiment Index Endpoint
+# =========================
+
+def _lin_scale(x, xmin, xmid, xmax):
+    try:
+        x=float(x)
+        if x<=xmid:
+            if x<=xmin: return 0.0
+            return 50.0*(x-xmin)/max(1e-9,(xmid-xmin))
+        else:
+            if x>=xmax: return 100.0
+            return 50.0+50.0*(x-xmid)/max(1e-9,(xmax-xmid))
+    except Exception:
+        return 50.0
+
+def _city_filter_sql(city):
+    if not city: return ''
+    m={
+        'seoul': "AND region_name LIKE '서울 %'",
+        'busan': "AND region_name LIKE '부산 %'",
+        'incheon': "AND region_name LIKE '인천 %'",
+        'daegu': "AND region_name LIKE '대구 %'",
+        'daejeon': "AND region_name LIKE '대전 %'",
+        'gwangju': "AND region_name LIKE '광주 %'",
+        'ulsan': "AND region_name LIKE '울산 %'",
+        'bucheon': "AND region_name LIKE '부천%'",
+        'seongnam': "AND region_name LIKE '성남%'",
+        'guri': "AND region_name LIKE '구리%'",
+        'suwon': "AND region_name LIKE '수원%'",
+        'yongin': "AND region_name LIKE '용인%'",
+        'anyang': "AND region_name LIKE '안양%'",
+    }
+    return m.get(city,'')
+
+@app.route('/api/sentiment-index', methods=['GET'])
+def get_sentiment_index():
+    try:
+        city=(request.args.get('city') or '').strip()
+        days=request.args.get('days',type=int) or 30
+        cache_key=f'sentiment_{city}_{days}'
+        def compute_sentiment(city, days):
+            db_path=os.environ.get('DATABASE_PATH','realstate.db')
+            conn=sqlite3.connect(db_path)
+            cur=conn.cursor()
+            city_sql=_city_filter_sql(city)
+            cur.execute(("""
+                SELECT COALESCE(SUM(transaction_count),0)
+                FROM transactions
+                WHERE date >= date('now', -? || ' days') {city_sql}
+            """).replace('{city_sql}',city_sql),(days,))
+            vol_now=cur.fetchone()[0] or 0
+            cur.execute(("""
+                SELECT COALESCE(SUM(transaction_count),0)
+                FROM transactions
+                WHERE date >= date('now', -?*2 || ' days') AND date < date('now', -? || ' days') {city_sql}
+            """).replace('{city_sql}',city_sql),(days,days))
+            vol_prev=cur.fetchone()[0] or 0
+            cur.execute(("""
+                SELECT AVG(price_change_rate)
+                FROM price_changes
+                WHERE date >= date('now', -? || ' days') {city_sql}
+            """).replace('{city_sql}',city_sql),(days,))
+            price_mom=cur.fetchone()[0]
+            if price_mom is None:
+                cur.execute(("""
+                    SELECT AVG(avg_price)
+                    FROM transactions
+                    WHERE date >= date('now', -? || ' days') {city_sql}
+                """).replace('{city_sql}',city_sql),(days,))
+                avg_now=cur.fetchone()[0] or 0
+                cur.execute(("""
+                    SELECT AVG(avg_price)
+                    FROM transactions
+                    WHERE date >= date('now', -?*2 || ' days') AND date < date('now', -? || ' days') {city_sql}
+                """).replace('{city_sql}',city_sql),(days,days))
+                avg_prev=cur.fetchone()[0] or 1
+                price_mom=((avg_now-avg_prev)/avg_prev)*100 if avg_prev else 0
+            cur.execute(("""
+                SELECT region_name, AVG(avg_price) FROM transactions
+                WHERE date >= date('now', -? || ' days') {city_sql} GROUP BY region_name
+            """).replace('{city_sql}',city_sql),(days,))
+            now_map=dict(cur.fetchall())
+            cur.execute(("""
+                SELECT region_name, AVG(avg_price) FROM transactions
+                WHERE date >= date('now', -?*2 || ' days') AND date < date('now', -? || ' days') {city_sql}
+                GROUP BY region_name
+            """).replace('{city_sql}',city_sql),(days,days))
+            prev_map=dict(cur.fetchall())
+            rising=total=0
+            for rn,prev_p in prev_map.items():
+                if rn in now_map and prev_p and now_map[rn] is not None:
+                    total+=1
+                    if now_map[rn]>prev_p: rising+=1
+            breadth=(rising/total) if total>0 else 0.5
+            conn.close()
+            vol_delta=((vol_now-vol_prev)/vol_prev) if vol_prev else 0.0
+            price_score=_lin_scale(price_mom,-3.0,0.0,3.0)
+            volume_score=_lin_scale(vol_delta,-0.8,0.0,0.8)
+            breadth_score=_lin_scale(breadth,0.0,0.5,1.0)
+            index=(0.40*price_score+0.35*volume_score+0.25*breadth_score)
+            regime='중립'
+            if index>=65: regime='탐욕'
+            elif index<=35: regime='공포'
+            return {
+                'status':'success','city': city or 'national','days':days,
+                'index':round(index,1),'regime':regime,
+                'components':{
+                    'price_change_pct':round(float(price_mom or 0),3),
+                    'volume_delta_ratio':round(float(vol_delta),3),
+                    'breadth_ratio':round(float(breadth),3),
+                    'scores':{
+                        'price':round(price_score,1),
+                        'volume':round(volume_score,1),
+                        'breadth':round(breadth_score,1)
+                    }
+                }
+            }
+        data=get_cached_data(cache_key, lambda: compute_sentiment(city, days), cache_duration=600)
+        return create_gzipped_response(data)
+    except Exception as e:
+        return jsonify({'status':'error','message':str(e)}),500
+
+@app.route('/api/indices/latest', methods=['GET'])
+def get_indices_latest():
+    """최근 핵심 지수 묶음: 심리지수 + 시장개요(간이). city=seoul 등 가능"""
+    try:
+        city = (request.args.get('city') or '').strip()
+        # sentiment (plain dict)
+        sentiment = get_cached_data(f'sentiment_{city}_30', lambda: compute_sentiment(city, 30), cache_duration=600)
+        # market overview (city 필터 없이 간이 제공)
+        try:
+            db_path = os.environ.get('DATABASE_PATH','realstate.db')
+            conn = sqlite3.connect(db_path)
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT SUM(transaction_count) FROM transactions
+                WHERE date >= date('now', '-30 days')
+            """)
+            total_volume = cur.fetchone()[0] or 0
+            cur.execute("""
+                SELECT AVG(avg_price) FROM transactions
+                WHERE date >= date('now', '-30 days')
+            """)
+            avg_price = cur.fetchone()[0] or 0
+            cur.execute("""
+                SELECT SUM(transaction_count) FROM transactions
+                WHERE date >= date('now', '-60 days') AND date < date('now', '-30 days')
+            """)
+            prev_volume = cur.fetchone()[0] or 0
+            conn.close()
+            vol_change = ((total_volume - prev_volume)/prev_volume*100) if prev_volume else 0
+        except Exception:
+            total_volume = 0; avg_price = 0; vol_change = 0
+
+        payload = {
+            'status':'success',
+            'city': city or 'national',
+            'timestamp': datetime.now().isoformat(),
+            'sentiment': sentiment,
+            'overview': {
+                'total_volume_30d': total_volume,
+                'avg_price_30d': avg_price,
+                'volume_change_pct': vol_change
+            }
+        }
+        return create_gzipped_response(payload)
+    except Exception as e:
+        return jsonify({'status':'error','message':str(e)}),500
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))
-    app.run(debug=False, host='0.0.0.0', port=port) 
+    app.run(debug=False, host='0.0.0.0', port=port)

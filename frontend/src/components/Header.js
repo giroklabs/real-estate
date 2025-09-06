@@ -30,7 +30,7 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
             className={`header-tab ${activeTab === 'stats' ? 'active' : ''}`}
             onClick={() => onTabChange('stats')}
           >
-            거래량과 가격 통계
+            그래프/공포탐욕지수
           </span>
           <span className="tab-separator">|</span>
           <span 
@@ -39,7 +39,6 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
           >
             HOT한 아파트
           </span>
-          
         </div>
         <div className="developer-info">
           <span className="developer-name">GIROK Labs.</span>

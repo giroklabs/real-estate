@@ -11,6 +11,8 @@ import ApartmentRankings from './components/ApartmentRankings';
 import LoadingSpinner from './components/LoadingSpinner';
 import CitySelector from './components/CitySelector';
 import MobileMessage from './components/MobileMessage';
+import SentimentGauge from './components/SentimentGauge';
+import IndicesCards from './components/IndicesCards';
 import realEstateDB from './utils/indexedDB';
 import './index.styles.css';
 import './App.styles.css';
@@ -560,7 +562,7 @@ function App() {
           )}
           {activeTab === 'stats' && (
             <div style={{ padding: '1rem' }}>
-              <MarketCharts currentCityData={getCurrentCityData()} />
+              <MarketCharts currentCityData={getCurrentCityData()} selectedCity={selectedCity} />
             </div>
           )}
           {activeTab === 'trending' && (
