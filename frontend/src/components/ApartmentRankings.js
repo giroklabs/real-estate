@@ -2,17 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
 const TOP_N = parseInt(process.env.REACT_APP_TOP_N || '50', 10);
-// 프론트엔드에서 currentCityData를 직접 집계하지 않고, 항상 백엔드 API를 사용해
-// 2단계 로딩(Top N 즉시 → 전체 비동기)을 보장합니다.
-const USE_FRONTEND_CALC = false;
-
-// 네이버페이 부동산 검색으로 바로 이동 (지역명 + 아파트명)
-const openNaverLand = (regionName, complexName) => {
-    const base = `${(regionName || '').toString().trim()} ${(complexName || '').toString().trim()}`.trim();
-    const keyword = `${base} 아파트`;
-    const url = `https://new.land.naver.com/search?query=${encodeURIComponent(keyword)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-};
 
 const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimestamp }) => {
     console.log('ApartmentRankings 렌더링됨');
@@ -21,7 +10,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     console.log('props - selectedCity:', selectedCity);
     const [rankings, setRankings] = useState([]);
 
-    const [selectedRegion, setSelectedRegion] = useState('');
+    const [selectedRegion, setSelectedRegion] = useState('서울 강남구');
     const [selectedMonths, setSelectedMonths] = useState(() => {
         // 초기값을 현재월과 지난월로 설정
         const currentDate = new Date();
@@ -404,7 +393,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         setLoading(true);
         try {
             // 정규화된 데이터가 있으면 프론트엔드에서 데이터 처리
-            if (USE_FRONTEND_CALC && normalizedCityData && Object.keys(normalizedCityData).length > 0) {
+            if (normalizedCityData && Object.keys(normalizedCityData).length > 0) {
                 console.log('프론트엔드에서 도시 데이터 처리 시작');
                 console.log('정규화된 도시 데이터:', normalizedCityData);
                 console.log('현재 선택된 지역:', selectedRegion);
@@ -572,9 +561,13 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         fetchRankings();
     }, [fetchRankings]);
 
-    // 도시 변경 시 기본 지역 선택 로직: 도시 전체(예: 서울시 전체)로 초기화
+    // 도시 변경 시 기본 지역 선택 로직: 서울이면 '서울 강남구' 우선, 그 외는 초기화
     useEffect(() => {
-        setSelectedRegion('');
+        if (selectedCity === 'seoul') {
+            setSelectedRegion(prev => prev || '서울 강남구');
+        } else {
+            setSelectedRegion('');
+        }
     }, [selectedCity]);
 
     // 정렬이 변경될 때마다 순위 데이터 재정렬 (중복 실행 방지)
@@ -873,8 +866,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                              width: '100%'
                                          }}>
                                              <span>{item.complex_name}</span>
-                                            <div style={{ display: 'flex', gap: '6px' }}>
-                                            <button 
+                                             <button 
                                                  className="toggle-details-btn"
                                                  onClick={() => toggleDetails(item.complex_name)}
                                                  aria-expanded={isExpanded(item.complex_name)}
@@ -902,8 +894,6 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                              >
                                                  {isExpanded(item.complex_name) ? '접기' : '상세'}
                                              </button>
-                                            
-                                            </div>
                                          </div>
                                          {isExpanded(item.complex_name) && (
                                              <div className="complex-details" style={{

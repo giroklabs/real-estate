@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import MonthlyVolumeChart from './MonthlyVolumeChart';
 import PriceChangeChart from './PriceChangeChart';
-import SentimentGauge from './SentimentGauge';
 import './MarketCharts.css';
 
-const MarketCharts = ({ currentCityData, selectedCity }) => {
-  const [active, setActive] = useState('volume'); // 'volume' | 'price' | 'sentiment'
+const MarketCharts = ({ currentCityData }) => {
+  const [active, setActive] = useState('volume'); // 'volume' | 'price'
 
   return (
     <div className="mc">
@@ -31,16 +30,6 @@ const MarketCharts = ({ currentCityData, selectedCity }) => {
             <span className="mc-tab-emoji">💴</span>
             <span>평균가격 그래프</span>
           </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={active === 'sentiment'}
-            className={`mc-tab ${active === 'sentiment' ? 'active' : ''}`}
-            onClick={() => setActive('sentiment')}
-          >
-            <span className="mc-tab-emoji">🧭</span>
-            <span>공포탐욕지수</span>
-          </button>
         </div>
       </div>
 
@@ -50,11 +39,6 @@ const MarketCharts = ({ currentCityData, selectedCity }) => {
         )}
         {active === 'price' && (
           <PriceChangeChart currentCityData={currentCityData} />
-        )}
-        {active === 'sentiment' && (
-          <div style={{ padding: '0.5rem 0' }}>
-            <SentimentGauge city={selectedCity} />
-          </div>
         )}
       </div>
     </div>
