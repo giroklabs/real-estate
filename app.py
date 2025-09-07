@@ -1847,19 +1847,54 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
         city_filter = ""
         if city:
             if city == 'seoul':
-                city_filter = "AND region_name LIKE '서울 %'"
+                city_filter = (
+                    "AND ("
+                    " region_name LIKE '서울 %' OR region_name LIKE '서울%' OR"
+                    " region_name LIKE '서울특별시 %' OR region_name LIKE '서울특별시%'"
+                    ")"
+                )
             elif city == 'busan':
-                city_filter = "AND region_name LIKE '부산 %'"
+                city_filter = (
+                    "AND ("
+                    " region_name LIKE '부산 %' OR region_name LIKE '부산%' OR"
+                    " region_name LIKE '부산광역시 %' OR region_name LIKE '부산광역시%'"
+                    ")"
+                )
             elif city == 'incheon':
-                city_filter = "AND region_name LIKE '인천 %'"
+                city_filter = (
+                    "AND ("
+                    " region_name LIKE '인천 %' OR region_name LIKE '인천%' OR"
+                    " region_name LIKE '인천광역시 %' OR region_name LIKE '인천광역시%'"
+                    ")"
+                )
             elif city == 'daegu':
-                city_filter = "AND region_name LIKE '대구 %'"
+                city_filter = (
+                    "AND ("
+                    " region_name LIKE '대구 %' OR region_name LIKE '대구%' OR"
+                    " region_name LIKE '대구광역시 %' OR region_name LIKE '대구광역시%'"
+                    ")"
+                )
             elif city == 'daejeon':
-                city_filter = "AND region_name LIKE '대전 %'"
+                city_filter = (
+                    "AND ("
+                    " region_name LIKE '대전 %' OR region_name LIKE '대전%' OR"
+                    " region_name LIKE '대전광역시 %' OR region_name LIKE '대전광역시%'"
+                    ")"
+                )
             elif city == 'gwangju':
-                city_filter = "AND region_name LIKE '광주 %'"
+                city_filter = (
+                    "AND ("
+                    " region_name LIKE '광주 %' OR region_name LIKE '광주%' OR"
+                    " region_name LIKE '광주광역시 %' OR region_name LIKE '광주광역시%'"
+                    ")"
+                )
             elif city == 'ulsan':
-                city_filter = "AND region_name LIKE '울산 %'"
+                city_filter = (
+                    "AND ("
+                    " region_name LIKE '울산 %' OR region_name LIKE '울산%' OR"
+                    " region_name LIKE '울산광역시 %' OR region_name LIKE '울산광역시%'"
+                    ")"
+                )
             elif city == 'bucheon':
                 city_filter = "AND (region_name LIKE '부천%' OR region_name LIKE '경기 부천%')"
             elif city == 'seongnam':
