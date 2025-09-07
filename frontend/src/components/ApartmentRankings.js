@@ -539,29 +539,34 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             const topUrl = `${url}${params.join('&')}${params.length ? '&' : ''}limit=${topLimit}`;
             const responseTop = await axios.get(topUrl);
             if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
+            let topData = [];
             if (responseTop.data && responseTop.data.status === 'success') {
-                const topData = responseTop.data.apartments || responseTop.data.data || [];
-                setRankings(sortRankings(topData));
-            } else {
-                setRankings([]);
+                topData = responseTop.data.apartments || responseTop.data.data || [];
             }
+            setRankings(sortRankings(topData));
 
             // 2) 전체 데이터 비동기 로드 (동일 months 유지)
+            let needFrontendFallback = false;
             try {
                 const fullUrl = `${url}${params.join('&')}`; // limit 없이 전체
                 const responseFull = await axios.get(fullUrl);
                 if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
+                let fullData = [];
                 if (responseFull.data && responseFull.data.status === 'success') {
-                    const fullData = responseFull.data.apartments || responseFull.data.data || [];
-                    // 기존 top 100와 동일 정렬 기준으로 교체
+                    fullData = responseFull.data.apartments || responseFull.data.data || [];
+                }
+                if (Array.isArray(fullData) && fullData.length > 0) {
+                    // 기존 top과 동일 정렬 기준으로 교체
                     setRankings(sortRankings(fullData));
+                } else {
+                    needFrontendFallback = true; // 0건 → 프런트 집계로 폴백
                 }
             } catch (e) {
-                // 전체 로드는 실패해도 화면 영향 최소화
+                needFrontendFallback = true; // 호출 실패 → 폴백
             }
 
             // 백엔드가 비어있는 경우(또는 응답 실패) → 프런트 집계 폴백 (도시 전체)
-            if ((!Array.isArray(rankings) || rankings.length === 0) && normalizedCityData && hasAnyCityTransactions) {
+            if (needFrontendFallback && normalizedCityData && hasAnyCityTransactions) {
                 console.log('백엔드 랭킹이 비어 있어 프런트 집계 폴백 실행 (도시 전체)');
                 const apartmentStats = {};
                 let totalTransactions = 0;
@@ -636,7 +641,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             }
 
             // 추가 폴백: 도시 데이터 자체가 없을 때 city?fields=min으로 최소 데이터 수집 후 프런트 집계
-            if ((!Array.isArray(rankings) || rankings.length === 0) && (!normalizedCityData || !hasAnyCityTransactions) && selectedCity) {
+            if (needFrontendFallback && (!normalizedCityData || !hasAnyCityTransactions) && selectedCity) {
                 try {
                     const cityRes = await axios.get(`${API_BASE_URL}/cities/${encodeURIComponent(selectedCity)}?fields=min`);
                     if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
