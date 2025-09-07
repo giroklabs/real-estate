@@ -2,7 +2,7 @@ import sqlite3
 import os
 from datetime import datetime
 
-DB_PATH = os.environ.get('DATABASE_PATH', '/tmp/realstate.db')
+DB_PATH = os.environ.get('DATABASE_PATH', 'realstate.db')
 
 def init_db():
     """데이터베이스 초기화 및 테이블 생성"""
@@ -84,34 +84,33 @@ def init_db():
     conn.close()
 
 def save_transaction_data(data):
-    """거래 데이터 저장"""
+    """거래 데이터 저장 (area/floor/dong/jibun 포함 저장)"""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
-    # 단일 데이터인지 리스트인지 확인
-    if isinstance(data, list):
-        data_list = data
-    else:
-        data_list = [data]
-    
+
+    data_list = data if isinstance(data, list) else [data]
+
     for item in data_list:
-        # 최근 거래일자 설정 (기본값은 현재 날짜)
-        latest_date = item.get('latest_transaction_date', item['date'])
-        
+        latest_date = item.get('latest_transaction_date', item.get('date'))
         cursor.execute('''
             INSERT INTO transactions 
-            (date, region_name, complex_name, transaction_count, avg_price, source, latest_transaction_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            (date, region_name, complex_name, transaction_count, avg_price, source, latest_transaction_date,
+             area, floor, dong, jibun)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
-            item['date'],
-            item['region_name'],
-            item['complex_name'],
-            item['transaction_count'],
-            item['avg_price'],
-            item['source'],
-            latest_date
+            item.get('date'),
+            item.get('region_name'),
+            item.get('complex_name'),
+            int(item.get('transaction_count', 1) or 1),
+            float(item.get('avg_price', 0) or 0),
+            item.get('source', 'molit_api'),
+            latest_date,
+            float(item.get('area', 0) or 0),
+            int(item.get('floor', 0) or 0),
+            item.get('dong', ''),
+            item.get('jibun', '')
         ))
-    
+
     conn.commit()
     conn.close()
 

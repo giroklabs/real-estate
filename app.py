@@ -327,6 +327,31 @@ def health_check():
     """서버 상태 확인"""
     return jsonify({'status': 'healthy', 'timestamp': datetime.now().isoformat()})
 
+@app.route('/api/collection-period', methods=['GET'])
+def get_collection_period():
+    """DB 기준 수집기간(min~max) 반환"""
+    try:
+        db_path = os.environ.get('DATABASE_PATH', 'realstate.db')
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        cur.execute("SELECT MIN(date), MAX(date) FROM transactions")
+        row = cur.fetchone()
+        conn.close()
+
+        min_date = row[0] if row and row[0] else None
+        max_date = row[1] if row and row[1] else None
+
+        return jsonify({
+            'status': 'success',
+            'source': '국토교통부 실거래가 정보',
+            'period': {
+                'from': min_date,
+                'to': max_date
+            }
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 @app.route('/api/critical-data', methods=['GET'])
 def get_critical_data_endpoint():
     """핵심 데이터 (서울 강남구) 조회 - 빠른 로딩용"""
@@ -1558,7 +1583,11 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
         cursor = conn.cursor()
 
         # 기간/월 필터
-        if months_param and months_param != 'all':
+        if months_param == 'all':
+            # 전체 기간: 날짜 필터 미적용
+            date_filter = ""
+            date_params = []
+        elif months_param and months_param != 'all':
             month_list = [m.strip() for m in months_param.split(',') if m.strip()]
             month_conditions = ["strftime('%Y-%m', date) = ?" for _ in month_list]
             date_filter = f"AND ({' OR '.join(month_conditions)})"
@@ -1588,17 +1617,21 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
             elif city == 'ulsan':
                 city_filter = "AND region_name LIKE '울산 %'"
             elif city == 'bucheon':
-                city_filter = "AND region_name LIKE '부천%'"
+                city_filter = "AND (region_name LIKE '부천%' OR region_name LIKE '경기 부천%')"
             elif city == 'seongnam':
-                city_filter = "AND region_name LIKE '성남%'"
+                city_filter = "AND (region_name LIKE '성남%' OR region_name LIKE '경기 성남%')"
             elif city == 'guri':
-                city_filter = "AND region_name LIKE '구리%'"
+                city_filter = "AND (region_name LIKE '구리%' OR region_name LIKE '경기 구리%')"
             elif city == 'suwon':
-                city_filter = "AND region_name LIKE '수원%'"
+                city_filter = "AND (region_name LIKE '수원%' OR region_name LIKE '경기 수원%')"
             elif city == 'yongin':
-                city_filter = "AND region_name LIKE '용인%'"
+                city_filter = "AND (region_name LIKE '용인%' OR region_name LIKE '경기 용인%')"
             elif city == 'anyang':
-                city_filter = "AND region_name LIKE '안양%'"
+                city_filter = "AND (region_name LIKE '안양%' OR region_name LIKE '경기 안양%')"
+            elif city == 'goyang':
+                city_filter = "AND region_name LIKE '고양%'"
+            elif city == 'sejong':
+                city_filter = "AND region_name LIKE '세종%'"
 
         params = []
         # 지역 단일 필터
@@ -2142,17 +2175,21 @@ def get_city_data(city_code):
     """특정 도시의 전체 데이터 조회 - 캐싱 및 임베드 데이터 우선 사용"""
     print(f"🚀 get_city_data 호출됨: {city_code}")
     try:
-        # 캐시에서 확인
+        # 캐시에서 확인 (파일 우선)
         cache_key = f"city_data_{city_code}"
         raw_data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city_code))
         
         # raw_data가 None이거나 비어있는 경우 처리
         if not raw_data:
-            print(f"❌ {city_code} 데이터가 없음")
-            return jsonify({
-                'status': 'error',
-                'message': f'{city_code} 데이터를 찾을 수 없습니다.'
-            })
+            print(f"❌ {city_code} 파일 데이터 없음 → DB 폴백 시도")
+            # DB 폴백 (지역명 prefix로 집계)
+            db_cache_key = f"city_data_db_{city_code}"
+            raw_data = get_cached_data(db_cache_key, lambda: _load_city_data_from_db(city_code))
+            if not raw_data:
+                return jsonify({
+                    'status': 'error',
+                    'message': f'{city_code} 데이터를 찾을 수 없습니다.'
+                })
         
         print(f"🔍 {city_code} 최종 raw_data 타입: {type(raw_data)}, 키 개수: {len(raw_data) if isinstance(raw_data, dict) else 'N/A'}")
         
@@ -2231,6 +2268,55 @@ def _load_city_data_from_file(city_code):
             print(f"통합 파일에서도 {city_code} 데이터를 찾을 수 없음")
             return None
         return data
+
+def _load_city_data_from_db(city_code):
+    """DB에서 도시 데이터 로드 (파일 없을 때 폴백). 최근 365일 제한."""
+    try:
+        prefix_map = {
+            'seoul': '서울', 'busan': '부산', 'incheon': '인천', 'daegu': '대구', 'daejeon': '대전',
+            'gwangju': '광주', 'ulsan': '울산', 'bucheon': '부천', 'seongnam': '성남', 'guri': '구리',
+            'suwon': '수원', 'yongin': '용인', 'anyang': '안양', 'goyang': '고양', 'sejong': '세종'
+        }
+        prefix = prefix_map.get(city_code)
+        if not prefix:
+            return None
+        db_path = os.environ.get('DATABASE_PATH', 'realstate.db')
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        # 최근 365일 거래만 로드해 용량 제한
+        cur.execute(
+            """
+            SELECT date, region_name, complex_name, transaction_count, avg_price,
+                   COALESCE(area, 0), COALESCE(floor, 0),
+                   COALESCE(latest_transaction_date, date)
+            FROM transactions
+            WHERE (region_name LIKE ? OR region_name LIKE ?) 
+              AND date >= date('now','-365 days')
+            ORDER BY date DESC
+            """,
+            (f"{prefix}%", f"경기 {prefix}%")
+        )
+        rows = cur.fetchall()
+        conn.close()
+        if not rows:
+            return None
+        out = {}
+        for (date_, region_name, complex_name, cnt, avg_price, area, floor, latest_dt) in rows:
+            out.setdefault(region_name, []).append({
+                'date': date_,
+                'region_name': region_name,
+                'complex_name': complex_name,
+                'transaction_count': cnt,
+                'avg_price': avg_price,
+                'area': area,
+                'floor': floor,
+                'latest_transaction_date': latest_dt,
+                'source': 'db'
+            })
+        return out
+    except Exception as e:
+        print(f"DB 폴백 로드 실패({city_code}): {e}")
+        return None
 
 @app.route('/api/cities/<city_code>', methods=['GET'])
 def get_city_data_endpoint(city_code):

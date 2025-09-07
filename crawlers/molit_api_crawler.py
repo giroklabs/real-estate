@@ -239,6 +239,8 @@ class MolitAPICrawler:
             
             # 첫 번째 페이지 호출로 전체 데이터 수 확인
             first_page_data = self.get_apartment_data(region_code, deal_date, page_no=1, num_of_rows=100)
+            if isinstance(first_page_data, dict) and first_page_data.get('error') == 'api_key_error':
+                return []
             if isinstance(first_page_data, list):
                 all_transactions.extend(first_page_data)
             
@@ -247,6 +249,8 @@ class MolitAPICrawler:
                 page_no = 2
                 while True:
                     page_data = self.get_apartment_data(region_code, deal_date, page_no=page_no, num_of_rows=100)
+                    if isinstance(page_data, dict) and page_data.get('error') == 'api_key_error':
+                        break
                     if not page_data or not isinstance(page_data, list):
                         break
                     all_transactions.extend(page_data)
@@ -281,14 +285,19 @@ class MolitAPICrawler:
             
             # 첫 번째 페이지 호출로 전체 데이터 수 확인
             first_page_data = self.get_apartment_data(region_code, deal_date, page_no=1, num_of_rows=100)
-            all_transactions.extend(first_page_data)
+            if isinstance(first_page_data, dict) and first_page_data.get('error') == 'api_key_error':
+                break
+            if isinstance(first_page_data, list):
+                all_transactions.extend(first_page_data)
             
             # 첫 페이지에서 100건이 나왔다면 추가 페이지가 있을 수 있음
-            if len(first_page_data) == 100:
+            if isinstance(first_page_data, list) and len(first_page_data) == 100:
                 page_no = 2
                 while True:
                     page_data = self.get_apartment_data(region_code, deal_date, page_no=page_no, num_of_rows=100)
-                    if not page_data:
+                    if isinstance(page_data, dict) and page_data.get('error') == 'api_key_error':
+                        break
+                    if not page_data or not isinstance(page_data, list):
                         break
                     all_transactions.extend(page_data)
                     
@@ -329,15 +338,15 @@ class MolitAPICrawler:
                 print(f"\n=== {region_name} 국토교통부 데이터 수집 시작 ===")
                 
                 # 지역 데이터 수집
-                region_transactions = self.crawl_region_data(region_name)
+                region_transactions = self.crawl_region_data(region_name, months=24)
                 
                 if not region_transactions:
                     print(f"{region_name}: API 데이터 수집 실패 - 실제 데이터 없음")
                     continue
                 
                 # 데이터베이스에 저장
-                for transaction in region_transactions:
-                    save_transaction_data(transaction)
+                if region_transactions:
+                    save_transaction_data(region_transactions)
                 
                 all_transactions.extend(region_transactions)
                 

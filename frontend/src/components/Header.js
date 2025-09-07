@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
+const Header = ({ activeTab = 'rankings', onTabChange = () => {}, onOpenGuide = () => {} }) => {
   const handleLogoClick = () => {
     // 순위보기 탭으로 변경
     onTabChange('rankings');
@@ -30,7 +30,7 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
             className={`header-tab ${activeTab === 'stats' ? 'active' : ''}`}
             onClick={() => onTabChange('stats')}
           >
-            거래량과 가격 통계
+            그래프&공포탐욕지수
           </span>
           <span className="tab-separator">|</span>
           <span 
@@ -42,6 +42,13 @@ const Header = ({ activeTab = 'rankings', onTabChange = () => {} }) => {
           
         </div>
         <div className="developer-info">
+          <button
+            onClick={onOpenGuide}
+            className="header-tab"
+            style={{ marginRight: 12 }}
+          >
+            가이드
+          </button>
           <span className="developer-name">GIROK Labs.</span>
         </div>
       </div>

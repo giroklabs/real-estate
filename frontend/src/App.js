@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
+import SiteGuideModal from './components/SiteGuideModal';
 import MonthlyVolumeChart from './components/MonthlyVolumeChart';
 // import PriceChangeChart from './components/PriceChangeChart';
 import MarketCharts from './components/MarketCharts';
@@ -33,6 +34,34 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('seoul');
   const [dataTimestamp, setDataTimestamp] = useState(null);
   const [activeTab, setActiveTab] = useState('rankings');
+  const [showGuide, setShowGuide] = useState(() => {
+    try {
+      return localStorage.getItem('siteGuide.dismissed') !== 'true';
+    } catch {
+      return true;
+    }
+  });
+
+  // 가이드 표시 중에도 주요 데이터는 백그라운드 프리페치
+  const prefetchForGuide = useCallback(async () => {
+    try {
+      const qsCity = encodeURIComponent(selectedCity);
+      await Promise.allSettled([
+        axios.get(`${API_BASE_URL}/metadata`),
+        axios.get(`${API_BASE_URL}/cities/${selectedCity}?fields=min`),
+        axios.get(`${API_BASE_URL}/apartments/rankings?city=${qsCity}&months=all&limit=50`),
+        axios.get(`${API_BASE_URL}/sentiment-index?city=${qsCity}&days=30`)
+      ]);
+    } catch (e) {
+      // 프리페치 실패는 무시 (UI 비차단)
+    }
+  }, [selectedCity]);
+
+  useEffect(() => {
+    if (showGuide) {
+      prefetchForGuide();
+    }
+  }, [showGuide, prefetchForGuide]);
 
   const fetchAllData = useCallback(async () => {
     try {
@@ -463,35 +492,45 @@ function App() {
   const getCurrentCityData = () => {
     if (!allData) return {};
     
-    // 도시별 데이터 필터링 매핑
-    const cityFilters = {
-      'busan': '부산',
-      'incheon': '인천', 
-      'seoul': '서울',
-      'daegu': '대구',
-      'daejeon': '대전',
-      'gwangju': '광주',
-      'ulsan': '울산',
-      'bucheon': '경기 부천시',
-      'seongnam': '경기 성남시',
-      'guri': '경기 구리시'
+    // 기본 도시 접두어
+    const baseMap = {
+      busan: '부산',
+      incheon: '인천',
+      seoul: '서울',
+      daegu: '대구',
+      daejeon: '대전',
+      gwangju: '광주',
+      ulsan: '울산',
+      bucheon: '부천',
+      seongnam: '성남',
+      guri: '구리'
     };
-
-    const filterPrefix = cityFilters[selectedCity];
-    
-    if (filterPrefix) {
-      const filteredData = {};
-      Object.keys(allData).forEach(key => {
-        if (key.startsWith(filterPrefix)) {
-          filteredData[key] = allData[key];
-        }
-      });
-      console.log(`${selectedCity} 데이터 (${filterPrefix}):`, Object.keys(filteredData));
-      return filteredData;
+    const base = baseMap[selectedCity];
+    if (!base) {
+      console.log('모든 데이터 반환');
+      return allData;
     }
-    
-    console.log('모든 데이터 반환');
-    return allData;
+
+    // 경기권(시 단위) 행정구 구조 변경 대응: 다양한 접두어 허용
+    const buildPrefixes = (b) => {
+      const v = [b, `${b}시`];
+      ['경기', '경기도'].forEach(pref => {
+        v.push(`${pref} ${b}`);
+        v.push(`${pref} ${b}시`);
+      });
+      return v;
+    };
+    const isGyeonggi = ['bucheon', 'seongnam', 'guri'].includes(selectedCity);
+    const prefixes = isGyeonggi ? buildPrefixes(base) : [base];
+
+    const filteredData = {};
+    Object.keys(allData).forEach(key => {
+      if (prefixes.some(p => key.startsWith(p))) {
+        filteredData[key] = allData[key];
+      }
+    });
+    console.log(`${selectedCity} 데이터 (접두어: ${prefixes.join(', ')}):`, Object.keys(filteredData));
+    return filteredData;
   };
 
   const getStatsFilteredData = () => {
@@ -512,7 +551,7 @@ function App() {
   return (
     <div className="App">
       {/* 데스크톱 전용 헤더 */}
-      <Header activeTab={activeTab} onTabChange={setActiveTab} className="desktop-only" />
+      <Header activeTab={activeTab} onTabChange={setActiveTab} onOpenGuide={() => setShowGuide(true)} className="desktop-only" />
       
       {/* 모바일 전용 메시지 */}
       <MobileMessage />
@@ -527,6 +566,11 @@ function App() {
 
       {/* 데스크톱 전용 메인 콘텐츠 */}
       <main className="main-content desktop-only">
+        <SiteGuideModal
+          visible={showGuide}
+          onClose={() => setShowGuide(false)}
+          onDontShowAgain={() => { try { localStorage.setItem('siteGuide.dismissed', 'true'); } catch {} setShowGuide(false); }}
+        />
         <div className="sidebar">
           <div className="city-selector-wrapper">
             <CitySelector 
@@ -560,7 +604,7 @@ function App() {
           )}
           {activeTab === 'stats' && (
             <div style={{ padding: '1rem' }}>
-              <MarketCharts currentCityData={getCurrentCityData()} />
+              <MarketCharts currentCityData={getCurrentCityData()} selectedCity={selectedCity} />
             </div>
           )}
           {activeTab === 'trending' && (

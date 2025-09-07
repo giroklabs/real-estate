@@ -10,7 +10,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     console.log('props - selectedCity:', selectedCity);
     const [rankings, setRankings] = useState([]);
 
-    const [selectedRegion, setSelectedRegion] = useState('서울 강남구');
+    const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedMonths, setSelectedMonths] = useState(() => {
         // 초기값을 현재월과 지난월로 설정
         const currentDate = new Date();
@@ -64,18 +64,8 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                     return { value: ym, label: `${y}년 ${parseInt(m,10)}월` };
                 });
         } else {
-            // 폴백: 최근 24개월(2023 제외)
-            const now = new Date();
-            for (let i = 0; i < 24; i++) {
-                const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-                const year = date.getFullYear();
-                const month = date.getMonth() + 1;
-                if (year === 2023) continue;
-                const monthStr = month < 10 ? `0${month}` : month;
-                const value = `${year}-${monthStr}`;
-                const label = `${year}년 ${month}월`;
-                months.push({ value, label });
-            }
+            // 해당 도시에서 이용 가능한 월 정보가 없으면 빈 배열 반환 → months=all 처리 유도
+            months = [];
         }
         return months;
     };
@@ -138,20 +128,20 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     // 도시 변경 시 현재월과 지난월 데이터 자동 선택
     useEffect(() => {
         if (selectedCity) {
-            // 현재월과 지난월만 자동으로 선택
             const availableMonths = generateAvailableMonths();
-            const currentDate = new Date();
-            const currentYear = currentDate.getFullYear();
-            const currentMonth = currentDate.getMonth() + 1; // 0-based이므로 +1
-            
-            // 실제 데이터가 있는 최신 2개월 선택
             if (availableMonths.length > 0) {
-                const latestMonths = availableMonths
-                    .slice(0, 2)
-                    .map(m => m.value);
+                const latestMonths = availableMonths.slice(0, 2).map(m => m.value);
                 setSelectedMonths(latestMonths);
+            } else {
+                // 이용 가능한 월이 없으면 현재월+이전월 기본 설정
+                const now = new Date();
+                const y = now.getFullYear();
+                const m = now.getMonth() + 1;
+                const cur = `${y}-${String(m).padStart(2,'0')}`;
+                const prevDate = new Date(y, m - 2, 1);
+                const prev = `${prevDate.getFullYear()}-${String(prevDate.getMonth() + 1).padStart(2,'0')}`;
+                setSelectedMonths([cur, prev]);
             }
-            
             setLoading(true);
         }
     }, [selectedCity]);
@@ -276,6 +266,12 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         return output;
     }, [currentCityData, normalizeRegionKey]);
 
+    // 도시 데이터에 실제 거래 레코드가 1건이라도 있는지 확인
+    const hasAnyCityTransactions = useMemo(() => {
+        if (!normalizedCityData) return false;
+        return Object.values(normalizedCityData).some(rows => Array.isArray(rows) && rows.length > 0);
+    }, [normalizedCityData]);
+
     // 아파트별 상세 거래 내역 생성 함수 (실제 데이터 사용)
     const generateSampleTransactionDetails = (item) => {
         const transactions = [];
@@ -392,8 +388,8 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         
         setLoading(true);
         try {
-            // 정규화된 데이터가 있으면 프론트엔드에서 데이터 처리
-            if (normalizedCityData && Object.keys(normalizedCityData).length > 0) {
+            // 정규화된 데이터가 있고, 지역이 지정된 경우 프런트 집계 경로
+            if (selectedRegion && normalizedCityData && Object.keys(normalizedCityData).length > 0 && hasAnyCityTransactions) {
                 console.log('프론트엔드에서 도시 데이터 처리 시작');
                 console.log('정규화된 도시 데이터:', normalizedCityData);
                 console.log('현재 선택된 지역:', selectedRegion);
@@ -506,7 +502,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             
 
             
-            // currentCityData가 없으면 백엔드 API 호출 (2단계 로딩: top 100 -> full)
+            // currentCityData가 없거나, 도시 데이터에 레코드가 없으면 백엔드 API 호출 (2단계 로딩: top N -> full)
             let url = '/api/apartments/rankings?';
             const params = [];
             
@@ -549,6 +545,62 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             } catch (e) {
                 // 전체 로드는 실패해도 화면 영향 최소화
             }
+
+            // 백엔드가 비어있는 경우(또는 응답 실패) → 프런트 집계 폴백 (도시 전체)
+            if ((!Array.isArray(rankings) || rankings.length === 0) && normalizedCityData && hasAnyCityTransactions) {
+                console.log('백엔드 랭킹이 비어 있어 프런트 집계 폴백 실행 (도시 전체)');
+                const apartmentStats = {};
+                let totalTransactions = 0;
+                // 월별 필터링 범위 계산
+                let selectedMonthRanges = [];
+                if (selectedMonths.length > 0) {
+                    selectedMonthRanges = selectedMonths.map(monthStr => {
+                        const [year, month] = monthStr.split('-').map(Number);
+                        const startDate = new Date(year, month - 1, 1);
+                        const endDate = new Date(year, month, 0);
+                        return { startDate, endDate };
+                    });
+                }
+                Object.keys(normalizedCityData).forEach(region => {
+                    const regionData = normalizedCityData[region];
+                    if (Array.isArray(regionData)) {
+                        regionData.forEach(transaction => {
+                            if (selectedMonthRanges.length > 0) {
+                                const transactionDate = new Date(transaction.latest_transaction_date || transaction.date);
+                                const isInSelectedMonths = selectedMonthRanges.some(range => 
+                                    transactionDate >= range.startDate && transactionDate <= range.endDate
+                                );
+                                if (!isInSelectedMonths) return;
+                            }
+                            totalTransactions++;
+                            const complexName = transaction.complex_name;
+                            if (!apartmentStats[complexName]) {
+                                apartmentStats[complexName] = {
+                                    complex_name: complexName,
+                                    region_name: region,
+                                    transaction_count: 0,
+                                    total_price: 0,
+                                    avg_price: 0,
+                                    latest_transaction_date: ''
+                                };
+                            }
+                            const price = transaction.avg_price || 0;
+                            apartmentStats[complexName].transaction_count++;
+                            apartmentStats[complexName].total_price += price;
+                            const tDate = transaction.latest_transaction_date || transaction.date;
+                            if (!apartmentStats[complexName].latest_transaction_date || new Date(tDate) > new Date(apartmentStats[complexName].latest_transaction_date)) {
+                                apartmentStats[complexName].latest_transaction_date = tDate;
+                            }
+                        });
+                    }
+                });
+                Object.values(apartmentStats).forEach(stat => {
+                    stat.avg_price = Math.round(stat.total_price / Math.max(1, stat.transaction_count));
+                });
+                const rankingsData = Object.values(apartmentStats);
+                setRankings(sortRankings(rankingsData));
+                console.log(`프런트 폴백 결과: ${rankingsData.length}건, 처리 거래수: ${totalTransactions}`);
+            }
         } catch (error) {
             console.error('아파트 순위 조회 실패:', error);
             setRankings([]); // 에러 시 빈 배열로 초기화
@@ -563,11 +615,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
     // 도시 변경 시 기본 지역 선택 로직: 서울이면 '서울 강남구' 우선, 그 외는 초기화
     useEffect(() => {
-        if (selectedCity === 'seoul') {
-            setSelectedRegion(prev => prev || '서울 강남구');
-        } else {
-            setSelectedRegion('');
-        }
+        setSelectedRegion('');
     }, [selectedCity]);
 
     // 정렬이 변경될 때마다 순위 데이터 재정렬 (중복 실행 방지)
@@ -636,6 +684,35 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         return rank;
     };
 
+    // 지역명 표기 포맷 (부천시는 시 단위로만 노출)
+    const inferRegionForApartment = useCallback((complexName) => {
+        if (!normalizedCityData) return null;
+        const regions = Object.keys(normalizedCityData);
+        for (const region of regions) {
+            const rows = normalizedCityData[region];
+            if (Array.isArray(rows) && rows.some(t => t.complex_name === complexName)) {
+                return region;
+            }
+        }
+        return null;
+    }, [normalizedCityData]);
+
+    const formatRegionNameForDisplay = useCallback((name, item) => {
+        if (selectedCity === 'bucheon') {
+            return '경기 부천시';
+        }
+        if (selectedCity === 'seongnam') {
+            // 이미 행정구가 포함된 경우 그대로 표시
+            if (/성남시\s+\S+구/.test(name)) return name;
+            // 아파트명으로 행정구 추론 시도
+            const inferred = inferRegionForApartment(item?.complex_name || '');
+            if (inferred && /성남시/.test(inferred)) return inferred;
+            // 최소한 시 단위 보장
+            if (/성남/.test(name)) return '경기 성남시';
+        }
+        return name;
+    }, [selectedCity, inferRegionForApartment]);
+
     // 부산 지역 목록 생성
     const cityRegions = useMemo(() => Object.keys(normalizedCityData || {}), [normalizedCityData]);
 
@@ -644,56 +721,63 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             <div className="rankings-header">
                 <div className="rankings-controls">
                     
-                    {/* 지역 선택기 */}
+                    {/* 지역 선택기: 부천만 도시 전체 고정, 그 외 도시는 드롭다운 유지 */}
                     <div className="region-selector">
-                        <div className={`region-select-container ${isRegionDropdownOpen ? 'open' : ''}`}>
-                            <button 
-                                onClick={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
-                                className="region-select-toggle"
-                            >
-                                {selectedRegion || getCityAllText(selectedCity)}
-                            </button>
-                            {isRegionDropdownOpen && (
-                                <div className="region-select-dropdown">
-                                    <button 
-                                        onClick={() => {
-                                            setSelectedRegion('');
-                                            setIsRegionDropdownOpen(false);
-                                        }} 
-                                        className="region-select-option"
-                                    >
-                                        {getCityAllText(selectedCity)}
-                                    </button>
-                                    {cityRegions.map(region => (
+                        {selectedCity === 'bucheon' ? (
+                            <div className="region-select-container">
+                                <button className="region-select-toggle" disabled>
+                                    {getCityAllText(selectedCity)}
+                                </button>
+                            </div>
+                        ) : (
+                            <div className={`region-select-container ${isRegionDropdownOpen ? 'open' : ''}`}>
+                                <button 
+                                    onClick={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
+                                    className="region-select-toggle"
+                                >
+                                    {selectedRegion || getCityAllText(selectedCity)}
+                                </button>
+                                {isRegionDropdownOpen && (
+                                    <div className="region-select-dropdown">
                                         <button 
-                                            key={region} 
                                             onClick={() => {
-                                                setSelectedRegion(region);
+                                                setSelectedRegion('');
                                                 setIsRegionDropdownOpen(false);
-                                            }}
-                                            className={`region-select-option ${selectedRegion === region ? 'selected' : ''}`}
+                                            }} 
+                                            className="region-select-option"
                                         >
-                                            {selectedRegion === region && (
-                                                <span style={{ 
-                                                    color: '#10b981', 
-                                                    fontSize: '14px',
-                                                    fontWeight: 'bold',
-                                                    minWidth: '16px'
-                                                }}>
-                                                    ✓
-                                                </span>
-                                            )}
-                                            {selectedRegion !== region && (
-                                                <span style={{ 
-                                                    minWidth: '16px'
-                                                }}></span>
-                                            )}
-                                            <span>{region}</span>
+                                            {getCityAllText(selectedCity)}
                                         </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+                                        {cityRegions.map(region => (
+                                            <button 
+                                                key={region} 
+                                                onClick={() => {
+                                                    setSelectedRegion(region);
+                                                    setIsRegionDropdownOpen(false);
+                                                }}
+                                                className={`region-select-option ${selectedRegion === region ? 'selected' : ''}`}
+                                            >
+                                                {selectedRegion === region ? (
+                                                    <span style={{ 
+                                                        color: '#10b981', 
+                                                        fontSize: '14px',
+                                                        fontWeight: 'bold',
+                                                        minWidth: '16px'
+                                                    }}>
+                                                        ✓
+                                                    </span>
+                                                ) : (
+                                                    <span style={{ 
+                                                        minWidth: '16px'
+                                                    }}></span>
+                                                )}
+                                                <span>{region}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                     
                     {/* 아파트명 검색기 */}
@@ -857,7 +941,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                                     <td className="rank-cell">
                                         <span className="rank-badge">{getRankBadge(item.rank)}</span>
                                     </td>
-                                    <td className="region-cell">{item.region_name}</td>
+                                    <td className="region-cell">{formatRegionNameForDisplay(item.region_name, item)}</td>
                                     <td className="complex-cell" style={{ textAlign: 'left' }}>
                                                                                  <div className="complex-header" style={{
                                              display: 'flex',
