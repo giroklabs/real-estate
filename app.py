@@ -1817,19 +1817,27 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
-        # 기간/월 필터
+        # 기간/월 필터 (다양한 날짜 포맷 정규화)
+        month_expr = (
+            "CASE "
+            " WHEN instr(date,'-') >= 5 THEN substr(date,1,7) "
+            " WHEN instr(date,'.') >= 5 THEN substr(replace(date,'.','-'),1,7) "
+            " WHEN length(date) >= 6 THEN substr(date,1,4) || '-' || substr(date,5,2) "
+            " ELSE substr(date,1,7) END"
+        )
         if months_param == 'all':
             # 전체 기간: 날짜 필터 미적용
             date_filter = ""
             date_params = []
         elif months_param and months_param != 'all':
             month_list = [m.strip() for m in months_param.split(',') if m.strip()]
-            month_conditions = ["strftime('%Y-%m', date) = ?" for _ in month_list]
+            month_conditions = [f"{month_expr} = ?" for _ in month_list]
             date_filter = f"AND ({' OR '.join(month_conditions)})"
             date_params = month_list
         elif month:
-            date_filter = "AND strftime('%Y%m', date) = ?"
-            date_params = [month]
+            # YYYYMM → YYYY-MM으로 변환해 비교
+            date_filter = f"AND {month_expr} = ?"
+            date_params = [f"{month[:4]}-{month[4:6]}"]
         else:
             date_filter = "AND date >= date('now', '-' || ? || ' days')"
             date_params = [str(int(period))]
@@ -2174,14 +2182,19 @@ def get_apartment_rankings():
         
         print(f"아파트 순위 조회: region={region}, city={city}, period={period}, month={month}")
         
-        # 모든 지역의 Hot한 아파트 조회 (city가 지정되지 않은 경우)
-        if not city:
-            print(f"🌍 모든 지역의 Hot한 아파트 조회")
-            return get_all_cities_hot_apartments(period, month)
+        # 1) region-only 요청은 city 미지정이어도 DB 경로 사용 (월 정규화 동일 적용)
+        if region and not city:
+            print("🔎 region-only 요청: DB 경로로 처리")
+            return get_apartment_rankings_from_db('', region, period, month, limit)
         
-        # DB 쿼리 방식으로 직접 조회 (초기 로드 속도 최적화)
-        print(f"🔍 DB 쿼리 방식으로 {city} 아파트 순위 조회")
-        return get_apartment_rankings_from_db(city, region, period, month, limit)
+        # 2) city 지정 시 DB 경로 사용 (기존)
+        if city:
+            print(f"🔍 DB 쿼리 방식으로 {city} 아파트 순위 조회")
+            return get_apartment_rankings_from_db(city, region, period, month, limit)
+        
+        # 3) 둘 다 없는 경우에만 전체 Hot 아파트 조회
+        print(f"🌍 모든 지역의 Hot한 아파트 조회")
+        return get_all_cities_hot_apartments(period, month)
         
         # SQLite 데이터베이스에서 조회 (기존 방식)
         conn = sqlite3.connect('realstate.db')
