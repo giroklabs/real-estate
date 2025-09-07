@@ -1884,6 +1884,19 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
             region_filter = "AND region_name = ?"
             params.append(region)
 
+        # 기본 요청(개월 지정 없음)일 때, 최신 데이터가 있는 앵커월로 제한
+        if not months_param and not month:
+            try:
+                anchor_sql = f"SELECT MAX({month_expr}) FROM transactions WHERE 1=1 {city_filter} {(' AND region_name = ?') if region else ''}"
+                anchor_params = [region] if region else []
+                cursor.execute(anchor_sql, anchor_params)
+                anchor_month = (cursor.fetchone() or [None])[0]
+                if anchor_month:
+                    date_filter = f"AND {month_expr} = ?"
+                    date_params = [anchor_month]
+            except Exception:
+                pass
+
         # 안전한 limit
         try:
             lim = max(1, min(1000, int(limit)))
@@ -1910,6 +1923,36 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
 
         cursor.execute(query, [*date_params, *params])
         rows = cursor.fetchall()
+
+        # 다중 월 지정 시 결과 0건이면 앵커월로 폴백 (원격 DB 포맷 차이 대비)
+        if len(rows) == 0 and (months_param and months_param != 'all') and not month:
+            try:
+                anchor_sql = f"SELECT MAX({month_expr}) FROM transactions WHERE 1=1 {city_filter} {(' AND region_name = ?') if region else ''}"
+                anchor_params = [region] if region else []
+                cursor.execute(anchor_sql, anchor_params)
+                anchor_month_fb = (cursor.fetchone() or [None])[0]
+                if anchor_month_fb:
+                    fallback_query = f'''
+                        SELECT 
+                            region_name,
+                            complex_name,
+                            AVG(avg_price) AS avg_price,
+                            COUNT(*) AS transaction_count,
+                            MAX(latest_transaction_date) AS latest_transaction_date
+                        FROM transactions
+                        WHERE 1=1
+                        AND {month_expr} = ?
+                        {city_filter}
+                        {region_filter}
+                        GROUP BY region_name, complex_name
+                        ORDER BY avg_price DESC
+                        LIMIT {lim}
+                    '''
+                    cursor.execute(fallback_query, [anchor_month_fb, *params])
+                    rows = cursor.fetchall()
+            except Exception:
+                pass
+
         conn.close()
 
         rankings = []
