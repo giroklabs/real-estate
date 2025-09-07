@@ -1595,49 +1595,56 @@ def sentiment_index():
                 return (
                     "AND ("
                     " region_name LIKE '서울 %' OR region_name LIKE '서울%' OR"
-                    " region_name LIKE '서울특별시 %' OR region_name LIKE '서울특별시%'"
+                    " region_name LIKE '서울특별시 %' OR region_name LIKE '서울특별시%' OR"
+                    " region_name LIKE '서울시 %' OR region_name LIKE '서울시%'"
                     ")"
                 )
             if c == 'busan':
                 return (
                     "AND ("
                     " region_name LIKE '부산 %' OR region_name LIKE '부산%' OR"
-                    " region_name LIKE '부산광역시 %' OR region_name LIKE '부산광역시%'"
+                    " region_name LIKE '부산광역시 %' OR region_name LIKE '부산광역시%' OR"
+                    " region_name LIKE '부산시 %' OR region_name LIKE '부산시%'"
                     ")"
                 )
             if c == 'incheon':
                 return (
                     "AND ("
                     " region_name LIKE '인천 %' OR region_name LIKE '인천%' OR"
-                    " region_name LIKE '인천광역시 %' OR region_name LIKE '인천광역시%'"
+                    " region_name LIKE '인천광역시 %' OR region_name LIKE '인천광역시%' OR"
+                    " region_name LIKE '인천시 %' OR region_name LIKE '인천시%'"
                     ")"
                 )
             if c == 'daegu':
                 return (
                     "AND ("
                     " region_name LIKE '대구 %' OR region_name LIKE '대구%' OR"
-                    " region_name LIKE '대구광역시 %' OR region_name LIKE '대구광역시%'"
+                    " region_name LIKE '대구광역시 %' OR region_name LIKE '대구광역시%' OR"
+                    " region_name LIKE '대구시 %' OR region_name LIKE '대구시%'"
                     ")"
                 )
             if c == 'daejeon':
                 return (
                     "AND ("
                     " region_name LIKE '대전 %' OR region_name LIKE '대전%' OR"
-                    " region_name LIKE '대전광역시 %' OR region_name LIKE '대전광역시%'"
+                    " region_name LIKE '대전광역시 %' OR region_name LIKE '대전광역시%' OR"
+                    " region_name LIKE '대전시 %' OR region_name LIKE '대전시%'"
                     ")"
                 )
             if c == 'gwangju':
                 return (
                     "AND ("
                     " region_name LIKE '광주 %' OR region_name LIKE '광주%' OR"
-                    " region_name LIKE '광주광역시 %' OR region_name LIKE '광주광역시%'"
+                    " region_name LIKE '광주광역시 %' OR region_name LIKE '광주광역시%' OR"
+                    " region_name LIKE '광주시 %' OR region_name LIKE '광주시%'"
                     ")"
                 )
             if c == 'ulsan':
                 return (
                     "AND ("
                     " region_name LIKE '울산 %' OR region_name LIKE '울산%' OR"
-                    " region_name LIKE '울산광역시 %' OR region_name LIKE '울산광역시%'"
+                    " region_name LIKE '울산광역시 %' OR region_name LIKE '울산광역시%' OR"
+                    " region_name LIKE '울산시 %' OR region_name LIKE '울산시%'"
                     ")"
                 )
             if c == 'bucheon':
@@ -1653,30 +1660,55 @@ def sentiment_index():
         conn = sqlite3.connect(db_path)
         cur = conn.cursor()
 
-        # 1) 기준일(anchor): 해당 도시 데이터 중 가장 최근 날짜
-        cur.execute(f"SELECT MAX(date(date)) FROM transactions WHERE 1=1 {city_filter}")
-        tx_max = cur.fetchone()[0]
-        cur.execute(f"SELECT MAX(date(date)) FROM price_changes WHERE 1=1 {city_filter}")
-        pc_max = cur.fetchone()[0]
-        anchor_date = tx_max or pc_max
-        if tx_max and pc_max:
-            anchor_date = tx_max if tx_max >= pc_max else pc_max
-        if not anchor_date:
-            cur.execute("SELECT date('now')")
-            anchor_date = cur.fetchone()[0]
+        # robust month normalization (shared with rankings)
+        month_expr = (
+            "CASE "
+            " WHEN instr(replace(date,'.','-'),'-') >= 5 THEN "
+            "   printf('%s-%02d', substr(replace(date,'.','-'),1,4), CAST(substr(replace(date,'.','-'),6,2) AS INTEGER)) "
+            " WHEN length(date) >= 6 THEN substr(date,1,4) || '-' || substr(date,5,2) "
+            " ELSE substr(date,1,7) END"
+        )
 
-        # 구간 계산
-        w_start = f"date('{anchor_date}','-{days} days')"
-        w_prev_start = f"date('{anchor_date}','-{days*2} days')"
+        # 1) 기준월(anchor_month): 해당 도시 데이터 중 가장 최근 월
+        cur.execute(f"SELECT MAX({month_expr}) FROM transactions WHERE 1=1 {city_filter}")
+        tx_max_m = cur.fetchone()[0]
+        cur.execute(f"SELECT MAX({month_expr}) FROM price_changes WHERE 1=1 {city_filter}")
+        pc_max_m = cur.fetchone()[0]
+        anchor_month = tx_max_m or pc_max_m
+        if tx_max_m and pc_max_m:
+            anchor_month = tx_max_m if tx_max_m >= pc_max_m else pc_max_m
+        if not anchor_month:
+            anchor_month = datetime.utcnow().strftime('%Y-%m')
+
+        # helper: month arithmetic
+        def add_months(ym: str, delta: int) -> str:
+            year = int(ym[0:4])
+            month = int(ym[5:7])
+            total = year * 12 + (month - 1) + delta
+            new_year = total // 12
+            new_month = (total % 12) + 1
+            return f"{new_year:04d}-{new_month:02d}"
+
+        window_months = max(1, round(days / 30))
+        recent_months = [add_months(anchor_month, -i) for i in range(window_months)]
+        prev_months = [add_months(anchor_month, -(window_months + i)) for i in range(window_months)]
+        months_12 = [add_months(anchor_month, -i) for i in range(12)]
+
+        anchor_date = f"{anchor_month}-28"
 
         # 2) 거래 모멘텀: 최근 days vs 직전 days
+        # 2) 거래 모멘텀: 최근 window_months 개월 vs 직전 window_months 개월
+        def placeholders(n: int) -> str:
+            return ','.join(['?'] * n) if n > 0 else "''"
+
         cur.execute(
             f"""
             SELECT COALESCE(SUM(transaction_count),0)
             FROM transactions
-            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            WHERE {month_expr} IN ({placeholders(len(recent_months))})
             {city_filter}
-            """
+            """,
+            recent_months
         )
         vol_recent = cur.fetchone()[0] or 0
 
@@ -1684,21 +1716,23 @@ def sentiment_index():
             f"""
             SELECT COALESCE(SUM(transaction_count),0)
             FROM transactions
-            WHERE date >= {w_prev_start} AND date < {w_start}
+            WHERE {month_expr} IN ({placeholders(len(prev_months))})
             {city_filter}
-            """
+            """,
+            prev_months
         )
         vol_prev = cur.fetchone()[0] or 0
         vol_ratio = ((vol_recent - vol_prev) / vol_prev) if vol_prev > 0 else 0.0
 
-        # 3) 가격 모멘텀(최근 days 평균) + 분포 기반 정규화 파라미터(지난 365일)
+        # 3) 가격 모멘텀(최근 window_months 개월 평균) + 분포 기반 정규화 파라미터(지난 12개월)
         cur.execute(
             f"""
             SELECT AVG(price_change_rate)
             FROM price_changes
-            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            WHERE {month_expr} IN ({placeholders(len(recent_months))})
             {city_filter}
-            """
+            """,
+            recent_months
         )
         price_change_pct = cur.fetchone()[0] or 0.0
 
@@ -1706,12 +1740,82 @@ def sentiment_index():
             f"""
             SELECT price_change_rate
             FROM price_changes
-            WHERE date >= date('{anchor_date}','-365 days') AND date <= date('{anchor_date}')
+            WHERE {month_expr} IN ({placeholders(len(months_12))})
             {city_filter}
-            """
+            """,
+            months_12
         )
         pct_rows = [r[0] for r in cur.fetchall() if r and r[0] is not None]
         pct_rows.sort()
+
+        # Fallback: price_changes 데이터가 부족한 환경(원격 DB)에 대비하여
+        # transactions에서 월별 평균가격으로 가격모멘텀/분포/확산을 계산
+        if not pct_rows or price_change_pct == 0.0:
+            months_needed = set(months_12 + recent_months)
+            months_needed_with_prev = sorted({m for m in months_needed} | {add_months(m, -1) for m in months_needed})
+            cur.execute(
+                f"""
+                SELECT region_name, {month_expr} AS ym, AVG(avg_price) AS avgp
+                FROM transactions
+                WHERE {month_expr} IN ({placeholders(len(months_needed_with_prev))})
+                {city_filter}
+                GROUP BY region_name, ym
+                """,
+                months_needed_with_prev
+            )
+            rows_avg = cur.fetchall() or []
+            region_month_to_avg = {}
+            for region_name, ym, avgp in rows_avg:
+                if ym is None:
+                    continue
+                region_month_to_avg.setdefault(region_name, {})[ym] = float(avgp or 0.0)
+
+            # 12개월 분포용 변화율 집계
+            rates_12 = []
+            for region_name, month_map in region_month_to_avg.items():
+                for ym in months_12:
+                    prev = add_months(ym, -1)
+                    if ym in month_map and prev in month_map:
+                        prev_val = month_map[prev]
+                        curr_val = month_map[ym]
+                        if prev_val and abs(prev_val) > 1e-9:
+                            rates_12.append((curr_val - prev_val) / abs(prev_val) * 100.0)
+
+            rates_12.sort()
+            if rates_12:
+                pct_rows = rates_12[:]
+                # 최근 구간 평균 가격변동률
+                recent_rates = []
+                for region_name, month_map in region_month_to_avg.items():
+                    vals = []
+                    for ym in recent_months:
+                        prev = add_months(ym, -1)
+                        if ym in month_map and prev in month_map:
+                            prev_val = month_map[prev]
+                            curr_val = month_map[ym]
+                            if prev_val and abs(prev_val) > 1e-9:
+                                vals.append((curr_val - prev_val) / abs(prev_val) * 100.0)
+                    if vals:
+                        recent_rates.extend(vals)
+                price_change_pct = sum(recent_rates)/len(recent_rates) if recent_rates else 0.0
+
+                # 확산: 최근 구간에서 상승(평균>0)한 지역 비율
+                pos_regions = 0
+                total_regions = 0
+                for region_name, month_map in region_month_to_avg.items():
+                    vals = []
+                    for ym in recent_months:
+                        prev = add_months(ym, -1)
+                        if ym in month_map and prev in month_map:
+                            prev_val = month_map[prev]
+                            curr_val = month_map[ym]
+                            if prev_val and abs(prev_val) > 1e-9:
+                                vals.append((curr_val - prev_val) / abs(prev_val) * 100.0)
+                    if vals:
+                        total_regions += 1
+                        if (sum(vals)/len(vals)) > 0:
+                            pos_regions += 1
+                breadth_ratio = (pos_regions/total_regions) if total_regions > 0 else 0.0
 
         def percentile(arr, p):
             if not arr:
@@ -1736,25 +1840,28 @@ def sentiment_index():
             f"""
             SELECT region_name, AVG(price_change_rate) as avg_change
             FROM price_changes
-            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            WHERE {month_expr} IN ({placeholders(len(recent_months))})
             {city_filter}
             GROUP BY region_name
-            """
+            """,
+            recent_months
         )
         rows = cur.fetchall() or []
         breadth_den = len(rows)
         breadth_pos = sum(1 for _, avgc in rows if (avgc or 0) > 0)
         breadth_ratio = (breadth_pos / breadth_den) if breadth_den > 0 else 0.0
 
-        # 5) 데이터 충분성 / 신뢰도
+        # 5) 데이터 충분성 / 신뢰도 (월 단위)
         cur.execute(
             f"""
-            SELECT COUNT(DISTINCT date) FROM price_changes
-            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            SELECT COUNT(DISTINCT {month_expr}) FROM price_changes
+            WHERE {month_expr} IN ({placeholders(len(recent_months))})
             {city_filter}
-            """
+            """,
+            recent_months
         )
-        days_present = cur.fetchone()[0] or 0
+        months_present = cur.fetchone()[0] or 0
+        days_present = months_present * 30
         sample_volume = vol_recent
         confidence = min(1.0, (days_present/30.0)*0.5 + min(1.0, sample_volume/100.0)*0.5)
 
