@@ -510,6 +510,28 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             // currentCityData가 없거나, 도시 데이터에 레코드가 없으면 백엔드 API 호출 (2단계 로딩: top N -> full)
             let url = '/api/apartments/rankings?';
             const params = [];
+
+            // 도시 데이터 기준 가용 월을 우선 확보하여 월 파라미터 보정 (서로 다른 도시 왕복 시 0건 방지)
+            const monthSetForCity = new Set();
+            if (normalizedCityData && Object.keys(normalizedCityData).length > 0) {
+                Object.values(normalizedCityData).forEach(rows => {
+                    if (Array.isArray(rows)) {
+                        rows.forEach(r => {
+                            const ds = (r.latest_transaction_date || r.date || '').toString();
+                            if (ds && ds.length >= 7) monthSetForCity.add(`${ds.slice(0,4)}-${ds.slice(5,7)}`);
+                        });
+                    }
+                });
+            }
+            const availableMonths = Array.from(monthSetForCity).sort((a,b) => (a < b ? 1 : -1));
+            let monthsToUse = selectedMonths;
+            if (monthsToUse.length > 0 && availableMonths.length > 0) {
+                const overlap = monthsToUse.some(m => availableMonths.includes(m));
+                if (!overlap) {
+                    monthsToUse = availableMonths.slice(0, 2);
+                    if (monthsToUse.length > 0) setSelectedMonths(monthsToUse);
+                }
+            }
             
             if (selectedRegion) {
                 params.push(`region=${encodeURIComponent(selectedRegion)}`);
@@ -521,8 +543,8 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 console.log('🌍 모든 지역의 Hot한 아파트 조회');
             }
             
-            if (selectedMonths.length > 0) {
-                params.push(`months=${selectedMonths.map(m => encodeURIComponent(m)).join(',')}`);
+            if (monthsToUse.length > 0) {
+                params.push(`months=${monthsToUse.map(m => encodeURIComponent(m)).join(',')}`);
             } else {
                 // 전체 기간 선택 시 파라미터 제거
                 params.push(`months=all`);
@@ -560,8 +582,9 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 let totalTransactions = 0;
                 // 월별 필터링 범위 계산
                 let selectedMonthRanges = [];
-                if (selectedMonths.length > 0) {
-                    selectedMonthRanges = selectedMonths.map(monthStr => {
+                const monthsForFallback = (monthsToUse && monthsToUse.length > 0) ? monthsToUse : selectedMonths;
+                if (monthsForFallback.length > 0) {
+                    selectedMonthRanges = monthsForFallback.map(monthStr => {
                         const [year, month] = monthStr.split('-').map(Number);
                         const startDate = new Date(year, month - 1, 1);
                         const endDate = new Date(year, month, 0);

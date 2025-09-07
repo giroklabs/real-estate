@@ -1794,7 +1794,10 @@ def sentiment_index():
         }
 
         conn.close()
-        return create_gzipped_response(payload, cache_seconds=300)
+        resp = create_gzipped_response(payload, cache_seconds=0)
+        resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
+        resp.headers['Pragma'] = 'no-cache'
+        return resp
 
     except Exception as e:
         try:
