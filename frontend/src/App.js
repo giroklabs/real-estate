@@ -19,8 +19,7 @@ import './App.styles.css';
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5002/api';
 const IS_LOCAL = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
-// axios 기본 설정 - Gzip 압축 요청
-axios.defaults.headers.common['Accept-Encoding'] = 'gzip, deflate, br';
+// axios 기본 설정 - response는 gzip 자동 처리됨(브라우저), 금지 헤더 설정 제거
 axios.defaults.headers.common['Accept'] = 'application/json, text/plain, */*';
 
 // 메모리 캐시 - 도시별 데이터 저장

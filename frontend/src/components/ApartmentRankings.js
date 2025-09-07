@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiBase';
 
 const TOP_N = parseInt(process.env.REACT_APP_TOP_N || '30', 10);
 
@@ -115,11 +116,15 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         };
     }, [isMonthDropdownOpen, isRegionDropdownOpen]);
 
-    // 도시 변경 시: 전체기간으로 초기화, 서울 첫 진입만 강남구 유지
+    // 도시 변경 시: 전체기간으로 초기화, 최신 요청만 반영되도록 지역 먼저 정리
     useEffect(() => {
         if (selectedCity) {
             // 다른 도시 → 다시 서울 등으로 전환 시 월 선택을 초기화(전체기간)
             setSelectedMonths([]);
+            // 첫 진입이 아니면 즉시 지역 초기화하여 city/region 혼용 방지
+            if (!isFirstLoad) {
+                setSelectedRegion('');
+            }
             // 최초 진입 시 서울은 강남구 50위 우선 렌더
             if (isFirstLoad && selectedCity === 'seoul') {
                 setSelectedRegion('서울 강남구');
@@ -486,7 +491,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
             
             // currentCityData가 없거나, 도시 데이터에 레코드가 없으면 백엔드 API 호출 (2단계 로딩: top N -> full)
-            let url = '/api/apartments/rankings?';
+            let url = `${API_BASE_URL}/apartments/rankings?`;
             const params = [];
 
             // 도시 데이터 기준 가용 월을 우선 확보하여 월 파라미터 보정 (서로 다른 도시 왕복 시 0건 방지)
@@ -523,13 +528,13 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             
             if (monthsToUse.length > 0) {
                 params.push(`months=${monthsToUse.map(m => encodeURIComponent(m)).join(',')}`);
-            } else {
-                // 전체 기간 선택 시 파라미터 제거
+            } else if (!isFirstLoad) {
+                // 최초가 아니고 선택 월도 없으면 전체기간 명시
                 params.push(`months=all`);
-            }
+            } // 최초 로드는 months 파라미터를 붙이지 않아 백엔드 앵커월 기본값 사용
             
-            // 1) Top 먼저 (최초+서울 강남구면 50위)
-            const initialGangnam = isFirstLoad && selectedCity === 'seoul' && (selectedRegion === '서울 강남구' || !selectedRegion);
+            // 1) Top 먼저 (최초+서울이면 50위). 첫 호출과 full 호출 모두 동일 months 파라미터 사용
+            const initialGangnam = isFirstLoad && selectedCity === 'seoul';
             const topLimit = initialGangnam ? 50 : TOP_N;
             const topUrl = `${url}${params.join('&')}${params.length ? '&' : ''}limit=${topLimit}`;
             const responseTop = await axios.get(topUrl);
@@ -541,7 +546,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 setRankings([]);
             }
 
-            // 2) 전체 데이터 비동기 로드
+            // 2) 전체 데이터 비동기 로드 (동일 months 유지)
             try {
                 const fullUrl = `${url}${params.join('&')}`; // limit 없이 전체
                 const responseFull = await axios.get(fullUrl);
@@ -570,6 +575,24 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                         const endDate = new Date(year, month, 0);
                         return { startDate, endDate };
                     });
+                } else {
+                    // 월 지정이 없다면 앵커월(가장 최신 거래월)로 필터링
+                    let anchorTime = 0;
+                    Object.values(normalizedCityData).forEach(rows => {
+                        if (Array.isArray(rows)) {
+                            rows.forEach(r => {
+                                const ds = new Date(r.latest_transaction_date || r.date);
+                                const t = ds instanceof Date && !isNaN(ds) ? ds.getTime() : 0;
+                                if (t > anchorTime) anchorTime = t;
+                            });
+                        }
+                    });
+                    if (anchorTime > 0) {
+                        const d = new Date(anchorTime);
+                        const startDate = new Date(d.getFullYear(), d.getMonth(), 1);
+                        const endDate = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+                        selectedMonthRanges = [{ startDate, endDate }];
+                    }
                 }
                 Object.keys(normalizedCityData).forEach(region => {
                     const regionData = normalizedCityData[region];
@@ -615,7 +638,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             // 추가 폴백: 도시 데이터 자체가 없을 때 city?fields=min으로 최소 데이터 수집 후 프런트 집계
             if ((!Array.isArray(rankings) || rankings.length === 0) && (!normalizedCityData || !hasAnyCityTransactions) && selectedCity) {
                 try {
-                    const cityRes = await axios.get(`/api/cities/${encodeURIComponent(selectedCity)}?fields=min`);
+                    const cityRes = await axios.get(`${API_BASE_URL}/cities/${encodeURIComponent(selectedCity)}?fields=min`);
                     if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
                     const raw = (cityRes.data && cityRes.data.data) || {};
                     const cityNorm = {};
@@ -633,6 +656,24 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                             const endDate = new Date(year, month, 0);
                             return { startDate, endDate };
                         });
+                    } else {
+                        // city 최소 데이터에서도 앵커월 계산
+                        let anchorTime = 0;
+                        Object.values(cityNorm).forEach(rows => {
+                            if (Array.isArray(rows)) {
+                                rows.forEach(r => {
+                                    const ds = new Date(r.latest_transaction_date || r.date);
+                                    const t = ds instanceof Date && !isNaN(ds) ? ds.getTime() : 0;
+                                    if (t > anchorTime) anchorTime = t;
+                                });
+                            }
+                        });
+                        if (anchorTime > 0) {
+                            const d = new Date(anchorTime);
+                            const startDate = new Date(d.getFullYear(), d.getMonth(), 1);
+                            const endDate = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+                            selectedMonthRanges = [{ startDate, endDate }];
+                        }
                     }
                     Object.keys(cityNorm).forEach(region => {
                         const regionData = cityNorm[region];
@@ -689,10 +730,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         fetchRankings();
     }, [fetchRankings]);
 
-    // 도시 변경 시: 최초 로드 이후에는 지역 초기화
-    useEffect(() => {
-        if (!isFirstLoad) setSelectedRegion('');
-    }, [selectedCity]);
+    // (보강) 별도 훅은 제거하여 중복 호출/순서 혼선을 줄임
 
     // 정렬이 변경될 때마다 순위 데이터 재정렬 (중복 실행 방지)
     useEffect(() => {
