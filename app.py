@@ -1818,10 +1818,11 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
         cursor = conn.cursor()
 
         # 기간/월 필터 (다양한 날짜 포맷 정규화)
+        # 월 정규화: 하이픈/닷 포맷(YYYY-M[-DD], YYYY-MM[-DD])은 printf로 0패딩, 숫자만(YYYYMM[DD])은 분기
         month_expr = (
             "CASE "
-            " WHEN instr(date,'-') >= 5 THEN substr(date,1,7) "
-            " WHEN instr(date,'.') >= 5 THEN substr(replace(date,'.','-'),1,7) "
+            " WHEN instr(replace(date,'.','-'),'-') >= 5 THEN "
+            "   printf('%s-%02d', substr(replace(date,'.','-'),1,4), CAST(substr(replace(date,'.','-'),6,2) AS INTEGER)) "
             " WHEN length(date) >= 6 THEN substr(date,1,4) || '-' || substr(date,5,2) "
             " ELSE substr(date,1,7) END"
         )
