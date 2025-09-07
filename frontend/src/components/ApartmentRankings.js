@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import axios from 'axios';
 
-const TOP_N = parseInt(process.env.REACT_APP_TOP_N || '50', 10);
+const TOP_N = parseInt(process.env.REACT_APP_TOP_N || '30', 10);
 
 const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimestamp }) => {
     console.log('ApartmentRankings 렌더링됨');
@@ -11,25 +11,14 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     const [rankings, setRankings] = useState([]);
 
     const [selectedRegion, setSelectedRegion] = useState('');
-    const [selectedMonths, setSelectedMonths] = useState(() => {
-        // 초기값을 현재월과 지난월로 설정
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1; // 0-based이므로 +1
-        
-        const currentMonthStr = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
-        const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-        const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
-        const lastMonthStr = `${lastMonthYear}-${lastMonth.toString().padStart(2, '0')}`;
-        
-        return [currentMonthStr, lastMonthStr];
-    });
+    const [selectedMonths, setSelectedMonths] = useState([]); // 초기 전체기간
     const [sortBy, setSortBy] = useState('transaction_count'); // 정렬 기준
     const [sortOrder, setSortOrder] = useState('desc'); // 정렬 순서
     const [loading, setLoading] = useState(false);
     const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState(false);
     const [isRegionDropdownOpen, setIsRegionDropdownOpen] = useState(false);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const requestSeqRef = useRef(0); // 비동기 응답 순서 보장용
 
     const [searchTerm, setSearchTerm] = useState(''); // 아파트명 검색어 상태 추가
     
@@ -126,23 +115,11 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         };
     }, [isMonthDropdownOpen, isRegionDropdownOpen]);
 
-    // 도시 변경 시 현재월과 지난월 데이터 자동 선택
+    // 도시 변경 시: 전체기간으로 초기화, 서울 첫 진입만 강남구 유지
     useEffect(() => {
         if (selectedCity) {
-            const availableMonths = generateAvailableMonths();
-            if (availableMonths.length > 0) {
-                const latestMonths = availableMonths.slice(0, 2).map(m => m.value);
-                setSelectedMonths(latestMonths);
-            } else {
-                // 이용 가능한 월이 없으면 현재월+이전월 기본 설정
-                const now = new Date();
-                const y = now.getFullYear();
-                const m = now.getMonth() + 1;
-                const cur = `${y}-${String(m).padStart(2,'0')}`;
-                const prevDate = new Date(y, m - 2, 1);
-                const prev = `${prevDate.getFullYear()}-${String(prevDate.getMonth() + 1).padStart(2,'0')}`;
-                setSelectedMonths([cur, prev]);
-            }
+            // 다른 도시 → 다시 서울 등으로 전환 시 월 선택을 초기화(전체기간)
+            setSelectedMonths([]);
             // 최초 진입 시 서울은 강남구 50위 우선 렌더
             if (isFirstLoad && selectedCity === 'seoul') {
                 setSelectedRegion('서울 강남구');
@@ -386,6 +363,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
 
     // fetchRankings 함수를 useCallback으로 메모이제이션
     const fetchRankings = useCallback(async () => {
+        const mySeq = ++requestSeqRef.current;
         console.log('=== fetchRankings 시작 ===');
         console.log('selectedRegion:', selectedRegion);
         console.log('selectedCity:', selectedCity);
@@ -555,6 +533,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             const topLimit = initialGangnam ? 50 : TOP_N;
             const topUrl = `${url}${params.join('&')}${params.length ? '&' : ''}limit=${topLimit}`;
             const responseTop = await axios.get(topUrl);
+            if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
             if (responseTop.data && responseTop.data.status === 'success') {
                 const topData = responseTop.data.apartments || responseTop.data.data || [];
                 setRankings(sortRankings(topData));
@@ -566,6 +545,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             try {
                 const fullUrl = `${url}${params.join('&')}`; // limit 없이 전체
                 const responseFull = await axios.get(fullUrl);
+                if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
                 if (responseFull.data && responseFull.data.status === 'success') {
                     const fullData = responseFull.data.apartments || responseFull.data.data || [];
                     // 기존 top 100와 동일 정렬 기준으로 교체
@@ -630,6 +610,71 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 const rankingsData = Object.values(apartmentStats);
                 setRankings(sortRankings(rankingsData));
                 console.log(`프런트 폴백 결과: ${rankingsData.length}건, 처리 거래수: ${totalTransactions}`);
+            }
+
+            // 추가 폴백: 도시 데이터 자체가 없을 때 city?fields=min으로 최소 데이터 수집 후 프런트 집계
+            if ((!Array.isArray(rankings) || rankings.length === 0) && (!normalizedCityData || !hasAnyCityTransactions) && selectedCity) {
+                try {
+                    const cityRes = await axios.get(`/api/cities/${encodeURIComponent(selectedCity)}?fields=min`);
+                    if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
+                    const raw = (cityRes.data && cityRes.data.data) || {};
+                    const cityNorm = {};
+                    Object.entries(raw).forEach(([region, rows]) => {
+                        if (!cityNorm[region]) cityNorm[region] = [];
+                        if (Array.isArray(rows)) cityNorm[region] = cityNorm[region].concat(rows);
+                    });
+
+                    const apartmentStats = {};
+                    let selectedMonthRanges = [];
+                    if (selectedMonths.length > 0) {
+                        selectedMonthRanges = selectedMonths.map(monthStr => {
+                            const [year, month] = monthStr.split('-').map(Number);
+                            const startDate = new Date(year, month - 1, 1);
+                            const endDate = new Date(year, month, 0);
+                            return { startDate, endDate };
+                        });
+                    }
+                    Object.keys(cityNorm).forEach(region => {
+                        const regionData = cityNorm[region];
+                        if (Array.isArray(regionData)) {
+                            regionData.forEach(transaction => {
+                                if (selectedMonthRanges.length > 0) {
+                                    const transactionDate = new Date(transaction.latest_transaction_date || transaction.date);
+                                    const isInSelectedMonths = selectedMonthRanges.some(range => (
+                                        transactionDate >= range.startDate && transactionDate <= range.endDate
+                                    ));
+                                    if (!isInSelectedMonths) return;
+                                }
+                                const complexName = transaction.complex_name;
+                                if (!apartmentStats[complexName]) {
+                                    apartmentStats[complexName] = {
+                                        complex_name: complexName,
+                                        region_name: region,
+                                        transaction_count: 0,
+                                        total_price: 0,
+                                        avg_price: 0,
+                                        latest_transaction_date: ''
+                                    };
+                                }
+                                const price = transaction.avg_price || 0;
+                                apartmentStats[complexName].transaction_count++;
+                                apartmentStats[complexName].total_price += price;
+                                const tDate = transaction.latest_transaction_date || transaction.date;
+                                if (!apartmentStats[complexName].latest_transaction_date || new Date(tDate) > new Date(apartmentStats[complexName].latest_transaction_date)) {
+                                    apartmentStats[complexName].latest_transaction_date = tDate;
+                                }
+                            });
+                        }
+                    });
+                    const rankingsData = Object.values(apartmentStats).map(s => ({
+                        ...s,
+                        avg_price: Math.round(s.total_price / Math.max(1, s.transaction_count))
+                    }));
+                    setRankings(sortRankings(rankingsData));
+                    console.log(`추가 폴백(city?fields=min) 결과: ${rankingsData.length}건`);
+                } catch (e) {
+                    console.log('추가 폴백(city?fields=min) 실패', e);
+                }
             }
             if (isFirstLoad) setIsFirstLoad(false);
         } catch (error) {
