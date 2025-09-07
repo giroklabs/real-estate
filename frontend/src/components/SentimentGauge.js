@@ -16,6 +16,7 @@ const SentimentGauge = ({ city }) => {
         const params = new URLSearchParams();
         if (city) params.append('city', city);
         params.append('days', '30');
+        params.append('v', '2');
         const res = await axios.get(`${API_BASE_URL}/sentiment-index?${params.toString()}`);
         if (!mounted) return;
         setData(res.data);
@@ -79,12 +80,35 @@ const SentimentGauge = ({ city }) => {
         </div>
       </div>
 
+      {(() => {
+        const fmtYM = (s) => {
+          if (!s) return '';
+          try {
+            const [y,m] = s.split('-');
+            return `${y}년 ${m.padStart(2,'0')}월`;
+          } catch { return s; }
+        };
+        const rangeText = data?.meta?.window_start && data?.meta?.window_end
+          ? `${fmtYM(data.meta.window_start)} ~ ${fmtYM(data.meta.window_end)}`
+          : `최근 ${data?.days ?? 30}일`;
+        return null;
+      })()}
+
       <div style={{
         width: barWidth, maxWidth: 820, backgroundColor: '#f8f9fa', borderRadius: 8,
         padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', marginTop: '0.75rem', textAlign: 'left'
       }}>
         <div style={{ fontSize: '1rem', fontWeight: 600, color: '#111827', marginBottom: '0.6rem' }}>
-          계산 기준 (최근 {data?.days ?? 30}일)
+          {(() => {
+            const fmtYM = (s) => {
+              if (!s) return '';
+              try { const [y,m] = s.split('-'); return `${y}년 ${m.padStart(2,'0')}월`; } catch { return s; }
+            };
+            if (data?.meta?.window_start && data?.meta?.window_end) {
+              return `계산 기준 (${fmtYM(data.meta.window_start)} ~ ${fmtYM(data.meta.window_end)})`;
+            }
+            return `계산 기준 (최근 ${data?.days ?? 30}일)`;
+          })()}
         </div>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.85rem', color: '#4b5563' }}>
           <li style={{ marginBottom: '0.4rem' }}>

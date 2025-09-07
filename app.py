@@ -1571,6 +1571,238 @@ def get_market_overview():
         'active_regions': active_regions
     })
 
+# ---------------------------------------------------------------------------
+# Sentiment Index (v1/v2)
+# ---------------------------------------------------------------------------
+@app.route('/api/sentiment-index', methods=['GET'])
+def sentiment_index():
+    """공포탐욕지수
+    - v 파라미터가 '2'이면 향상된 v2 로직
+    - 기본(v1 미정의인 경우)도 v2를 사용
+    """
+    try:
+        version = request.args.get('v', '2')
+        if version != '2':
+            version = '2'
+
+        days = int(request.args.get('days', 30))
+        city = request.args.get('city', '')
+
+        def build_city_filter(c: str) -> str:
+            if not c:
+                return ''
+            if c == 'seoul':
+                return "AND region_name LIKE '서울 %'"
+            if c == 'busan':
+                return "AND region_name LIKE '부산 %'"
+            if c == 'incheon':
+                return "AND region_name LIKE '인천 %'"
+            if c == 'daegu':
+                return "AND region_name LIKE '대구 %'"
+            if c == 'daejeon':
+                return "AND region_name LIKE '대전 %'"
+            if c == 'gwangju':
+                return "AND region_name LIKE '광주 %'"
+            if c == 'ulsan':
+                return "AND region_name LIKE '울산 %'"
+            if c == 'bucheon':
+                return "AND (region_name LIKE '부천%' OR region_name LIKE '경기 부천%')"
+            if c == 'seongnam':
+                return "AND (region_name LIKE '성남%' OR region_name LIKE '경기 성남%')"
+            if c == 'guri':
+                return "AND (region_name LIKE '구리%' OR region_name LIKE '경기 구리%')"
+            return ''
+
+        city_filter = build_city_filter(city)
+        db_path = os.environ.get('DATABASE_PATH', 'realstate.db')
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+
+        # 1) 기준일(anchor): 해당 도시 데이터 중 가장 최근 날짜
+        cur.execute(f"SELECT MAX(date(date)) FROM transactions WHERE 1=1 {city_filter}")
+        tx_max = cur.fetchone()[0]
+        cur.execute(f"SELECT MAX(date(date)) FROM price_changes WHERE 1=1 {city_filter}")
+        pc_max = cur.fetchone()[0]
+        anchor_date = tx_max or pc_max
+        if tx_max and pc_max:
+            anchor_date = tx_max if tx_max >= pc_max else pc_max
+        if not anchor_date:
+            cur.execute("SELECT date('now')")
+            anchor_date = cur.fetchone()[0]
+
+        # 구간 계산
+        w_start = f"date('{anchor_date}','-{days} days')"
+        w_prev_start = f"date('{anchor_date}','-{days*2} days')"
+
+        # 2) 거래 모멘텀: 최근 days vs 직전 days
+        cur.execute(
+            f"""
+            SELECT COALESCE(SUM(transaction_count),0)
+            FROM transactions
+            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            {city_filter}
+            """
+        )
+        vol_recent = cur.fetchone()[0] or 0
+
+        cur.execute(
+            f"""
+            SELECT COALESCE(SUM(transaction_count),0)
+            FROM transactions
+            WHERE date >= {w_prev_start} AND date < {w_start}
+            {city_filter}
+            """
+        )
+        vol_prev = cur.fetchone()[0] or 0
+        vol_ratio = ((vol_recent - vol_prev) / vol_prev) if vol_prev > 0 else 0.0
+
+        # 3) 가격 모멘텀(최근 days 평균) + 분포 기반 정규화 파라미터(지난 365일)
+        cur.execute(
+            f"""
+            SELECT AVG(price_change_rate)
+            FROM price_changes
+            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            {city_filter}
+            """
+        )
+        price_change_pct = cur.fetchone()[0] or 0.0
+
+        cur.execute(
+            f"""
+            SELECT price_change_rate
+            FROM price_changes
+            WHERE date >= date('{anchor_date}','-365 days') AND date <= date('{anchor_date}')
+            {city_filter}
+            """
+        )
+        pct_rows = [r[0] for r in cur.fetchall() if r and r[0] is not None]
+        pct_rows.sort()
+
+        def percentile(arr, p):
+            if not arr:
+                return 0.0
+            if p <= 0:
+                return arr[0]
+            if p >= 100:
+                return arr[-1]
+            k = (len(arr)-1) * (p/100.0)
+            f = int(k)
+            c = min(f+1, len(arr)-1)
+            if f == c:
+                return arr[f]
+            return arr[f] + (arr[c]-arr[f]) * (k - f)
+
+        p10 = percentile(pct_rows, 10)
+        p50 = percentile(pct_rows, 50)
+        p90 = percentile(pct_rows, 90)
+
+        # 4) 상승 확산: 지역별 평균이 양수인 비중
+        cur.execute(
+            f"""
+            SELECT region_name, AVG(price_change_rate) as avg_change
+            FROM price_changes
+            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            {city_filter}
+            GROUP BY region_name
+            """
+        )
+        rows = cur.fetchall() or []
+        breadth_den = len(rows)
+        breadth_pos = sum(1 for _, avgc in rows if (avgc or 0) > 0)
+        breadth_ratio = (breadth_pos / breadth_den) if breadth_den > 0 else 0.0
+
+        # 5) 데이터 충분성 / 신뢰도
+        cur.execute(
+            f"""
+            SELECT COUNT(DISTINCT date) FROM price_changes
+            WHERE date >= {w_start} AND date <= date('{anchor_date}')
+            {city_filter}
+            """
+        )
+        days_present = cur.fetchone()[0] or 0
+        sample_volume = vol_recent
+        confidence = min(1.0, (days_present/30.0)*0.5 + min(1.0, sample_volume/100.0)*0.5)
+
+        # 6) 정규화
+        # 가격: P10→0, P50→50, P90→100 (piecewise linear)
+        def normalize_price_v2(x: float) -> float:
+            try:
+                if p90 == p10:  # fallback
+                    return 50.0
+                if x <= p10:
+                    return 0.0
+                if x >= p90:
+                    return 100.0
+                if x <= p50:
+                    # P10~P50 → 0~50
+                    return (x - p10) / max(1e-9, (p50 - p10)) * 50.0
+                # P50~P90 → 50~100
+                return 50.0 + (x - p50) / max(1e-9, (p90 - p50)) * 50.0
+            except Exception:
+                return 50.0
+
+        # 거래: [-60%, +60%] 클립 후 0↔50 매핑
+        def normalize_volume_v2(ratio: float) -> float:
+            try:
+                v = max(-0.6, min(0.6, ratio))
+                return (v + 0.6) / 1.2 * 100.0
+            except Exception:
+                return 50.0
+
+        # 확산: 0→0, 0.5→50, 1.0→100
+        def normalize_breadth_v2(ratio: float) -> float:
+            try:
+                v = max(0.0, min(1.0, ratio))
+                return v * 100.0
+            except Exception:
+                return 50.0
+
+        score_price = normalize_price_v2(price_change_pct)
+        score_volume = normalize_volume_v2(vol_ratio)
+        score_breadth = normalize_breadth_v2(breadth_ratio)
+
+        # 7) 가중치: 충분성 낮으면 가격/거래 낮추고 확산 가중
+        if days_present < 20 or sample_volume < 50:
+            w_price, w_volume, w_breadth = 0.35, 0.25, 0.40
+        else:
+            w_price, w_volume, w_breadth = 0.45, 0.35, 0.20
+
+        index_value = w_price*score_price + w_volume*score_volume + w_breadth*score_breadth
+
+        payload = {
+            'index': round(index_value, 1),
+            'days': days,
+            'city': city,
+            'components': {
+                'price_change_pct': price_change_pct,
+                'volume_delta_ratio': vol_ratio,
+                'breadth_ratio': breadth_ratio,
+                'score_price': round(score_price, 1),
+                'score_volume': round(score_volume, 1),
+                'score_breadth': round(score_breadth, 1)
+            },
+            'meta': {
+                'version': version,
+                'anchor_date': anchor_date,
+                'window_start': (datetime.strptime(anchor_date, '%Y-%m-%d') - timedelta(days=days)).strftime('%Y-%m-%d'),
+                'window_end': anchor_date,
+                'days_present': days_present,
+                'sample_volume': sample_volume,
+                'p10': p10, 'p50': p50, 'p90': p90,
+                'confidence': round(confidence, 2)
+            }
+        }
+
+        conn.close()
+        return create_gzipped_response(payload, cache_seconds=300)
+
+    except Exception as e:
+        try:
+            conn.close()
+        except Exception:
+            pass
+        return jsonify({'status': 'error', 'message': f'sentiment v2 error: {str(e)}'}), 500
+
 def get_apartment_rankings_from_db(city, region, period, month, limit=100):
     """데이터베이스에서 아파트 순위 조회 (DB 쿼리 방식, 존재 컬럼만 사용)"""
     try:

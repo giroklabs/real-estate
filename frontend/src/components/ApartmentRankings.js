@@ -29,6 +29,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
     const [loading, setLoading] = useState(false);
     const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState(false);
     const [isRegionDropdownOpen, setIsRegionDropdownOpen] = useState(false);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
 
     const [searchTerm, setSearchTerm] = useState(''); // 아파트명 검색어 상태 추가
     
@@ -141,6 +142,10 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 const prevDate = new Date(y, m - 2, 1);
                 const prev = `${prevDate.getFullYear()}-${String(prevDate.getMonth() + 1).padStart(2,'0')}`;
                 setSelectedMonths([cur, prev]);
+            }
+            // 최초 진입 시 서울은 강남구 50위 우선 렌더
+            if (isFirstLoad && selectedCity === 'seoul') {
+                setSelectedRegion('서울 강남구');
             }
             setLoading(true);
         }
@@ -523,8 +528,10 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 params.push(`months=all`);
             }
             
-            // 1) Top 100 먼저
-            const topUrl = `${url}${params.join('&')}${params.length ? '&' : ''}limit=${TOP_N}`;
+            // 1) Top 먼저 (최초+서울 강남구면 50위)
+            const initialGangnam = isFirstLoad && selectedCity === 'seoul' && (selectedRegion === '서울 강남구' || !selectedRegion);
+            const topLimit = initialGangnam ? 50 : TOP_N;
+            const topUrl = `${url}${params.join('&')}${params.length ? '&' : ''}limit=${topLimit}`;
             const responseTop = await axios.get(topUrl);
             if (responseTop.data && responseTop.data.status === 'success') {
                 const topData = responseTop.data.apartments || responseTop.data.data || [];
@@ -601,6 +608,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 setRankings(sortRankings(rankingsData));
                 console.log(`프런트 폴백 결과: ${rankingsData.length}건, 처리 거래수: ${totalTransactions}`);
             }
+            if (isFirstLoad) setIsFirstLoad(false);
         } catch (error) {
             console.error('아파트 순위 조회 실패:', error);
             setRankings([]); // 에러 시 빈 배열로 초기화
@@ -613,9 +621,9 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         fetchRankings();
     }, [fetchRankings]);
 
-    // 도시 변경 시 기본 지역 선택 로직: 서울이면 '서울 강남구' 우선, 그 외는 초기화
+    // 도시 변경 시: 최초 로드 이후에는 지역 초기화
     useEffect(() => {
-        setSelectedRegion('');
+        if (!isFirstLoad) setSelectedRegion('');
     }, [selectedCity]);
 
     // 정렬이 변경될 때마다 순위 데이터 재정렬 (중복 실행 방지)
