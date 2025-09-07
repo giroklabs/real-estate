@@ -1067,9 +1067,9 @@ def get_city_data_for_region(region_name):
             return []
         
         # 캐시에서 파일 데이터 조회
-        print(f"🔍 get_city_data_for_region: {region_name} - 파일 데이터 사용")
-        cache_key = f"city_data_{city}"
-        data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city))
+            print(f"🔍 get_city_data_for_region: {region_name} - 파일 데이터 사용")
+            cache_key = f"city_data_{city}"
+            data = get_cached_data(cache_key, lambda: _load_city_data_from_file(city))
         if isinstance(data, dict) and 'data' in data:
             print(f"🔍 get_city_data_for_region: {region_name} - 중첩된 데이터 구조 감지, data 키 추출")
             data = data['data']
@@ -1592,19 +1592,54 @@ def sentiment_index():
             if not c:
                 return ''
             if c == 'seoul':
-                return "AND region_name LIKE '서울 %'"
+                return (
+                    "AND ("
+                    " region_name LIKE '서울 %' OR region_name LIKE '서울%' OR"
+                    " region_name LIKE '서울특별시 %' OR region_name LIKE '서울특별시%'"
+                    ")"
+                )
             if c == 'busan':
-                return "AND region_name LIKE '부산 %'"
+                return (
+                    "AND ("
+                    " region_name LIKE '부산 %' OR region_name LIKE '부산%' OR"
+                    " region_name LIKE '부산광역시 %' OR region_name LIKE '부산광역시%'"
+                    ")"
+                )
             if c == 'incheon':
-                return "AND region_name LIKE '인천 %'"
+                return (
+                    "AND ("
+                    " region_name LIKE '인천 %' OR region_name LIKE '인천%' OR"
+                    " region_name LIKE '인천광역시 %' OR region_name LIKE '인천광역시%'"
+                    ")"
+                )
             if c == 'daegu':
-                return "AND region_name LIKE '대구 %'"
+                return (
+                    "AND ("
+                    " region_name LIKE '대구 %' OR region_name LIKE '대구%' OR"
+                    " region_name LIKE '대구광역시 %' OR region_name LIKE '대구광역시%'"
+                    ")"
+                )
             if c == 'daejeon':
-                return "AND region_name LIKE '대전 %'"
+                return (
+                    "AND ("
+                    " region_name LIKE '대전 %' OR region_name LIKE '대전%' OR"
+                    " region_name LIKE '대전광역시 %' OR region_name LIKE '대전광역시%'"
+                    ")"
+                )
             if c == 'gwangju':
-                return "AND region_name LIKE '광주 %'"
+                return (
+                    "AND ("
+                    " region_name LIKE '광주 %' OR region_name LIKE '광주%' OR"
+                    " region_name LIKE '광주광역시 %' OR region_name LIKE '광주광역시%'"
+                    ")"
+                )
             if c == 'ulsan':
-                return "AND region_name LIKE '울산 %'"
+                return (
+                    "AND ("
+                    " region_name LIKE '울산 %' OR region_name LIKE '울산%' OR"
+                    " region_name LIKE '울산광역시 %' OR region_name LIKE '울산광역시%'"
+                    ")"
+                )
             if c == 'bucheon':
                 return "AND (region_name LIKE '부천%' OR region_name LIKE '경기 부천%')"
             if c == 'seongnam':
@@ -1918,7 +1953,7 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
         if region:
             region_filter = "AND region_name = ?"
             params.append(region)
-
+        
         # 기본 요청(개월 지정 없음)일 때, 최신 데이터가 있는 앵커월로 제한
         if not months_param and not month:
             try:
@@ -1989,7 +2024,7 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
                 pass
 
         conn.close()
-
+        
         rankings = []
         for i, row in enumerate(rows, 1):
             region_name = row[0]
@@ -2006,14 +2041,14 @@ def get_apartment_rankings_from_db(city, region, period, month, limit=100):
                 'city_name': city_name,
                 'city_code': city
             })
-
+        
         return create_gzipped_response({
             'status': 'success',
             'data': rankings,
             'total_count': len(rankings),
             'message': f'{city} 아파트 순위를 성공적으로 조회했습니다.'
         })
-
+        
     except Exception as e:
         print(f"Error get_apartment_rankings_from_db: {e}")
         return jsonify({
