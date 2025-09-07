@@ -116,10 +116,9 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         };
     }, [isMonthDropdownOpen, isRegionDropdownOpen]);
 
-    // 도시 변경 시: 전체기간으로 초기화, 최신 요청만 반영되도록 지역 먼저 정리
+    // 도시 변경 시: 월 선택 초기화(백엔드 앵커월 사용), 최신 요청만 반영되도록 지역 먼저 정리
     useEffect(() => {
         if (selectedCity) {
-            // 다른 도시 → 다시 서울 등으로 전환 시 월 선택을 초기화(전체기간)
             setSelectedMonths([]);
             // 첫 진입이 아니면 즉시 지역 초기화하여 city/region 혼용 방지
             if (!isFirstLoad) {
@@ -252,6 +251,52 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
         }
         return output;
     }, [currentCityData, normalizeRegionKey]);
+
+    // 앵커월이 계산되면 초기 한 번 선택에 반영 (도시 변경 직후 UI도 앵커월로 표시)
+    useEffect(() => {
+        if (!selectedCity) return;
+        if (selectedMonths.length > 0) return;
+        // 최신 거래가 속한 월 계산
+        let maxTs = 0;
+        try {
+            Object.values(normalizedCityData || {}).forEach(rows => {
+                if (Array.isArray(rows)) {
+                    rows.forEach(r => {
+                        const ds = new Date(r.latest_transaction_date || r.date);
+                        const t = ds instanceof Date && !isNaN(ds) ? ds.getTime() : 0;
+                        if (t > maxTs) maxTs = t;
+                    });
+                }
+            });
+        } catch (e) {}
+        if (maxTs > 0) {
+            const d = new Date(maxTs);
+            const ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+            setSelectedMonths([ym]);
+            setLoading(true);
+        }
+    }, [selectedCity, normalizedCityData, selectedMonths.length]);
+
+    // 최신 거래가 속한 월(앵커월) 계산: 'YYYY-MM'
+    const anchorMonthFromNormalized = useMemo(() => {
+        try {
+            let maxTs = 0;
+            Object.values(normalizedCityData || {}).forEach(rows => {
+                if (Array.isArray(rows)) {
+                    rows.forEach(r => {
+                        const ds = new Date(r.latest_transaction_date || r.date);
+                        const t = ds instanceof Date && !isNaN(ds) ? ds.getTime() : 0;
+                        if (t > maxTs) maxTs = t;
+                    });
+                }
+            });
+            if (maxTs > 0) {
+                const d = new Date(maxTs);
+                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+            }
+        } catch (e) {}
+        return '';
+    }, [normalizedCityData]);
 
     // 도시 데이터에 실제 거래 레코드가 1건이라도 있는지 확인
     const hasAnyCityTransactions = useMemo(() => {
@@ -492,7 +537,7 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             
             // currentCityData가 없거나, 도시 데이터에 레코드가 없으면 백엔드 API 호출 (2단계 로딩: top N -> full)
             let url = `${API_BASE_URL}/apartments/rankings?`;
-            const params = [];
+            const baseParams = [];
 
             // 도시 데이터 기준 가용 월을 우선 확보하여 월 파라미터 보정 (서로 다른 도시 왕복 시 0건 방지)
             const monthSetForCity = new Set();
@@ -517,38 +562,135 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             }
             
             if (selectedRegion) {
-                params.push(`region=${encodeURIComponent(selectedRegion)}`);
+                baseParams.push(`region=${encodeURIComponent(selectedRegion)}`);
             } else if (selectedCity) {
                 // 지역을 특정하지 않았을 때는 선택된 도시로 필터링하도록 city 전달
-                params.push(`city=${encodeURIComponent(selectedCity)}`);
+                baseParams.push(`city=${encodeURIComponent(selectedCity)}`);
             } else {
                 // 도시도 지역도 선택되지 않았을 때는 모든 지역의 Hot한 아파트 조회
                 console.log('🌍 모든 지역의 Hot한 아파트 조회');
             }
             
+            // Top과 Full의 months 파라미터 구성: 명시된 월이 있으면 그대로, 없으면 둘 다 앵커월(백엔드 기본)
+            const topParams = [...baseParams];
+            const fullParams = [...baseParams];
             if (monthsToUse.length > 0) {
-                params.push(`months=${monthsToUse.map(m => encodeURIComponent(m)).join(',')}`);
-            } else if (!isFirstLoad) {
-                // 최초가 아니고 선택 월도 없으면 전체기간 명시
-                params.push(`months=all`);
-            } // 최초 로드는 months 파라미터를 붙이지 않아 백엔드 앵커월 기본값 사용
+                const qs = `months=${monthsToUse.map(m => encodeURIComponent(m)).join(',')}`;
+                topParams.push(qs);
+                fullParams.push(qs);
+            } // months 비어 있으면 둘 다 파라미터 생략 → 백엔드 앵커월 사용
             
             // 1) Top 먼저 (최초+서울이면 50위). 첫 호출과 full 호출 모두 동일 months 파라미터 사용
             const initialGangnam = isFirstLoad && selectedCity === 'seoul';
             const topLimit = initialGangnam ? 50 : TOP_N;
-            const topUrl = `${url}${params.join('&')}${params.length ? '&' : ''}limit=${topLimit}`;
+            const topUrl = `${url}${topParams.join('&')}${topParams.length ? '&' : ''}limit=${topLimit}`;
+            // 내부 헬퍼: 정규화된 데이터에서 프런트 집계 수행
+            const aggregateFromNormalized = (norm) => {
+                const apartmentStats = {};
+                let selectedMonthRanges = [];
+                if (selectedMonths.length > 0) {
+                    selectedMonthRanges = selectedMonths.map(monthStr => {
+                        const [year, month] = monthStr.split('-').map(Number);
+                        const startDate = new Date(year, month - 1, 1);
+                        const endDate = new Date(year, month, 0);
+                        return { startDate, endDate };
+                    });
+                } else {
+                    // 앵커월 계산
+                    let anchorTime = 0;
+                    Object.values(norm || {}).forEach(rows => {
+                        if (Array.isArray(rows)) {
+                            rows.forEach(r => {
+                                const ds = new Date(r.latest_transaction_date || r.date);
+                                const t = ds instanceof Date && !isNaN(ds) ? ds.getTime() : 0;
+                                if (t > anchorTime) anchorTime = t;
+                            });
+                        }
+                    });
+                    if (anchorTime > 0) {
+                        const d = new Date(anchorTime);
+                        const startDate = new Date(d.getFullYear(), d.getMonth(), 1);
+                        const endDate = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+                        selectedMonthRanges = [{ startDate, endDate }];
+                    }
+                }
+                const stats = {};
+                Object.keys(norm || {}).forEach(region => {
+                    const rows = norm[region];
+                    if (Array.isArray(rows)) {
+                        rows.forEach(tr => {
+                            if (selectedMonthRanges.length > 0) {
+                                const td = new Date(tr.latest_transaction_date || tr.date);
+                                const ok = selectedMonthRanges.some(r => td >= r.startDate && td <= r.endDate);
+                                if (!ok) return;
+                            }
+                            const name = tr.complex_name;
+                            if (!stats[name]) {
+                                stats[name] = {
+                                    complex_name: name,
+                                    region_name: region,
+                                    transaction_count: 0,
+                                    total_price: 0,
+                                    avg_price: 0,
+                                    latest_transaction_date: ''
+                                };
+                            }
+                            const price = tr.avg_price || 0;
+                            stats[name].transaction_count += 1;
+                            stats[name].total_price += price;
+                            const tDate = tr.latest_transaction_date || tr.date;
+                            if (!stats[name].latest_transaction_date || new Date(tDate) > new Date(stats[name].latest_transaction_date)) {
+                                stats[name].latest_transaction_date = tDate;
+                            }
+                        });
+                    }
+                });
+                const out = Object.values(stats).map(s => ({
+                    ...s,
+                    avg_price: Math.round(s.total_price / Math.max(1, s.transaction_count))
+                }));
+                return sortRankings(out).slice(0, TOP_N);
+            };
+
             const responseTop = await axios.get(topUrl);
             if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
             let topData = [];
             if (responseTop.data && responseTop.data.status === 'success') {
                 topData = responseTop.data.apartments || responseTop.data.data || [];
             }
-            setRankings(sortRankings(topData));
+            if (Array.isArray(topData) && topData.length > 0) {
+                setRankings(sortRankings(topData));
+            } else {
+                // Top 30이 비어 있으면 즉시 프런트 폴백 실행(도시 전체)
+                if (normalizedCityData && hasAnyCityTransactions) {
+                    const fb = aggregateFromNormalized(normalizedCityData);
+                    setRankings(fb);
+                    console.log(`즉시 폴백(Top 비어있음): ${fb.length}건`);
+                } else if (selectedCity) {
+                    try {
+                        const cityRes = await axios.get(`${API_BASE_URL}/cities/${encodeURIComponent(selectedCity)}?fields=min`);
+                        if (mySeq !== requestSeqRef.current) return;
+                        const raw = (cityRes.data && cityRes.data.data) || {};
+                        const norm = {};
+                        Object.entries(raw).forEach(([region, rows]) => {
+                            if (!norm[region]) norm[region] = [];
+                            if (Array.isArray(rows)) norm[region] = norm[region].concat(rows);
+                        });
+                        const fb = aggregateFromNormalized(norm);
+                        setRankings(fb);
+                        console.log(`즉시 폴백(fields=min): ${fb.length}건`);
+                    } catch (e) {
+                        // ignore
+                    }
+                } else {
+                    setRankings([]);
+                }
+            }
 
             // 2) 전체 데이터 비동기 로드 (동일 months 유지)
             let needFrontendFallback = false;
             try {
-                const fullUrl = `${url}${params.join('&')}`; // limit 없이 전체
+                const fullUrl = `${url}${fullParams.join('&')}`; // limit 없이 전체
                 const responseFull = await axios.get(fullUrl);
                 if (mySeq !== requestSeqRef.current) return; // 최신 요청만 반영
                 let fullData = [];
