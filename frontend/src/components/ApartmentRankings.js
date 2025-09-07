@@ -124,10 +124,6 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
             if (!isFirstLoad) {
                 setSelectedRegion('');
             }
-            // 최초 진입 시 서울은 강남구 50위 우선 렌더
-            if (isFirstLoad && selectedCity === 'seoul') {
-                setSelectedRegion('서울 강남구');
-            }
             setLoading(true);
         }
     }, [selectedCity]);
@@ -580,10 +576,8 @@ const ApartmentRankings = ({ allData, currentCityData, selectedCity, dataTimesta
                 fullParams.push(qs);
             } // months 비어 있으면 둘 다 파라미터 생략 → 백엔드 앵커월 사용
             
-            // 1) Top 먼저 (최초+서울이면 50위). 첫 호출과 full 호출 모두 동일 months 파라미터 사용
-            const initialGangnam = isFirstLoad && selectedCity === 'seoul';
-            const topLimit = initialGangnam ? 50 : TOP_N;
-            const topUrl = `${url}${topParams.join('&')}${topParams.length ? '&' : ''}limit=${topLimit}`;
+            // 1) Top 먼저: 모든 도시 동일하게 TOP_N 적용
+            const topUrl = `${url}${topParams.join('&')}${topParams.length ? '&' : ''}limit=${TOP_N}`;
             // 내부 헬퍼: 정규화된 데이터에서 프런트 집계 수행
             const aggregateFromNormalized = (norm) => {
                 const apartmentStats = {};
