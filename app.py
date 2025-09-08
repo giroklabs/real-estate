@@ -1701,27 +1701,34 @@ def sentiment_index():
         def placeholders(n: int) -> str:
             return ','.join(['?'] * n) if n > 0 else "''"
 
+        # 거래량: SUM(transaction_count) 폴백 → COUNT(*)
         cur.execute(
             f"""
-            SELECT COALESCE(SUM(transaction_count),0)
+            SELECT COALESCE(SUM(transaction_count),0), COUNT(*)
             FROM transactions
             WHERE {month_expr} IN ({placeholders(len(recent_months))})
             {city_filter}
             """,
             recent_months
         )
-        vol_recent = cur.fetchone()[0] or 0
+        _sum_recent, _cnt_recent = cur.fetchone()
+        _sum_recent = _sum_recent or 0
+        _cnt_recent = _cnt_recent or 0
+        vol_recent = _sum_recent if _sum_recent > 0 else _cnt_recent
 
         cur.execute(
             f"""
-            SELECT COALESCE(SUM(transaction_count),0)
+            SELECT COALESCE(SUM(transaction_count),0), COUNT(*)
             FROM transactions
             WHERE {month_expr} IN ({placeholders(len(prev_months))})
             {city_filter}
             """,
             prev_months
         )
-        vol_prev = cur.fetchone()[0] or 0
+        _sum_prev, _cnt_prev = cur.fetchone()
+        _sum_prev = _sum_prev or 0
+        _cnt_prev = _cnt_prev or 0
+        vol_prev = _sum_prev if _sum_prev > 0 else _cnt_prev
         vol_ratio = ((vol_recent - vol_prev) / vol_prev) if vol_prev > 0 else 0.0
 
         # 3) 가격 모멘텀(최근 window_months 개월 평균) + 분포 기반 정규화 파라미터(지난 12개월)
@@ -1934,6 +1941,19 @@ def sentiment_index():
                 'confidence': round(confidence, 2)
             }
         }
+
+        # debug=1이면 추가 진단 정보 제공
+        if request.args.get('debug') == '1':
+            payload['debug'] = {
+                'anchor_month': anchor_month,
+                'recent_months': recent_months,
+                'prev_months': prev_months,
+                'months_12': months_12,
+                'vol_recent': vol_recent,
+                'vol_prev': vol_prev,
+                'pct_rows_len': len(pct_rows),
+                'breadth_den': breadth_den,
+            }
 
         conn.close()
         resp = create_gzipped_response(payload, cache_seconds=0)
