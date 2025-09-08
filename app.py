@@ -80,7 +80,7 @@ def get_critical_data():
         print("🔄 핵심 데이터 (서울 강남구) DB 쿼리 시작...")
         try:
             # 데이터베이스에서 서울 강남구 상위 50개 아파트 조회
-            conn = sqlite3.connect('realstate.db')
+            conn = sqlite3.connect(os.environ.get('DATABASE_PATH', 'realstate.db'))
             cursor = conn.cursor()
             
             cursor.execute("""
@@ -1267,7 +1267,7 @@ def get_statistics():
     """통계 데이터 조회"""
     region = request.args.get('region', '')
     
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(os.environ.get('DATABASE_PATH', 'realstate.db'))
     cursor = conn.cursor()
     
     # 전체 거래량
@@ -1309,7 +1309,7 @@ def get_statistics():
 def get_volume_rankings():
     """거래량 순위 조회"""
     try:
-        conn = sqlite3.connect('realstate.db')
+        conn = sqlite3.connect(os.environ.get('DATABASE_PATH', 'realstate.db'))
         cursor = conn.cursor()
         
         # 간단한 쿼리로 테스트
@@ -1377,7 +1377,7 @@ def get_volume_rankings():
 def get_price_change_rankings():
     """가격변동률 순위 조회"""
     try:
-        conn = sqlite3.connect('realstate.db')
+        conn = sqlite3.connect(os.environ.get('DATABASE_PATH', 'realstate.db'))
         cursor = conn.cursor()
         
         # 간단한 쿼리로 테스트
@@ -1445,7 +1445,7 @@ def get_price_change_rankings():
 def get_price_rankings():
     """평균 가격 순위 조회"""
     try:
-        conn = sqlite3.connect('realstate.db')
+        conn = sqlite3.connect(os.environ.get('DATABASE_PATH', 'realstate.db'))
         cursor = conn.cursor()
         
         # 간단한 쿼리로 테스트
@@ -1512,7 +1512,7 @@ def get_price_rankings():
 @app.route('/api/market-overview', methods=['GET'])
 def get_market_overview():
     """시장 개요 데이터"""
-    conn = sqlite3.connect('realstate.db')
+    conn = sqlite3.connect(os.environ.get('DATABASE_PATH', 'realstate.db'))
     cursor = conn.cursor()
     
     # 전체 거래량
@@ -2438,7 +2438,7 @@ def get_apartment_rankings():
         return get_all_cities_hot_apartments(period, month)
         
         # SQLite 데이터베이스에서 조회 (기존 방식)
-        conn = sqlite3.connect('realstate.db')
+        conn = sqlite3.connect(os.environ.get('DATABASE_PATH', 'realstate.db'))
         cursor = conn.cursor()
         
         # 먼저 데이터가 있는지 확인
