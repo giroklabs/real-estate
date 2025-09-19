@@ -1678,7 +1678,34 @@ def sentiment_index():
         if tx_max_m and pc_max_m:
             anchor_month = tx_max_m if tx_max_m >= pc_max_m else pc_max_m
         if not anchor_month:
-            anchor_month = datetime.utcnow().strftime('%Y-%m')
+            # 해당 도시에 데이터가 없는 경우 기본값 반환
+            conn.close()
+            return jsonify({
+                'status': 'error', 
+                'message': f'{city} 도시의 데이터가 없습니다. 공포탐욕지수를 계산할 수 없습니다.',
+                'index': 50.0,
+                'city': city,
+                'days': days,
+                'components': {
+                    'price_change_pct': 0.0,
+                    'volume_delta_ratio': 0.0,
+                    'breadth_ratio': 0.5,
+                    'score_price': 50.0,
+                    'score_volume': 50.0,
+                    'score_breadth': 50.0
+                },
+                'meta': {
+                    'version': version,
+                    'anchor_date': datetime.utcnow().strftime('%Y-%m-%d'),
+                    'window_start': (datetime.utcnow() - timedelta(days=days)).strftime('%Y-%m-%d'),
+                    'window_end': datetime.utcnow().strftime('%Y-%m-%d'),
+                    'days_present': 0,
+                    'sample_volume': 0,
+                    'p10': 0, 'p50': 0, 'p90': 0,
+                    'confidence': 0.0,
+                    'note': 'no_data_available'
+                }
+            })
 
         # helper: month arithmetic
         def add_months(ym: str, delta: int) -> str:
